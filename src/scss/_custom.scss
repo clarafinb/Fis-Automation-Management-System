@@ -1,0 +1,20 @@
+// Here you can add other styles
+.colorBtn-orange {
+    background-color: $orangePrimary !important;
+    border: 1px solid $orangePrimary !important;
+    color: $white;
+  
+    &:hover {
+      color: $orangePrimary !important;
+      background: $white !important;
+      border: 1px solid $orangePrimary !important;
+    }
+}
+
+.textBlue {
+    color: $bluePrimary !important;
+}
+
+.textBlack {
+  color: black !important;
+}
