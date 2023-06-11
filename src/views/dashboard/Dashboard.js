@@ -9,6 +9,7 @@ import {
   CRow,
   CCardTitle,
   CCardText,
+  CCardFooter,
   CFormInput,
   CFormLabel,
   CModal,
@@ -24,25 +25,21 @@ import {
   cilSettings,
   cilSend
 } from '@coreui/icons'
+import { useNavigate} from 'react-router-dom'
 import * as actions from '../../config/redux/Dashboard/actions'
 import ToggleSwitch from '../../components/custom/toggle/ToggleSwitch';
+import { useCookies } from "react-cookie";
 
 
 const Dashboard = () => {
   const { dispatch, Global, Dashboard } = useRedux()
+  const [cookies, setCookie] = useCookies(["user"]);
+  const nav = useNavigate();
   const [modalCreate, setModalCreate] = useState(false)
   const [modalMasterWerehouse, setModalMasterWerehouse] = useState(false)
 
   const [values, setValues] = useState({})
   const [masterWerehouse, setMasterWerehouse] = useState({})
-
-  const hitGetProject = (event) => {
-
-    dispatch(actions.getListProject())
-
-    event.preventDefault()
-    event.stopPropagation()
-  }
 
   const handleCreateProject = () => {
 
@@ -98,9 +95,18 @@ const Dashboard = () => {
     }, [dispatch]
   )
 
-  // useEffect(() => {
-	// 	dispatch(actions.getListProject());
-	// }, [Dashboard.listProject, dispatch]);
+  useEffect(() => {
+    console.log(Global)
+    if(Global?.user?.token){
+      dispatch(actions.getListProject())
+    }
+	}, [Global?.user]);
+
+  useEffect(() => {
+		if(!cookies?.user){
+      nav("/login")
+    }
+	}, []);
 
   return (
     <>
@@ -138,17 +144,26 @@ const Dashboard = () => {
                     <CCardText>
                       {val?.projectDesc}
                     </CCardText>
-                    <div className='text-end'>
-                      <ToggleSwitch 
-                        checked={() => val.activeStatus === "active" ? true : false} 
-                        size="lg" 
-                        handleChecked = {handleChecked} 
-                        projectId={val.projectId}
-                      />
-                      <CIcon icon={cilSettings} className="me-2" size="xl" onClick={() => handleModalMasterWerehouse(val.projectId)}/>
-                      <CIcon icon={cilSend} className="me-2" size="xl" onClick={() => handleSend(val.projectId)}/>
-                    </div>
+                    
                   </CCardBody>
+                  <CCardFooter>
+                  <CRow>
+                      <CCol sm={5}>
+                        <ToggleSwitch 
+                          checked={() => val.activeStatus === "active" ? true : false} 
+                          size="lg" 
+                          handleChecked = {handleChecked} 
+                          projectId={val.projectId}
+                        />
+                      </CCol>
+                      <CCol sm={7} className="d-none d-md-block">
+                        <div className='text-end'>
+                          <CIcon icon={cilSettings} className="me-2" size="xl" onClick={() => handleModalMasterWerehouse(val.projectId)}/>
+                          <CIcon icon={cilSend} className="me-2" size="xl" onClick={() => handleSend(val.projectId)}/>
+                        </div>
+                      </CCol>
+                    </CRow>
+                  </CCardFooter>
                 </CCard>
               </CCol>
             ))}

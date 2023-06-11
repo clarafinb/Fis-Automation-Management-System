@@ -21,7 +21,7 @@ import { useCookies } from "react-cookie";
 import * as actions from '../../../config/redux/Global/actions'
 
 const Login = () => {
-  // const [cookies, setCookie, removeCookie] = useCookies(["user"]);
+  const [cookies, setCookie] = useCookies(["user"]);
   const { dispatch, Global } = useRedux();
   const nav = useNavigate();
 
@@ -40,18 +40,19 @@ const Login = () => {
         password: password
       }
       dispatch(actions.actionLogin(payload));
-      
     }
 
     event.preventDefault()
     event.stopPropagation()
   }
 
+
   useEffect(() => {
 		if (Global.user.userLogin) {
+      setCookie('user', Global?.user, { path: '/' })
 			nav("/");
 		}
-	}, [Global.user.userLogin, nav]);
+	}, [Global.user, nav, setCookie]);
 
   return (
     <div className="bg-light min-vh-100 d-flex flex-row align-items-center">

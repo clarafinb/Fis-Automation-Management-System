@@ -13,11 +13,13 @@ export const actionLogin = (payload) => {
       if(result.message){
         let token = result.message
 
-        setGlobalToken(token);
+        setGlobalToken(token)
 
         let dataLogin = await actionCrud.actionCommonCrud(token, API_GET_DATA_LOGIN, "GET");
 
         if(dataLogin.data){
+
+          dataLogin.data.token = token
           dispatch({
             type: actionType.SET_USER,
             payload: dataLogin.data,
@@ -32,6 +34,28 @@ export const actionLogin = (payload) => {
           });
         }
       }
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Cool'
+      })
+    }
+  }
+}
+
+export const actionSetReduxUser = (payload) => {
+
+  console.log("payload", payload.token)
+  return async (dispatch) => {
+    try {
+      setGlobalToken(payload.token)
+
+      dispatch({
+        type: actionType.SET_USER,
+        payload: payload,
+      })
     } catch (error) {
       Swal.fire({
         title: 'Error!',
