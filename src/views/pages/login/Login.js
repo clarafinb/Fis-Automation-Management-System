@@ -17,9 +17,11 @@ import {
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
 import { cilLockLocked, cilUser } from '@coreui/icons'
+import { useCookies } from "react-cookie";
 import * as actions from '../../../config/redux/Global/actions'
 
 const Login = () => {
+  // const [cookies, setCookie, removeCookie] = useCookies(["user"]);
   const { dispatch, Global } = useRedux();
   const nav = useNavigate();
 
@@ -34,9 +36,10 @@ const Login = () => {
       setVisible(true)
     }else{
       let payload = {
-        username: username
+        username: username,
+        password: password
       }
-      dispatch(actions.actionSetUser(payload));
+      dispatch(actions.actionLogin(payload));
       
     }
 
@@ -45,10 +48,10 @@ const Login = () => {
   }
 
   useEffect(() => {
-		if (Global.user.username) {
+		if (Global.user.userLogin) {
 			nav("/");
 		}
-	}, [Global?.user, nav]);
+	}, [Global.user.userLogin, nav]);
 
   return (
     <div className="bg-light min-vh-100 d-flex flex-row align-items-center">
@@ -88,7 +91,7 @@ const Login = () => {
                     <CRow>
                       <CCol>
                         <div className="d-grid gap-2">
-                          <CButton className="colorBtn-orange" type="submit">
+                          <CButton className="colorBtn-yellow" type="submit">
                             Login
                           </CButton>
                         </div>

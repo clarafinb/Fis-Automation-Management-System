@@ -11,10 +11,29 @@
     }
 }
 
+.colorBtn-yellow {
+  background-color: $yellowPrimary !important;
+  border: 1px solid $yellowPrimary !important;
+  color: $white;
+  font-weight: bold;
+
+  &:hover {
+    color: $yellowPrimary !important;
+    background: $white !important;
+    border: 1px solid $yellowPrimary !important;
+    font-weight: bold;
+  }
+}
+
 .textBlue {
     color: $bluePrimary !important;
 }
 
 .textBlack {
   color: black !important;
+}
+
+.bgCustom-blue {
+  background-color: #4B94BF;
+  border: #4B94BF;
 }

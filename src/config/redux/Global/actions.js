@@ -1,32 +1,64 @@
-import * as actionType from "./actionType";
+import * as actionType from "./actionType"
+import * as actionCrud from "./actionCrud"
+import { API_AUTH_LOGIN, API_GET_DATA_LOGIN } from "../../api/index"
+import { setGlobalToken, removeGlobalToken } from "../../../helper/globalToken"
+import Swal from "sweetalert2";
 
 /****************************************** GLOBAL *******************************************/
-export const actionSetUser= (payload) => {
-    return async (dispatch, getState) => {
-      try {
-        dispatch({
-          type: actionType.SET_USER,
-          payload: payload,
-        });
+export const actionLogin = (payload) => {
+  return async (dispatch) => {
+    try {
+      let result = await actionCrud.actionLogin(payload, API_AUTH_LOGIN, "GET");
 
-      } catch (error) {
-  
+      if(result.message){
+        let token = result.message
+
+        setGlobalToken(token);
+
+        let dataLogin = await actionCrud.actionCommonCrud(token, API_GET_DATA_LOGIN, "GET");
+
+        if(dataLogin.data){
+          dispatch({
+            type: actionType.SET_USER,
+            payload: dataLogin.data,
+          });
+
+          Swal.fire({
+            position: "center",
+            icon: "success",
+            title: "Login Success",
+            showConfirmButton: false,
+            timer: 1000,
+          });
+        }
       }
-    };
-};
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Cool'
+      })
+    }
+  }
+}
 
 export const actionResetUser = () => {
   return async (dispatch, getState) => {
     try {
+      removeGlobalToken();
+
       dispatch({
-        type: actionType.RESET_USER,
-        payload: {
-          username: '',
-        },
+        type: actionType.RESET_USER
       });
 
     } catch (error) {
-
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Cool'
+      })
     }
   };
 }
