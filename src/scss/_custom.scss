@@ -29,11 +29,16 @@
     color: $bluePrimary !important;
 }
 
+.textOrange {
+  color: $orangePrimary !important;
+}
+
+
 .textBlack {
   color: black !important;
 }
 
 .bgCustom-blue {
-  background-color: #4B94BF;
-  border: #4B94BF;
+  background-color: $bluePrimary;
+  border: $bluePrimary;
 }

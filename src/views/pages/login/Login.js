@@ -1,5 +1,5 @@
 import React, { useState,useEffect } from 'react'
-import { useRedux } from '../../../utils/hooks'
+import { useRedux } from 'src/utils/hooks'
 import { useNavigate} from 'react-router-dom'
 import {
   CButton,

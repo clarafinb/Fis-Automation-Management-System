@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
 import { CFormSwitch } from '@coreui/react';
 
 const ToggleSwitch = ({checked,handleChecked,size = "lg", projectId}) => {
@@ -25,13 +24,6 @@ const ToggleSwitch = ({checked,handleChecked,size = "lg", projectId}) => {
       />
     </div>
   );
-};
-
-ToggleSwitch.propTypes = {
-  checked: PropTypes.func.isRequired,
-  size: PropTypes.func.isRequired,
-  handleChecked: PropTypes.func.isRequired,
-  projectId: PropTypes.func.isRequired,
 };
 
 export default ToggleSwitch;
