@@ -12,7 +12,7 @@ import {
 function StandardTable({
     head = [],
 	data = [],
-    isToogle,
+    isToogle = "",
     handleToogle
 }) {
 
@@ -30,7 +30,8 @@ function StandardTable({
                     <CTableRow key={idx}>
                         {Object.keys(item).map((innerData, idx2) => {
                             return (
-                                <CTableDataCell key={idx2}>{innerData}</CTableDataCell>
+                                
+                                <CTableDataCell key={idx2}>{item[innerData]}</CTableDataCell>
                             )
                         })}
                     </CTableRow>

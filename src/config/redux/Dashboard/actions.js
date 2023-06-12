@@ -128,17 +128,23 @@ export const setUnActive = (projectId) => {
 export const getListServiceCharge = (payload) => {
   return async (dispatch) => {
     try {
-        let listProject = await actionCrud.actionCommonCrud(payload, API_GET_SERVICE_CHARGE_ADMIN, "GET");
+        let list = await actionCrud.actionCommonCrud(payload, API_GET_SERVICE_CHARGE_ADMIN, "GET");
 
-        console.log(listProject)
+        let listServiceCharge = list?.map((item,idx) => {
+          return {
+            no: idx + 1,
+            serviceCharge: item.serviceCharge,
+            serviceChargeCode: item.serviceChargeCode,
+            modifiedBy: item.modifiedBy,
+            modifiedDate: item.modifiedDate,
+            status: item.isActive
+          }
+        })
 
-        listProject?.map((item,idx) => (
-          
-        ))
-        // dispatch({
-        //   type: actionType.SET_LIST_PROJECT,
-        //   payload: listProject
-        // });
+        dispatch({
+          type: actionType.SET_LIST_SERVICE_CHARGE,
+          payload: listServiceCharge
+        });
     } catch (error) {
       Swal.fire({
         title: 'Error!',

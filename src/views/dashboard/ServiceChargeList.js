@@ -20,8 +20,9 @@ function ServiceChargeList() {
     useEffect(() => {
         if(Global?.user?.token){
           dispatch(actions.getListServiceCharge())
+          console.log(Dashboard)
         }
-    }, [Global?.user]);
+    }, [Global?.user ]);
 
 	const head = [
         "No",
@@ -32,13 +33,10 @@ function ServiceChargeList() {
         "Active Status"
     ]
 
-    const data = [{
-        No: "No",
-        serviceCharge: "bla",
-        serviceChargeCode: "bla",
-        lastModified: "bla",
-        lastModifiedBy: "bla",
-        activeStatus: "bla"}]
+    const handleToogle = () => {
+
+    }
+
 	return (
 		<CCard className="">
             <CCardBody>
@@ -58,7 +56,12 @@ function ServiceChargeList() {
                 <br />
                 <CRow>
                     <CCol className="d-none d-md-block text-end">
-                        <StandardTable head={head} data={data}/>
+                        <StandardTable 
+                            head={head} 
+                            data={Dashboard?.listServiceCharge} 
+                            isToogle="status" 
+                            handleToogle={handleToogle}
+                        />
                     </CCol>
                 </CRow> 
             </CCardBody>
