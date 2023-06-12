@@ -1,6 +1,13 @@
 import * as actionType from "./actionType"
 import * as actionCrud from "../Global/actionCrud"
-import { API_GET_PROJECT, API_ADD_PROJECT, API_SET_INACTIVE, API_SET_ACTIVE, API_SET_PUBLISH } from "../../api/index"
+import { 
+  API_GET_PROJECT, 
+  API_ADD_PROJECT, 
+  API_SET_INACTIVE, 
+  API_SET_ACTIVE, 
+  API_SET_PUBLISH,
+  API_GET_SERVICE_CHARGE_ADMIN
+} from "../../api/index"
 import Swal from "sweetalert2";
 
 /****************************************** GLOBAL *******************************************/
@@ -107,6 +114,31 @@ export const setUnActive = (projectId) => {
           dispatch(getListProject());
         }
         
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Cool'
+      })
+    }
+  }
+}
+
+export const getListServiceCharge = (payload) => {
+  return async (dispatch) => {
+    try {
+        let listProject = await actionCrud.actionCommonCrud(payload, API_GET_SERVICE_CHARGE_ADMIN, "GET");
+
+        console.log(listProject)
+
+        listProject?.map((item,idx) => (
+          
+        ))
+        // dispatch({
+        //   type: actionType.SET_LIST_PROJECT,
+        //   payload: listProject
+        // });
     } catch (error) {
       Swal.fire({
         title: 'Error!',

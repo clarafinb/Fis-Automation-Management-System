@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { useState, useCallback, useEffect } from 'react'
+import { useRedux } from 'src/utils/hooks'
 
 import {
   CCard,
@@ -11,8 +12,17 @@ import {
   cilPlus,
 } from '@coreui/icons'
 import StandardTable from 'src/components/custom/table/StandardTable'
+import * as actions from '../../config/redux/Dashboard/actions'
 
 function ServiceChargeList() {
+    const { dispatch, Global, Dashboard } = useRedux()
+
+    useEffect(() => {
+        if(Global?.user?.token){
+          dispatch(actions.getListServiceCharge())
+        }
+    }, [Global?.user]);
+
 	const head = [
         "No",
         "Service Charge", 
