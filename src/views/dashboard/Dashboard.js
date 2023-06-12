@@ -47,7 +47,7 @@ const Dashboard = () => {
       mProjectName: values.projectName,
       mProjectDesc: values.description,
       mProjectCode: values.projectCode,
-      LMBY : Global?.user?.roleInf?.lmby
+      LMBY : Global?.user?.userID
     }
 
     dispatch(actions.createProject(payload))
@@ -96,7 +96,6 @@ const Dashboard = () => {
   )
 
   useEffect(() => {
-    console.log(Global)
     if(Global?.user?.token){
       dispatch(actions.getListProject())
     }
@@ -159,7 +158,9 @@ const Dashboard = () => {
                       <CCol sm={7} className="d-none d-md-block">
                         <div className='text-end'>
                           <CIcon icon={cilSettings} className="me-2" size="xl" onClick={() => handleModalMasterWerehouse(val.projectId)}/>
-                          <CIcon icon={cilSend} className="me-2" size="xl" onClick={() => handleSend(val.projectId)}/>
+                          {val.publishStatus === "notPublished" && (
+                            <CIcon icon={cilSend} className="me-2" size="xl" onClick={() => handleSend(val.projectId)}/>
+                          )}
                         </div>
                       </CCol>
                     </CRow>

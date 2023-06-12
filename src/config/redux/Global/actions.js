@@ -46,8 +46,6 @@ export const actionLogin = (payload) => {
 }
 
 export const actionSetReduxUser = (payload) => {
-
-  console.log("payload", payload.token)
   return async (dispatch) => {
     try {
       setGlobalToken(payload.token)
