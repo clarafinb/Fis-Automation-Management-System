@@ -136,13 +136,13 @@ const Dashboard = () => {
                           checked={() => val.activeStatus === "active" ? true : false} 
                           size="lg" 
                           handleChecked = {handleChecked} 
-                          projectId={val.projectId}
+                          id={val.projectId}
                         />
                       </CCol>
                       <CCol sm={7} className="d-none d-md-block">
                         <div className='text-end'>
                           <CIcon icon={cilSettings} className="me-2" size="xl" onClick={() => handleModalMasterWerehouse(val.projectId)}/>
-                          {val.publishStatus === "notPublished" && (
+                          {(val.publishStatus === "notPublished" && val.activeStatus != "inactive") && (
                             <CIcon icon={cilSend} className="me-2" size="xl" onClick={() => handleSend(val.projectId)}/>
                           )}
                         </div>
