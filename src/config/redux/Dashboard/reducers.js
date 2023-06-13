@@ -10,7 +10,6 @@ let initialState = {
 };
 
 const Dashboard = (state = initialState, { type, payload }) => {
-    console.log(payload, type)
     switch (type) {
         case actionType.SET_LIST_PROJECT:
             return {

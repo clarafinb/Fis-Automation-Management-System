@@ -53,17 +53,12 @@ const Dashboard = () => {
   }
 
   const handleSend = (val) => {
-    dispatch(actions.setPublished(val))
+    dispatch(actions.setPublishedProject(val))
   }
 
   const handleChecked = useCallback( 
     (val,projectId) => {
-      if(val){
-        dispatch(actions.setActive(projectId))
-      }else{
-        dispatch(actions.setUnActive(projectId))
-      }
-        
+      dispatch(actions.setStatusActiveProject(val,projectId))
     }, [dispatch]
   )
 

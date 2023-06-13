@@ -43,7 +43,7 @@ export const getListProject = (payload) => {
   }
 }
 
-export const setPublished = (projectId) => {
+export const setPublishedProject = (projectId) => {
   return async (dispatch) => {
     try {
 
@@ -97,31 +97,16 @@ export const createProject = (payload) => {
   }
 }
 
-export const setActive = (projectId) => {
+export const setStatusActiveProject = (val,projectId) => {
   return async (dispatch) => {
     try {
 
-        let response = await actionCrud.actionCommonSlice(projectId, API_SET_ACTIVE_PROJECT, "PUT");
-        if(response.status === "success"){
-          dispatch(getListProject());
+        let url = API_SET_INACTIVE_PROJECT
+        if(val){
+          url = API_SET_ACTIVE_PROJECT
         }
-        
-    } catch (error) {
-      Swal.fire({
-        title: 'Error!',
-        text: error.message,
-        icon: 'error',
-        confirmButtonText: 'Cool'
-      })
-    }
-  }
-}
 
-export const setUnActive = (projectId) => {
-  return async (dispatch) => {
-    try {
-
-        let response = await actionCrud.actionCommonSlice(projectId, API_SET_INACTIVE_PROJECT, "PUT");
+        let response = await actionCrud.actionCommonSlice(projectId, url, "PUT");
         if(response.status === "success"){
           dispatch(getListProject());
         }
@@ -149,7 +134,8 @@ export const getListServiceCharge = (payload) => {
             serviceChargeCode: item.serviceChargeCode,
             modifiedBy: item.modifiedBy,
             modifiedDate: item.modifiedDate,
-            status: item.isActive
+            status: item.isActive,
+            detail: item
           }
         })
 
@@ -167,6 +153,22 @@ export const getListServiceCharge = (payload) => {
     }
   }
 }
+
+export const setServiceCharge = (payload) => (dispatch) => {
+	try {
+		dispatch({
+			type: actionType.SET_LIST_SERVICE_CHARGE,
+			payload: payload
+		});
+	} catch (error) {
+		Swal.fire({
+      title: 'Error!',
+      text: error.message,
+      icon: 'error',
+      confirmButtonText: 'Cool'
+    })
+	}
+};
 
 
 export const createServiceCharge = (payload) => {
@@ -190,6 +192,31 @@ export const createServiceCharge = (payload) => {
             icon: 'error',
             confirmButtonText: 'Cool'
           })
+        }
+        
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Cool'
+      })
+    }
+  }
+}
+
+export const setStatusActiveServiceCharge = (val,serviceChargeId) => {
+  return async (dispatch) => {
+    try {
+
+        let url = API_SET_INACTIVE_SC
+        if(val){
+          url = API_SET_ACTIVE_SC
+        }
+
+        let response = await actionCrud.actionCommonSlice(serviceChargeId, url, "PUT");
+        if(response.status === "success"){
+          dispatch(getListServiceCharge());
         }
         
     } catch (error) {

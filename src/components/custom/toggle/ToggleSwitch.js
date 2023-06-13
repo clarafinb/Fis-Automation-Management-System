@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { CFormSwitch } from '@coreui/react';
 
-const ToggleSwitch = ({checked,handleChecked,size = "lg", projectId}) => {
+const ToggleSwitch = ({checked,handleChecked,size = "lg", id, className}) => {
   const [isChecked, setIsChecked] = useState(false);
 
   useEffect(() => {
@@ -10,7 +10,7 @@ const ToggleSwitch = ({checked,handleChecked,size = "lg", projectId}) => {
 
   const handleToggle = () => {
     setIsChecked(!isChecked)
-    handleChecked(!isChecked,projectId)
+    handleChecked(!isChecked,id)
   };
 
   return (
@@ -18,7 +18,7 @@ const ToggleSwitch = ({checked,handleChecked,size = "lg", projectId}) => {
       <CFormSwitch
         size = {size}
         id = "toggle-switch"
-        className = "md-4"
+        className = {`"md-4" ${className}`}
         checked = {isChecked}
         onChange = {handleToggle}
       />

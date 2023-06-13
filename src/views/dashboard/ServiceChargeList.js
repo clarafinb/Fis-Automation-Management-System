@@ -22,7 +22,6 @@ function ServiceChargeList() {
     useEffect(() => {
         if(Global?.user?.token){
           dispatch(actions.getListServiceCharge())
-          console.log(Dashboard)
         }
     }, [Global?.user ]);
 
@@ -39,9 +38,17 @@ function ServiceChargeList() {
         setModalCreate(true)
     }
 
-    const handleToogle = () => {
+    const handleToogle = useCallback( 
+        (val,id) => {
+            let data = Dashboard.listServiceCharge[id]
+            console.log("Dashboard", Dashboard)
+            console.log("data",data)
+            let serviceChargeId = data.detail.serviceChargeId
 
-    }
+            dispatch(actions.setStatusActiveServiceCharge(val,serviceChargeId))
+            
+        }, [Dashboard.listServiceCharge]
+    )
 
 	return (
         <>
@@ -73,6 +80,7 @@ function ServiceChargeList() {
                                 data={Dashboard?.listServiceCharge} 
                                 isToogle="status" 
                                 handleToogle={handleToogle}
+                                hide={["detail"]}
                             />
                         </CCol>
                     </CRow> 
