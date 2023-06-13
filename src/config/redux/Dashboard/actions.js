@@ -3,10 +3,22 @@ import * as actionCrud from "../Global/actionCrud"
 import { 
   API_GET_PROJECT, 
   API_ADD_PROJECT, 
-  API_SET_INACTIVE, 
-  API_SET_ACTIVE, 
-  API_SET_PUBLISH,
-  API_GET_SERVICE_CHARGE_ADMIN
+  API_SET_INACTIVE_PROJECT, 
+  API_SET_ACTIVE_PROJECT, 
+  API_SET_PUBLISH_PROJECT,
+  API_GET_SC_ADMIN,
+  API_ADD_SC,
+  API_SET_INACTIVE_SC,
+  API_SET_ACTIVE_SC,
+  API_GET_ACTIVE_SC,
+  API_GET_DEL_ADMIN,
+  API_GET_ACTIVE_DEL,
+  API_SET_ACTIVE_DEL,
+  API_SET_INACTIVE_DEL,
+  API_GET_TRANSPORT_ADMIN,
+  API_GET_ACTIVE_TRANSPORT,
+  API_SET_ACTIVE_TRANSPORT,
+  API_SET_INACTIVE_TRANSPORT
 } from "../../api/index"
 import Swal from "sweetalert2";
 
@@ -35,7 +47,7 @@ export const setPublished = (projectId) => {
   return async (dispatch) => {
     try {
 
-        let response = await actionCrud.actionCommonSlice(projectId, API_SET_PUBLISH, "PUT");
+        let response = await actionCrud.actionCommonSlice(projectId, API_SET_PUBLISH_PROJECT, "PUT");
         if(response.status === "success"){
           dispatch(getListProject());
         }
@@ -89,7 +101,7 @@ export const setActive = (projectId) => {
   return async (dispatch) => {
     try {
 
-        let response = await actionCrud.actionCommonSlice(projectId, API_SET_ACTIVE, "PUT");
+        let response = await actionCrud.actionCommonSlice(projectId, API_SET_ACTIVE_PROJECT, "PUT");
         if(response.status === "success"){
           dispatch(getListProject());
         }
@@ -109,7 +121,7 @@ export const setUnActive = (projectId) => {
   return async (dispatch) => {
     try {
 
-        let response = await actionCrud.actionCommonSlice(projectId, API_SET_INACTIVE, "PUT");
+        let response = await actionCrud.actionCommonSlice(projectId, API_SET_INACTIVE_PROJECT, "PUT");
         if(response.status === "success"){
           dispatch(getListProject());
         }
@@ -128,7 +140,7 @@ export const setUnActive = (projectId) => {
 export const getListServiceCharge = (payload) => {
   return async (dispatch) => {
     try {
-        let list = await actionCrud.actionCommonCrud(payload, API_GET_SERVICE_CHARGE_ADMIN, "GET");
+        let list = await actionCrud.actionCommonCrud(payload, API_GET_SC_ADMIN, "GET");
 
         let listServiceCharge = list?.map((item,idx) => {
           return {
@@ -145,6 +157,41 @@ export const getListServiceCharge = (payload) => {
           type: actionType.SET_LIST_SERVICE_CHARGE,
           payload: listServiceCharge
         });
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Cool'
+      })
+    }
+  }
+}
+
+
+export const createServiceCharge = (payload) => {
+  return async (dispatch) => {
+    try {
+
+        let create = await actionCrud.actionCommonCrud(payload, API_ADD_SC, "POST");
+        if(create.status === "success"){
+          Swal.fire({
+            position: "center",
+            icon: "success",
+            title: create?.message,
+            showConfirmButton: true
+          });
+
+          dispatch(getListServiceCharge());
+        }else{
+          Swal.fire({
+            title: 'Error!',
+            text: create?.message,
+            icon: 'error',
+            confirmButtonText: 'Cool'
+          })
+        }
+        
     } catch (error) {
       Swal.fire({
         title: 'Error!',
