@@ -30,7 +30,7 @@ export const API_SET_INACTIVE_DEL = BASE_URL + "logmanagement/deliveryModeSetSta
 export const API_GET_TRANSPORT_ADMIN = BASE_URL + "logmanagement/transportModeGetAllAdminOnly"
 export const API_GET_ACTIVE_TRANSPORT = BASE_URL + "logmanagement/transportModeGetAllActiveOnly"
 export const API_SET_ACTIVE_TRANSPORT = BASE_URL + "logmanagement/transportModeSetStatusIsActive"
-export const API_SET_INACTIVE_TRANSPORT = BASE_URL + "logmanagement/deliveryModeSetStatusIsInActive"
+export const API_SET_INACTIVE_TRANSPORT = BASE_URL + "logmanagement/transportModeSetStatusIsInActive"
 
 
 

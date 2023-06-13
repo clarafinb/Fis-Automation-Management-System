@@ -229,3 +229,113 @@ export const setStatusActiveServiceCharge = (val,serviceChargeId) => {
     }
   }
 }
+
+export const getListDelivery = (payload) => {
+  return async (dispatch) => {
+    try {
+        let list = await actionCrud.actionCommonCrud(payload, API_GET_DEL_ADMIN, "GET");
+
+        let listDelivery = list?.map((item,idx) => {
+          return {
+            no: idx + 1,
+            deliveryMode: item.deliveryMode,
+            deliveryCode: item.deliveryCode,
+            status: item.isActive,
+            detail: item
+          }
+        })
+
+        dispatch({
+          type: actionType.SET_LIST_DELIVERY_MODE,
+          payload: listDelivery
+        });
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Cool'
+      })
+    }
+  }
+}
+
+export const setStatusActiveDelivery = (val,delModeId) => {
+  return async (dispatch) => {
+    try {
+
+        let url = API_SET_INACTIVE_DEL
+        if(val){
+          url = API_SET_ACTIVE_DEL
+        }
+
+        let response = await actionCrud.actionCommonSlice(delModeId, url, "PUT");
+        if(response.status === "success"){
+          dispatch(getListDelivery());
+        }
+        
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Cool'
+      })
+    }
+  }
+}
+
+export const getListTransport = (payload) => {
+  return async (dispatch) => {
+    try {
+        let list = await actionCrud.actionCommonCrud(payload, API_GET_TRANSPORT_ADMIN, "GET");
+
+        let listTransport = list?.map((item,idx) => {
+          return {
+            no: idx + 1,
+            transportMode: item.transportMode,
+            transportModeAlias: item.transportModeAlias,
+            status: item.isActive,
+            detail: item
+          }
+        })
+
+        dispatch({
+          type: actionType.SET_LIST_TRANSPORT_MODE,
+          payload: listTransport
+        });
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Cool'
+      })
+    }
+  }
+}
+
+export const setStatusActiveTransport = (val,transportModeId) => {
+  return async (dispatch) => {
+    try {
+
+        let url = API_SET_INACTIVE_TRANSPORT
+        if(val){
+          url = API_SET_ACTIVE_TRANSPORT
+        }
+
+        let response = await actionCrud.actionCommonSlice(transportModeId, url, "PUT");
+        if(response.status === "success"){
+          dispatch(getListTransport());
+        }
+        
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Cool'
+      })
+    }
+  }
+}

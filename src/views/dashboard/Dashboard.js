@@ -67,11 +67,11 @@ const Dashboard = () => {
   }
 
   const handleViewDelivery = () => {
-    
+    nav("/dashboard/setting-management/delivery")
   }
 
   const handleViewTransport = () => {
-    
+    nav("/dashboard/setting-management/transport")
   }
 
   useEffect(() => {
