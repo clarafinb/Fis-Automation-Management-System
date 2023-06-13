@@ -1,6 +1,7 @@
 import React from 'react'
 import { useRedux } from '../../utils/hooks'
 import { useNavigate} from 'react-router-dom'
+import { useCookies } from 'react-cookie'
 import {
   CAvatar,
   CDropdown,
@@ -21,11 +22,13 @@ import * as actions from '../../config/redux/Global/actions'
 
 const AppHeaderDropdown = () => {
   const { dispatch, Global } = useRedux();
+  const [cookies, setCookie, removeCookie] = useCookies(["user"]);
   const nav = useNavigate();
 
   const handleLogOut = (event) => {
     
     dispatch(actions.actionResetUser());
+    removeCookie('user');
 
     nav("/login");
 

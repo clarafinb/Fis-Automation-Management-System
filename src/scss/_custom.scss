@@ -29,8 +29,8 @@
     color: $bluePrimary !important;
 }
 
-.textOrange {
-  color: $orangePrimary !important;
+.textWhite {
+  color: white !important;
 }
 
 
@@ -42,3 +42,21 @@
   background-color: $bluePrimary;
   border: $bluePrimary;
 }
+
+.background-login {
+  background-image: url('../../public/images/bg-hijau.jpg');
+  background-size: cover;
+  /* Atur properti-posisi dan properti lainnya sesuai kebutuhan Anda */
+}
+
+.no-background {
+  background: none;
+  border: none;
+  /* Atur properti-posisi dan properti lainnya sesuai kebutuhan Anda */
+}
+
+
+
+
+
+

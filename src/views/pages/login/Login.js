@@ -55,7 +55,7 @@ const Login = () => {
 	}, [Global.user, nav, setCookie]);
 
   return (
-    <div className="bg-light min-vh-100 d-flex flex-row align-items-center">
+    <div className="background-login min-vh-100 d-flex flex-row align-items-center">
       <CContainer>
         <CRow className="justify-content-center">
           <CCol md={4}>
@@ -65,21 +65,21 @@ const Login = () => {
         <CRow className="justify-content-center">
           <CCol md={4}>
             <CCardGroup>
-              <CCard className="p-4">
-                <div className="text-center">
+              <CCard className="p-4 no-background">
+                {/* <div className="text-center">
                   <img src="/images/logo-pt-fan-indonesia-sejahtera.jpg" alt="PT Fan Indonesia Sejahtera" />
-                </div>
+                </div> */}
                 <CCardBody>
                   <CForm onSubmit={handleSubmit}>
-                    <h4 className="textBlue">Login</h4>
-                    <p className="text-medium-emphasis">Sign In to your account</p>
-                    <CInputGroup className="mb-3">
+                    <h1 className="textWhite text-center">Login</h1>
+                    <p className="text-medium-emphasis textWhite">Sign In to your account</p>
+                    <CInputGroup className="mb-3" size="lg">
                       <CInputGroupText>
                         <CIcon icon={cilUser} />
                       </CInputGroupText>
                       <CFormInput placeholder="Username" name="username"/>
                     </CInputGroup>
-                    <CInputGroup className="mb-4">
+                    <CInputGroup className="mb-4" size="lg">
                       <CInputGroupText>
                         <CIcon icon={cilLockLocked} />
                       </CInputGroupText>
@@ -92,7 +92,7 @@ const Login = () => {
                     <CRow>
                       <CCol>
                         <div className="d-grid gap-2">
-                          <CButton className="colorBtn-yellow" type="submit">
+                          <CButton className="bg-warning" type="submit">
                             Login
                           </CButton>
                         </div>
