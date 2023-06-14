@@ -36,7 +36,12 @@ export const API_GET_TRANSPORT_TYPE_ACTIVE_ONLY = BASE_URL + "logmanagement/tran
 export const API_SET_ACTIVE_TRANSPORT_TYPE = BASE_URL + "logmanagement/transportTypeSetStatusIsActive"
 export const API_SET_INACTIVE_TRANSPORT_TYPE = BASE_URL + "logmanagement/transportTypeSetStatusIsInActive"
 export const API_ADD_TRANSPORT_TYPE = BASE_URL + "logmanagement/transporttypeadd"
-
+//UOM
+export const API_GET_UOM_ADMIN = BASE_URL + "uom/uomGetAllAdminOnly"
+export const API_GET_ACTIVE_UOM = BASE_URL + "uom/uomGetAllActiveOnly"
+export const API_SET_ACTIVE_UOM = BASE_URL + "uom/setStatusIsActive"
+export const API_SET_INACTIVE_UOM = BASE_URL + "uom/setStatusIsInActive"
+export const API_ADD_UOM = BASE_URL + "uom"
 
 
 

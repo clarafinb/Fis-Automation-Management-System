@@ -22,7 +22,12 @@ import {
   API_GET_TRANSPORT_TYPE_ACTIVE_ONLY,
   API_SET_INACTIVE_TRANSPORT_TYPE,
   API_SET_ACTIVE_TRANSPORT_TYPE,
-  API_ADD_TRANSPORT_TYPE
+  API_ADD_TRANSPORT_TYPE,
+  API_GET_UOM_ADMIN,
+  API_GET_ACTIVE_UOM,
+  API_SET_ACTIVE_UOM,
+  API_SET_INACTIVE_UOM,
+  API_ADD_UOM
 } from "../../api/index"
 import Swal from "sweetalert2";
 
@@ -443,6 +448,91 @@ export const createTransportType = (payload) => {
             confirmButtonText: 'Cool'
           })
         }
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Cool'
+      })
+    }
+  }
+}
+
+export const createUom = (payload) => {
+  return async (dispatch) => {
+    try {
+        let create = await actionCrud.actionCommonCrud(payload, API_ADD_UOM, "POST");
+        if(create.status === "success"){
+          Swal.fire({
+            position: "center",
+            icon: "success",
+            title: create?.message,
+            showConfirmButton: true
+          });
+          dispatch(getListUom());
+        }else{
+          Swal.fire({
+            title: 'Error!',
+            text: create?.message,
+            icon: 'error',
+            confirmButtonText: 'Cool'
+          })
+        }
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Cool'
+      })
+    }
+  }
+}
+
+export const getListUom = (payload) => {
+  return async (dispatch) => {
+    try {
+        let list = await actionCrud.actionCommonCrud(payload, API_GET_UOM_ADMIN, "GET");
+        let listUom = list?.map((item,idx) => {
+          return {
+            no: idx + 1,
+            uom: item.uom,
+            modifiedBy: item.modifiedBy,
+            modifiedDate: item.modifiedDate,
+            status:item.isActive,
+            detail: item
+          }
+        })
+        dispatch({
+          type: actionType.SET_LIST_UOM,
+          payload: listUom
+        });
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Cool'
+      })
+    }
+  }
+}
+
+export const setStatusUom = (val,uomId) => {
+  return async (dispatch) => {
+    try {
+
+        let url = API_SET_INACTIVE_UOM
+        if(val){
+          url = API_SET_ACTIVE_UOM
+        }
+
+        let response = await actionCrud.actionCommonSlice(uomId, url, "PUT");
+        if(response.status === "success"){
+          dispatch(getListUom());
+        }
+        
     } catch (error) {
       Swal.fire({
         title: 'Error!',
