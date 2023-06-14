@@ -31,7 +31,8 @@ export const API_GET_TRANSPORT_ADMIN = BASE_URL + "logmanagement/transportModeGe
 export const API_GET_ACTIVE_TRANSPORT = BASE_URL + "logmanagement/transportModeGetAllActiveOnly"
 export const API_SET_ACTIVE_TRANSPORT = BASE_URL + "logmanagement/transportModeSetStatusIsActive"
 export const API_SET_INACTIVE_TRANSPORT = BASE_URL + "logmanagement/transportModeSetStatusIsInActive"
-
+// Transport Type
+export const API_GET_TRANSPORT_TYPE_ACTIVE_ONLY = BASE_URL + "logmanagement/transportTypeGetAllAdminOnly"
 
 
 

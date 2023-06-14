@@ -18,7 +18,8 @@ import {
   API_GET_TRANSPORT_ADMIN,
   API_GET_ACTIVE_TRANSPORT,
   API_SET_ACTIVE_TRANSPORT,
-  API_SET_INACTIVE_TRANSPORT
+  API_SET_INACTIVE_TRANSPORT,
+  API_GET_TRANSPORT_TYPE_ACTIVE_ONLY
 } from "../../api/index"
 import Swal from "sweetalert2";
 
@@ -329,6 +330,38 @@ export const setStatusActiveTransport = (val,transportModeId) => {
           dispatch(getListTransport());
         }
         
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Cool'
+      })
+    }
+  }
+}
+
+export const getListTransportType = (payload) => {
+  return async (dispatch) => {
+    try {
+        let list = await actionCrud.actionCommonCrud(payload, API_GET_TRANSPORT_TYPE_ACTIVE_ONLY, "GET");
+
+        console.log(list)
+
+        let listTransport = list?.map((item,idx) => {
+          return {
+            no: idx + 1,
+            transportMode: item.transportMode,
+            transportModeAlias: item.transportModeAlias,
+            status: item.isActive,
+            detail: item
+          }
+        })
+
+        dispatch({
+          type: actionType.SET_LIST_TRANSPORT_MODE,
+          payload: listTransport
+        });
     } catch (error) {
       Swal.fire({
         title: 'Error!',

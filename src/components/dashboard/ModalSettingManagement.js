@@ -16,7 +16,9 @@ import {
 import {
     cilDescription,
     cilTruck,
-    cilGarage
+    cilGarage,
+    cilEqualizer,
+    cilAirplaneMode
 } from '@coreui/icons'
 import CIcon from '@coreui/icons-react';
 
@@ -25,7 +27,9 @@ function ModalSettingManagement({
     setOpen, 
     handleViewService,
     handleViewDelivery,
-    handleViewTransport
+    handleViewTransport,
+    handleViewTransportType,
+    handleViewUom
 }) {
 
 	return (
@@ -39,7 +43,7 @@ function ModalSettingManagement({
             </CModalHeader>
             <CModalBody>
                 <CRow className='m-5'>
-                    <CCol sm={4}>
+                    <CCol sm={3}>
                         <CCard className='text-center border-info border-top-info border-bottom-5'>
                             <CCardBody>
                                 <CTooltip
@@ -51,7 +55,7 @@ function ModalSettingManagement({
                             </CCardBody>
                         </CCard>
                     </CCol>
-                    <CCol sm={4}>
+                    <CCol sm={3}>
                         <CCard className='text-center border-warning border-top-warning border-bottom-5'>
                             <CCardBody>
                                 <CTooltip
@@ -63,7 +67,7 @@ function ModalSettingManagement({
                             </CCardBody>
                         </CCard>
                     </CCol>
-                    <CCol sm={4}>
+                    <CCol sm={3}>
                         <CCard className='text-center border-success border-top-success border-bottom-5'>
                             <CCardBody>
                                 <CTooltip
@@ -71,6 +75,30 @@ function ModalSettingManagement({
                                     placement="bottom"
                                 >
                                     <CIcon icon={cilGarage} className="m-5 text-success" size="7xl" onClick={handleViewTransport}/>
+                                </CTooltip>
+                            </CCardBody>
+                        </CCard>
+                    </CCol>
+                    <CCol sm={3}>
+                        <CCard className='text-center border-danger border-top-danger border-bottom-5'>
+                            <CCardBody>
+                                <CTooltip
+                                    content="Transport Type"
+                                    placement="bottom"
+                                >
+                                    <CIcon icon={cilAirplaneMode} className="m-5 text-danger" size="7xl" onClick={handleViewTransportType}/>
+                                </CTooltip>
+                            </CCardBody>
+                        </CCard>
+                    </CCol>
+                    <CCol sm={3}>
+                        <CCard className='text-center border-default border-top-default border-bottom-5'>
+                            <CCardBody>
+                                <CTooltip
+                                    content="Unit of Measurement"
+                                    placement="bottom"
+                                >
+                                    <CIcon icon={cilEqualizer} className="m-5 text-default" size="7xl" onClick={handleViewUom}/>
                                 </CTooltip>
                             </CCardBody>
                         </CCard>

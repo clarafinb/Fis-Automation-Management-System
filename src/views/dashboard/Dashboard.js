@@ -74,6 +74,14 @@ const Dashboard = () => {
     nav("/dashboard/setting-management/transport")
   }
 
+  const handleViewTransportType = () => {
+    nav("/dashboard/setting-management/transport-type")
+  }
+
+  const handleViewUom = () => {
+    nav("/dashboard/setting-management/uom")
+  }
+
   useEffect(() => {
     if(Global?.user?.token){
       dispatch(actions.getListProject())
@@ -164,6 +172,8 @@ const Dashboard = () => {
         handleViewService={handleViewService}
         handleViewDelivery={handleViewDelivery} 
         handleViewTransport={handleViewTransport}
+        handleViewTransportType={handleViewTransportType}
+        handleViewUom={handleViewUom}
       />
     </>
   )
