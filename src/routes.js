@@ -7,10 +7,12 @@ const TransportMode = React.lazy(() => import('./views/dashboard/TransportMode')
 const TransportType = React.lazy(() => import('./views/dashboard/TransportType'))
 const Uom = React.lazy(() => import('./views/dashboard/Uom'))
 const Colors = React.lazy(() => import('./views/theme/colors/Colors'))
+const Warehouse = React.lazy(() => import('./views/dashboard/Warehouse'))
 
 const routes = [
   { path: '/', exact: true, name: 'Home' },
   { path: '/dashboard', name: 'Dashboard', element: Dashboard },
+  { path: '/dashboard/warehouse/:id', name: 'Warehouse', element: Warehouse},
   { path: '/dashboard/setting-management/service-charge', name: 'Service Charge List', element: ServiceChargeList },
   { path: '/dashboard/setting-management/delivery', name: 'Delivery Mode', element: DeliveryMode },
   { path: '/dashboard/setting-management/transport', name: 'Transport Mode', element: TransportMode },

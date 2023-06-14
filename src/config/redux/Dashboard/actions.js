@@ -27,7 +27,10 @@ import {
   API_GET_ACTIVE_UOM,
   API_SET_ACTIVE_UOM,
   API_SET_INACTIVE_UOM,
-  API_ADD_UOM
+  API_ADD_UOM,
+  API_SET_INACTIVE_WAREHOUSE,
+  API_SET_ACTIVE_WAREHOUSE,
+  API_GET_WAREHOUSE_ADMIN
 } from "../../api/index"
 import Swal from "sweetalert2";
 
@@ -556,6 +559,63 @@ export const getSelectActiveUom = (payload) => {
           }
         })
         return Promise.resolve(['Please Select..',...listUom])
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Cool'
+      })
+    }
+  }
+}
+
+export const getListWarehouse = (payload) => {
+  return async (dispatch) => {
+    try {
+        let list = await actionCrud.actionCommonSlice(payload, API_GET_WAREHOUSE_ADMIN, "GET");
+        let listWarehouse = list?.map((item,idx) => {
+          return {
+            no: idx + 1,
+            whName: item.whName,
+            whCode: item.whCode,
+            isMainWH: item.isMainWH,
+            whType:item.whType,
+            whAddress:item.whAddress,
+            map:item.longitude+','+item.latitude,
+            status:item.isActive,
+            detail: {...item,...{projectId:payload}}
+          }
+        })
+        dispatch({
+          type: actionType.SET_LIST_WAREHOUSE,
+          payload: listWarehouse
+        });
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Cool'
+      })
+    }
+  }
+}
+
+export const setStatusActiveWarehouse = (val,whId,projectId) => {
+  return async (dispatch) => {
+    try {
+
+        let url = API_SET_INACTIVE_WAREHOUSE
+        if(val){
+          url = API_SET_ACTIVE_WAREHOUSE
+        }
+
+        let response = await actionCrud.actionCommonSlice(whId, url, "PUT");
+        if(response.status === "success"){
+          dispatch(getListWarehouse(projectId));
+        }
+        
     } catch (error) {
       Swal.fire({
         title: 'Error!',
