@@ -62,7 +62,7 @@ function ModalCreateTransportType({ open, setOpen }) {
                 <CRow className="mb-3">
                     <CFormLabel className="col-sm-2 col-form-label">Transport Name</CFormLabel>
                     <CCol sm={10}>
-                        <CFormInput type="text" name="transportName" value={values?.serviceChargeCode} onChange={handleOnchange} />
+                        <CFormInput type="text" name="transportName" value={values?.transportName} onChange={handleOnchange} />
                     </CCol>
                 </CRow>
                 <CRow className="mb-3">

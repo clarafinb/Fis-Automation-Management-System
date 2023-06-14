@@ -7,44 +7,42 @@ import {
   CCol,
   CRow
 } from '@coreui/react'
-import CIcon from '@coreui/icons-react'
 import {
     cilMedicalCross,
 } from '@coreui/icons'
+import CIcon from '@coreui/icons-react'
 import StandardTable from 'src/components/custom/table/StandardTable'
 import * as actions from '../../config/redux/Dashboard/actions'
-import ModalCreateServiceManagement from 'src/components/dashboard/ModalCreateServiceManagement'
+import ModalCreateUom from 'src/components/dashboard/ModalCreateUom'
 
-function ServiceChargeList() {
+function Uom() {
     const { dispatch, Global, Dashboard } = useRedux()
     const [modalCreate, setModalCreate] = useState(false)
 
     useEffect(() => {
         if(Global?.user?.token){
-          dispatch(actions.getListServiceCharge())
+          dispatch(actions.getListUom())
         }
-    }, [Global?.user ]);
+    }, [Global?.user]);
 
 	const head = [
         "No",
-        "Service Charge", 
-        "Service Charge Code", 
-        "Last Modified By", 
-        "Last Modified Date", 
-        "Active Status"
+        "UOM", 
+        "Last Modified By",  
+        "Last Modified Date",
+        "Active Status",
     ]
 
     const handleCreate = () => {
-        setModalCreate(true)
+         setModalCreate(true)
     }
 
     const handleToogle = useCallback( 
         (val,id) => {
-            let data = Dashboard.listServiceCharge[id]
-            let serviceChargeId = data.detail.serviceChargeId
-            dispatch(actions.setStatusActiveServiceCharge(val,serviceChargeId))
-            
-        }, [Dashboard.listServiceCharge]
+            let data = Dashboard.listUom[id]
+            let uomId = data.detail.uomId
+            dispatch(actions.setStatusUom(val,uomId))
+        }, [Dashboard.listUom]
     )
 
 	return (
@@ -54,7 +52,7 @@ function ServiceChargeList() {
                     <CRow>
                         <CCol sm={5}>
                             <h4 className="card-title mb-0">
-                                Service Charge List
+                                Transport Type
                             </h4>
                         </CCol>
                     </CRow>
@@ -74,7 +72,7 @@ function ServiceChargeList() {
                         <CCol className="d-none d-md-block text-end">
                             <StandardTable 
                                 head={head} 
-                                data={Dashboard?.listServiceCharge} 
+                                data={Dashboard?.listUom} 
                                 isToogle="status" 
                                 handleToogle={handleToogle}
                                 hide={["detail"]}
@@ -83,9 +81,9 @@ function ServiceChargeList() {
                     </CRow> 
                 </CCardBody>
             </CCard>
-            <ModalCreateServiceManagement open={modalCreate} setOpen={setModalCreate} />
+            <ModalCreateUom open={modalCreate} setOpen={setModalCreate} />
         </>
 	)
 }
 
-export default ServiceChargeList
+export default Uom
