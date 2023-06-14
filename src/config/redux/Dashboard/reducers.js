@@ -5,7 +5,8 @@ let initialState = {
     listProject: [],
     listServiceCharge: [],
     listDeliveryMode: [],
-    listTransportMode: []
+    listTransportMode: [],
+    listTransportType: []
 
 };
 
@@ -16,19 +17,19 @@ const Dashboard = (state = initialState, { type, payload }) => {
                 ...state,
                 listProject: payload
             };
-            
+
         case actionType.RESET_LIST_PROJECT:
             return {
                 ...state,
                 listProject: []
             }
-        
+
         case actionType.SET_LIST_SERVICE_CHARGE:
             return {
                 ...state,
                 listServiceCharge: payload
             };
-        
+
         case actionType.SET_LIST_DELIVERY_MODE:
             return {
                 ...state,
@@ -40,7 +41,12 @@ const Dashboard = (state = initialState, { type, payload }) => {
                 ...state,
                 listTransportMode: payload
             };
-            
+
+        case actionType.SET_LIST_TRANSPORT_TYPE:
+            return {
+                ...state,
+                listTransportType: payload
+            };
 
         default:
             return { ...state };

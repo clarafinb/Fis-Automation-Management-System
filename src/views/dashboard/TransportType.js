@@ -7,11 +7,15 @@ import {
   CCol,
   CRow
 } from '@coreui/react'
+import {
+    cilMedicalCross,
+} from '@coreui/icons'
+import CIcon from '@coreui/icons-react'
 import StandardTable from 'src/components/custom/table/StandardTable'
 import * as actions from '../../config/redux/Dashboard/actions'
-import ModalCreateServiceManagement from 'src/components/dashboard/ModalCreateServiceManagement'
+import ModalCreateTransportType from 'src/components/dashboard/ModalCreateTransportType'
 
-function TransportMode() {
+function TransportType() {
     const { dispatch, Global, Dashboard } = useRedux()
     const [modalCreate, setModalCreate] = useState(false)
 
@@ -19,7 +23,7 @@ function TransportMode() {
         if(Global?.user?.token){
           dispatch(actions.getListTransportType())
         }
-    }, [Global?.user ]);
+    }, [Global?.user]);
 
 	const head = [
         "No",
@@ -32,14 +36,18 @@ function TransportMode() {
         "Active Status"
     ]
 
+    const handleCreate = () => {
+         setModalCreate(true)
+    }
+
     const handleToogle = useCallback( 
         (val,id) => {
-            let data = Dashboard.listTransportMode[id]
-            let transportModeId = data.detail.transportModeId
+            let data = Dashboard.listTransportType[id]
+            let transportTypeId = data.detail.transportTypeId
 
-            dispatch(actions.setStatusActiveTransport(val,transportModeId))
+            dispatch(actions.setStatusActiveTransportType(val,transportTypeId))
             
-        }, [Dashboard.listTransportMode]
+        }, [Dashboard.listTransportType]
     )
 
 	return (
@@ -49,16 +57,27 @@ function TransportMode() {
                     <CRow>
                         <CCol sm={5}>
                             <h4 className="card-title mb-0">
-                                Transport Mode
+                                Transport Type
                             </h4>
                         </CCol>
                     </CRow>
                     <br />
                     <CRow>
                         <CCol className="d-none d-md-block text-end">
+                            <CIcon 
+                                icon={cilMedicalCross} 
+                                className="me-2 text-warning" 
+                                size="xl"
+                                onClick={handleCreate}
+                            />
+                        </CCol>
+                    </CRow> 
+                    <br />
+                    <CRow>
+                        <CCol className="d-none d-md-block text-end">
                             <StandardTable 
                                 head={head} 
-                                data={Dashboard?.listTransportMode} 
+                                data={Dashboard?.listTransportType} 
                                 isToogle="status" 
                                 handleToogle={handleToogle}
                                 hide={["detail"]}
@@ -67,9 +86,9 @@ function TransportMode() {
                     </CRow> 
                 </CCardBody>
             </CCard>
-            <ModalCreateServiceManagement open={modalCreate} setOpen={setModalCreate} />
+            <ModalCreateTransportType open={modalCreate} setOpen={setModalCreate} />
         </>
 	)
 }
 
-export default TransportMode
+export default TransportType

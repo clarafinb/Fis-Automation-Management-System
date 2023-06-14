@@ -19,7 +19,10 @@ import {
   API_GET_ACTIVE_TRANSPORT,
   API_SET_ACTIVE_TRANSPORT,
   API_SET_INACTIVE_TRANSPORT,
-  API_GET_TRANSPORT_TYPE_ACTIVE_ONLY
+  API_GET_TRANSPORT_TYPE_ACTIVE_ONLY,
+  API_SET_INACTIVE_TRANSPORT_TYPE,
+  API_SET_ACTIVE_TRANSPORT_TYPE,
+  API_ADD_TRANSPORT_TYPE
 } from "../../api/index"
 import Swal from "sweetalert2";
 
@@ -345,23 +348,101 @@ export const getListTransportType = (payload) => {
   return async (dispatch) => {
     try {
         let list = await actionCrud.actionCommonCrud(payload, API_GET_TRANSPORT_TYPE_ACTIVE_ONLY, "GET");
-
-        console.log(list)
-
-        let listTransport = list?.map((item,idx) => {
+        let listTransportType = list?.map((item,idx) => {
           return {
             no: idx + 1,
+            transportType: item.transportName,
             transportMode: item.transportMode,
-            transportModeAlias: item.transportModeAlias,
+            createName: item.createName,
+            createDate:item.createDate,
+            modifiedBy:item.modifiedBy,
+            modifiedDate:item.modifiedDate,
             status: item.isActive,
             detail: item
           }
         })
-
         dispatch({
-          type: actionType.SET_LIST_TRANSPORT_MODE,
-          payload: listTransport
+          type: actionType.SET_LIST_TRANSPORT_TYPE,
+          payload: listTransportType
         });
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Cool'
+      })
+    }
+  }
+}
+
+export const setStatusActiveTransportType = (val,transportTypeId) => {
+  return async (dispatch) => {
+    try {
+
+        let url = API_SET_INACTIVE_TRANSPORT_TYPE
+        if(val){
+          url = API_SET_ACTIVE_TRANSPORT_TYPE
+        }
+
+        let response = await actionCrud.actionCommonSlice(transportTypeId, url, "PUT");
+        if(response.status === "success"){
+          dispatch(getListTransportType());
+        }
+        
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Cool'
+      })
+    }
+  }
+}
+
+export const getSelectActiveTransport = (payload) => {
+  return async () => {
+    try {
+        let list = await actionCrud.actionCommonCrud(payload, API_GET_ACTIVE_TRANSPORT, "GET");
+        let listTransport = list?.map((item,idx) => {
+          return {
+            label: item.transportMode,
+            value: item.transportModeId
+          }
+        })
+        return Promise.resolve(['Please Select..',...listTransport])
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Cool'
+      })
+    }
+  }
+}
+
+export const createTransportType = (payload) => {
+  return async (dispatch) => {
+    try {
+        let create = await actionCrud.actionCommonCrud(payload, API_ADD_TRANSPORT_TYPE, "POST");
+        if(create.status === "success"){
+          Swal.fire({
+            position: "center",
+            icon: "success",
+            title: create?.message,
+            showConfirmButton: true
+          });
+          dispatch(getListTransportType());
+        }else{
+          Swal.fire({
+            title: 'Error!',
+            text: create?.message,
+            icon: 'error',
+            confirmButtonText: 'Cool'
+          })
+        }
     } catch (error) {
       Swal.fire({
         title: 'Error!',
