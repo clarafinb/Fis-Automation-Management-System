@@ -141,6 +141,7 @@ export const getListServiceCharge = (payload) => {
             no: idx + 1,
             serviceCharge: item.serviceCharge,
             serviceChargeCode: item.serviceChargeCode,
+            uom:item.uom,
             modifiedBy: item.modifiedBy,
             modifiedDate: item.modifiedDate,
             status: item.isActive,
@@ -533,6 +534,28 @@ export const setStatusUom = (val,uomId) => {
           dispatch(getListUom());
         }
         
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Cool'
+      })
+    }
+  }
+}
+
+export const getSelectActiveUom = (payload) => {
+  return async () => {
+    try {
+        let list = await actionCrud.actionCommonCrud(payload, API_GET_ACTIVE_UOM, "GET");
+        let listUom = list?.map((item,idx) => {
+          return {
+            label: item.uom,
+            value: item.uomId
+          }
+        })
+        return Promise.resolve(['Please Select..',...listUom])
     } catch (error) {
       Swal.fire({
         title: 'Error!',

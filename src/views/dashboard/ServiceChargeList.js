@@ -28,7 +28,8 @@ function ServiceChargeList() {
 	const head = [
         "No",
         "Service Charge", 
-        "Service Charge Code", 
+        "Service Charge Code",
+        "UOM", 
         "Last Modified By", 
         "Last Modified Date", 
         "Active Status"
