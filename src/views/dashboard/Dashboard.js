@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useEffect } from 'react'
 import { useRedux } from 'src/utils/hooks'
 import { useCookies } from 'react-cookie'
-import { useNavigate} from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import {
   CButton,
   CCard,
@@ -56,9 +56,9 @@ const Dashboard = () => {
     dispatch(actions.setPublishedProject(val))
   }
 
-  const handleChecked = useCallback( 
-    (val,projectId) => {
-      dispatch(actions.setStatusActiveProject(val,projectId))
+  const handleChecked = useCallback(
+    (val, projectId) => {
+      dispatch(actions.setStatusActiveProject(val, projectId))
     }, [dispatch]
   )
 
@@ -82,17 +82,21 @@ const Dashboard = () => {
     nav("/dashboard/setting-management/uom")
   }
 
-  useEffect(() => {
-    if(Global?.user?.token){
-      dispatch(actions.getListProject())
-    }
-	}, [Global?.user]);
+  const handleViewWarehouse = (id) => {
+    nav("/dashboard/warehouse/"+id)
+  }
 
   useEffect(() => {
-		if(!cookies?.user){
+    if (Global?.user?.token) {
+      dispatch(actions.getListProject())
+    }
+  }, [Global?.user]);
+
+  useEffect(() => {
+    if (!cookies?.user) {
       nav("/login")
     }
-	}, []);
+  }, []);
 
   return (
     <>
@@ -105,14 +109,14 @@ const Dashboard = () => {
               </h4>
             </CCol>
             <CCol sm={7} className="d-none d-md-block">
-                <CIcon icon={cilApplications} className="me-2 float-end textBlue" size="xl" onClick={() => handleModalSetting()}/>
+              <CIcon icon={cilApplications} className="me-2 float-end textBlue" size="xl" onClick={() => handleModalSetting()} />
             </CCol>
           </CRow>
           <br />
           <CRow>
             <CCol className="d-none d-md-block">
               <CButton className="float-end colorBtn-yellow" onClick={handleModalCreate}>
-                <CIcon icon={cilPlus} className="me-2"/>
+                <CIcon icon={cilPlus} className="me-2" />
                 Add Project
               </CButton>
             </CCol>
@@ -120,38 +124,38 @@ const Dashboard = () => {
           <br />
           <CRow>
             {Dashboard?.listProject.map((val, index) => (
-                <CCol sm={3} key={index}>
+              <CCol sm={3} key={index}>
                 <CCard
-                  textColor= "white"
-                  className={`mb-3 ${val.activeStatus === "active" && val.publishStatus === "notPublished" 
-                    ? "bgCustom-blue" 
-                    : (val.activeStatus === "active" && val.publishStatus === "published" 
-                        ? "bg-success" 
-                        : "bg-secondary")
-                  }`}
+                  textColor="white"
+                  className={`mb-3 ${val.activeStatus === "active" && val.publishStatus === "notPublished"
+                    ? "bgCustom-blue"
+                    : (val.activeStatus === "active" && val.publishStatus === "published"
+                      ? "bg-success"
+                      : "bg-secondary")
+                    }`}
                 >
                   <CCardBody>
                     <CCardTitle>{val?.projectName}</CCardTitle>
                     <CCardText>
                       {val?.projectDesc}
                     </CCardText>
-                    
+
                   </CCardBody>
                   <CCardFooter>
-                  <CRow>
+                    <CRow>
                       <CCol sm={5}>
-                        <ToggleSwitch 
-                          checked={() => val.activeStatus === "active" ? true : false} 
-                          size="lg" 
-                          handleChecked = {handleChecked} 
+                        <ToggleSwitch
+                          checked={() => val.activeStatus === "active" ? true : false}
+                          size="lg"
+                          handleChecked={handleChecked}
                           id={val.projectId}
                         />
                       </CCol>
                       <CCol sm={7} className="d-none d-md-block">
                         <div className='text-end'>
-                          <CIcon icon={cilSettings} className="me-2" size="xl" onClick={() => handleModalMasterWerehouse(val.projectId)}/>
+                          <CIcon icon={cilSettings} className="me-2" size="xl" onClick={() => handleModalMasterWerehouse(val.projectId)} />
                           {(val.publishStatus === "notPublished" && val.activeStatus != "inactive") && (
-                            <CIcon icon={cilSend} className="me-2" size="xl" onClick={() => handleSend(val.projectId)}/>
+                            <CIcon icon={cilSend} className="me-2" size="xl" onClick={() => handleSend(val.projectId)} />
                           )}
                         </div>
                       </CCol>
@@ -165,12 +169,16 @@ const Dashboard = () => {
       </CCard>
 
       <ModalCreateProject open={modalCreate} setOpen={setModalCreate} />
-      <ModalMasterWerehouse open={modalMasterWerehouse} setOpen={setModalMasterWerehouse} data={masterWerehouse}/>
-      <ModalSettingManagement 
-        open={modalSetManagement} 
-        setOpen={setModalSetManagement} 
+      <ModalMasterWerehouse open={modalMasterWerehouse}
+        setOpen={setModalMasterWerehouse}
+        data={masterWerehouse}
+        handleViewWarehouse={handleViewWarehouse} 
+      />
+      <ModalSettingManagement
+        open={modalSetManagement}
+        setOpen={setModalSetManagement}
         handleViewService={handleViewService}
-        handleViewDelivery={handleViewDelivery} 
+        handleViewDelivery={handleViewDelivery}
         handleViewTransport={handleViewTransport}
         handleViewTransportType={handleViewTransportType}
         handleViewUom={handleViewUom}
