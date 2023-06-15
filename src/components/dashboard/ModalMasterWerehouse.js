@@ -14,11 +14,13 @@ import {
     CTooltip,
 } from '@coreui/react'
 import {
-    cilHouse
+    cilHouse,
+    cilNewspaper,
+    cilNotes
 } from '@coreui/icons'
 import CIcon from '@coreui/icons-react';
 
-function ModalMasterWerehouse({ open, setOpen, handleViewWarehouse, data }) {
+function ModalMasterWerehouse({ open, setOpen, handleViewWarehouse, handleViewServiceCharge, handleViewSku, data }) {
     return (
         <CModal
             size="xl"
@@ -38,7 +40,31 @@ function ModalMasterWerehouse({ open, setOpen, handleViewWarehouse, data }) {
                                     content="Master Warehouse per Project"
                                     placement="bottom"
                                 >
-                                    <CIcon icon={cilHouse} className="m-5 textGray" size="7xl" onClick={()=>{handleViewWarehouse(data.projectId)}} />
+                                    <CIcon icon={cilHouse} className="m-5 textGray" size="7xl" onClick={() => { handleViewWarehouse(data.projectId) }} />
+                                </CTooltip>
+                            </CCardBody>
+                        </CCard>
+                    </CCol>
+                    <CCol sm={3}>
+                        <CCard className='text-center border-default border-top-default border-bottom-5'>
+                            <CCardBody>
+                                <CTooltip
+                                    content="Service Charge"
+                                    placement="bottom"
+                                >
+                                    <CIcon icon={cilNewspaper} className="m-5 textGray" size="7xl" onClick={() => { handleViewServiceCharge(data.projectId) }} />
+                                </CTooltip>
+                            </CCardBody>
+                        </CCard>
+                    </CCol>
+                    <CCol sm={3}>
+                        <CCard className='text-center border-default border-top-default border-bottom-5'>
+                            <CCardBody>
+                                <CTooltip
+                                    content="Master SKU"
+                                    placement="bottom"
+                                >
+                                    <CIcon icon={cilNotes} className="m-5 textGray" size="7xl" onClick={() => { handleViewSku(data.projectId) }} />
                                 </CTooltip>
                             </CCardBody>
                         </CCard>
@@ -47,7 +73,6 @@ function ModalMasterWerehouse({ open, setOpen, handleViewWarehouse, data }) {
             </CModalBody>
             <CModalFooter>
                 <CButton onClick={() => setOpen(false)} color="secondary">Close</CButton>
-                <CButton color="primary">Add</CButton>
             </CModalFooter>
         </CModal>
     )

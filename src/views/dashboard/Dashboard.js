@@ -86,6 +86,14 @@ const Dashboard = () => {
     nav("/dashboard/warehouse/"+id)
   }
 
+  const handleViewServiceCharge = (id) => {
+
+  }
+
+  const handleViewSku = (id) => {
+    
+  }
+
   useEffect(() => {
     if (Global?.user?.token) {
       dispatch(actions.getListProject())
@@ -172,7 +180,9 @@ const Dashboard = () => {
       <ModalMasterWerehouse open={modalMasterWerehouse}
         setOpen={setModalMasterWerehouse}
         data={masterWerehouse}
-        handleViewWarehouse={handleViewWarehouse} 
+        handleViewWarehouse={handleViewWarehouse}
+        handleViewServiceCharge={handleViewServiceCharge}
+        handleViewSku={handleViewSku} 
       />
       <ModalSettingManagement
         open={modalSetManagement}
