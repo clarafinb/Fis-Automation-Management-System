@@ -13,15 +13,17 @@ import {
 import CIcon from '@coreui/icons-react'
 import StandardTable from 'src/components/custom/table/StandardTable'
 import * as actions from '../../config/redux/Dashboard/actions'
-// import ModalCreateWarehouse from 'src/components/dashboard/ModalCreateWarehouse'
+import ModalCreateWarehouse from 'src/components/dashboard/ModalCreateWarehouse'
 
 function Warehouse() {
     const { dispatch, Global, Dashboard } = useRedux()
     const [modalCreate, setModalCreate] = useState(false)
+    const [projectId, setProjectId] = useState()
     
     useEffect(() => {
         if (Global?.user?.token) {
             const id = window.location.href.split("/").pop();
+            setProjectId(id)
             dispatch(actions.getListWarehouse(id))
         }
     }, [Global?.user]);
@@ -83,12 +85,13 @@ function Warehouse() {
                                 isToogle="status"
                                 handleToogle={handleToogle}
                                 hide={["detail"]}
+                                isComponent="map"
                             />
                         </CCol>
                     </CRow>
                 </CCardBody>
             </CCard>
-            {/* <ModalCreateWarehouse open={modalCreate} setOpen={setModalCreate} /> */}
+            <ModalCreateWarehouse open={modalCreate} setOpen={setModalCreate} projectId={projectId} />
         </>
     )
 }

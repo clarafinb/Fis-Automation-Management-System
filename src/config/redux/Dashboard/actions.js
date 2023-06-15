@@ -30,7 +30,10 @@ import {
   API_ADD_UOM,
   API_SET_INACTIVE_WAREHOUSE,
   API_SET_ACTIVE_WAREHOUSE,
-  API_GET_WAREHOUSE_ADMIN
+  API_GET_WAREHOUSE_ADMIN,
+  API_GET_WAREHOUSE_TYPE_GET_ALL,
+  API_GET_WAREHOUSE_PROVINCE_ACTIVE,
+  API_ADD_WAREHOUSE
 } from "../../api/index"
 import Swal from "sweetalert2";
 
@@ -616,6 +619,85 @@ export const setStatusActiveWarehouse = (val,whId,projectId) => {
           dispatch(getListWarehouse(projectId));
         }
         
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Cool'
+      })
+    }
+  }
+}
+
+export const getSelectWarehouseType = (payload) => {
+  return async () => {
+    try {
+        let list = await actionCrud.actionCommonCrud(payload, API_GET_WAREHOUSE_TYPE_GET_ALL, "GET");
+      
+
+        let listWarehouse = list?.map((item,idx) => {
+          return {
+            label: item.whType,
+            value: item.whTypeId
+          }
+        })
+        return Promise.resolve(['Please Select..',...listWarehouse])
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Cool'
+      })
+    }
+  }
+}
+
+export const getSelectWarehouseProvince = (payload) => {
+  return async () => {
+    try {
+        let list = await actionCrud.actionCommonCrud(payload, API_GET_WAREHOUSE_PROVINCE_ACTIVE, "GET");
+      
+
+        let listProvince = list?.map((item,idx) => {
+          return {
+            label: item.provinceName,
+            value: item.provinceId
+          }
+        })
+        return Promise.resolve(['Please Select..',...listProvince])
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Cool'
+      })
+    }
+  }
+}
+
+export const createWarehouse = (payload) => {
+  return async (dispatch) => {
+    try {
+        let create = await actionCrud.actionCommonCrud(payload, API_ADD_WAREHOUSE, "POST");
+        if(create.status === "success"){
+          Swal.fire({
+            position: "center",
+            icon: "success",
+            title: create?.message,
+            showConfirmButton: true
+          });
+          dispatch(getListWarehouse(payload?.mProjectId));
+        }else{
+          Swal.fire({
+            title: 'Error!',
+            text: create?.message,
+            icon: 'error',
+            confirmButtonText: 'Cool'
+          })
+        }
     } catch (error) {
       Swal.fire({
         title: 'Error!',
