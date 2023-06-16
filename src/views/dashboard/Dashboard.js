@@ -87,7 +87,7 @@ const Dashboard = () => {
   }
 
   const handleViewServiceCharge = (id) => {
-
+    nav("/dashboard/project-service-charge/"+id)
   }
 
   const handleViewSku = (id) => {
