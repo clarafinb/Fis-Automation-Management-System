@@ -27,9 +27,11 @@ function ModalCreateProjectServiceCharge({ open, setOpen, projectId }) {
             dispatch(actions.getSelectActiveCurrency()).then(e => {
                 setCurrency(e)
             })
-            dispatch(actions.getSelectProjectServiceChargeNotRegistered(projectId)).then(e => {
-                setProjectServiceChargeList(e)
-            })
+            if (projectId) {
+                dispatch(actions.getSelectProjectServiceChargeNotRegistered(projectId)).then(e => {
+                    setProjectServiceChargeList(e)
+                })
+            }
         }
     }, [projectId]);
 
