@@ -7,7 +7,8 @@ import {
     CTableBody,
     CTableRow,
     CTableHeaderCell,
-    CTableDataCell
+    CTableDataCell,
+    CButton
 } from '@coreui/react'
 
 function StandardTable({
@@ -16,6 +17,9 @@ function StandardTable({
     isToogle = "",
     handleToogle,
     hide = [],
+    isComponent = "",
+    handleComponent,
+    component = {}
 }) {
 	return (
         <CTable className='text-center'> 
@@ -31,23 +35,41 @@ function StandardTable({
                     <CTableRow key={idx}>
                         {Object.keys(item).map((innerData, idx2) => {
                             if (hide.length && hide.includes(innerData)) return;
-                            return (
-                                <>
-                                    {isToogle !== "" && isToogle === innerData
-                                    ? <CTableDataCell key={idx2}>
-                                        <ToggleSwitch 
-                                            checked={() => item[innerData]} 
-                                            size="lg" 
-                                            handleChecked = {handleToogle} 
-                                            id={idx} //asumsi index adalah key nya
-                                            className= "d-flex justify-content-center"  
-                                        />
-                                    </CTableDataCell>
-                                    : <CTableDataCell key={idx2}>{item[innerData]}</CTableDataCell>  }
-                                </>
-                                
-                                
-                            )
+                            if(isToogle !== "" && isToogle === innerData) {
+                                return (
+                                    <>
+                                        <CTableDataCell key={idx2}>
+                                            <ToggleSwitch 
+                                                checked={() => item[innerData]} 
+                                                size="lg" 
+                                                handleChecked = {handleToogle} 
+                                                id={idx} //asumsi index adalah key nya
+                                                className= "d-flex justify-content-center"  
+                                            />
+                                        </CTableDataCell>
+                                    </>
+                                )
+                            }else if(isComponent !== "" && isComponent === innerData){
+                                if(component?.type === "button"){
+                                    return (
+                                        <CButton 
+                                            key={idx2} 
+                                            onClick={() => {handleComponent(item[innerData],idx)}} 
+                                            color="info"
+                                        >
+                                            {component?.label ? component.label : innerData}
+                                        </CButton>
+                                    )
+                                }else{
+                                    return (
+                                        <CTableDataCell key={idx2}>{item[innerData]}</CTableDataCell>
+                                    )
+                                }
+                            }else{
+                                return (
+                                    <CTableDataCell key={idx2}>{item[innerData]}</CTableDataCell>
+                                )
+                            }
                         })}
                     </CTableRow>
 				))}

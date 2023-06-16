@@ -14,11 +14,14 @@ import CIcon from '@coreui/icons-react'
 import StandardTable from 'src/components/custom/table/StandardTable'
 import * as actions from '../../config/redux/Dashboard/actions'
 import ModalCreateWarehouse from 'src/components/dashboard/ModalCreateWarehouse'
+import ModalOpenMap from 'src/components/dashboard/ModalOpenMap'
 
 function Warehouse() {
     const { dispatch, Global, Dashboard } = useRedux()
     const [modalCreate, setModalCreate] = useState(false)
+    const [modalMap, setModalMap] = useState(false)
     const [projectId, setProjectId] = useState()
+    const [warehouseSelected, setWhSelected] = useState({})
     
     useEffect(() => {
         if (Global?.user?.token) {
@@ -54,6 +57,17 @@ function Warehouse() {
         }, [Dashboard.listWarehouse]
     )
 
+    const handleComponent = useCallback(
+        (val, id) => {
+            console.log(val, id)
+            console.log(Dashboard)
+            let temp = Dashboard?.listWarehouse[id]
+
+            setWhSelected(temp)
+            setModalMap(true)
+        }
+    )
+
     return (
         <>
             <CCard className="">
@@ -86,14 +100,21 @@ function Warehouse() {
                                 handleToogle={handleToogle}
                                 hide={["detail"]}
                                 isComponent="map"
+                                component={{
+                                    type: "button",
+                                    label: "map"
+                                }}
+                                handleComponent={handleComponent}
                             />
                         </CCol>
                     </CRow>
                 </CCardBody>
             </CCard>
             <ModalCreateWarehouse open={modalCreate} setOpen={setModalCreate} projectId={projectId} />
+            <ModalOpenMap open={modalMap} setOpen={setModalMap} data={warehouseSelected} />
         </>
     )
+ 
 }
 
 export default Warehouse
