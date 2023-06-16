@@ -16,12 +16,16 @@ import * as actions from '../../config/redux/Dashboard/actions'
 import ModalCreateWarehouse from 'src/components/dashboard/ModalCreateWarehouse'
 import ModalOpenMap from 'src/components/dashboard/ModalOpenMap'
 
+import { MapContainer, TileLayer, Marker } from 'react-leaflet';
+
 function Warehouse() {
     const { dispatch, Global, Dashboard } = useRedux()
     const [modalCreate, setModalCreate] = useState(false)
     const [modalMap, setModalMap] = useState(false)
     const [projectId, setProjectId] = useState()
     const [warehouseSelected, setWhSelected] = useState({})
+
+    const mapCenter = [-6.188316027806538, 106.87392816931737];
     
     useEffect(() => {
         if (Global?.user?.token) {
@@ -112,9 +116,38 @@ function Warehouse() {
             </CCard>
             <ModalCreateWarehouse open={modalCreate} setOpen={setModalCreate} projectId={projectId} />
             <ModalOpenMap open={modalMap} setOpen={setModalMap} data={warehouseSelected} />
+            <br />
+            <MapContainer
+                center={mapCenter}
+                zoom={13}
+                style={{ height: '400px', width: '100%' }}
+                >
+                <TileLayer
+                        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                        attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+                />
+                <Marker position={mapCenter} />
+            </MapContainer>
         </>
     )
- 
+//     
+    
+//   return (
+//     <MapContainer
+//       center={mapCenter}
+//       zoom={13}
+//       style={{ height: '400px', width: '100%' }}
+//     //   className="leaflet-container"
+//     >
+//       <TileLayer
+//             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+//             attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+//       />
+//       <Marker 
+//         position={mapCenter} 
+//     />
+//     </MapContainer>
+//   )
 }
 
 export default Warehouse
