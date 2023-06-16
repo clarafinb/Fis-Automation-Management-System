@@ -8,7 +8,8 @@ let initialState = {
     listTransportMode: [],
     listTransportType: [],
     listUom: [],
-    listWarehouse:[],
+    listWarehouse: [],
+    listProjectServiceCharge: []
 
 };
 
@@ -56,10 +57,16 @@ const Dashboard = (state = initialState, { type, payload }) => {
                 listUom: payload
             };
 
-            case actionType.SET_LIST_WAREHOUSE:
+        case actionType.SET_LIST_WAREHOUSE:
             return {
                 ...state,
                 listWarehouse: payload
+            };
+
+        case actionType.SET_LIST_PROJECT_SERVICE_CHARGE:
+            return {
+                ...state,
+                listProjectServiceCharge: payload
             };
 
         default:
