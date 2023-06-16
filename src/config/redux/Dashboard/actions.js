@@ -39,7 +39,12 @@ import {
   API_SET_PROJECT_SERVICE_CHARGE_ACTIVE,
   API_SET_PROJECT_SERVICE_CHARGE_INACTIVE,
   API_GET_CURRENCY_ACTIVE,
-  API_GET_PROJECT_SERVICE_CHARGE_NOT_REGISTERED
+  API_GET_PROJECT_SERVICE_CHARGE_NOT_REGISTERED,
+  API_GET_SKU_ADMIN,
+  API_GET_SKU_ACTIVE,
+  API_ADD_SKU,
+  API_SET_SKU_ACTIVE,
+  API_SET_SKU_INACTIVE
 } from "../../api/index"
 import Swal from "sweetalert2";
 
@@ -834,6 +839,93 @@ export const setStatusActiveProjectServiceCharge = (val, projectServiceChargeId,
       let response = await actionCrud.actionCommonSlice(projectServiceChargeId, url, "PUT");
       if (response.status === "success") {
         dispatch(getListProjectServiceCharge(projectId));
+      }
+
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Cool'
+      })
+    }
+  }
+}
+
+export const getListSku = (payload) => {
+  return async (dispatch) => {
+    try {
+      let list = await actionCrud.actionCommonSlice(payload, API_GET_SKU_ADMIN, "GET");
+      let listSku = list?.map((item, idx) => {
+        return {
+          no: idx + 1,
+          materialCode: item.materialCode,
+          materialDesc: item.materialDesc,
+          uom: item.uom,
+          modifiedBy: item.modifiedBy,
+          modifiedDate: item.modifiedDate,
+          status: item.isActive,
+          detail: { ...item, ...{ projectId: payload } }
+        }
+      })
+      dispatch({
+        type: actionType.SET_LIST_SKU,
+        payload: listSku
+      });
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Cool'
+      })
+    }
+  }
+}
+
+export const createSku = (payload) => {
+  return async (dispatch) => {
+    try {
+      let create = await actionCrud.actionCommonCrud(payload, API_ADD_SKU, "POST");
+      if (create.status === "success") {
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: create?.message,
+          showConfirmButton: true
+        });
+        dispatch(getListSku(payload?.mProjectId));
+      } else {
+        Swal.fire({
+          title: 'Error!',
+          text: create?.message,
+          icon: 'error',
+          confirmButtonText: 'Cool'
+        })
+      }
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Cool'
+      })
+    }
+  }
+}
+
+export const setStatusActiveSku = (val, skuId, projectId) => {
+  return async (dispatch) => {
+    try {
+
+      let url = API_SET_SKU_INACTIVE
+      if (val) {
+        url = API_SET_SKU_ACTIVE
+      }
+
+      let response = await actionCrud.actionCommonSlice(skuId, url, "PUT");
+      if (response.status === "success") {
+        dispatch(getListSku(projectId));
       }
 
     } catch (error) {

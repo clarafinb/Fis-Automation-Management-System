@@ -91,7 +91,7 @@ const Dashboard = () => {
   }
 
   const handleViewSku = (id) => {
-    
+    nav("/dashboard/sku/"+id)
   }
 
   useEffect(() => {
