@@ -51,3 +51,12 @@ export const API_ADD_WAREHOUSE = BASE_URL + "warehouse"
 export const API_SET_INACTIVE_WAREHOUSE = BASE_URL + "warehouse/setStatusIsInActive"
 export const API_SET_ACTIVE_WAREHOUSE = BASE_URL + "mproject/setActivate"
 export const API_SET_PUBLISH_WAREHOUSE = BASE_URL + "warehouse/setActivate"
+//PROJECT SERVICE CHARGE
+export const API_GET_PROJECT_SERVICE_CHARGE_ADMIN = BASE_URL + "serviceCharge/projectServiceChargeGetAllAdminOnly"
+export const API_GET_PROJECT_SERVICE_CHARGE_ACTIVE = BASE_URL + "servicecharge/projectServiceChargeGetAllActiveOnly"
+export const API_GET_PROJECT_SERVICE_CHARGE_NOT_REGISTERED = BASE_URL + "servicecharge/projectServiceChargeNotRegisteredYet"
+export const API_ADD_PROJECT_SERVICE_CHARGE = BASE_URL + "servicecharge/projectServiceChargeAdd"
+export const API_SET_PROJECT_SERVICE_CHARGE_ACTIVE = BASE_URL + "serviceCharge/projectServiceChargeSetStatusIsActive"
+export const API_SET_PROJECT_SERVICE_CHARGE_INACTIVE = BASE_URL + "serviceCharge/projectServiceChargeSetStatusIsInActive"
+// CURRENCY
+export const API_GET_CURRENCY_ACTIVE = BASE_URL + "masterdata/currencyGetAllActiveOnly"
