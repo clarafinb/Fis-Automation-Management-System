@@ -60,6 +60,15 @@ function StandardTable({
                                             {component?.label ? component.label : innerData}
                                         </CButton>
                                     )
+                                }else if(component?.type === "icon"){
+                                    return (
+                                        <div
+                                            key={idx2} 
+                                            onClick={() => {handleComponent(item[innerData],idx)}} 
+                                        >
+                                            {component?.label}
+                                        </div>
+                                    )
                                 }else{
                                     return (
                                         <CTableDataCell key={idx2}>{item[innerData]}</CTableDataCell>

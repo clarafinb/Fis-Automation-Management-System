@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react';
 import { useRedux } from 'src/utils/hooks'
 import {
     CButton,
@@ -9,27 +9,22 @@ import {
     CModalFooter,
 } from '@coreui/react'
 import MapComponent from '../custom/map/MapLeaflef'
-import { MapContainer, TileLayer, Marker } from 'react-leaflet';
 
-function ModalOpenMap({ open, setOpen, data }) {
-    const { Global, Dashboard } = useRedux()
+function ModalOpenMap({ open, setOpen, data, key }) {
 
-    const mapCenter = [-6.188316027806538, 106.87392816931737];
+    const mapCenter = [data?.detail?.latitude, data?.detail?.longitude]
 
     return (
         <CModal
             size="xl"
             visible={open}
-            onClose={() => setOpen(false)}
+            onClose={() => setOpen}
         >
             <CModalHeader>
                 <CModalTitle>Map {data?.detail?.whName}</CModalTitle>
             </CModalHeader>
             <CModalBody>
-                {open && (
-                    <MapComponent />
-                )}
-                
+                <MapComponent latlong={mapCenter} id={key} />
             </CModalBody>
             <CModalFooter>
                 <CButton onClick={() => setOpen(false)} color="secondary">Close</CButton>
@@ -38,4 +33,5 @@ function ModalOpenMap({ open, setOpen, data }) {
     )
 }
 
-export default ModalOpenMap;
+
+export default ModalOpenMap
