@@ -44,7 +44,12 @@ import {
   API_GET_SKU_ACTIVE,
   API_ADD_SKU,
   API_SET_SKU_ACTIVE,
-  API_SET_SKU_INACTIVE
+  API_SET_SKU_INACTIVE,
+  API_GET_CUSTOMER_ADMIN,
+  API_ADD_CUSTOMER,
+  API_SET_CUSTOMER_INACTIVE,
+  API_SET_CUSTOMER_ACTIVE,
+  API_SET_CUSTOMER_PUBLISH
 } from "../../api/index"
 import Swal from "sweetalert2";
 
@@ -928,6 +933,110 @@ export const setStatusActiveSku = (val, skuId, projectId) => {
         dispatch(getListSku(projectId));
       }
 
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Cool'
+      })
+    }
+  }
+}
+
+export const getListCustomer = (payload) => {
+  return async (dispatch) => {
+    try {
+      let list = await actionCrud.actionCommonCrud(payload, API_GET_CUSTOMER_ADMIN, "GET");
+      let listCustomer = list?.map((item, idx) => {
+        return {
+          no: idx + 1,
+          customerName: item.customer_name,
+          customerAliasName: item.customer_alias_name,
+          modifiedBy: item.modifiedBy,
+          modifiedDate: item.modifiedDate,
+          status: item.isActive,
+          detail: { ...item, ...{ projectId: payload } }
+        }
+      })
+      dispatch({
+        type: actionType.SET_LIST_CUSTOMER,
+        payload: listCustomer
+      });
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Cool'
+      })
+    }
+  }
+}
+
+export const createCustomer = (payload) => {
+  return async (dispatch) => {
+    try {
+      let create = await actionCrud.actionCommonCrud(payload, API_ADD_CUSTOMER, "POST");
+      if (create.status === "success") {
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: create?.message,
+          showConfirmButton: true
+        });
+        dispatch(getListCustomer(payload?.mProjectId));
+      } else {
+        Swal.fire({
+          title: 'Error!',
+          text: create?.message,
+          icon: 'error',
+          confirmButtonText: 'Cool'
+        })
+      }
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Cool'
+      })
+    }
+  }
+}
+
+export const setStatusActiveCustomer = (val, customerId) => {
+  return async (dispatch) => {
+    try {
+
+      let url = API_SET_CUSTOMER_INACTIVE
+      if (val) {
+        url = API_SET_CUSTOMER_ACTIVE
+      }
+
+      let response = await actionCrud.actionCommonSlice(customerId, url, "PUT");
+      if (response.status === "success") {
+        dispatch(getListCustomer());
+      }
+
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Cool'
+      })
+    }
+  }
+}
+
+export const setStatusPublishCustomer = (customerId) => {
+  return async (dispatch) => {
+    try {
+      let response = await actionCrud.actionCommonSlice(customerId, API_SET_CUSTOMER_PUBLISH, "PUT");
+      if (response.status === "success") {
+        dispatch(getListCustomer());
+      }
     } catch (error) {
       Swal.fire({
         title: 'Error!',

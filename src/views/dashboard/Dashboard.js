@@ -82,16 +82,20 @@ const Dashboard = () => {
     nav("/dashboard/setting-management/uom")
   }
 
+  const handleViewCustomer = () => {
+    nav("/dashboard/setting-management/customer")
+  }
+
   const handleViewWarehouse = (id) => {
-    nav("/dashboard/warehouse/"+id)
+    nav("/dashboard/warehouse/" + id)
   }
 
   const handleViewServiceCharge = (id) => {
-    nav("/dashboard/project-service-charge/"+id)
+    nav("/dashboard/project-service-charge/" + id)
   }
 
   const handleViewSku = (id) => {
-    nav("/dashboard/sku/"+id)
+    nav("/dashboard/sku/" + id)
   }
 
   useEffect(() => {
@@ -182,7 +186,7 @@ const Dashboard = () => {
         data={masterWerehouse}
         handleViewWarehouse={handleViewWarehouse}
         handleViewServiceCharge={handleViewServiceCharge}
-        handleViewSku={handleViewSku} 
+        handleViewSku={handleViewSku}
       />
       <ModalSettingManagement
         open={modalSetManagement}
@@ -192,6 +196,7 @@ const Dashboard = () => {
         handleViewTransport={handleViewTransport}
         handleViewTransportType={handleViewTransportType}
         handleViewUom={handleViewUom}
+        handleViewCustomer={handleViewCustomer}
       />
     </>
   )

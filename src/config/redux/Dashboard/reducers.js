@@ -10,7 +10,8 @@ let initialState = {
     listUom: [],
     listWarehouse: [],
     listProjectServiceCharge: [],
-    listSku: []
+    listSku: [],
+    listCustomer:[]
 
 };
 
@@ -75,6 +76,12 @@ const Dashboard = (state = initialState, { type, payload }) => {
                 ...state,
                 listSku: payload
             };
+
+        case actionType.SET_LIST_CUSTOMER:
+            return {
+                ...state,
+                listCustomer: payload
+            }
 
         default:
             return { ...state };
