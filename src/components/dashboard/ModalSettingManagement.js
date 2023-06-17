@@ -18,7 +18,8 @@ import {
     cilTruck,
     cilGarage,
     cilEqualizer,
-    cilAirplaneMode
+    cilAirplaneMode,
+    cilUser
 } from '@coreui/icons'
 import CIcon from '@coreui/icons-react';
 
@@ -29,7 +30,8 @@ function ModalSettingManagement({
     handleViewDelivery,
     handleViewTransport,
     handleViewTransportType,
-    handleViewUom
+    handleViewUom,
+    handleViewCustomer
 }) {
 
 	return (
@@ -99,6 +101,18 @@ function ModalSettingManagement({
                                     placement="bottom"
                                 >
                                     <CIcon icon={cilEqualizer} className="m-5 text-default" size="7xl" onClick={handleViewUom}/>
+                                </CTooltip>
+                            </CCardBody>
+                        </CCard>
+                    </CCol>
+                    <CCol sm={3}>
+                        <CCard className='text-center border-default border-top-default border-bottom-5'>
+                            <CCardBody>
+                                <CTooltip
+                                    content="Customer"
+                                    placement="bottom"
+                                >
+                                    <CIcon icon={cilUser} className="m-5 text-default" size="7xl" onClick={handleViewCustomer}/>
                                 </CTooltip>
                             </CCardBody>
                         </CCard>
