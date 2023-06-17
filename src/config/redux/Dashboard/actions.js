@@ -49,7 +49,8 @@ import {
   API_ADD_CUSTOMER,
   API_SET_CUSTOMER_INACTIVE,
   API_SET_CUSTOMER_ACTIVE,
-  API_SET_CUSTOMER_PUBLISH
+  API_SET_CUSTOMER_PUBLISH,
+  API_GET_CUSTOMER_ACTIVE
 } from "../../api/index"
 import Swal from "sweetalert2";
 
@@ -1037,6 +1038,28 @@ export const setStatusPublishCustomer = (customerId) => {
       if (response.status === "success") {
         dispatch(getListCustomer());
       }
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Cool'
+      })
+    }
+  }
+}
+
+export const getSelectActiveCustomer = (payload) => {
+  return async () => {
+    try {
+      let list = await actionCrud.actionCommonCrud(payload, API_GET_CUSTOMER_ACTIVE, "GET");
+      let listCustomer = list?.map((item, idx) => {
+        return {
+          label: item.customer_name,
+          value: item.customerId
+        }
+      })
+      return Promise.resolve(['Please Select..', ...listCustomer])
     } catch (error) {
       Swal.fire({
         title: 'Error!',
