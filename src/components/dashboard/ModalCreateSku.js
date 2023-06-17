@@ -16,34 +16,28 @@ import {
 } from '@coreui/react'
 import * as actions from '../../config/redux/Dashboard/actions'
 
-function ModalCreateProjectServiceCharge({ open, setOpen, projectId }) {
+function ModalCreateSku({ open, setOpen, projectId }) {
     const { dispatch, Global } = useRedux()
     const [values, setValues] = useState({})
-    const [projectServiceChargeList, setProjectServiceChargeList] = useState([])
-    const [currency, setCurrency] = useState([])
+    const [uomList, setUomList] = useState([])
 
     useEffect(() => {
         if (Global?.user?.token) {
-            dispatch(actions.getSelectActiveCurrency()).then(e => {
-                setCurrency(e)
+            dispatch(actions.getSelectActiveUom()).then(e => {
+                setUomList(e)
             })
-            if (projectId) {
-                dispatch(actions.getSelectProjectServiceChargeNotRegistered(projectId)).then(e => {
-                    setProjectServiceChargeList(e)
-                })
-            }
         }
     }, [projectId]);
 
-    const handleCreateProjectServiceCharge = () => {
+    const handleCreateSku = () => {
         let payload = {
-            projectId: projectId,
-            serviceChargeId: values.serviceChargeId,
-            currencyId: values.currencyId,
-            chargeFee: values.chargeFee,
+            mProjectId: projectId,
+            materialCode: values.materialCode,
+            materialDesc: values.materialDesc,
+            uomId: values.uomId,
             LMBY: Global?.user?.userID
         }
-        dispatch(actions.createProjectServiceCharge(payload))
+        dispatch(actions.createSku(payload))
     }
 
     const handleOnchange = useCallback(
@@ -64,36 +58,37 @@ function ModalCreateProjectServiceCharge({ open, setOpen, projectId }) {
             onClose={() => setOpen(false)}
         >
             <CModalHeader>
-                <CModalTitle>Service Charge Creation</CModalTitle>
+                <CModalTitle>SKU Creation</CModalTitle>
             </CModalHeader>
             <CModalBody>
                 <CRow className="mb-3">
-                    <CFormLabel className="col-sm-2 col-form-label">Service Charge <code>(*)</code></CFormLabel>
-                    <CCol sm={10}>
-                        <CFormSelect
-                            name="serviceChargeId"
-                            options={projectServiceChargeList}
-                            onChange={handleOnchange}
-                        />
-                    </CCol>
-                </CRow>
-                <CRow className="mb-3">
-                    <CFormLabel className="col-sm-2 col-form-label">Currency <code>(*)</code></CFormLabel>
-                    <CCol sm={10}>
-                        <CFormSelect
-                            name="currencyId"
-                            options={currency}
-                            onChange={handleOnchange}
-                        />
-                    </CCol>
-                </CRow>
-                <CRow className="mb-3">
-                    <CFormLabel className="col-sm-2 col-form-label">Charge Fee <code>(*)</code></CFormLabel>
+                    <CFormLabel className="col-sm-2 col-form-label">Material Code <code>(*)</code></CFormLabel>
                     <CCol sm={10}>
                         <CFormInput
                             type="text"
-                            name="chargeFee"
-                            value={values?.chargeFee}
+                            name="materialCode"
+                            value={values?.materialCode}
+                            onChange={handleOnchange}
+                        />
+                    </CCol>
+                </CRow>
+                <CRow className="mb-3">
+                    <CFormLabel className="col-sm-2 col-form-label">Material Desc <code>(*)</code></CFormLabel>
+                    <CCol sm={10}>
+                        <CFormInput
+                            type="text"
+                            name="materialDesc"
+                            value={values?.materialDesc}
+                            onChange={handleOnchange}
+                        />
+                    </CCol>
+                </CRow>
+                <CRow className="mb-3">
+                    <CFormLabel className="col-sm-2 col-form-label">UOM <code>(*)</code></CFormLabel>
+                    <CCol sm={10}>
+                        <CFormSelect
+                            name="uomId"
+                            options={uomList}
                             onChange={handleOnchange}
                         />
                     </CCol>
@@ -101,10 +96,10 @@ function ModalCreateProjectServiceCharge({ open, setOpen, projectId }) {
             </CModalBody>
             <CModalFooter>
                 <CButton onClick={() => setOpen(false)} color="secondary">Close</CButton>
-                <CButton color="primary" onClick={handleCreateProjectServiceCharge}>Add</CButton>
+                <CButton color="primary" onClick={handleCreateSku}>Add</CButton>
             </CModalFooter>
         </CModal>
     )
 }
 
-export default ModalCreateProjectServiceCharge;
+export default ModalCreateSku;

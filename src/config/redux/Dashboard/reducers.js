@@ -9,7 +9,9 @@ let initialState = {
     listTransportType: [],
     listUom: [],
     listWarehouse: [],
-    listProjectServiceCharge: []
+    listProjectServiceCharge: [],
+    listSku: [],
+    listCustomer:[]
 
 };
 
@@ -68,6 +70,18 @@ const Dashboard = (state = initialState, { type, payload }) => {
                 ...state,
                 listProjectServiceCharge: payload
             };
+
+        case actionType.SET_LIST_SKU:
+            return {
+                ...state,
+                listSku: payload
+            };
+
+        case actionType.SET_LIST_CUSTOMER:
+            return {
+                ...state,
+                listCustomer: payload
+            }
 
         default:
             return { ...state };

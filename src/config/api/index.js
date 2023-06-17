@@ -60,3 +60,17 @@ export const API_SET_PROJECT_SERVICE_CHARGE_ACTIVE = BASE_URL + "serviceCharge/p
 export const API_SET_PROJECT_SERVICE_CHARGE_INACTIVE = BASE_URL + "serviceCharge/projectServiceChargeSetStatusIsInActive"
 // CURRENCY
 export const API_GET_CURRENCY_ACTIVE = BASE_URL + "masterdata/currencyGetAllActiveOnly"
+// SKU
+export const API_GET_SKU_ADMIN = BASE_URL + "logmanagement/masterMaterialGetAllAdminOnly"
+export const API_GET_SKU_ACTIVE = BASE_URL + "logmanagement/masterMaterialGetAllActiveOnly"
+export const API_ADD_SKU = BASE_URL + "logmanagement/masterMaterialAdd"
+export const API_SET_SKU_ACTIVE = BASE_URL + "logmanagement/masterMaterialSetStatusIsActive"
+export const API_SET_SKU_INACTIVE = BASE_URL + "logmanagement/masterMaterialSetStatusIsInActive"
+//CUSTOMER
+export const API_GET_CUSTOMER_ADMIN = BASE_URL + "customer/getAllAdminOnly";
+export const API_GET_CUSTOMER_ACTIVE = BASE_URL + "customer/getAllActiveOnly";
+export const API_GET_CUSTOMER_DETAIL = BASE_URL + "customer/getCustomerDetail";
+export const API_ADD_CUSTOMER = BASE_URL + "customer";
+export const API_SET_CUSTOMER_INACTIVE = BASE_URL + "customer/setStatusInActivate";
+export const API_SET_CUSTOMER_ACTIVE = BASE_URL + "customer/setStatusIsActivate";
+export const API_SET_CUSTOMER_PUBLISH = BASE_URL + "customer/setActivate"
