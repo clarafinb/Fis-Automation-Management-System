@@ -43,7 +43,6 @@ function ModalCreateWarehouse({ open, setOpen, projectId }) {
     }, [Global?.user]);
 
     const handleCreate = () => {
-        console.log(values)
         let payload = {
             mProjectId: projectId,
             whName: values?.warehouseName,
@@ -55,8 +54,8 @@ function ModalCreateWarehouse({ open, setOpen, projectId }) {
             whLongitude: values?.longitude,
             whLatitude: values?.latitude,
             LMBY: Global?.user?.userID
-            }
-            
+        }
+
         dispatch(actions.createWarehouse(payload))
     }
 
@@ -115,6 +114,7 @@ function ModalCreateWarehouse({ open, setOpen, projectId }) {
                     <CFormLabel className="col-sm-2 col-form-label">Province <code>(*)</code></CFormLabel>
                     <CCol sm={10}>
                         <Select
+                            className="input-select"
                             options={province}
                             isSearchable={true}
                             value={selectedProvince}
