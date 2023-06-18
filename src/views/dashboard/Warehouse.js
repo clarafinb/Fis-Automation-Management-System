@@ -18,7 +18,7 @@ import ModalOpenMap from 'src/components/dashboard/ModalOpenMap'
 
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faLocationPin } from '@fortawesome/free-solid-svg-icons'
+import { faLocationDot } from '@fortawesome/free-solid-svg-icons'
 
 function Warehouse() {
     const { dispatch, Global, Dashboard } = useRedux()
@@ -108,7 +108,7 @@ function Warehouse() {
                                 isComponent="map"
                                 component={{
                                     type: "icon",
-                                    label: <FontAwesomeIcon className="light" icon={faLocationPin} />
+                                    label: <FontAwesomeIcon icon={faLocationDot} className='textBlue'/>
                                 }}
                                 handleComponent={handleComponent}
                             />

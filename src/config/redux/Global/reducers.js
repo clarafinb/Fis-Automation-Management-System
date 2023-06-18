@@ -1,7 +1,7 @@
 import * as actionType from "./actionType";
 
 let initialState = {
-
+    sidebarShow: false,
     user: {},
 };
 
@@ -19,6 +19,12 @@ const Global = (state = initialState, { type, payload }) => {
             return {
                 ...state,
                 user: {}
+            }
+
+        case actionType.SET_SIDEBAR:
+            return { 
+                ...state, 
+                ...payload
             }
 
         default:

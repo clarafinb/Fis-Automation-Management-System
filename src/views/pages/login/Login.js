@@ -56,13 +56,13 @@ const Login = () => {
 
   return (
     <div className="background-login min-vh-100 d-flex flex-row align-items-center">
-      <CContainer>
-        <CRow className="justify-content-center">
+      <CContainer className='container-login'>
+        <CRow className="justify-content-end">
           <CCol md={4}>
             <CAlert color="danger" dismissible visible={visible} onClose={() => setVisible(false)}>Username dan Password tidak boleh kosong !</CAlert>
           </CCol>
         </CRow>
-        <CRow className="justify-content-center">
+        <CRow className="justify-content-end">
           <CCol md={4}>
             <CCardGroup>
               <CCard className="p-4 no-background">
@@ -71,8 +71,8 @@ const Login = () => {
                 </div> */}
                 <CCardBody>
                   <CForm onSubmit={handleSubmit}>
-                    <h1 className="textWhite text-center">Login</h1>
-                    <p className="text-medium-emphasis textWhite">Sign In to your account</p>
+                    <h1 className="text-warning text-center">Login</h1>
+                    <p className="text-medium-emphasis">Sign In to your account</p>
                     <CInputGroup className="mb-3" size="lg">
                       <CInputGroupText>
                         <CIcon icon={cilUser} />
@@ -92,7 +92,7 @@ const Login = () => {
                     <CRow>
                       <CCol>
                         <div className="d-grid gap-2">
-                          <CButton className="bg-warning" type="submit">
+                          <CButton color='warning' shape='rounded-0' type="submit">
                             Login
                           </CButton>
                         </div>

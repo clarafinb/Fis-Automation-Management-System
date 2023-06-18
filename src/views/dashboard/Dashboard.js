@@ -151,9 +151,6 @@ const Dashboard = () => {
                     <CCardText>
                       {val?.projectDesc}
                     </CCardText>
-
-                  </CCardBody>
-                  <CCardFooter>
                     <CRow>
                       <CCol sm={5}>
                         <ToggleSwitch
@@ -172,7 +169,7 @@ const Dashboard = () => {
                         </div>
                       </CCol>
                     </CRow>
-                  </CCardFooter>
+                  </CCardBody>
                 </CCard>
               </CCol>
             ))}
