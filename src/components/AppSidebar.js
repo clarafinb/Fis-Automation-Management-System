@@ -15,14 +15,12 @@ import navigation from '../_nav'
 import * as actionType from "../config/redux/Global/actionType"
 
 const AppSidebar = () => {
-  const unfoldable = useSelector((state) => state.sidebarUnfoldable)
   const { dispatch, Global } = useRedux();
 
-  console.log(Global)
   return (
     <CSidebar
       position="fixed"
-      unfoldable={unfoldable}
+      unfoldable={Global?.sidebarUnfoldable}
       visible={Global?.sidebarShow}
       onVisibleChange={(visible) => {
         dispatch({
@@ -30,7 +28,7 @@ const AppSidebar = () => {
           payload: {sidebarShow: visible},
         })
       }}
-      className='bg-white'
+      className='bg-secondary'
     >
       <CSidebarBrand className="d-none d-md-flex bg-warning" to="/">
           <h5>FAMS</h5>
@@ -42,7 +40,12 @@ const AppSidebar = () => {
       </CSidebarNav>
       <CSidebarToggler
         className="d-none d-lg-flex"
-        onClick={() => dispatch({ type: 'set', sidebarUnfoldable: !unfoldable })}
+        onClick={() => {
+          dispatch({
+            type: actionType.SET_SIDEBAR_FOLDABLE,
+            payload: {sidebarUnfoldable: !Global?.sidebarUnfoldable},
+          })
+        }}
       />
     </CSidebar>
   )

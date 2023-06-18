@@ -1,7 +1,8 @@
 import * as actionType from "./actionType";
 
 let initialState = {
-    sidebarShow: false,
+    sidebarShow: true,
+    sidebarUnfoldable: true,
     user: {},
 };
 
@@ -22,6 +23,12 @@ const Global = (state = initialState, { type, payload }) => {
             }
 
         case actionType.SET_SIDEBAR:
+            return { 
+                ...state, 
+                ...payload
+            }
+
+        case actionType.SET_SIDEBAR_FOLDABLE:
             return { 
                 ...state, 
                 ...payload

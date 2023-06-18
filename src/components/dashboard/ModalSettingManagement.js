@@ -26,69 +26,29 @@ import CIcon from '@coreui/icons-react';
 function ModalSettingManagement({ 
     open, 
     setOpen, 
-    handleViewService,
-    handleViewDelivery,
-    handleViewTransport,
-    handleViewTransportType,
-    handleViewUom,
-    handleViewCustomer
+    handleViewModal
 }) {
 
 	return (
         <CModal
-            size="xl"
+            // size="lg"
             visible={open}
             onClose={() => setOpen(false)}
+            alignment='center'
         >
             <CModalHeader>
                 <CModalTitle>Settings Management</CModalTitle>
             </CModalHeader>
             <CModalBody>
-                <CRow className='m-5'>
+                <CRow>
                     <CCol sm={3}>
-                        <CCard className='text-center border-info border-top-info border-bottom-5'>
+                        <CCard className='text-center border-default border-top-default border-bottom-5'>
                             <CCardBody>
                                 <CTooltip
                                     content="Service Charge List"
                                     placement="bottom"
                                 >
-                                    <CIcon icon={cilDescription} className="m-5 textBlue" size="7xl" onClick={handleViewService}/>
-                                </CTooltip>
-                            </CCardBody>
-                        </CCard>
-                    </CCol>
-                    <CCol sm={3}>
-                        <CCard className='text-center border-warning border-top-warning border-bottom-5'>
-                            <CCardBody>
-                                <CTooltip
-                                    content="Delivery Mode"
-                                    placement="bottom"
-                                >
-                                    <CIcon icon={cilTruck} className="m-5 text-warning" size="7xl" onClick={handleViewDelivery}/>
-                                </CTooltip>
-                            </CCardBody>
-                        </CCard>
-                    </CCol>
-                    <CCol sm={3}>
-                        <CCard className='text-center border-success border-top-success border-bottom-5'>
-                            <CCardBody>
-                                <CTooltip
-                                    content="Transport Mode"
-                                    placement="bottom"
-                                >
-                                    <CIcon icon={cilGarage} className="m-5 text-success" size="7xl" onClick={handleViewTransport}/>
-                                </CTooltip>
-                            </CCardBody>
-                        </CCard>
-                    </CCol>
-                    <CCol sm={3}>
-                        <CCard className='text-center border-danger border-top-danger border-bottom-5'>
-                            <CCardBody>
-                                <CTooltip
-                                    content="Transport Type"
-                                    placement="bottom"
-                                >
-                                    <CIcon icon={cilAirplaneMode} className="m-5 text-danger" size="7xl" onClick={handleViewTransportType}/>
+                                    <CIcon icon={cilDescription} className="text-default" size="3xl" onClick={() => {handleViewModal("sc")}}/>
                                 </CTooltip>
                             </CCardBody>
                         </CCard>
@@ -97,10 +57,49 @@ function ModalSettingManagement({
                         <CCard className='text-center border-default border-top-default border-bottom-5'>
                             <CCardBody>
                                 <CTooltip
+                                    content="Delivery Mode"
+                                    placement="bottom"
+                                >
+                                    <CIcon icon={cilTruck} className="text-default" size="3xl" onClick={() => {handleViewModal("smDelivery")}}/>
+                                </CTooltip>
+                            </CCardBody>
+                        </CCard>
+                    </CCol>
+                    <CCol sm={3}>
+                        <CCard className='text-center border-default border-top-default border-bottom-5'>
+                            <CCardBody>
+                                <CTooltip
+                                    content="Transport Mode"
+                                    placement="bottom"
+                                >
+                                    <CIcon icon={cilGarage} className="text-default" size="3xl" onClick={() => {handleViewModal("smTransport")}}/>
+                                </CTooltip>
+                            </CCardBody>
+                        </CCard>
+                    </CCol>
+                    <CCol sm={3}>
+                        <CCard className='text-center border-default border-top-default border-bottom-5'>
+                            <CCardBody>
+                                <CTooltip
+                                    content="Transport Type"
+                                    placement="bottom"
+                                >
+                                    <CIcon icon={cilAirplaneMode} className="text-default" size="3xl" onClick={() => {handleViewModal("smTransportType")}}/>
+                                </CTooltip>
+                            </CCardBody>
+                        </CCard>
+                    </CCol>
+                </CRow>
+                <br />
+                <CRow>
+                    <CCol sm={3}>
+                        <CCard className='text-center border-default border-top-default border-bottom-5'>
+                            <CCardBody>
+                                <CTooltip
                                     content="Unit of Measurement"
                                     placement="bottom"
                                 >
-                                    <CIcon icon={cilEqualizer} className="m-5 text-default" size="7xl" onClick={handleViewUom}/>
+                                    <CIcon icon={cilEqualizer} className="text-default" size="3xl" onClick={() => {handleViewModal("uom")}}/>
                                 </CTooltip>
                             </CCardBody>
                         </CCard>
@@ -112,7 +111,7 @@ function ModalSettingManagement({
                                     content="Customer"
                                     placement="bottom"
                                 >
-                                    <CIcon icon={cilUser} className="m-5 text-default" size="7xl" onClick={handleViewCustomer}/>
+                                    <CIcon icon={cilUser} className="text-default" size="3xl" onClick={() => {handleViewModal("customer")}}/>
                                 </CTooltip>
                             </CCardBody>
                         </CCard>

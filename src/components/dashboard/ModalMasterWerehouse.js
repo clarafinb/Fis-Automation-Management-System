@@ -19,20 +19,28 @@ import {
     cilNotes
 } from '@coreui/icons'
 import CIcon from '@coreui/icons-react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faLocationDot } from '@fortawesome/free-solid-svg-icons'
 
-function ModalMasterWerehouse({ open, setOpen, handleViewWarehouse, handleViewServiceCharge, handleViewSku, data }) {
+function ModalMasterWerehouse({ 
+    open, 
+    setOpen, 
+    data,
+    handleViewModal
+}) {
     return (
         <CModal
-            size="xl"
+            // size="xl"
             visible={open}
             onClose={() => setOpen(false)}
+            alignment='center'
         >
             <CModalHeader>
                 <CModalTitle>Master Warehouse</CModalTitle>
             </CModalHeader>
             <CModalBody>
                 {/* <CFormLabel className="col-sm-2 col-form-label">Project Id : {data.projectId}</CFormLabel> */}
-                <CRow className='m-5'>
+                <CRow>
                     <CCol sm={3}>
                         <CCard className='text-center border-default border-top-default border-bottom-5'>
                             <CCardBody>
@@ -40,7 +48,7 @@ function ModalMasterWerehouse({ open, setOpen, handleViewWarehouse, handleViewSe
                                     content="Master Warehouse per Project"
                                     placement="bottom"
                                 >
-                                    <CIcon icon={cilHouse} className="m-5 textGray" size="7xl" onClick={() => { handleViewWarehouse(data.projectId) }} />
+                                    <CIcon icon={cilHouse} className="text-default" size="3xl" onClick={() => { handleViewModal("warehouse",data.projectId) }} />
                                 </CTooltip>
                             </CCardBody>
                         </CCard>
@@ -51,8 +59,8 @@ function ModalMasterWerehouse({ open, setOpen, handleViewWarehouse, handleViewSe
                                 <CTooltip
                                     content="Service Charge"
                                     placement="bottom"
-                                >
-                                    <CIcon icon={cilNewspaper} className="m-5 textGray" size="7xl" onClick={() => { handleViewServiceCharge(data.projectId) }} />
+                                >   
+                                    <CIcon icon={cilNewspaper} className="text-default" size="3xl" onClick={() => { handleViewModal("projectSc",data.projectId) }} />
                                 </CTooltip>
                             </CCardBody>
                         </CCard>
@@ -64,7 +72,7 @@ function ModalMasterWerehouse({ open, setOpen, handleViewWarehouse, handleViewSe
                                     content="Master SKU"
                                     placement="bottom"
                                 >
-                                    <CIcon icon={cilNotes} className="m-5 textGray" size="7xl" onClick={() => { handleViewSku(data.projectId) }} />
+                                    <CIcon icon={cilNotes} className="text-default" size="3xl" onClick={() => { handleViewModal("sku",data.projectId) }} />
                                 </CTooltip>
                             </CCardBody>
                         </CCard>

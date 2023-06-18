@@ -62,40 +62,26 @@ const Dashboard = () => {
     }, [dispatch]
   )
 
-  const handleViewService = () => {
-    nav("/dashboard/setting-management/service-charge")
-  }
-
-  const handleViewDelivery = () => {
-    nav("/dashboard/setting-management/delivery")
-  }
-
-  const handleViewTransport = () => {
-    nav("/dashboard/setting-management/transport")
-  }
-
-  const handleViewTransportType = () => {
-    nav("/dashboard/setting-management/transport-type")
-  }
-
-  const handleViewUom = () => {
-    nav("/dashboard/setting-management/uom")
-  }
-
-  const handleViewCustomer = () => {
-    nav("/dashboard/setting-management/customer")
-  }
-
-  const handleViewWarehouse = (id) => {
-    nav("/dashboard/warehouse/" + id)
-  }
-
-  const handleViewServiceCharge = (id) => {
-    nav("/dashboard/project-service-charge/" + id)
-  }
-
-  const handleViewSku = (id) => {
-    nav("/dashboard/sku/" + id)
+  const handleOpenModal = (type,id) => {
+    if(type === 'sc'){
+      nav("/dashboard/setting-management/service-charge")
+    }else if(type === 'smDelivery'){
+      nav("/dashboard/setting-management/delivery")
+    }else if(type === 'smTransport'){
+      nav("/dashboard/setting-management/transport")
+    }else if(type === 'smTransportType'){
+      nav("/dashboard/setting-management/transport-type")
+    }else if(type === 'uom'){
+      nav("/dashboard/setting-management/uom")
+    }else if(type === 'customer'){
+      nav("/dashboard/setting-management/customer")
+    }else if(type === 'warehouse'){
+      nav("/dashboard/warehouse/" + id)
+    }else if(type === 'projectSc'){
+      nav("/dashboard/project-service-charge/" + id)
+    }else if(type === 'sku'){
+      nav("/dashboard/sku/" + id)
+    }
   }
 
   useEffect(() => {
@@ -181,19 +167,12 @@ const Dashboard = () => {
       <ModalMasterWerehouse open={modalMasterWerehouse}
         setOpen={setModalMasterWerehouse}
         data={masterWerehouse}
-        handleViewWarehouse={handleViewWarehouse}
-        handleViewServiceCharge={handleViewServiceCharge}
-        handleViewSku={handleViewSku}
+        handleViewModal={handleOpenModal}
       />
       <ModalSettingManagement
         open={modalSetManagement}
         setOpen={setModalSetManagement}
-        handleViewService={handleViewService}
-        handleViewDelivery={handleViewDelivery}
-        handleViewTransport={handleViewTransport}
-        handleViewTransportType={handleViewTransportType}
-        handleViewUom={handleViewUom}
-        handleViewCustomer={handleViewCustomer}
+        handleViewModal={handleOpenModal}
       />
     </>
   )

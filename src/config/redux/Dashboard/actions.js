@@ -727,7 +727,7 @@ export const getSelectWarehouseProvince = (payload) => {
           value: item.provinceId
         }
       })
-      return Promise.resolve(['Please Select..', ...listProvince])
+      return Promise.resolve(listProvince)
     } catch (error) {
       Swal.fire({
         title: 'Error!',
