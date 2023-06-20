@@ -84,3 +84,21 @@ export const actionResetUser = () => {
     }
   };
 }
+
+export const actionGetGeocode = (address) => {
+  return async (dispatch, getState) => {
+    try {
+      let data = await actionCrud.actionGeocode(address)
+
+      return Promise.resolve(data)
+
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Cool'
+      })
+    }
+  };
+}

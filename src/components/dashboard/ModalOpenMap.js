@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from 'react';
-import { useRedux } from 'src/utils/hooks'
+import React from 'react';
 import {
     CButton,
     CModal,

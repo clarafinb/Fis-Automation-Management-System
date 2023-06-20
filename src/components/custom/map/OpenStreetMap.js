@@ -1,51 +1,50 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React, { useState } from 'react'
+import { useRedux } from 'src/utils/hooks'
 import {
     CFormInput,
     CButton,
     CInputGroup
 } from '@coreui/react'
 
+import * as actions from '../../../config/redux/Global/actions'
+import MapComponent from './PointingMapLeaflef'
+
 const GeocodingForm = ({handleSetLongLat}) => {
-  const [address, setAddress] = useState('');
-  const [longitude, setLongitude] = useState(null);
-  const [latitude, setLatitude] = useState(null);
+  const { dispatch, Global } = useRedux()
+  const [address, setAddress] = useState('')
+  const [longLat, setLongLat] = useState()
 
   const handleAddressChange = (event) => {
     setAddress(event.target.value);
-  };
+  }
 
-  useEffect(() => {
-    if (longitude && latitude) {
-        handleSetLongLat(longitude, latitude)
+  const handleGeocode = async () => {
+
+    const data = await dispatch(actions.actionGetGeocode(address))
+
+    if(data?.lon && data?.lat){
+      handleSetLongLat(data?.lon, data?.lat)
+      let longLat = [data?.lat, data?.lon]
+      setLongLat(longLat)
     }
-}, [longitude,latitude]);
+  }
 
-  const handleGeocode = () => {
-    axios
-      .get(`https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(address)}&format=json&limit=1`)
-      .then((response) => {
-        if (response.data && response.data.length > 0) {
-          const { lon, lat } = response.data[0];
-          setLongitude(lon);
-          setLatitude(lat);
-        } else {
-          // Tidak ada hasil geocoding yang ditemukan
-          setLongitude(null);
-          setLatitude(null);
-        }
-      })
-      .catch((error) => {
-        console.error('Terjadi kesalahan saat melakukan permintaan geocoding:', error);
-      });
+  const handleMapClick = (latlng) => {
+    setLongLat([latlng.lat, latlng.lng])
+    handleSetLongLat(latlng.lng, latlng.lat)
   };
 
   return (
     <div>
-        <CInputGroup className="mb-3">
-            <CFormInput type="text" name="location" onChange={handleAddressChange} placeholder="Masukkan alamat" aria-describedby="button-addon2"/>
-            <CButton type="button" color="success" variant="outline" id="button-addon2"  onClick={handleGeocode}>Generate</CButton>
-        </CInputGroup>
+      <CInputGroup className="mb-3">
+        <CFormInput type="text" name="location" placeholder="Masukkan alamat" onChange={handleAddressChange}/>
+        <CButton type="button" color="success" onClick={handleGeocode}>
+          Generate
+        </CButton>
+      </CInputGroup>
+      <div>
+        {longLat?.length > 0 && <MapComponent latlong={longLat} handleMapClick={handleMapClick} />}
+      </div>
     </div>
   );
 };
