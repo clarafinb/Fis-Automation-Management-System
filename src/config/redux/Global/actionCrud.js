@@ -75,9 +75,6 @@ export async function actionCommonSlice(payload, url, method = "GET") {
 
 export async function actionGeocode(address) {
      try {
-
-          console.log(address, "address")
-
           let url = `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(address)}&format=json&limit=1`
 
           let objAxios = {

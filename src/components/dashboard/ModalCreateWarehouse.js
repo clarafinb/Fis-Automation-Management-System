@@ -83,6 +83,8 @@ function ModalCreateWarehouse({ open, setOpen, projectId }) {
             size="xl"
             visible={open}
             onClose={() => setOpen(false)}
+            backdrop="static" // Tambahkan properti backdrop dengan nilai "static"
+            keyboard={false} // Tambahkan properti keyboard dengan nilai false
         >
             <CModalHeader>
                 <CModalTitle>Warehouse Creation</CModalTitle>
