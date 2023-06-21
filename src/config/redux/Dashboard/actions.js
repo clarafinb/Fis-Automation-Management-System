@@ -50,7 +50,11 @@ import {
   API_SET_CUSTOMER_INACTIVE,
   API_SET_CUSTOMER_ACTIVE,
   API_SET_CUSTOMER_PUBLISH,
-  API_GET_CUSTOMER_ACTIVE
+  API_GET_CUSTOMER_ACTIVE,
+  API_SET_PROJECT_MEMBER_INACTIVE,
+  API_SET_PROJECT_MEMBER_ACTIVE,
+  API_GET_PROJECT_MEMBER_BASE_ON_PROJECT,
+  API_ADD_PROJECT_MEMBER
 } from "../../api/index"
 import Swal from "sweetalert2";
 
@@ -645,9 +649,11 @@ export const getListWarehouse = (payload) => {
           whCode: item.whCode,
           isMainWH: item.isMainWH,
           whType: item.whType,
+          whSpace:item.whSpace,
           whAddress: item.whAddress,
           map: item.longitude + ',' + item.latitude,
           status: item.isActive,
+          whId:item.whId,
           detail: { ...item, ...{ projectId: payload } }
         }
       })
@@ -1060,6 +1066,94 @@ export const getSelectActiveCustomer = (payload) => {
         }
       })
       return Promise.resolve(['Please Select..', ...listCustomer])
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Cool'
+      })
+    }
+  }
+}
+
+export const getListProjectMember = (payload) => {
+  return async (dispatch) => {
+    try {
+      let list = await actionCrud.actionCommonSlice(payload, API_GET_PROJECT_MEMBER_BASE_ON_PROJECT, "GET");
+      let listProjectServiceCharge = list?.map((item, idx) => {
+        return {
+          no: idx + 1,
+          serviceCharge: item.serviceCharge,
+          serviceChargeCode: item.serviceChargeCode,
+          chargeFee: item.chargeFee,
+          currencyName: item.currencyName,
+          modifiedBy: item.modifiedBy,
+          modifiedDate: item.modifiedDate,
+          status: item.isActive,
+          detail: { ...item, ...{ projectId: payload } }
+        }
+      })
+      dispatch({
+        type: actionType.SET_LIST_PROJECT_SERVICE_CHARGE,
+        payload: listProjectServiceCharge
+      });
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Cool'
+      })
+    }
+  }
+}
+
+export const createProjectMember = (payload) => {
+  return async (dispatch) => {
+    try {
+      let create = await actionCrud.actionCommonCrud(payload, API_ADD_PROJECT_MEMBER, "POST");
+      if (create.status === "success") {
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: create?.message,
+          showConfirmButton: true
+        });
+        dispatch(getListProjectMember(payload?.projectId));
+      } else {
+        Swal.fire({
+          title: 'Error!',
+          text: create?.message,
+          icon: 'error',
+          confirmButtonText: 'Cool'
+        })
+      }
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Cool'
+      })
+    }
+  }
+}
+
+export const setStatusActiveProjectMember = (val, projectMemberId, projectId) => {
+  return async (dispatch) => {
+    try {
+
+      let url = API_SET_PROJECT_MEMBER_INACTIVE
+      if (val) {
+        url = API_SET_PROJECT_MEMBER_ACTIVE
+      }
+
+      let response = await actionCrud.actionCommonSlice(projectMemberId, url, "PUT");
+      if (response.status === "success") {
+        dispatch(getListProjectServiceCharge(projectId));
+      }
+
     } catch (error) {
       Swal.fire({
         title: 'Error!',

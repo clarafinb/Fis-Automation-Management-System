@@ -51,8 +51,9 @@ function ModalCreateWarehouse({ open, setOpen, projectId }) {
             whTypeId: values?.warehouseType,
             provinceId: selectedProvince?.value,
             whAddress: values?.address,
-            whLongitude: values?.longitude,
-            whLatitude: values?.latitude,
+            whSpace: values?.warehouseSpace,
+            whLongitude: values?.longitude.toString(),
+            whLatitude: values?.latitude.toString(),
             LMBY: Global?.user?.userID
         }
 
@@ -128,6 +129,12 @@ function ModalCreateWarehouse({ open, setOpen, projectId }) {
                     <CFormLabel className="col-sm-2 col-form-label">Address</CFormLabel>
                     <CCol sm={10}>
                         <CFormTextarea rows={3} name="address" value={values?.address} onChange={handleOnchange}></CFormTextarea>
+                    </CCol>
+                </CRow>
+                <CRow className="mb-3">
+                    <CFormLabel className="col-sm-2 col-form-label">Warehouse Space</CFormLabel>
+                    <CCol sm={10}>
+                        <CFormInput type="number" name="warehouseSpace" value={values?.warehouseSpace} onChange={handleOnchange} />
                     </CCol>
                 </CRow>
                 <CRow className="mb-3">

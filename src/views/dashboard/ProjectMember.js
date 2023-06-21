@@ -13,42 +13,30 @@ import {
 import CIcon from '@coreui/icons-react'
 import StandardTable from 'src/components/custom/table/StandardTable'
 import * as actions from '../../config/redux/Dashboard/actions'
-import ModalCreateWarehouse from 'src/components/dashboard/ModalCreateWarehouse'
-import ModalOpenMap from 'src/components/dashboard/ModalOpenMap'
+import ModalCreateProjectMember from 'src/components/dashboard/ModalCreateProjectMember'
 
-
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faLocationDot } from '@fortawesome/free-solid-svg-icons'
-
-function Warehouse() {
+function ProjectMember() {
     const { dispatch, Global, Dashboard } = useRedux()
     const [modalCreate, setModalCreate] = useState(false)
-    const [modalMap, setModalMap] = useState(false)
     const [projectId, setProjectId] = useState()
-    const [warehouseSelected, setWhSelected] = useState({})
-    const [mapKey, setMapKey] = useState(Date.now())
 
-    const mapCenter = [-6.188316027806538, 106.87392816931737];
-    
     useEffect(() => {
         if (Global?.user?.token) {
             const id = window.location.href.split("/").pop();
             setProjectId(id)
-            dispatch(actions.getListWarehouse(id))
+            dispatch(actions.getListProjectMember(id))
         }
     }, [Global?.user]);
 
     const head = [
         "No",
-        "Warehouse Name",
-        "Warehouse Code",
-        "Main CWH",
-        "Warehouse Type",
-        "Warehouse Space",
-        "Address",
-        "Map",
-        "Active Status",
-        "Action"
+        "Service Charge",
+        "Service Charge Code",
+        "Charge Fee",
+        "Currency",
+        "Last Modified By",
+        "Last Modified Date",
+        "Active Status"
     ]
 
     const handleCreate = () => {
@@ -57,23 +45,12 @@ function Warehouse() {
 
     const handleToogle = useCallback(
         (val, id) => {
-            let data = Dashboard.listWarehouse[id]
-            let whId = data.detail.whId
-            let projectId = data.detail.projectId
+            let data = Dashboard.listProjectMember[id]
+            let projectMemberId = data.detail.projectMemberId
 
-            dispatch(actions.setStatusActiveWarehouse(val, whId, projectId))
+            dispatch(actions.setStatusActiveProjectMember(val, projectMemberId,projectId))
 
-        }, [Dashboard.listWarehouse]
-    )
-
-    const handleComponent = useCallback(
-        (val, id) => {
-            let temp = Dashboard?.listWarehouse[id]
-
-            setWhSelected(temp)
-            setModalMap(true)
-            setMapKey(Date.now())
-        }
+        }, [Dashboard.listProjectMember]
     )
 
     return (
@@ -83,7 +60,7 @@ function Warehouse() {
                     <CRow>
                         <CCol sm={5}>
                             <h4 className="card-title mb-0">
-                                Warehouse List
+                                Project Service Charge List
                             </h4>
                         </CCol>
                     </CRow>
@@ -103,25 +80,18 @@ function Warehouse() {
                         <CCol className="d-none d-md-block text-end">
                             <StandardTable
                                 head={head}
-                                data={Dashboard?.listWarehouse}
+                                data={Dashboard?.listProjectMember}
                                 isToogle="status"
                                 handleToogle={handleToogle}
                                 hide={["detail"]}
-                                isComponent="map"
-                                component={{
-                                    type: "icon",
-                                    label: <FontAwesomeIcon icon={faLocationDot} className='textBlue'/>
-                                }}
-                                handleComponent={handleComponent}
                             />
                         </CCol>
                     </CRow>
                 </CCardBody>
             </CCard>
-            <ModalCreateWarehouse open={modalCreate} setOpen={setModalCreate} projectId={projectId} />
-            <ModalOpenMap open={modalMap} setOpen={setModalMap} data={warehouseSelected} key={mapKey}/>
+            <ModalCreateProjectMember open={modalCreate} setOpen={setModalCreate} projectId={projectId} />
         </>
     )
 }
 
-export default Warehouse
+export default ProjectMember

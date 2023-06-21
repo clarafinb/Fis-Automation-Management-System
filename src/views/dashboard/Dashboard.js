@@ -81,6 +81,8 @@ const Dashboard = () => {
       nav("/dashboard/project-service-charge/" + id)
     }else if(type === 'sku'){
       nav("/dashboard/sku/" + id)
+    }else if(type === 'projectMember'){
+      nav("/dashboard/project-member/" + id)
     }
   }
 

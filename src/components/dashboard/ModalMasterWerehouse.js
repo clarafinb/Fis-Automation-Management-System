@@ -16,7 +16,8 @@ import {
 import {
     cilHouse,
     cilNewspaper,
-    cilNotes
+    cilNotes,
+    cilPeople
 } from '@coreui/icons'
 import CIcon from '@coreui/icons-react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -73,6 +74,18 @@ function ModalMasterWerehouse({
                                     placement="bottom"
                                 >
                                     <CIcon icon={cilNotes} className="text-default" size="3xl" onClick={() => { handleViewModal("sku",data.projectId) }} />
+                                </CTooltip>
+                            </CCardBody>
+                        </CCard>
+                    </CCol>
+                    <CCol sm={3}>
+                        <CCard className='text-center border-default border-top-default border-bottom-5'>
+                            <CCardBody>
+                                <CTooltip
+                                    content="Project Member"
+                                    placement="bottom"
+                                >
+                                    <CIcon icon={cilPeople} className="text-default" size="3xl" onClick={() => { handleViewModal("projectMember",data.projectId) }} />
                                 </CTooltip>
                             </CCardBody>
                         </CCard>
