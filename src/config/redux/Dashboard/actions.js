@@ -747,10 +747,10 @@ export const getSelectWarehouseProvince = (payload) => {
   }
 }
 
-export const createWarehouse = (payload) => {
+export const createWarehouse = (payload, methode) => {
   return async (dispatch) => {
     try {
-      let create = await actionCrud.actionCommonCrud(payload, API_ADD_WAREHOUSE, "POST");
+      let create = await actionCrud.actionCommonCrud(payload, API_ADD_WAREHOUSE, methode);
       if (create.status === "success") {
         Swal.fire({
           position: "center",

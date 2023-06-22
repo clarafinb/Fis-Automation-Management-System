@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect} from 'react'
 import { useRedux } from 'src/utils/hooks'
 import {
     CFormInput,
@@ -9,7 +9,7 @@ import {
 import * as actions from '../../../config/redux/Global/actions'
 import MapComponent from './PointingMapLeaflef'
 
-const GeocodingForm = ({handleSetLongLat}) => {
+const GeocodingForm = ({handleSetLongLat, isEdit, data, key}) => {
   const { dispatch, Global } = useRedux()
   const [address, setAddress] = useState('')
   const [longLat, setLongLat] = useState()
@@ -17,6 +17,13 @@ const GeocodingForm = ({handleSetLongLat}) => {
   const handleAddressChange = (event) => {
     setAddress(event.target.value);
   }
+
+  useEffect(() => {
+    if (isEdit) {
+      let longLat = [data?.detail?.latitude, data?.detail?.longitude]
+      setLongLat(longLat)
+    }
+}, [isEdit]);
 
   const handleGeocode = async () => {
 
@@ -43,7 +50,12 @@ const GeocodingForm = ({handleSetLongLat}) => {
         </CButton>
       </CInputGroup>
       <div>
-        {longLat?.length > 0 && <MapComponent latlong={longLat} handleMapClick={handleMapClick} />}
+        {(longLat?.length > 0 || key) && 
+          <MapComponent 
+            latlong={longLat ? longLat : [data?.detail?.latitude, data?.detail?.longitude]} 
+            handleMapClick={handleMapClick} 
+          />
+        }
       </div>
     </div>
   );
