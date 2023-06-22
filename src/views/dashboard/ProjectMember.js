@@ -30,12 +30,11 @@ function ProjectMember() {
 
     const head = [
         "No",
-        "Service Charge",
-        "Service Charge Code",
-        "Charge Fee",
-        "Currency",
-        "Last Modified By",
-        "Last Modified Date",
+        "Fullname",
+        "Role",
+        "Email",
+        "Phone No",
+        "User Status",
         "Active Status"
     ]
 
@@ -60,7 +59,7 @@ function ProjectMember() {
                     <CRow>
                         <CCol sm={5}>
                             <h4 className="card-title mb-0">
-                                Project Service Charge List
+                                Project User Membership
                             </h4>
                         </CCol>
                     </CRow>

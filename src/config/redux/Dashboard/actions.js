@@ -54,7 +54,9 @@ import {
   API_SET_PROJECT_MEMBER_INACTIVE,
   API_SET_PROJECT_MEMBER_ACTIVE,
   API_GET_PROJECT_MEMBER_BASE_ON_PROJECT,
-  API_ADD_PROJECT_MEMBER
+  API_ADD_PROJECT_MEMBER,
+  API_GET_ROLES_WH_GROUP,
+  API_GET_USER_NOT_REGISTER_BASE_ON_ROLE_AND_PROJECT
 } from "../../api/index"
 import Swal from "sweetalert2";
 
@@ -1081,22 +1083,21 @@ export const getListProjectMember = (payload) => {
   return async (dispatch) => {
     try {
       let list = await actionCrud.actionCommonSlice(payload, API_GET_PROJECT_MEMBER_BASE_ON_PROJECT, "GET");
-      let listProjectServiceCharge = list?.map((item, idx) => {
+      let listProjectMember = list?.map((item, idx) => {
         return {
           no: idx + 1,
-          serviceCharge: item.serviceCharge,
-          serviceChargeCode: item.serviceChargeCode,
-          chargeFee: item.chargeFee,
-          currencyName: item.currencyName,
-          modifiedBy: item.modifiedBy,
-          modifiedDate: item.modifiedDate,
-          status: item.isActive,
+          name: item.Name,
+          role: item.role_name,
+          email: item.email,
+          phoneNo: item.phoneNo,
+          isActive: item.accountstatus,
+          status: item.accountstatus,
           detail: { ...item, ...{ projectId: payload } }
         }
       })
       dispatch({
-        type: actionType.SET_LIST_PROJECT_SERVICE_CHARGE,
-        payload: listProjectServiceCharge
+        type: actionType.SET_LIST_PROJECT_MEMBER,
+        payload: listProjectMember
       });
     } catch (error) {
       Swal.fire({
@@ -1154,6 +1155,58 @@ export const setStatusActiveProjectMember = (val, projectMemberId, projectId) =>
         dispatch(getListProjectServiceCharge(projectId));
       }
 
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Cool'
+      })
+    }
+  }
+}
+
+export const getSelectRoleWhGroup = (payload) => {
+  return async () => {
+    try {
+      let list = await actionCrud.actionCommonCrud(payload, API_GET_ROLES_WH_GROUP, "GET");
+      let listRole = list?.map((item, idx) => {
+        return {
+          label: item.roleName,
+          value: item.roleId
+        }
+      })
+      return Promise.resolve(['Please Select..', ...listRole])
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Cool'
+      })
+    }
+  }
+}
+
+export const getUserNotRegisteredYetBasedOnRoleAndProject = (param1, param2) => {
+  return async (dispatch) => {
+    try {
+      let list = await actionCrud.actionCommonSlice(param1, API_GET_USER_NOT_REGISTER_BASE_ON_ROLE_AND_PROJECT, "GET", param2);
+      let listUserNotRegistered = list?.map((item, idx) => {
+        return {
+          no: idx + 1,
+          fullname: item.name,
+          email: item.email,
+          phoneNo: item.phoneNo,
+          userStatus: item.accountStatus,
+          userId: item.userId,
+          detail: { ...item, ...{ projectId: param2 }, ...{ roleId: param1 } }
+        }
+      })
+      dispatch({
+        type: actionType.SET_LIST_USER_NOT_REGISTERED_PM,
+        payload: listUserNotRegistered
+      });
     } catch (error) {
       Swal.fire({
         title: 'Error!',
