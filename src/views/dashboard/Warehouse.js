@@ -18,7 +18,7 @@ import ModalOpenMap from 'src/components/dashboard/ModalOpenMap'
 
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faLocationDot } from '@fortawesome/free-solid-svg-icons'
+import { faLocationDot, faEdit } from '@fortawesome/free-solid-svg-icons'
 
 function Warehouse() {
     const { dispatch, Global, Dashboard } = useRedux()
@@ -27,8 +27,7 @@ function Warehouse() {
     const [projectId, setProjectId] = useState()
     const [warehouseSelected, setWhSelected] = useState({})
     const [mapKey, setMapKey] = useState(Date.now())
-
-    const mapCenter = [-6.188316027806538, 106.87392816931737];
+    const [isEdit, setIsEdit] = useState(false)
     
     useEffect(() => {
         if (Global?.user?.token) {
@@ -44,13 +43,16 @@ function Warehouse() {
         "Warehouse Code",
         "Main CWH",
         "Warehouse Type",
+        "Warehouse Space",
         "Address",
         "Map",
-        "Active Status"
+        "Active Status",
+        "Action"
     ]
 
     const handleCreate = () => {
-        setModalCreate(true)
+        setIsEdit(false)
+        setModalCreate(!modalCreate)
     }
 
     const handleToogle = useCallback(
@@ -65,12 +67,17 @@ function Warehouse() {
     )
 
     const handleComponent = useCallback(
-        (val, id) => {
-            let temp = Dashboard?.listWarehouse[id]
-
+        (name, val, id) => {
+            let temp = Dashboard?.listWarehouse.find(e => e.whId === val)
             setWhSelected(temp)
-            setModalMap(true)
-            setMapKey(Date.now())
+
+            if(name === "map"){
+                setModalMap(true)
+                setMapKey(Date.now())
+            }else if(name === "whId"){
+                setIsEdit(true)
+                setModalCreate(true)
+            }
         }
     )
 
@@ -105,19 +112,35 @@ function Warehouse() {
                                 isToogle="status"
                                 handleToogle={handleToogle}
                                 hide={["detail"]}
-                                isComponent="map"
-                                component={{
+                                isComponent= {true}
+                                component={[{
+                                    name: "map",
                                     type: "icon",
                                     label: <FontAwesomeIcon icon={faLocationDot} className='textBlue'/>
-                                }}
+                                },{
+                                    name: "whId",
+                                    type: "icon",
+                                    label: <FontAwesomeIcon icon={faEdit} className='textBlue'/>
+                                }]}
                                 handleComponent={handleComponent}
                             />
                         </CCol>
                     </CRow>
                 </CCardBody>
             </CCard>
-            <ModalCreateWarehouse open={modalCreate} setOpen={setModalCreate} projectId={projectId} />
-            <ModalOpenMap open={modalMap} setOpen={setModalMap} data={warehouseSelected} key={mapKey}/>
+            <ModalCreateWarehouse 
+                open={modalCreate} 
+                setOpen={setModalCreate} 
+                projectId={projectId} 
+                isEdit={isEdit} 
+                dataEdit={warehouseSelected} 
+            />
+            <ModalOpenMap 
+                open={modalMap} 
+                setOpen={setModalMap} 
+                data={warehouseSelected} 
+                key={mapKey} 
+            />
         </>
     )
 }

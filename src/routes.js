@@ -10,6 +10,7 @@ const Warehouse = React.lazy(() => import('./views/dashboard/Warehouse'))
 const ProjectServiceCharge = React.lazy(() => import('./views/dashboard/ProjectServiceCharge'))
 const Sku = React.lazy(() => import('./views/dashboard/Sku'))
 const Customer = React.lazy(() => import('./views/dashboard/Customer'))
+const ProjectMember = React.lazy(() => import('./views/dashboard/ProjectMember'))
 // const Colors = React.lazy(() => import('./views/theme/colors/Colors'))
 
 const routes = [
@@ -23,6 +24,7 @@ const routes = [
   { path: '/dashboard/setting-management/uom', name: 'UOM', element: Uom },
   { path: '/dashboard/setting-management/customer', name: 'Customer', element: Customer },
   { path: '/dashboard/project-service-charge/:id', name: 'Project Service Charge', element: ProjectServiceCharge },
+  { path: '/dashboard/project-member/:id', name: 'Project Member', element: ProjectMember },
   { path: '/dashboard/sku/:id', name: 'Project Master SKU', element: Sku },
   // { path: '/theme', name: 'Theme', element: Colors, exact: true },
   // { path: '/theme/colors', name: 'Colors', element: Colors },

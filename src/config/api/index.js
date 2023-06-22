@@ -73,4 +73,11 @@ export const API_GET_CUSTOMER_DETAIL = BASE_URL + "customer/getCustomerDetail";
 export const API_ADD_CUSTOMER = BASE_URL + "customer";
 export const API_SET_CUSTOMER_INACTIVE = BASE_URL + "customer/setStatusInActivate";
 export const API_SET_CUSTOMER_ACTIVE = BASE_URL + "customer/setStatusIsActivate";
-export const API_SET_CUSTOMER_PUBLISH = BASE_URL + "customer/setActivate"
+export const API_SET_CUSTOMER_PUBLISH = BASE_URL + "customer/setActivate";
+//PROJECT MEMBER
+export const API_GET_PROJECT_MEMBER_BASE_ON_PROJECT = BASE_URL + "userrole/ProjectUserMembershipGetAllBaseOnProject"
+export const API_GET_USER_NOT_REGISTER_BASE_ON_ROLE_AND_PROJECT = BASE_URL + "userRole/getUserNotRegisteredYetBasedOnRoleAndProject";
+export const API_ADD_PROJECT_MEMBER = BASE_URL + "userrole/projectUserMembershipAdd";
+export const API_GET_ROLES_WH_GROUP = BASE_URL + "userrole/getRolesWHGroup";
+export const API_SET_PROJECT_MEMBER_ACTIVE = BASE_URL + "";
+export const API_SET_PROJECT_MEMBER_INACTIVE = BASE_URL + "";

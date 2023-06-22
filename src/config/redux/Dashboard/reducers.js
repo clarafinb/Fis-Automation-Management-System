@@ -11,7 +11,9 @@ let initialState = {
     listWarehouse: [],
     listProjectServiceCharge: [],
     listSku: [],
-    listCustomer:[]
+    listCustomer: [],
+    listProjectMember: [],
+    listUserNotRegisteredByRolePm: []
 
 };
 
@@ -82,6 +84,20 @@ const Dashboard = (state = initialState, { type, payload }) => {
                 ...state,
                 listCustomer: payload
             }
+
+        case actionType.SET_LIST_PROJECT_MEMBER:
+            return {
+                ...state,
+                listProjectMember: payload
+            }
+
+        case actionType.SET_LIST_USER_NOT_REGISTERED_PM:
+            return {
+                ...state,
+                listUserNotRegisteredByRolePm: payload
+            }
+
+            
 
         default:
             return { ...state };
