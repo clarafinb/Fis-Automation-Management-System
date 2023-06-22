@@ -14,22 +14,21 @@ const _nav = [
     icon: <CIcon icon={cilSpeedometer} customClassName="nav-icon text-white" />,
     badge: {
       color: 'info',
-      text: 'NEW',
     },
     className: 'text-white'
   },
-  {
-    component: CNavTitle,
-    name: 'Theme',
-    className: 'textBlack'
-  },
-  {
-    component: CNavItem,
-    name: 'Colors',
-    to: '/theme/colors',
-    icon: <CIcon icon={cilDrop} customClassName="nav-icon text-white" />,
-    className: 'text-white'
-  },
+  // {
+  //   component: CNavTitle,
+  //   name: 'Theme',
+  //   className: 'textBlack'
+  // },
+  // {
+  //   component: CNavItem,
+  //   name: 'Colors',
+  //   to: '/theme/colors',
+  //   icon: <CIcon icon={cilDrop} customClassName="nav-icon text-white" />,
+  //   className: 'text-white'
+  // },
 ]
 
 export default _nav
