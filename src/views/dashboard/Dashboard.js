@@ -63,26 +63,54 @@ const Dashboard = () => {
   )
 
   const handleOpenModal = (type,id) => {
-    if(type === 'sc'){
-      nav("/dashboard/setting-management/service-charge")
-    }else if(type === 'smDelivery'){
-      nav("/dashboard/setting-management/delivery")
-    }else if(type === 'smTransport'){
-      nav("/dashboard/setting-management/transport")
-    }else if(type === 'smTransportType'){
-      nav("/dashboard/setting-management/transport-type")
-    }else if(type === 'uom'){
-      nav("/dashboard/setting-management/uom")
-    }else if(type === 'customer'){
-      nav("/dashboard/setting-management/customer")
-    }else if(type === 'warehouse'){
-      nav("/dashboard/warehouse/" + id)
-    }else if(type === 'projectSc'){
-      nav("/dashboard/project-service-charge/" + id)
-    }else if(type === 'sku'){
-      nav("/dashboard/sku/" + id)
-    }else if(type === 'projectMember'){
-      nav("/dashboard/project-member/" + id)
+
+    const navigate =[
+      {
+        type: 'sc',
+        url: '/dashboard/setting-management/service-charge'
+      },
+      {
+        type: 'smDelivery',
+        url: '/dashboard/setting-management/delivery'
+      },
+      {
+        type: 'smTransport',
+        url: '/dashboard/setting-management/transport'
+      },
+      {
+        type: 'smTransportType',
+        url: '/dashboard/setting-management/transport-type'
+      },
+      {
+        type: 'uom',
+        url: '/dashboard/setting-management/uom'
+      },
+      {
+        type: 'customer',
+        url: '/dashboard/setting-management/customer'
+      },
+      {
+        type: 'warehouse',
+        url: '/dashboard/warehouse/' + id
+      },
+      {
+        type: 'projectSc',
+        url: '/dashboard/project-service-charge/' + id
+      },
+      {
+        type: 'sku',
+        url: '/dashboard/sku/' + id
+      },
+      {
+        type: 'projectMember',
+        url: '/dashboard/project-member/' + id
+      },
+    ]
+
+    let url = navigate.find(e => e.type === type)
+
+    if(url){
+      nav(url.url)
     }
   }
 

@@ -50,12 +50,14 @@ export async function actionCommonCrud(payload, url, method = "GET", typeData = 
     }
 }
 
-export async function actionCommonSlice(payload, url, method = "GET") {
+export async function actionCommonSlice(param1, url, method = "GET", param2 = "") {
     try {
+
+          let param = param2 ? `${url}/${param1}/${param2}` : `${url}/${param1}`
 
          let objAxios = {
             method: `${method}`,
-            url: `${url}/${payload}`,
+            url: `${param}`,
          }
 
          let { data } = await axios(objAxios);

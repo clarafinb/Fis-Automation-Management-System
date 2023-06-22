@@ -17,9 +17,9 @@ function StandardTable({
     isToogle = "",
     handleToogle,
     hide = [],
-    isComponent = "",
-    handleComponent,
-    component = {}
+    isComponent = false,
+    component = {},
+    handleComponent
 }) {
 	return (
         <CTable className='text-center'> 
@@ -49,24 +49,26 @@ function StandardTable({
                                         </CTableDataCell>
                                     </>
                                 )
-                            }else if(isComponent !== "" && isComponent === innerData){
-                                if(component?.type === "button"){
+                            }else if(isComponent && component.find(e => e.name === innerData)){
+                                let comp = component.find(e => e.name === innerData)
+                                if(comp?.type === "button"){
                                     return (
-                                        <CButton 
-                                            key={idx2} 
-                                            onClick={() => {handleComponent(item[innerData],idx)}} 
-                                            color="info"
-                                        >
-                                            {component?.label ? component.label : innerData}
-                                        </CButton>
+                                        <span key={idx2}>
+                                            <CButton 
+                                                onClick={() => {handleComponent(comp?.name, item[innerData], idx)}} 
+                                                color= {comp?.color ? comp.color : "info"}
+                                            >
+                                                {comp?.label ? comp.label : innerData}
+                                            </CButton>
+                                        </span>
                                     )
-                                }else if(component?.type === "icon"){
+                                }else if(comp?.type === "icon"){
                                     return (
                                         <div
                                             key={idx2} 
-                                            onClick={() => {handleComponent(item[innerData],idx)}} 
+                                            onClick={() => {handleComponent(comp?.name, item[innerData],idx)}} 
                                         >
-                                            {component?.label}
+                                            {comp?.label}
                                         </div>
                                     )
                                 }else{
