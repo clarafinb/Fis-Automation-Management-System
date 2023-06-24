@@ -56,11 +56,36 @@ import {
   API_GET_PROJECT_MEMBER_BASE_ON_PROJECT,
   API_ADD_PROJECT_MEMBER,
   API_GET_ROLES_WH_GROUP,
-  API_GET_USER_NOT_REGISTER_BASE_ON_ROLE_AND_PROJECT
+  API_GET_USER_NOT_REGISTER_BASE_ON_ROLE_AND_PROJECT,
+  API_GET_USER_ACCOUNT_ADMIN,
+  API_UPDATE_USER_ACCOUNT,
+  API_GET_DETAIL_USER_ACCOUNT,
+  API_ADD_USER_ACCOUNT,
+  API_GET_ROLES_BY_ROLE_ID,
+  API_GET_CHECK_USER_LOGIN_EXIST,
+  API_UPDATE_USER_PASSWORD
 } from "../../api/index"
 import Swal from "sweetalert2";
 
 /****************************************** GLOBAL *******************************************/
+export const setDashboard = (payload) => {
+  return async (dispatch) => {
+    try {
+      dispatch({
+        type: actionType.SET_DASHBOARD,
+        payload: payload
+      });
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Cool'
+      })
+    }
+  }
+}
+
 export const getListProject = (payload) => {
   return async (dispatch) => {
     try {
@@ -651,11 +676,11 @@ export const getListWarehouse = (payload) => {
           whCode: item.whCode,
           isMainWH: item.isMainWH,
           whType: item.whType,
-          whSpace:item.whSpace,
+          whSpace: item.whSpace,
           whAddress: item.whAddress,
           map: item.longitude + ',' + item.latitude,
           status: item.isActive,
-          whId:item.whId,
+          whId: item.whId,
           detail: { ...item, ...{ projectId: payload } }
         }
       })
@@ -1091,7 +1116,7 @@ export const getListProjectMember = (payload) => {
           email: item.email,
           phoneNo: item.phoneNo,
           isActive: item.accountstatus,
-          status: item.accountstatus,
+          status: item.isActive,
           detail: { ...item, ...{ projectId: payload } }
         }
       })
@@ -1141,7 +1166,7 @@ export const createProjectMember = (payload) => {
   }
 }
 
-export const setStatusActiveProjectMember = (val, projectMemberId, projectId) => {
+export const setStatusActiveProjectMember = (val, projectUserId, projectId) => {
   return async (dispatch) => {
     try {
 
@@ -1150,9 +1175,9 @@ export const setStatusActiveProjectMember = (val, projectMemberId, projectId) =>
         url = API_SET_PROJECT_MEMBER_ACTIVE
       }
 
-      let response = await actionCrud.actionCommonSlice(projectMemberId, url, "PUT");
+      let response = await actionCrud.actionCommonSlice(projectUserId, url, "PUT");
       if (response.status === "success") {
-        dispatch(getListProjectServiceCharge(projectId));
+        dispatch(getListProjectMember(projectId));
       }
 
     } catch (error) {
@@ -1207,6 +1232,191 @@ export const getUserNotRegisteredYetBasedOnRoleAndProject = (param1, param2) => 
         type: actionType.SET_LIST_USER_NOT_REGISTERED_PM,
         payload: listUserNotRegistered
       });
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Cool'
+      })
+    }
+  }
+}
+
+export const getListAccountManagement = (payload) => {
+  return async (dispatch) => {
+    try {
+      let list = await actionCrud.actionCommonCrud(payload, API_GET_USER_ACCOUNT_ADMIN, "GET");
+      let listAccountManagement = list?.map((item, idx) => {
+        return {
+          no: idx + 1,
+          fullname: item.fullname,
+          roleName: item.roleName,
+          email: item.email,
+          phoneNo: item.phoneNo,
+          userTitle: item.userTitle,
+          employeeId: item.employeeId,
+          accountStatus: item.accountStatus,
+          createDate: item.createDate,
+          modifiedDate: item.modifiedDate,
+          modifiedBy: item.modifiedBy,
+          userId: item.userId,
+          detail: { ...item }
+        }
+      })
+      dispatch({
+        type: actionType.SET_LIST_ACCOUNT_MANAGEMENT,
+        payload: listAccountManagement
+      });
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Cool'
+      })
+    }
+  }
+}
+
+export const createAccountManagement = (payload) => {
+  return async (dispatch) => {
+    try {
+      let create = await actionCrud.actionCommonCrud(payload, API_ADD_USER_ACCOUNT, "POST");
+      if (create.status === "success") {
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: create?.message,
+          showConfirmButton: true
+        });
+        dispatch(getListAccountManagement());
+      } else {
+        Swal.fire({
+          title: 'Error!',
+          text: create?.message,
+          icon: 'error',
+          confirmButtonText: 'Cool'
+        })
+      }
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Cool'
+      })
+    }
+  }
+}
+
+export const updateAccountManagement = (payload) => {
+  return async (dispatch) => {
+    try {
+      let create = await actionCrud.actionCommonCrud(payload, API_UPDATE_USER_ACCOUNT, "PUT");
+      if (create.status === "success") {
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: create?.message,
+          showConfirmButton: true
+        });
+        dispatch(getListAccountManagement());
+      } else {
+        Swal.fire({
+          title: 'Error!',
+          text: create?.message,
+          icon: 'error',
+          confirmButtonText: 'Cool'
+        })
+      }
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Cool'
+      })
+    }
+  }
+}
+
+export const getSelectRolesByRoleId = (roleId) => {
+  return async () => {
+    try {
+      let list = await actionCrud.actionCommonSlice(roleId, API_GET_ROLES_BY_ROLE_ID, "GET");
+      let roleList = list?.map((item, idx) => {
+        return {
+          label: item.roleName,
+          value: item.roleId
+        }
+      })
+      return Promise.resolve(roleList)
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Cool'
+      })
+    }
+  }
+}
+
+export const getUserLoginExist = (userLogin) => {
+  return async () => {
+    try {
+      let data = await actionCrud.actionCommonSlice(userLogin, API_GET_CHECK_USER_LOGIN_EXIST, "GET");
+      return Promise.resolve(data)
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Cool'
+      })
+    }
+  }
+}
+
+export const getDetailProfile = (userId) => {
+  return async () => {
+    try {
+      const [data] = await actionCrud.actionCommonSlice(userId, API_GET_DETAIL_USER_ACCOUNT, "GET");
+      
+      console.log(data)
+      
+      return Promise.resolve(data)
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Cool'
+      })
+    }
+  }
+}
+export const updateUserPassword = (payload) => {
+  return async (dispatch) => {
+    try {
+      let create = await actionCrud.actionCommonCrud(payload, API_UPDATE_USER_PASSWORD, "PUT");
+      if (create.status === "success") {
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: create?.message,
+          showConfirmButton: true
+        });
+        dispatch(getListAccountManagement());
+      } else {
+        Swal.fire({
+          title: 'Error!',
+          text: create?.message,
+          icon: 'error',
+          confirmButtonText: 'Cool'
+        })
+      }
     } catch (error) {
       Swal.fire({
         title: 'Error!',

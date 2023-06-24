@@ -1,17 +1,17 @@
-import React  from 'react'
+import React from 'react'
 
 import {
-  CButton,
-  CModal,
-  CModalHeader,
-  CModalTitle,
-  CModalBody,
-  CModalFooter,
-  CRow,
-  CCol,
-  CCard,
-  CCardBody,
-  CTooltip 
+    CButton,
+    CModal,
+    CModalHeader,
+    CModalTitle,
+    CModalBody,
+    CModalFooter,
+    CRow,
+    CCol,
+    CCard,
+    CCardBody,
+    CTooltip
 } from '@coreui/react'
 import {
     cilDescription,
@@ -19,17 +19,18 @@ import {
     cilGarage,
     cilEqualizer,
     cilAirplaneMode,
-    cilUser
+    cilUser,
+    cilUserFollow
 } from '@coreui/icons'
 import CIcon from '@coreui/icons-react';
 
-function ModalSettingManagement({ 
-    open, 
-    setOpen, 
+function ModalSettingManagement({
+    open,
+    setOpen,
     handleViewModal
 }) {
 
-	return (
+    return (
         <CModal
             // size="lg"
             visible={open}
@@ -45,14 +46,15 @@ function ModalSettingManagement({
                         <CCard className='text-center border-default border-top-default border-bottom-5'>
                             <CCardBody>
                                 <CTooltip
-                                    content="Service Charge List"
+                                    content="Account Management"
                                     placement="bottom"
                                 >
-                                    <CIcon icon={cilDescription} className="text-default" size="3xl" onClick={() => {handleViewModal("sc")}}/>
+                                    <CIcon icon={cilUserFollow} className="text-default" size="3xl" onClick={() => { handleViewModal("accountManagement") }} />
                                 </CTooltip>
                             </CCardBody>
                         </CCard>
                     </CCol>
+
                     <CCol sm={3}>
                         <CCard className='text-center border-default border-top-default border-bottom-5'>
                             <CCardBody>
@@ -60,7 +62,7 @@ function ModalSettingManagement({
                                     content="Delivery Mode"
                                     placement="bottom"
                                 >
-                                    <CIcon icon={cilTruck} className="text-default" size="3xl" onClick={() => {handleViewModal("smDelivery")}}/>
+                                    <CIcon icon={cilTruck} className="text-default" size="3xl" onClick={() => { handleViewModal("smDelivery") }} />
                                 </CTooltip>
                             </CCardBody>
                         </CCard>
@@ -72,7 +74,7 @@ function ModalSettingManagement({
                                     content="Transport Mode"
                                     placement="bottom"
                                 >
-                                    <CIcon icon={cilGarage} className="text-default" size="3xl" onClick={() => {handleViewModal("smTransport")}}/>
+                                    <CIcon icon={cilGarage} className="text-default" size="3xl" onClick={() => { handleViewModal("smTransport") }} />
                                 </CTooltip>
                             </CCardBody>
                         </CCard>
@@ -84,7 +86,7 @@ function ModalSettingManagement({
                                     content="Transport Type"
                                     placement="bottom"
                                 >
-                                    <CIcon icon={cilAirplaneMode} className="text-default" size="3xl" onClick={() => {handleViewModal("smTransportType")}}/>
+                                    <CIcon icon={cilAirplaneMode} className="text-default" size="3xl" onClick={() => { handleViewModal("smTransportType") }} />
                                 </CTooltip>
                             </CCardBody>
                         </CCard>
@@ -99,7 +101,7 @@ function ModalSettingManagement({
                                     content="Unit of Measurement"
                                     placement="bottom"
                                 >
-                                    <CIcon icon={cilEqualizer} className="text-default" size="3xl" onClick={() => {handleViewModal("uom")}}/>
+                                    <CIcon icon={cilEqualizer} className="text-default" size="3xl" onClick={() => { handleViewModal("uom") }} />
                                 </CTooltip>
                             </CCardBody>
                         </CCard>
@@ -111,7 +113,19 @@ function ModalSettingManagement({
                                     content="Customer"
                                     placement="bottom"
                                 >
-                                    <CIcon icon={cilUser} className="text-default" size="3xl" onClick={() => {handleViewModal("customer")}}/>
+                                    <CIcon icon={cilUser} className="text-default" size="3xl" onClick={() => { handleViewModal("customer") }} />
+                                </CTooltip>
+                            </CCardBody>
+                        </CCard>
+                    </CCol>
+                    <CCol sm={3}>
+                        <CCard className='text-center border-default border-top-default border-bottom-5'>
+                            <CCardBody>
+                                <CTooltip
+                                    content="Service Charge List"
+                                    placement="bottom"
+                                >
+                                    <CIcon icon={cilDescription} className="text-default" size="3xl" onClick={() => { handleViewModal("sc") }} />
                                 </CTooltip>
                             </CCardBody>
                         </CCard>
@@ -121,7 +135,7 @@ function ModalSettingManagement({
             <CModalFooter>
                 <CButton onClick={() => setOpen(false)} color="secondary">Close</CButton>
             </CModalFooter>
-      </CModal>
+        </CModal>
     )
 }
 

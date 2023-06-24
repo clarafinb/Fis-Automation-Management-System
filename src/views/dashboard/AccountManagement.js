@@ -7,58 +7,65 @@ import {
     CCol,
     CRow
 } from '@coreui/react'
+import CIcon from '@coreui/icons-react'
 import {
     cilMedicalCross,
 } from '@coreui/icons'
-import CIcon from '@coreui/icons-react'
 import StandardTable from 'src/components/custom/table/StandardTable'
 import * as actions from '../../config/redux/Dashboard/actions'
-import ModalCreateProjectMember from 'src/components/dashboard/ModalCreateProjectMember'
+import ModalCreateAccountManagement from 'src/components/dashboard/ModalCreateAccountManagement'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faEdit } from '@fortawesome/free-solid-svg-icons'
 
-function ProjectMember() {
+function AccountManagementList() {
     const { dispatch, Global, Dashboard } = useRedux()
     const [modalCreate, setModalCreate] = useState(false)
-    const [projectId, setProjectId] = useState()
+    const [isEdit, setIsEdit] = useState(false)
+    const [userSelected, setUserSelected] = useState({})
 
     useEffect(() => {
         if (Global?.user?.token) {
-            const id = window.location.href.split("/").pop();
-            setProjectId(id)
-            dispatch(actions.getListProjectMember(id))
+            dispatch(actions.getListAccountManagement())
         }
     }, [Global?.user]);
 
     const head = [
         "No",
-        "Fullname",
+        "Full Name",
         "Role",
         "Email",
         "Phone No",
-        "User Status",
-        "Active Status"
+        "User Title",
+        "Employee ID",
+        "Account Status",
+        "Create Date",
+        "Modified Date",
+        "Modified By",
+        "Action"
     ]
 
     const handleCreate = () => {
         setModalCreate(true)
+        setIsEdit(false)
     }
 
-    const handleToogle = useCallback(
-        (val, id) => {
-            let data = Dashboard.listProjectMember[id]
-            let projectUserId = data.detail.projectUserId
-            dispatch(actions.setStatusActiveProjectMember(val, projectUserId,projectId))
-
-        }, [Dashboard.listProjectMember]
+    const handleComponent = useCallback(
+        (name, val) => {
+            let temp = Dashboard?.listAccountManagement.find(e => e.userId === val)
+            setUserSelected(temp)
+            setIsEdit(true)
+            setModalCreate(true)
+        }
     )
 
     return (
         <>
-            <CCard className="">
+            <CCard>
                 <CCardBody>
                     <CRow>
                         <CCol sm={5}>
                             <h4 className="card-title mb-0">
-                                Project User Membership
+                                User Account
                             </h4>
                         </CCol>
                     </CRow>
@@ -78,18 +85,29 @@ function ProjectMember() {
                         <CCol className="d-none d-md-block text-end">
                             <StandardTable
                                 head={head}
-                                data={Dashboard?.listProjectMember}
+                                data={Dashboard?.listAccountManagement}
                                 isToogle="status"
-                                handleToogle={handleToogle}
                                 hide={["detail"]}
+                                isComponent={true}
+                                component={[{
+                                    name: "userId",
+                                    type: "icon",
+                                    label: <FontAwesomeIcon icon={faEdit} className='textBlue' />
+                                }]}
+                                handleComponent={handleComponent}
                             />
                         </CCol>
                     </CRow>
                 </CCardBody>
             </CCard>
-            <ModalCreateProjectMember open={modalCreate} setOpen={setModalCreate} projectId={projectId} />
+            <ModalCreateAccountManagement
+                open={modalCreate}
+                setOpen={setModalCreate}
+                dataEdit={userSelected}
+                isEdit={isEdit}
+            />
         </>
     )
 }
 
-export default ProjectMember
+export default AccountManagementList

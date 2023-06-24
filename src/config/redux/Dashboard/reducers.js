@@ -13,12 +13,18 @@ let initialState = {
     listSku: [],
     listCustomer: [],
     listProjectMember: [],
-    listUserNotRegisteredByRolePm: []
-
+    listUserNotRegisteredByRolePm: [],
+    listAccountManagement:[]
 };
 
 const Dashboard = (state = initialState, { type, payload }) => {
     switch (type) {
+        case actionType.SET_DASHBOARD:
+            return {
+                ...state,
+                ...payload
+            };
+
         case actionType.SET_LIST_PROJECT:
             return {
                 ...state,
@@ -95,6 +101,11 @@ const Dashboard = (state = initialState, { type, payload }) => {
             return {
                 ...state,
                 listUserNotRegisteredByRolePm: payload
+            }
+        case actionType.SET_LIST_ACCOUNT_MANAGEMENT:
+            return {
+                ...state,
+                listAccountManagement:payload
             }
 
             

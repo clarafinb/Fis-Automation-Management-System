@@ -10,21 +10,21 @@ import {
   CRow,
   CCardTitle,
   CCardText,
-  CCardFooter,
+  CFormInput,
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
 import {
   cilPlus,
   cilSettings,
   cilSend,
-  cilApplications
+  cilApplications,
+  cilUserFollow
 } from '@coreui/icons'
 import ToggleSwitch from 'src/components/custom/toggle/ToggleSwitch'
 import ModalCreateProject from 'src/components/dashboard/ModalCreateProject'
 import ModalMasterWerehouse from 'src/components/dashboard/ModalMasterWerehouse'
 import ModalSettingManagement from 'src/components/dashboard/ModalSettingManagement'
 import * as actions from '../../config/redux/Dashboard/actions'
-
 
 const Dashboard = () => {
   const { dispatch, Global, Dashboard } = useRedux()
@@ -35,6 +35,26 @@ const Dashboard = () => {
   const [masterWerehouse, setMasterWerehouse] = useState({})
   const [modalMasterWerehouse, setModalMasterWerehouse] = useState(false)
   const [modalSetManagement, setModalSetManagement] = useState(false)
+  const [searchProject, setSearchProject] = useState("")
+  const [filteredListProject, setFilteredProject] = useState([])
+
+  /*
+  const manipulateData = (cb) => {
+    try{
+      const prev = { ...Dashboard }
+      const newData = cb(prev)
+
+      dispatch(
+        actions.setDashboard({
+            ...prev,
+            ...newData
+        })
+      )
+    }catch (error){
+      console.log(error)
+    }
+  }
+  */
 
   const handleModalCreate = () => {
     setModalCreate(true)
@@ -62,9 +82,19 @@ const Dashboard = () => {
     }, [dispatch]
   )
 
-  const handleOpenModal = (type,id) => {
+  const handleOnchange = (e) => {
+    const { value } = e.target;
+    if(value !== searchProject){
+      setFilteredProject(Dashboard?.listProject)
 
-    const navigate =[
+      if(value?.length > 2){
+        setSearchProject(value.toLowerCase())
+      }
+    }
+  }
+  const handleOpenModal = (type, id) => {
+
+    const navigate = [
       {
         type: 'sc',
         url: '/dashboard/setting-management/service-charge'
@@ -105,11 +135,15 @@ const Dashboard = () => {
         type: 'projectMember',
         url: '/dashboard/project-member/' + id
       },
+      {
+        type:'accountManagement',
+        url:'/dashboard/setting-management/account-management'
+      }
     ]
 
     let url = navigate.find(e => e.type === type)
 
-    if(url){
+    if (url) {
       nav(url.url)
     }
   }
@@ -125,6 +159,22 @@ const Dashboard = () => {
       nav("/login")
     }
   }, []);
+
+  useEffect(() => {
+    if (searchProject) {
+      let temp = Dashboard?.listProject.filter(row => row.projectName.toLowerCase().includes(searchProject))
+      
+      setFilteredProject(temp)
+      /*
+        manipulateData((prev) => {
+          prev.listProject = temp
+          return prev
+        })
+      */
+    }else{
+      setFilteredProject(Dashboard?.listProject)
+    }
+  }, [searchProject,Dashboard?.listProject]);
 
   return (
     <>
@@ -142,6 +192,13 @@ const Dashboard = () => {
           </CRow>
           <br />
           <CRow>
+            <CCol>
+              <CRow>
+                <CCol sm={6}>
+                  <CFormInput type="text" name="search" placeholder="Project Name" onChange={handleOnchange} />
+                </CCol>
+              </CRow>
+            </CCol>
             <CCol className="d-none d-md-block">
               <CButton className="float-end colorBtn-yellow" onClick={handleModalCreate}>
                 <CIcon icon={cilPlus} className="me-2" />
@@ -151,7 +208,7 @@ const Dashboard = () => {
           </CRow>
           <br />
           <CRow>
-            {Dashboard?.listProject.map((val, index) => (
+            {filteredListProject?.map((val, index) => (
               <CCol sm={3} key={index}>
                 <CCard
                   textColor="white"
