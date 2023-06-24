@@ -79,5 +79,13 @@ export const API_GET_PROJECT_MEMBER_BASE_ON_PROJECT = BASE_URL + "userrole/Proje
 export const API_GET_USER_NOT_REGISTER_BASE_ON_ROLE_AND_PROJECT = BASE_URL + "userRole/getUserNotRegisteredYetBasedOnRoleAndProject";
 export const API_ADD_PROJECT_MEMBER = BASE_URL + "userrole/projectUserMembershipAdd";
 export const API_GET_ROLES_WH_GROUP = BASE_URL + "userrole/getRolesWHGroup";
-export const API_SET_PROJECT_MEMBER_ACTIVE = BASE_URL + "";
-export const API_SET_PROJECT_MEMBER_INACTIVE = BASE_URL + "";
+export const API_SET_PROJECT_MEMBER_ACTIVE = BASE_URL + "userrole/projectUserMembershipSetStatusIsActive";
+export const API_SET_PROJECT_MEMBER_INACTIVE = BASE_URL + "userrole/projectUserMembershipSetStatusIsInActive";
+//USER ACCOUNT
+export const API_GET_USER_ACCOUNT_ADMIN = BASE_URL + "userrole/userAccountGetAllAdminOnly";
+export const API_UPDATE_USER_ACCOUNT = BASE_URL + "userrole/userAccountUpdate";
+export const API_GET_DETAIL_USER_ACCOUNT = BASE_URL + "userrole/userAccountGetDetail";
+export const API_ADD_USER_ACCOUNT = BASE_URL + "userrole/userAccountAdd";
+export const API_GET_ROLES_BY_ROLE_ID = BASE_URL + "userrole/getRolesAddAccount";
+export const API_GET_CHECK_USER_LOGIN_EXIST = BASE_URL + "userrole/userLoginCheckIsExist";
+export const API_UPDATE_USER_PASSWORD = BASE_URL + "";

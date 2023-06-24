@@ -1,6 +1,6 @@
 import React from 'react'
 import { useRedux } from '../../utils/hooks'
-import { useNavigate} from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { useCookies } from 'react-cookie'
 import {
   CAvatar,
@@ -26,7 +26,7 @@ const AppHeaderDropdown = () => {
   const nav = useNavigate();
 
   const handleLogOut = (event) => {
-    
+
     dispatch(actions.actionResetUser());
     removeCookie('user');
 
@@ -37,6 +37,10 @@ const AppHeaderDropdown = () => {
 
   }
 
+  const handleDetailProfile = () => {
+    nav("/profile");
+  }
+
   return (
     <CDropdown variant="nav-item">
       <CDropdownToggle placement="bottom-end" className="py-0" caret={false}>
@@ -44,7 +48,7 @@ const AppHeaderDropdown = () => {
       </CDropdownToggle>
       <CDropdownMenu className="pt-0" placement="bottom-end">
         <CDropdownHeader className="bg-light fw-semibold py-2">{Global?.user?.fullname}</CDropdownHeader>
-        <CDropdownItem href="#">
+        <CDropdownItem onClick={handleDetailProfile}>
           <CIcon icon={cilUser} className="me-2" />
           Profile
         </CDropdownItem>
