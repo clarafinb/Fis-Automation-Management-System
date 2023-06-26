@@ -18,6 +18,10 @@ import Swal from "sweetalert2";
 function ModalChangePasswordAccount({ open, setOpen, userId }) {
     const [values, setValues] = useState({})
     const { dispatch, Global } = useRedux()
+
+    useEffect(() => {
+        setValues({})
+    }, [open]);
     
     const handleChangePassword = () => {
         if (values?.newPassword != values?.newPasswordRetype) {
