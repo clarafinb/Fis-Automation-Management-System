@@ -35,6 +35,12 @@ function ServiceChargeList() {
         "Active Status"
     ]
 
+    const searchFilter = {
+        "Service Charge" : "serviceCharge", 
+        "Service Charge Code" : "serviceChargeCode",
+        "UOM" : "uom"
+    }
+
     const handleCreate = () => {
         setModalCreate(true)
     }
@@ -79,6 +85,7 @@ function ServiceChargeList() {
                                 isToogle="status" 
                                 handleToogle={handleToogle}
                                 hide={["detail"]}
+                                searchFilter={searchFilter}
                             />
                         </CCol>
                     </CRow> 

@@ -679,7 +679,7 @@ export const getListWarehouse = (payload) => {
           whType: item.whType,
           whSpace: item.whSpace,
           whAddress: item.whAddress,
-          map: item.longitude + ',' + item.latitude,
+          map: item.whId,
           status: item.isActive,
           whId: item.whId,
           detail: { ...item, ...{ projectId: payload } }

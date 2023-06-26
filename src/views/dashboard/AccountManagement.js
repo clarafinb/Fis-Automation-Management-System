@@ -44,6 +44,15 @@ function AccountManagementList() {
         "Action"
     ]
 
+    const searchFilter = {
+        "Full Name" : "fullname",
+        "Role" : "roleName",
+        "Email" : "email",
+        "Phone No" : "phoneNo",
+        "User Title" : "userTitle",
+        "Employee ID" : "employeeId"
+    }
+
     const handleCreate = () => {
         setModalCreate(true)
         setIsEdit(false)
@@ -95,6 +104,7 @@ function AccountManagementList() {
                                     label: <FontAwesomeIcon icon={faEdit} className='textBlue' />
                                 }]}
                                 handleComponent={handleComponent}
+                                searchFilter={searchFilter}
                             />
                         </CCol>
                     </CRow>

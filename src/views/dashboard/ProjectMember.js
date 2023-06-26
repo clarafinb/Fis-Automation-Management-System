@@ -38,6 +38,13 @@ function ProjectMember() {
         "Active Status"
     ]
 
+    const searchFilter = {
+        "Fullname" : "name",
+        "Role" : "role",
+        "Email" : "email",
+        "Phone No" : "phoneNo"
+    }
+
     const handleCreate = () => {
         setModalCreate(true)
     }
@@ -82,6 +89,7 @@ function ProjectMember() {
                                 isToogle="status"
                                 handleToogle={handleToogle}
                                 hide={["detail"]}
+                                searchFilter={searchFilter}
                             />
                         </CCol>
                     </CRow>

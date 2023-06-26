@@ -39,6 +39,13 @@ function ProjectServiceCharge() {
         "Active Status"
     ]
 
+    const searchFilter = {
+        "Service Charge" : "serviceCharge",
+        "Service Charge Code" : "serviceChargeCode",
+        "Charge Fee" : "chargeFee",
+        "Currency" : "currencyName"
+    }
+
     const handleCreate = () => {
         setModalCreate(true)
     }
@@ -84,6 +91,7 @@ function ProjectServiceCharge() {
                                 isToogle="status"
                                 handleToogle={handleToogle}
                                 hide={["detail"]}
+                                searchFilter={searchFilter}
                             />
                         </CCol>
                     </CRow>

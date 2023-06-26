@@ -38,6 +38,12 @@ function Sku() {
         "Active Status"
     ]
 
+    const searchFilter = {
+        "Material Code" : "materialCode",
+        "Material Desc" : "materialDesc",
+        "UOM" : "uom",
+    }
+
     const handleCreate = () => {
         setModalCreate(true)
     }
@@ -83,6 +89,7 @@ function Sku() {
                                 isToogle="status"
                                 handleToogle={handleToogle}
                                 hide={["detail"]}
+                                searchFilter={searchFilter}
                             />
                         </CCol>
                     </CRow>

@@ -33,6 +33,12 @@ function Uom() {
         "Active Status",
     ]
 
+    const searchFilter = {
+        "UOM" : "uom", 
+        "Last Modified By" : "modifiedBy"
+    }
+
+
     const handleCreate = () => {
          setModalCreate(true)
     }
@@ -76,6 +82,7 @@ function Uom() {
                                 isToogle="status" 
                                 handleToogle={handleToogle}
                                 hide={["detail"]}
+                                searchFilter={searchFilter}
                             />
                         </CCol>
                     </CRow> 

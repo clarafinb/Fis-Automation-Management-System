@@ -28,6 +28,11 @@ function DeliveryMode() {
         "Active Status"
     ]
 
+    const searchFilter = {
+        "Delivery Mode" : "deliveryMode", 
+        "Delivery Code" : "deliveryCode"
+    }
+
     const handleToogle = useCallback( 
         (val,id) => {
             let data = Dashboard.listDeliveryMode[id]
@@ -58,6 +63,7 @@ function DeliveryMode() {
                                 isToogle="status" 
                                 handleToogle={handleToogle}
                                 hide={["detail"]}
+                                searchFilter={searchFilter}
                             />
                         </CCol>
                     </CRow> 

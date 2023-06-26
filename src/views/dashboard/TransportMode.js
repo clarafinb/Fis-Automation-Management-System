@@ -28,6 +28,11 @@ function TransportMode() {
         "Active Status"
     ]
 
+    const searchFilter = {
+        "Transport Mode" : "transportMode", 
+        "Transport Alias" : "transportModeAlias",  
+    }
+
     const handleToogle = useCallback( 
         (val,id) => {
             let data = Dashboard.listTransportMode[id]
@@ -58,6 +63,7 @@ function TransportMode() {
                                 isToogle="status" 
                                 handleToogle={handleToogle}
                                 hide={["detail"]}
+                                searchFilter={searchFilter}
                             />
                         </CCol>
                     </CRow> 

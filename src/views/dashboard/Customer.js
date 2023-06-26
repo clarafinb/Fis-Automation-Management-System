@@ -34,6 +34,11 @@ function Customer() {
         "Active Status",
     ]
 
+    const searchFilter = {
+        "Customer Name" : "customerName",
+        "Customer Alias Name" : "customerAliasName"
+    }
+
     const handleCreate = () => {
         setModalCreate(true)
     }
@@ -77,6 +82,7 @@ function Customer() {
                                 isToogle="status"
                                 handleToogle={handleToogle}
                                 hide={["detail"]}
+                                searchFilter={searchFilter}
                             />
                         </CCol>
                     </CRow>

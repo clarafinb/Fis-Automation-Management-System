@@ -18,13 +18,13 @@ import {
   cilSettings,
   cilSend,
   cilApplications,
-  cilUserFollow
 } from '@coreui/icons'
 import ToggleSwitch from 'src/components/custom/toggle/ToggleSwitch'
 import ModalCreateProject from 'src/components/dashboard/ModalCreateProject'
 import ModalMasterWerehouse from 'src/components/dashboard/ModalMasterWerehouse'
 import ModalSettingManagement from 'src/components/dashboard/ModalSettingManagement'
 import * as actions from '../../config/redux/Dashboard/actions'
+import debounce from "lodash.debounce"
 
 const Dashboard = () => {
   const { dispatch, Global, Dashboard } = useRedux()
@@ -82,16 +82,18 @@ const Dashboard = () => {
     }, [dispatch]
   )
 
-  const handleOnchange = (e) => {
-    const { value } = e.target;
-    if(value !== searchProject){
+  const handleOnchange = debounce(
+    (e) => {
+      const { value } = e.target;
       setFilteredProject(Dashboard?.listProject)
 
       if(value?.length > 2){
         setSearchProject(value.toLowerCase())
       }
-    }
-  }
+    },
+    searchProject ? 500 : 0
+  )
+
   const handleOpenModal = (type, id) => {
 
     const navigate = [

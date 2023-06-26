@@ -36,6 +36,12 @@ function TransportType() {
         "Active Status"
     ]
 
+    const searchFilter = {
+        "Transport Type" : "transportType", 
+        "Transport Mode" : "transportMode",  
+        "Create By" : "createName"
+    }
+
     const handleCreate = () => {
          setModalCreate(true)
     }
@@ -81,6 +87,7 @@ function TransportType() {
                                 isToogle="status" 
                                 handleToogle={handleToogle}
                                 hide={["detail"]}
+                                searchFilter={searchFilter}
                             />
                         </CCol>
                     </CRow> 

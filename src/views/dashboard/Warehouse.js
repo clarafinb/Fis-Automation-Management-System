@@ -50,6 +50,15 @@ function Warehouse() {
         "Action"
     ]
 
+    const searchFilter = {
+        "Warehouse Name": "whName",
+        "Warehouse Code": "whCode",
+        "Main CWH": "isMainWH",
+        "Warehouse Type": "whType",
+        "Warehouse Space": "whSpace",
+        "Address": "whAddress"
+    }
+
     const handleCreate = () => {
         setIsEdit(false)
         setModalCreate(!modalCreate)
@@ -68,6 +77,7 @@ function Warehouse() {
 
     const handleComponent = useCallback(
         (name, val, id) => {
+            console.log(name, val, id)
             let temp = Dashboard?.listWarehouse.find(e => e.whId === val)
             setWhSelected(temp)
 
@@ -123,6 +133,7 @@ function Warehouse() {
                                     label: <FontAwesomeIcon icon={faEdit} className='textBlue'/>
                                 }]}
                                 handleComponent={handleComponent}
+                                searchFilter={searchFilter}
                             />
                         </CCol>
                     </CRow>
