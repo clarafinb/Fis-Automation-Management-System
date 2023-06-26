@@ -11,14 +11,22 @@ import {
     CModalTitle,
     CModalBody,
     CModalFooter,
+    CCard,
+    CCardImage,
+    CCardBody,
+    CCardTitle,
+    CCardText,
 } from '@coreui/react'
 import * as actions from '../../config/redux/Dashboard/actions'
 import Swal from "sweetalert2";
+import ToggleSwitch from '../custom/toggle/ToggleSwitch';
+import { cilSend, cilSettings } from '@coreui/icons';
+import CIcon from '@coreui/icons-react';
 
-function ModalChangePasswordAccount({ open, setOpen, userId }) {
+function ModalPhoto({ open, setOpen, userId }) {
     const [values, setValues] = useState({})
     const { dispatch, Global } = useRedux()
-    
+
     const handleChangePassword = () => {
         if (values?.newPassword != values?.newPasswordRetype) {
             Swal.fire({
@@ -30,7 +38,7 @@ function ModalChangePasswordAccount({ open, setOpen, userId }) {
         } else {
             const payload = {
                 userId: userId,
-                oldPassword:values?.oldPassword,
+                oldPassword: values?.oldPassword,
                 newPassword: values?.newPassword,
                 LMBY: Global?.user?.userID,
             }
@@ -59,10 +67,49 @@ function ModalChangePasswordAccount({ open, setOpen, userId }) {
             keyboard={false}
         >
             <CModalHeader>
-                <CModalTitle>Change Password</CModalTitle>
+                <CModalTitle>Photo Profile collection</CModalTitle>
             </CModalHeader>
             <CModalBody>
-                <CRow className="mb-3">
+                <CCard style={{ width: '18rem' }}>
+                    <CCardImage orientation="top" src='/images/dummy-image.jpg' width={100} height={200} />
+                    <CCardBody>
+                        {/* <CCardTitle>Card title</CCardTitle>
+                        <CCardText>
+                            Some quick example text to build on the card title and make up the bulk of the cards content.
+                        </CCardText>
+                        <CButton href="#">Go somewhere</CButton> */}
+                        <CRow>
+                            <CCol sm={5}>
+                                <ToggleSwitch
+                                    // checked={() => val.activeStatus === "active" ? true : false}
+                                    checked={(e) => true}
+                                    size="lg"
+                                    // handleChecked={handleChecked}
+                                    id={2}
+                                />
+                            </CCol>
+                            <CCol sm={7} className="d-none d-md-block">
+                                <div className='text-end'>
+                                    <CIcon
+                                        icon={cilSettings}
+                                        className="me-2"
+                                        size="xl"
+                                    // onClick={() => handleModalMasterWerehouse(val.projectId)}
+                                    />
+                                    {/* {(val.publishStatus === "notPublished" && val.activeStatus != "inactive") && ( */}
+                                    <CIcon
+                                        icon={cilSend}
+                                        className="me-2"
+                                        size="xl"
+                                    // onClick={() => handleSend(val.projectId)}
+                                    />
+                                    {/* )} */}
+                                </div>
+                            </CCol>
+                        </CRow>
+                    </CCardBody>
+                </CCard>
+                {/* <CRow className="mb-3">
                     <CFormLabel className="col-sm-2 col-form-label">Old Password <code>(*)</code></CFormLabel>
                     <CCol sm={10}>
                         <CFormInput
@@ -94,7 +141,7 @@ function ModalChangePasswordAccount({ open, setOpen, userId }) {
                             onChange={handleOnchange}
                         />
                     </CCol>
-                </CRow>
+                </CRow> */}
             </CModalBody>
             <CModalFooter>
                 <CButton onClick={() => setOpen(false)} color="secondary">Close</CButton>
@@ -104,4 +151,4 @@ function ModalChangePasswordAccount({ open, setOpen, userId }) {
     )
 }
 
-export default ModalChangePasswordAccount;
+export default ModalPhoto;

@@ -63,7 +63,8 @@ import {
   API_ADD_USER_ACCOUNT,
   API_GET_ROLES_BY_ROLE_ID,
   API_GET_CHECK_USER_LOGIN_EXIST,
-  API_UPDATE_USER_PASSWORD
+  API_UPDATE_USER_PASSWORD,
+  API_GET_USER_ACTIVE_PHOTO
 } from "../../api/index"
 import Swal from "sweetalert2";
 
@@ -1383,9 +1384,6 @@ export const getDetailProfile = (userId) => {
   return async () => {
     try {
       const [data] = await actionCrud.actionCommonSlice(userId, API_GET_DETAIL_USER_ACCOUNT, "GET");
-      
-      console.log(data)
-      
       return Promise.resolve(data)
     } catch (error) {
       Swal.fire({
@@ -1417,6 +1415,21 @@ export const updateUserPassword = (payload) => {
           confirmButtonText: 'Cool'
         })
       }
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Cool'
+      })
+    }
+  }
+}
+export const getUserActivePhoto = (userId) => {
+  return async () => {
+    try {
+      const {photoPath} = await actionCrud.actionCommonSlice(userId, API_GET_USER_ACTIVE_PHOTO, "GET");
+      return Promise.resolve(photoPath || null)
     } catch (error) {
       Swal.fire({
         title: 'Error!',

@@ -88,4 +88,5 @@ export const API_GET_DETAIL_USER_ACCOUNT = BASE_URL + "userrole/userAccountGetDe
 export const API_ADD_USER_ACCOUNT = BASE_URL + "userrole/userAccountAdd";
 export const API_GET_ROLES_BY_ROLE_ID = BASE_URL + "userrole/getRolesAddAccount";
 export const API_GET_CHECK_USER_LOGIN_EXIST = BASE_URL + "userrole/userLoginCheckIsExist";
-export const API_UPDATE_USER_PASSWORD = BASE_URL + "";
+export const API_UPDATE_USER_PASSWORD = BASE_URL + "userrole/userAccountChangePassword";
+export const API_GET_USER_ACTIVE_PHOTO = BASE_URL + "userrole/userAccountGetActivePhotoProfile";

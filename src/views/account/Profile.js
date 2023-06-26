@@ -11,24 +11,28 @@ import {
     CFormInput,
     CButton,
     CInputGroup,
-    CCardFooter
+    CCardFooter,
+    CImage
 } from '@coreui/react'
 import * as actions from '../../config/redux/Dashboard/actions'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faSearch } from '@fortawesome/free-solid-svg-icons'
+import { faPhotoFilm, faSearch } from '@fortawesome/free-solid-svg-icons'
 import Swal from "sweetalert2";
 import Select from 'react-select'
 import ModalChangePasswordAccount from 'src/components/account/ModalChangePasswordAccount'
+import ModalPhoto from 'src/components/account/ModalPhoto'
 import { useNavigate } from 'react-router-dom'
 
 function Profile() {
     const nav = useNavigate();
     const { dispatch, Global, Dashboard } = useRedux()
     const [modalCreate, setModalCreate] = useState(false)
+    const [modalPhoto, setModalPhoto] = useState(false)
     const [values, setValues] = useState({})
     const [role, setRole] = useState([])
     const [data, setData] = useState({})
     const [selectedRole, setSelectedRole] = useState(null)
+    const [photoPath, setPhotoPath] = useState({})
 
     useEffect(() => {
         if (Global?.user?.token) {
@@ -38,6 +42,10 @@ function Profile() {
             dispatch(actions.getDetailProfile(Global?.user?.userID)).then(resp => {
                 setData(resp)
                 setSelectedRole({ label: resp.roleName, value: resp.roleId })
+            })
+            dispatch(actions.getUserActivePhoto(13)).then(resp => {
+                setPhotoPath(resp)
+                // setSelectedRole({ label: resp.roleName, value: resp.roleId })
             })
         }
     }, [Global?.user?.token]);
@@ -89,6 +97,10 @@ function Profile() {
                 })
             }
         })
+    }
+
+    const handleManagePhoto = () => {
+        setModalPhoto(true)
     }
 
     return (
@@ -191,6 +203,26 @@ function Profile() {
                                 </CInputGroup>
                             </CCol>
                         </CRow>
+                        <CRow className="mb-3">
+                            <CFormLabel className="col-sm-2 col-form-label">Photo Profile</CFormLabel>
+                            <CCol sm={10}>
+                                <CRow>
+                                    <CCol>
+                                        <CImage rounded thumbnail src={photoPath} width={200} height={200} />
+                                    </CCol>
+                                </CRow>
+                                <CRow className='py-3'>
+                                    <CCol>
+                                        <CButton type="button"
+                                            color="warning"
+                                            onClick={(e) => handleManagePhoto()}>
+                                            Manage Photo &nbsp;
+                                            <FontAwesomeIcon icon={faPhotoFilm} className='textBlue' />
+                                        </CButton>
+                                    </CCol>
+                                </CRow>
+                            </CCol>
+                        </CRow>
                     </CRow>
                 </CCardBody>
                 <CCardFooter>
@@ -208,6 +240,11 @@ function Profile() {
             < ModalChangePasswordAccount
                 open={modalCreate}
                 setOpen={setModalCreate}
+                userId={data?.userId}
+            />
+            < ModalPhoto
+                open={modalPhoto}
+                setOpen={setModalPhoto}
                 userId={data?.userId}
             />
         </>
