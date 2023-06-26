@@ -4,6 +4,7 @@ let initialState = {
     sidebarShow: true,
     sidebarUnfoldable: true,
     user: {},
+    listUserPhoto: []
 };
 
 const Global = (state = initialState, { type, payload }) => {
@@ -32,6 +33,12 @@ const Global = (state = initialState, { type, payload }) => {
             return { 
                 ...state, 
                 ...payload
+            }
+        
+        case actionType.SET_LIST_USER_PHOTO:
+            return {
+                ...state,
+                listUserPhoto: payload
             }
 
         default:

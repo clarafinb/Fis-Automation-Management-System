@@ -94,7 +94,7 @@ function StandardTable({
                                                 type="text"
                                                 name={isKey?.[1]}
                                                 onChange={(e) => handleChange(e, index)}
-                                                className="input input-bordered bg-white input-ghost h-10 focus:text-black text-black text-md font-normal transition-all duration-300 text-center px-1"
+                                                className="input form-control input-bordered bg-white input-ghost h-10 focus:text-black text-black text-md font-normal transition-all duration-300 text-center px-1"
                                                 style={{ width: `${name.length * 14}px` }}
                                                 placeholder={name}
                                                 id={`field-${index}`}

@@ -4,8 +4,6 @@ import {
     CButton,
     CCol,
     CRow,
-    CFormInput,
-    CFormLabel,
     CModal,
     CModalHeader,
     CModalTitle,
@@ -14,49 +12,51 @@ import {
     CCard,
     CCardImage,
     CCardBody,
-    CCardTitle,
-    CCardText,
+    CFormInput,
+    CInputGroup,
+    CFormLabel,
+    CForm,
 } from '@coreui/react'
-import * as actions from '../../config/redux/Dashboard/actions'
+import * as actions from '../../config/redux/Global/actions'
+import * as actionsDashboard from '../../config/redux/Dashboard/actions'
 import Swal from "sweetalert2";
 import ToggleSwitch from '../custom/toggle/ToggleSwitch';
-import { cilSend, cilSettings } from '@coreui/icons';
+import { cilTrash } from '@coreui/icons';
 import CIcon from '@coreui/icons-react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faUpload } from '@fortawesome/free-solid-svg-icons';
 
 function ModalPhoto({ open, setOpen, userId }) {
-    const [values, setValues] = useState({})
-    const { dispatch, Global } = useRedux()
+    const { dispatch, Global, Dashboard } = useRedux()
+    const [fileUpload, setFileUpload] = useState(null);
 
-    const handleChangePassword = () => {
-        if (values?.newPassword != values?.newPasswordRetype) {
-            Swal.fire({
-                title: 'Error!',
-                text: 'Password Not Match',
-                icon: 'error',
-                confirmButtonText: 'OK'
-            })
-        } else {
-            const payload = {
-                userId: userId,
-                oldPassword: values?.oldPassword,
-                newPassword: values?.newPassword,
-                LMBY: Global?.user?.userID,
-            }
-            dispatch(actions.updateUserPassword(payload))
-            setValues({})
+    useEffect(() => {
+        if (userId) {
+            dispatch(actions.getListUserPhoto(userId))
         }
+    }, [userId]);
+
+    const handleFileChange = (event) => {
+        const file = event.target.files[0];
+        setFileUpload(file);
+      };
+
+    const handleDelete = (photoId) => {
+        dispatch(actions.setStatusPhoto(photoId, userId))
     }
 
-    const handleOnchange = useCallback(
-        (e) => {
-            const { value, name } = e.target;
-            setValues((prev) => ({
-                ...prev,
-                [name]: value
-            }));
-
-        }, [setValues]
+    const handleChecked = useCallback(
+        (val, photoId) => {
+            dispatch(actions.setStatusActivePhoto(val, photoId, userId))
+        }, [dispatch]
     )
+
+    const handleUploadImage = (e) => {
+        e.preventDefault()
+        const formData = new FormData(e.target);
+        dispatch(actions.addNewPhotoUser(formData, userId))
+        setFileUpload(null)
+    }
 
     return (
         <CModal
@@ -70,82 +70,62 @@ function ModalPhoto({ open, setOpen, userId }) {
                 <CModalTitle>Photo Profile collection</CModalTitle>
             </CModalHeader>
             <CModalBody>
-                <CCard style={{ width: '18rem' }}>
-                    <CCardImage orientation="top" src='/images/dummy-image.jpg' width={100} height={200} />
-                    <CCardBody>
-                        {/* <CCardTitle>Card title</CCardTitle>
-                        <CCardText>
-                            Some quick example text to build on the card title and make up the bulk of the cards content.
-                        </CCardText>
-                        <CButton href="#">Go somewhere</CButton> */}
-                        <CRow>
-                            <CCol sm={5}>
-                                <ToggleSwitch
-                                    // checked={() => val.activeStatus === "active" ? true : false}
-                                    checked={(e) => true}
-                                    size="lg"
-                                    // handleChecked={handleChecked}
-                                    id={2}
+                <CRow className="mb-3">
+                    <CCol sm={6}>
+                        <CForm onSubmit={handleUploadImage} enctype="multipart/form-data">
+                            <CFormLabel className="col-sm-6 col-form-label">Upload New Photo</CFormLabel>
+                            <CInputGroup className="mb-3">
+                                <CFormInput
+                                    type="file"
+                                    name="fileUpload"
+                                    onChange={(e) => handleFileChange(e)}
                                 />
-                            </CCol>
-                            <CCol sm={7} className="d-none d-md-block">
-                                <div className='text-end'>
-                                    <CIcon
-                                        icon={cilSettings}
-                                        className="me-2"
-                                        size="xl"
-                                    // onClick={() => handleModalMasterWerehouse(val.projectId)}
-                                    />
-                                    {/* {(val.publishStatus === "notPublished" && val.activeStatus != "inactive") && ( */}
-                                    <CIcon
-                                        icon={cilSend}
-                                        className="me-2"
-                                        size="xl"
-                                    // onClick={() => handleSend(val.projectId)}
-                                    />
-                                    {/* )} */}
-                                </div>
-                            </CCol>
-                        </CRow>
-                    </CCardBody>
-                </CCard>
-                {/* <CRow className="mb-3">
-                    <CFormLabel className="col-sm-2 col-form-label">Old Password <code>(*)</code></CFormLabel>
-                    <CCol sm={10}>
-                        <CFormInput
-                            type="password"
-                            name="oldPassword"
-                            value={values?.oldPassword}
-                            onChange={handleOnchange}
-                        />
+                                <CButton
+                                    type="submit"
+                                    color="success"
+                                >
+                                    <FontAwesomeIcon icon={faUpload} />
+                                </CButton>
+                            </CInputGroup>
+                        </CForm>
                     </CCol>
                 </CRow>
-                <CRow className="mb-3">
-                    <CFormLabel className="col-sm-2 col-form-label">New Password <code>(*)</code></CFormLabel>
-                    <CCol sm={10}>
-                        <CFormInput
-                            type="password"
-                            name="newPassword"
-                            value={values?.newPassword}
-                            onChange={handleOnchange}
-                        />
-                    </CCol>
+                <CRow>
+                    {Global?.listUserPhoto.map((val, index) => (
+                        <CCol key={index} sm={4}>
+                            <CCard style={{ marginBottom: 1 + 'em' }}>
+                                <CCardImage orientation="top" src={val?.photoPath} width={100} height={200} />
+                                <CCardBody>
+                                    <CRow>
+                                        <CCol sm={5}>
+                                            <ToggleSwitch
+                                                checked={() => val.IsActive ? true : false}
+                                                size="lg"
+                                                handleChecked={handleChecked}
+                                                id={val.photoId}
+                                            />
+                                        </CCol>
+                                        <CCol sm={7} className="d-none d-md-block">
+                                            <div className='text-end'>
+                                                {(!val.IsActive) ?
+                                                    <CIcon
+                                                        icon={cilTrash}
+                                                        className="me-2"
+                                                        size="xl"
+                                                        onClick={() => handleDelete(val.photoId)}
+                                                    />
+                                                    : ''}
+                                            </div>
+                                        </CCol>
+                                    </CRow>
+                                </CCardBody>
+                            </CCard>
+                        </CCol>
+                    ))}
                 </CRow>
-                <CRow className="mb-3">
-                    <CFormLabel className="col-sm-2 col-form-label">Retype new Password <code>(*)</code></CFormLabel>
-                    <CCol sm={10}>
-                        <CFormInput
-                            type="password"
-                            name="newPasswordRetype"
-                            value={values?.newPasswordRetype}
-                            onChange={handleOnchange}
-                        />
-                    </CCol>
-                </CRow> */}
             </CModalBody>
             <CModalFooter>
                 <CButton onClick={() => setOpen(false)} color="secondary">Close</CButton>
-                <CButton color="primary" onClick={handleChangePassword}>Submit</CButton>
             </CModalFooter>
         </CModal>
     )

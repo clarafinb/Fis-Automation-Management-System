@@ -14,7 +14,7 @@ let initialState = {
     listCustomer: [],
     listProjectMember: [],
     listUserNotRegisteredByRolePm: [],
-    listAccountManagement:[]
+    listAccountManagement: [],
 };
 
 const Dashboard = (state = initialState, { type, payload }) => {
@@ -105,10 +105,11 @@ const Dashboard = (state = initialState, { type, payload }) => {
         case actionType.SET_LIST_ACCOUNT_MANAGEMENT:
             return {
                 ...state,
-                listAccountManagement:payload
+                listAccountManagement: payload
             }
 
-            
+        
+
 
         default:
             return { ...state };

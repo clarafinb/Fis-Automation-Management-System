@@ -57,14 +57,12 @@ import {
   API_ADD_PROJECT_MEMBER,
   API_GET_ROLES_WH_GROUP,
   API_GET_USER_NOT_REGISTER_BASE_ON_ROLE_AND_PROJECT,
-  API_GET_USER_ACCOUNT_ADMIN,
   API_UPDATE_USER_ACCOUNT,
-  API_GET_DETAIL_USER_ACCOUNT,
+  API_GET_USER_ACCOUNT_ADMIN,
   API_ADD_USER_ACCOUNT,
-  API_GET_ROLES_BY_ROLE_ID,
-  API_GET_CHECK_USER_LOGIN_EXIST,
   API_UPDATE_USER_PASSWORD,
-  API_GET_USER_ACTIVE_PHOTO
+  API_GET_ROLES_BY_ROLE_ID,
+  API_GET_CHECK_USER_LOGIN_EXIST
 } from "../../api/index"
 import Swal from "sweetalert2";
 
@@ -1280,6 +1278,37 @@ export const getListAccountManagement = (payload) => {
   }
 }
 
+export const updateUserPassword = (payload) => {
+  return async (dispatch) => {
+    try {
+      let create = await actionCrud.actionCommonCrud(payload, API_UPDATE_USER_PASSWORD, "PUT");
+      if (create.status === "success") {
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: create?.message,
+          showConfirmButton: true
+        });
+        dispatch(getListAccountManagement());
+      } else {
+        Swal.fire({
+          title: 'Error!',
+          text: create?.message,
+          icon: 'error',
+          confirmButtonText: 'Cool'
+        })
+      }
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Cool'
+      })
+    }
+  }
+}
+
 export const createAccountManagement = (payload) => {
   return async (dispatch) => {
     try {
@@ -1380,63 +1409,8 @@ export const getUserLoginExist = (userLogin) => {
   }
 }
 
-export const getDetailProfile = (userId) => {
-  return async () => {
-    try {
-      const [data] = await actionCrud.actionCommonSlice(userId, API_GET_DETAIL_USER_ACCOUNT, "GET");
-      return Promise.resolve(data)
-    } catch (error) {
-      Swal.fire({
-        title: 'Error!',
-        text: error.message,
-        icon: 'error',
-        confirmButtonText: 'Cool'
-      })
-    }
-  }
-}
-export const updateUserPassword = (payload) => {
-  return async (dispatch) => {
-    try {
-      let create = await actionCrud.actionCommonCrud(payload, API_UPDATE_USER_PASSWORD, "PUT");
-      if (create.status === "success") {
-        Swal.fire({
-          position: "center",
-          icon: "success",
-          title: create?.message,
-          showConfirmButton: true
-        });
-        dispatch(getListAccountManagement());
-      } else {
-        Swal.fire({
-          title: 'Error!',
-          text: create?.message,
-          icon: 'error',
-          confirmButtonText: 'Cool'
-        })
-      }
-    } catch (error) {
-      Swal.fire({
-        title: 'Error!',
-        text: error.message,
-        icon: 'error',
-        confirmButtonText: 'Cool'
-      })
-    }
-  }
-}
-export const getUserActivePhoto = (userId) => {
-  return async () => {
-    try {
-      const {photoPath} = await actionCrud.actionCommonSlice(userId, API_GET_USER_ACTIVE_PHOTO, "GET");
-      return Promise.resolve(photoPath || null)
-    } catch (error) {
-      Swal.fire({
-        title: 'Error!',
-        text: error.message,
-        icon: 'error',
-        confirmButtonText: 'Cool'
-      })
-    }
-  }
-}
+
+
+
+
+

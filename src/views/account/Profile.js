@@ -14,7 +14,8 @@ import {
     CCardFooter,
     CImage
 } from '@coreui/react'
-import * as actions from '../../config/redux/Dashboard/actions'
+import * as actions from '../../config/redux/Global/actions'
+import * as actionsDashboard from '../../config/redux/Dashboard/actions'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPhotoFilm, faSearch } from '@fortawesome/free-solid-svg-icons'
 import Swal from "sweetalert2";
@@ -36,19 +37,28 @@ function Profile() {
 
     useEffect(() => {
         if (Global?.user?.token) {
-            dispatch(actions.getSelectRolesByRoleId(Global?.user?.roleInf?.roleId)).then(e => {
+            dispatch(actionsDashboard.getSelectRolesByRoleId(Global?.user?.roleInf?.roleId)).then(e => {
                 setRole(e)
             })
+        
             dispatch(actions.getDetailProfile(Global?.user?.userID)).then(resp => {
                 setData(resp)
                 setSelectedRole({ label: resp.roleName, value: resp.roleId })
             })
-            dispatch(actions.getUserActivePhoto(13)).then(resp => {
-                setPhotoPath(resp)
-                // setSelectedRole({ label: resp.roleName, value: resp.roleId })
-            })
         }
     }, [Global?.user?.token]);
+
+    useEffect(() => {
+        if (Global?.user?.token) {
+            dispatch(actions.getUserActivePhoto(Global?.user?.userID)).then(resp => {
+                setPhotoPath(resp)
+                Global.user = { ...Global.user, ...{photoPath: resp}}
+                dispatch(actions.actionSetReduxUser(Global.user))
+            })
+        }
+    }, [Global?.user?.token, modalPhoto]);
+
+    console.log(Global)
 
     const handleOnChangeRole = (selectedRole) => {
         setSelectedRole(selectedRole);
@@ -71,7 +81,7 @@ function Profile() {
             LMBY: Global?.user?.userID,
             roleId: selectedRole?.value,
         }
-        dispatch(actions.updateAccountManagement(payload))
+        dispatch(actionsDashboard.updateAccountManagement(payload))
         setData({})
     }
 
@@ -87,7 +97,7 @@ function Profile() {
     )
 
     const handleCheckUserExist = (userLogin) => {
-        dispatch(actions.getUserLoginExist(userLogin)).then(val => {
+        dispatch(actionsDashboard.getUserLoginExist(userLogin)).then(val => {
             if (val?.status != 'success') {
                 Swal.fire({
                     title: 'Error!',
