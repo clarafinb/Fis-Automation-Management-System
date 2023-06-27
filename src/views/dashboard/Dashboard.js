@@ -152,7 +152,14 @@ const Dashboard = () => {
 
   useEffect(() => {
     if (Global?.user?.token) {
-      dispatch(actions.getListProject())
+      
+      dispatch(actions.getDashboard(Global?.user?.roleInf?.roleId))
+
+      if(Dashboard?.detailDashboard?.dashboardURL === '/ust/dashboardOpsLead'){
+        dispatch(actions.getListProjectByUser(Global?.user?.userID))
+      }else{
+        dispatch(actions.getListProject())
+      }
     }
   }, [Global?.user]);
 
@@ -228,17 +235,23 @@ const Dashboard = () => {
                     </CCardText>
                     <CRow>
                       <CCol sm={5}>
-                        <ToggleSwitch
-                          checked={() => val.activeStatus === "active" ? true : false}
-                          size="lg"
-                          handleChecked={handleChecked}
-                          id={val.projectId}
-                        />
+                        {Dashboard?.detailDashboard?.dashboardURL !== '/ust/dashboardOpsLead'
+                          ? <ToggleSwitch
+                              checked={() => val.activeStatus === "active" ? true : false}
+                              size="lg"
+                              handleChecked={handleChecked}
+                              id={val.projectId}
+                            />
+                          : ""
+                        }
                       </CCol>
                       <CCol sm={7} className="d-none d-md-block">
                         <div className='text-end'>
                           <CIcon icon={cilSettings} className="me-2" size="xl" onClick={() => handleModalMasterWerehouse(val.projectId)} />
-                          {(val.publishStatus === "notPublished" && val.activeStatus != "inactive") && (
+                          {(val.publishStatus === "notPublished" 
+                              && val.activeStatus != "inactive" 
+                              && Dashboard?.detailDashboard?.dashboardURL !== '/ust/dashboardOpsLead') 
+                            && (
                             <CIcon icon={cilSend} className="me-2" size="xl" onClick={() => handleSend(val.projectId)} />
                           )}
                         </div>

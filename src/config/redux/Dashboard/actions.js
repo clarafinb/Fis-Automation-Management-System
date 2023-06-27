@@ -62,11 +62,33 @@ import {
   API_ADD_USER_ACCOUNT,
   API_UPDATE_USER_PASSWORD,
   API_GET_ROLES_BY_ROLE_ID,
-  API_GET_CHECK_USER_LOGIN_EXIST
+  API_GET_CHECK_USER_LOGIN_EXIST,
+  API_GET_PROJECT_BY_USERID,
+  API_GET_DASHBOARD
 } from "../../api/index"
 import Swal from "sweetalert2";
 
 /****************************************** GLOBAL *******************************************/
+export const getDashboard = (roleId) => {
+  return async (dispatch) => {
+    try {
+      let dashboard = await actionCrud.actionCommonSlice(roleId, API_GET_DASHBOARD, "GET");
+
+      dispatch({
+        type: actionType.SET_DETAIL_DASHBOARD,
+        payload: dashboard
+      });
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Cool'
+      })
+    }
+  }
+}
+
 export const setDashboard = (payload) => {
   return async (dispatch) => {
     try {
@@ -89,6 +111,26 @@ export const getListProject = (payload) => {
   return async (dispatch) => {
     try {
       let listProject = await actionCrud.actionCommonCrud(payload, API_GET_PROJECT, "GET");
+
+      dispatch({
+        type: actionType.SET_LIST_PROJECT,
+        payload: listProject
+      });
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Cool'
+      })
+    }
+  }
+}
+
+export const getListProjectByUser = (userId) => {
+  return async (dispatch) => {
+    try {
+      let listProject = await actionCrud.actionCommonSlice(userId, API_GET_PROJECT_BY_USERID, "GET");
 
       dispatch({
         type: actionType.SET_LIST_PROJECT,

@@ -1,7 +1,5 @@
 const BASE_URL = process.env.REACT_APP_API_URL_DEV
 
-console.log("BASE_URL", BASE_URL)
-
 //List API
 
 // LOGIN
@@ -10,11 +8,13 @@ export const API_GET_DATA_LOGIN = BASE_URL + "auth/me"
 
 // DASHBOARD
 // Project
+export const API_GET_DASHBOARD = BASE_URL + "userrole/setDashboardBaseRole"
 export const API_GET_PROJECT = BASE_URL + "mproject/getall"
 export const API_ADD_PROJECT = BASE_URL + "mproject"
 export const API_SET_INACTIVE_PROJECT = BASE_URL + "mproject/setInActivate"
 export const API_SET_ACTIVE_PROJECT = BASE_URL + "mproject/setActivate"
 export const API_SET_PUBLISH_PROJECT = BASE_URL + "mproject/setPublished"
+export const API_GET_PROJECT_BY_USERID = BASE_URL + "logmanagement/projectGetAllBasedOnUser"
 // Service Charge
 export const API_GET_SC_ADMIN = BASE_URL + "serviceCharge/getAllAdminOnly"
 export const API_ADD_SC = BASE_URL + "serviceCharge"

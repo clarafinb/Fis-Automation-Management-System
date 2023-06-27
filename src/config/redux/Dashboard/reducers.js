@@ -1,7 +1,7 @@
 import * as actionType from "./actionType";
 
 let initialState = {
-
+    detailDashboard: {},
     listProject: [],
     listServiceCharge: [],
     listDeliveryMode: [],
@@ -19,6 +19,12 @@ let initialState = {
 
 const Dashboard = (state = initialState, { type, payload }) => {
     switch (type) {
+        case actionType.SET_DETAIL_DASHBOARD:
+            return {
+                ...state,
+                detailDashboard : payload
+            };
+
         case actionType.SET_DASHBOARD:
             return {
                 ...state,
