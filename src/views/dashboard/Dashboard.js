@@ -155,7 +155,7 @@ const Dashboard = () => {
       
       dispatch(actions.getDashboard(Global?.user?.roleInf?.roleId))
 
-      if(Dashboard?.detailDashboard?.dashboardURL === '/ust/dashboardOpsLead'){
+      if(Dashboard?.detailDashboard?.dashboardURL === '/usr/dashboardOpsLead'){
         dispatch(actions.getListProjectByUser(Global?.user?.userID))
       }else{
         dispatch(actions.getListProject())
@@ -189,7 +189,7 @@ const Dashboard = () => {
     <>
       <CCard className="">
         <CCardBody>
-        {Dashboard?.detailDashboard?.dashboardURL !== '/ust/dashboardOpsLead'
+        {!['/usr/dashboardOpsLead'].includes(Dashboard?.detailDashboard?.dashboardURL) 
           ? (
             <>
               <CRow>
@@ -241,7 +241,7 @@ const Dashboard = () => {
                     </CCardText>
                     <CRow>
                       <CCol sm={5}>
-                        {Dashboard?.detailDashboard?.dashboardURL !== '/ust/dashboardOpsLead'
+                        {!['/usr/dashboardOpsLead'].includes(Dashboard?.detailDashboard?.dashboardURL)
                           ? <ToggleSwitch
                               checked={() => val.activeStatus === "active" ? true : false}
                               size="lg"
@@ -256,7 +256,7 @@ const Dashboard = () => {
                           <CIcon icon={cilSettings} className="me-2" size="xl" onClick={() => handleModalMasterWerehouse(val.projectId)} />
                           {(val.publishStatus === "notPublished" 
                               && val.activeStatus != "inactive" 
-                              && Dashboard?.detailDashboard?.dashboardURL !== '/ust/dashboardOpsLead') 
+                              && !['/usr/dashboardOpsLead'].includes(Dashboard?.detailDashboard?.dashboardURL)) 
                             && (
                             <CIcon icon={cilSend} className="me-2" size="xl" onClick={() => handleSend(val.projectId)} />
                           )}

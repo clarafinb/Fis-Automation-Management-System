@@ -76,7 +76,7 @@ export const getDashboard = (roleId) => {
 
       dispatch({
         type: actionType.SET_DETAIL_DASHBOARD,
-        payload: dashboard
+        payload: dashboard[0]
       });
     } catch (error) {
       Swal.fire({
