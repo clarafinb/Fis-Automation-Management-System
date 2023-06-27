@@ -189,32 +189,38 @@ const Dashboard = () => {
     <>
       <CCard className="">
         <CCardBody>
-          <CRow>
-            <CCol sm={5}>
-              <h4 className="card-title mb-0">
-                Project
-              </h4>
-            </CCol>
-            <CCol sm={7} className="d-none d-md-block">
-              <CIcon icon={cilApplications} className="me-2 float-end textBlue" size="xl" onClick={() => handleModalSetting()} />
-            </CCol>
-          </CRow>
-          <br />
-          <CRow>
-            <CCol>
+        {Dashboard?.detailDashboard?.dashboardURL !== '/ust/dashboardOpsLead'
+          ? (
+            <>
               <CRow>
-                <CCol sm={6}>
-                  <CFormInput type="text" name="search" placeholder="Project Name" onChange={handleOnchange} />
+                <CCol sm={5}>
+                  <h4 className="card-title mb-0">
+                    Project
+                  </h4>
+                </CCol>
+                <CCol sm={7} className="d-none d-md-block">
+                  <CIcon icon={cilApplications} className="me-2 float-end textBlue" size="xl" onClick={() => handleModalSetting()} />
                 </CCol>
               </CRow>
-            </CCol>
-            <CCol className="d-none d-md-block">
-              <CButton className="float-end colorBtn-yellow" onClick={handleModalCreate}>
-                <CIcon icon={cilPlus} className="me-2" />
-                Add Project
-              </CButton>
-            </CCol>
-          </CRow>
+              <br />
+              <CRow>
+                <CCol>
+                  <CRow>
+                    <CCol sm={6}>
+                      <CFormInput type="text" name="search" placeholder="Project Name" onChange={handleOnchange} />
+                    </CCol>
+                  </CRow>
+                </CCol>
+                <CCol className="d-none d-md-block">
+                  <CButton className="float-end colorBtn-yellow" onClick={handleModalCreate}>
+                    <CIcon icon={cilPlus} className="me-2" />
+                    Add Project
+                  </CButton>
+                </CCol>
+              </CRow>
+            </>
+          ) : "" 
+        }
           <br />
           <CRow>
             {filteredListProject?.map((val, index) => (
