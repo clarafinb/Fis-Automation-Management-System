@@ -45,6 +45,7 @@ const AppSidebar = () => {
       <CSidebarBrand className="d-none d-md-flex bg-white m-4" to="/">
           <div><img src={url} /></div>
       </CSidebarBrand>
+      <hr />
       <CSidebarNav>
         <SimpleBar>
           <AppSidebarNav items={navigation} />

@@ -200,7 +200,7 @@ const Dashboard = () => {
               <CRow>
                 <CCol sm={5}>
                   <h4 className="card-title mb-0">
-                    PROJECT
+                    <span className='text-underline'>P</span>ROJECT
                   </h4>
                 </CCol>
                 {/* <CCol sm={7} className="d-none d-md-block">
@@ -239,11 +239,11 @@ const Dashboard = () => {
                         </CCol>
                         <CCol className='text-end'>
                           <CBadge 
-                            color= {val.activeStatus === "active" && val.publishStatus === "notPublished"
-                                      ? "info"
+                            className= {val.activeStatus === "active" && val.publishStatus === "notPublished"
+                                      ? "badge-info"
                                       : (val.activeStatus === "active" && val.publishStatus === "published"
-                                        ? "success"
-                                        : "secondary")
+                                        ? "badge-success"
+                                        : "badge-secondary")
                                     }
                             size='sm'
                           >

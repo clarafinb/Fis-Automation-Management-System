@@ -18,7 +18,7 @@ const AccountManagement = React.lazy(() => import('./views/dashboard/AccountMana
 const routes = [
   { path: '/', exact: true, name: 'Home' },
   { path: '/profile', name: 'Profile', element: Profile },
-  { path: '/dashboard', name: 'Dashboard', element: Dashboard },
+  { path: '/dashboard', name: 'DASHBOARD', element: Dashboard },
   { path: '/dashboard/warehouse/:id', name: 'Warehouse', element: Warehouse },
   { path: '/dashboard/setting-management/service-charge', name: 'Service Charge List', element: ServiceChargeList },
   { path: '/dashboard/setting-management/delivery', name: 'Delivery Mode', element: DeliveryMode },
