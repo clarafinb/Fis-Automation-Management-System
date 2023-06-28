@@ -11,11 +11,11 @@ const _nav = [
     component: CNavItem,
     name: 'Dashboard',
     to: '/dashboard',
-    icon: <CIcon icon={cilSpeedometer} customClassName="nav-icon text-white" />,
+    icon: <img src={'icon/icon_dashboard.png'} className='px-1' />,
     badge: {
       color: 'info',
     },
-    className: 'text-white'
+    className: 'textBlue'
   },
   // {
   //   component: CNavTitle,

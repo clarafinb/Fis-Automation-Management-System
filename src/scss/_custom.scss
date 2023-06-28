@@ -25,6 +25,20 @@
   }
 }
 
+.colorBtn-white {
+  background-color: white !important;
+  border: 1px solid white !important;
+  color: black;
+  // width: 120px;
+  // font-weight: bold;
+
+  &:hover {
+    background-color: white !important;
+    border: 1px solid white !important;
+    color: black;
+  }
+}
+
 .textBlue {
   color: $bluePrimary !important;
 }
@@ -33,6 +47,9 @@
   color: white !important;
 }
 
+.textYellow {
+  color: $yellowPrimary !important;
+}
 
 .textBlack {
   color: black !important;
@@ -61,33 +78,33 @@
   margin-right: 10%;
 }
 
-.input-flat {
-  border-radius: 0;
-}
+// .input-flat {
+//   border-radius: 0;
+// }
 
-.form-control {
-  border-radius: 0 !important;
-}
+// .form-control {
+//   border-radius: 0 !important;
+// }
 
-.input-group-text {
-  border-radius: 0 !important;
-}
+// .input-group-text {
+//   border-radius: 0 !important;
+// }
 
-.form-select {
-  border-radius: 0 !important;
-}
+// .form-select {
+//   border-radius: 0 !important;
+// }
 
 .btn {
-  border-radius: 0 !important;
+  margin-left: 10px;
 }
 
-.input-select {
-  border-radius: 0 !important;
-}
+// .input-select {
+//   border-radius: 0 !important;
+// }
 
-.card {
-  border-radius: 0 !important;
-}
+// .card {
+//   border-radius: 0 !important;
+// }
 
 .container-dashboard {
   max-width: 1500px;

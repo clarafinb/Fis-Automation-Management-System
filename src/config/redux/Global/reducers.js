@@ -2,7 +2,7 @@ import * as actionType from "./actionType";
 
 let initialState = {
     sidebarShow: true,
-    sidebarUnfoldable: true,
+    sidebarUnfoldable: false,
     user: {},
     listUserPhoto: []
 };

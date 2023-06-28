@@ -11,6 +11,8 @@ import {
   CCardTitle,
   CCardText,
   CFormInput,
+  CContainer,
+  CBadge,
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
 import {
@@ -18,6 +20,7 @@ import {
   cilSettings,
   cilSend,
   cilApplications,
+  cilList,
 } from '@coreui/icons'
 import ToggleSwitch from 'src/components/custom/toggle/ToggleSwitch'
 import ModalCreateProject from 'src/components/dashboard/ModalCreateProject'
@@ -190,58 +193,75 @@ const Dashboard = () => {
 
   return (
     <>
-      <CCard className="">
-        <CCardBody>
-        {!['/usr/dashboardOpsLead'].includes(Dashboard?.detailDashboard?.dashboardURL) 
+      <CContainer>
+      {!['/usr/dashboardOpsLead'].includes(Dashboard?.detailDashboard?.dashboardURL) 
           ? (
             <>
               <CRow>
                 <CCol sm={5}>
                   <h4 className="card-title mb-0">
-                    Project
+                    PROJECT
                   </h4>
                 </CCol>
-                <CCol sm={7} className="d-none d-md-block">
+                {/* <CCol sm={7} className="d-none d-md-block">
                   <CIcon icon={cilApplications} className="me-2 float-end textBlue" size="xl" onClick={() => handleModalSetting()} />
-                </CCol>
+                </CCol> */}
               </CRow>
               <br />
               <CRow>
-                <CCol>
-                  <CRow>
-                    <CCol sm={6}>
-                      <CFormInput type="text" name="search" placeholder="Project Name" onChange={handleOnchange} />
-                    </CCol>
-                  </CRow>
+                <CCol sm={9}>
+                  <CFormInput type="text" name="search" placeholder="Project Name" onChange={handleOnchange} />
                 </CCol>
                 <CCol className="d-none d-md-block">
-                  <CButton className="float-end colorBtn-yellow" onClick={handleModalCreate}>
-                    <CIcon icon={cilPlus} className="me-2" />
-                    Add Project
+                  <CButton className="float-end colorBtn-white px-1" onClick={handleModalSetting}>
+                    <CIcon icon={cilList} className="me-2 text-warning" />
+                    SETTINGS
+                  </CButton>
+                  <CButton className="float-end colorBtn-white px-1" onClick={handleModalCreate}>
+                    <CIcon icon={cilPlus} className="me-2 text-warning" />
+                  ADD PROJECT
                   </CButton>
                 </CCol>
               </CRow>
             </>
           ) : "" 
         }
-          <br />
+        <br />
           <CRow>
             {filteredListProject?.map((val, index) => (
-              <CCol sm={3} key={index}>
-                <CCard
-                  textColor="white"
-                  className={`mb-3 ${val.activeStatus === "active" && val.publishStatus === "notPublished"
-                    ? "bgCustom-blue"
-                    : (val.activeStatus === "active" && val.publishStatus === "published"
-                      ? "bg-success"
-                      : "bg-secondary")
-                    }`}
-                >
+              <CCol sm={4} key={index}>
+                <CCard className='mb-3' >
                   <CCardBody>
-                    <CCardTitle>{val?.projectName}</CCardTitle>
-                    <CCardText>
+                    <CCardTitle>
+                      <CRow>
+                        <CCol>
+                          {val?.projectName}
+                        </CCol>
+                        <CCol className='text-end'>
+                          <CBadge 
+                            color= {val.activeStatus === "active" && val.publishStatus === "notPublished"
+                                      ? "info"
+                                      : (val.activeStatus === "active" && val.publishStatus === "published"
+                                        ? "success"
+                                        : "secondary")
+                                    }
+                            size='sm'
+                          >
+                            {val.activeStatus === "active" && val.publishStatus === "notPublished"
+                              ? "ACTIVE"
+                              : (val.activeStatus === "active" && val.publishStatus === "published"
+                                ? "PUBLISHED"
+                                : "INACTIVE")
+                            }
+                          </CBadge>
+                        </CCol>
+                      </CRow>
+                    </CCardTitle>
+                    <hr />
+                    <CCardText className='px-3'>
                       {val?.projectDesc}
                     </CCardText>
+                    <hr />
                     <CRow>
                       <CCol sm={5}>
                         {!['/usr/dashboardOpsLead'].includes(Dashboard?.detailDashboard?.dashboardURL)
@@ -258,7 +278,7 @@ const Dashboard = () => {
                         <div className='text-end'>
                           <CIcon icon={cilSettings} className="me-2" size="xl" onClick={() => handleModalMasterWerehouse(val.projectId)} />
                           {(val.publishStatus === "notPublished" 
-                              && val.activeStatus != "inactive" 
+                              && val.activeStatus !== "inactive" 
                               && !['/usr/dashboardOpsLead'].includes(Dashboard?.detailDashboard?.dashboardURL)) 
                             && (
                             <CIcon icon={cilSend} className="me-2" size="xl" onClick={() => handleSend(val.projectId)} />
@@ -271,8 +291,7 @@ const Dashboard = () => {
               </CCol>
             ))}
           </CRow>
-        </CCardBody>
-      </CCard>
+      </CContainer>
 
       <ModalCreateProject open={modalCreate} setOpen={setModalCreate} />
       <ModalMasterWerehouse open={modalMasterWerehouse}

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import { useSelector } from 'react-redux'
 import { useRedux } from 'src/utils/hooks'
 
@@ -13,9 +13,21 @@ import 'simplebar/dist/simplebar.min.css'
 import navigation from '../_nav'
 
 import * as actionType from "../config/redux/Global/actionType"
+import { useState } from 'react'
 
 const AppSidebar = () => {
-  const { dispatch, Global } = useRedux();
+  const { dispatch, Global } = useRedux()
+  const [url, setUrl] = useState()
+
+  useEffect(() => {
+    console.log(Global?.sidebarShow, Global?.sidebarUnfoldable)
+    if( !Global?.sidebarUnfoldable){
+      setUrl('images/fams_logo.png')
+    }else{
+      setUrl('icon/fams_icon.svg')
+    }
+  }, [Global?.sidebarUnfoldable])
+  
 
   return (
     <CSidebar
@@ -28,11 +40,11 @@ const AppSidebar = () => {
           payload: {sidebarShow: visible},
         })
       }}
-      className='bg-secondary'
+      className='bg-white'
     >
-      <CSidebarBrand className="d-none d-md-flex bg-warning" to="/">
-          <h5>FAMS</h5>
-        </CSidebarBrand>
+      <CSidebarBrand className="d-none d-md-flex bg-white m-4" to="/">
+          <div><img src={url} /></div>
+      </CSidebarBrand>
       <CSidebarNav>
         <SimpleBar>
           <AppSidebarNav items={navigation} />
