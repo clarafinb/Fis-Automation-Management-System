@@ -13,7 +13,9 @@ import {
   CInputGroup,
   CInputGroupText,
   CRow,
-  CAlert
+  CAlert,
+  CFormLabel,
+  CFormCheck
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
 import { cilLockLocked, cilUser } from '@coreui/icons'
@@ -56,46 +58,59 @@ const Login = () => {
 
   return (
     <div className="background-login min-vh-100 d-flex flex-row align-items-center">
-      <CContainer className='container-login'>
-        <CRow className="justify-content-end">
+      <CContainer>
+        <CRow className="justify-content-center">
           <CCol md={4}>
             <CAlert color="danger" dismissible visible={visible} onClose={() => setVisible(false)}>Username dan Password tidak boleh kosong !</CAlert>
           </CCol>
         </CRow>
-        <CRow className="justify-content-end">
+        <CRow className="justify-content-center">
+          <CCol md={4}>
+            <div className="text-center">
+              <img src="/logo/white-logo.png" alt="PT Fan Indonesia Sejahtera" width={300}/>
+            </div>
+          </CCol>
+        </CRow>
+        <br />
+        <CRow className="justify-content-center">
           <CCol md={4}>
             <CCardGroup>
-              <CCard className="p-4 no-background">
-                {/* <div className="text-center">
-                  <img src="/images/logo-pt-fan-indonesia-sejahtera.jpg" alt="PT Fan Indonesia Sejahtera" />
-                </div> */}
+              <CCard className="p-2">
                 <CCardBody>
                   <CForm onSubmit={handleSubmit}>
-                    <h1 className="text-warning text-center">Login</h1>
-                    <p className="text-medium-emphasis">Sign In to your account</p>
-                    <CInputGroup className="mb-3" size="lg">
-                      <CInputGroupText>
-                        <CIcon icon={cilUser} />
-                      </CInputGroupText>
-                      <CFormInput placeholder="Username" name="username"/>
-                    </CInputGroup>
-                    <CInputGroup className="mb-4" size="lg">
-                      <CInputGroupText>
-                        <CIcon icon={cilLockLocked} />
-                      </CInputGroupText>
-                      <CFormInput
-                        type="password"
-                        placeholder="Password"
-                        name="password"
-                      />
-                    </CInputGroup>
-                    <CRow>
+                    <p className="text-medium-emphasis"><b>Sign In to continue</b></p>
+                    <hr />
+                    <CRow className="mb-3">
+                      <CFormLabel><b>Username</b></CFormLabel>
                       <CCol>
-                        <div className="d-grid gap-2">
-                          <CButton color='warning' shape='rounded-0' type="submit">
-                            Login
-                          </CButton>
+                        <CFormInput placeholder="Username" name="username"/>
+                      </CCol>
+                    </CRow>
+                    <CRow className="mb-3">
+                      <CFormLabel><b>Password</b></CFormLabel>
+                      <CCol>
+                        <CFormInput
+                          type="password"
+                          placeholder="Password"
+                          name="password"
+                        />
+                      </CCol>
+                    </CRow>
+                    <CRow className="mb-3">
+                      <CCol> 
+                        <CFormCheck id="flexCheckDefault" label="Remember Me"/>
+                      </CCol>
+                      <CCol> 
+                        <div className="float-end">
+                          <small>Forgot Password</small>
                         </div>
+                      </CCol>
+                    </CRow>
+                    <CRow className="mb-3">
+                      <CCol className="d-grid gap-2">
+                        <CButton className='colorBtn-yellow' type="submit">
+                          LOGIN
+                        </CButton>
                       </CCol>
                     </CRow>
                   </CForm>
