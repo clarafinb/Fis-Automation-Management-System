@@ -64,7 +64,8 @@ import {
   API_GET_ROLES_BY_ROLE_ID,
   API_GET_CHECK_USER_LOGIN_EXIST,
   API_GET_PROJECT_BY_USERID,
-  API_GET_DASHBOARD
+  API_GET_DASHBOARD,
+  API_GET_ACTIVITY_SUMMARY_WH_PROJECT
 } from "../../api/index"
 import Swal from "sweetalert2";
 
@@ -1439,6 +1440,22 @@ export const getUserLoginExist = (userLogin) => {
   return async () => {
     try {
       let data = await actionCrud.actionCommonSlice(userLogin, API_GET_CHECK_USER_LOGIN_EXIST, "GET");
+      return Promise.resolve(data)
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Cool'
+      })
+    }
+  }
+}
+
+export const getActivitySummaryWHProject = (userId, projectId) => {
+  return async () => {
+    try {
+      let data = await actionCrud.actionCommonSlice(projectId, API_GET_ACTIVITY_SUMMARY_WH_PROJECT, "GET", userId);
       return Promise.resolve(data)
     } catch (error) {
       Swal.fire({

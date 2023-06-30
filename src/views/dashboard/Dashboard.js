@@ -28,6 +28,7 @@ import ModalMasterWerehouse from 'src/components/dashboard/ModalMasterWerehouse'
 import ModalSettingManagement from 'src/components/dashboard/ModalSettingManagement'
 import * as actions from '../../config/redux/Dashboard/actions'
 import debounce from "lodash.debounce"
+import DashboardOpsLead from 'src/components/dashboard/DashboardOpsLead'
 
 const Dashboard = () => {
   const { dispatch, Global, Dashboard } = useRedux()
@@ -200,7 +201,7 @@ const Dashboard = () => {
               <CRow>
                 <CCol sm={5}>
                   <h4 className="card-title mb-0">
-                    <span className='text-underline'>P</span>ROJECT
+                    <span className='text-underline'>PR</span>OJECT
                   </h4>
                 </CCol>
                 {/* <CCol sm={7} className="d-none d-md-block">
@@ -223,74 +224,72 @@ const Dashboard = () => {
                   </CButton>
                 </CCol>
               </CRow>
-            </>
-          ) : "" 
-        }
-        <br />
-          <CRow>
-            {filteredListProject?.map((val, index) => (
-              <CCol sm={4} key={index}>
-                <CCard className='mb-3' >
-                  <CCardBody>
-                    <CCardTitle>
-                      <CRow>
-                        <CCol>
-                          {val?.projectName}
-                        </CCol>
-                        <CCol className='text-end'>
-                          <CBadge 
-                            className= {val.activeStatus === "active" && val.publishStatus === "notPublished"
-                                      ? "badge-info"
-                                      : (val.activeStatus === "active" && val.publishStatus === "published"
-                                        ? "badge-success"
-                                        : "badge-secondary")
-                                    }
-                            size='sm'
-                          >
-                            {val.activeStatus === "active" && val.publishStatus === "notPublished"
-                              ? "ACTIVE"
-                              : (val.activeStatus === "active" && val.publishStatus === "published"
-                                ? "PUBLISHED"
-                                : "INACTIVE")
-                            }
-                          </CBadge>
-                        </CCol>
-                      </CRow>
-                    </CCardTitle>
-                    <hr />
-                    <CCardText className='px-3'>
-                      {val?.projectDesc}
-                    </CCardText>
-                    <hr />
-                    <CRow>
-                      <CCol sm={5}>
-                        {!['/usr/dashboardOpsLead'].includes(Dashboard?.detailDashboard?.dashboardURL)
-                          ? <ToggleSwitch
+              <br />
+              <CRow>
+                {filteredListProject?.map((val, index) => (
+                  <CCol sm={4} key={index}>
+                    <CCard className='mb-3' >
+                      <CCardBody>
+                        <CCardTitle>
+                          <CRow>
+                            <CCol>
+                              {val?.projectName}
+                            </CCol>
+                            <CCol className='text-end'>
+                              <CBadge 
+                                className= {val.activeStatus === "active" && val.publishStatus === "notPublished"
+                                          ? "badge-info"
+                                          : (val.activeStatus === "active" && val.publishStatus === "published"
+                                            ? "badge-success"
+                                            : "badge-secondary")
+                                        }
+                                size='sm'
+                              >
+                                {val.activeStatus === "active" && val.publishStatus === "notPublished"
+                                  ? "ACTIVE"
+                                  : (val.activeStatus === "active" && val.publishStatus === "published"
+                                    ? "PUBLISHED"
+                                    : "INACTIVE")
+                                }
+                              </CBadge>
+                            </CCol>
+                          </CRow>
+                        </CCardTitle>
+                        <hr />
+                        <CCardText className='px-3'>
+                          {val?.projectDesc}
+                        </CCardText>
+                        <hr />
+                        <CRow>
+                          <CCol sm={5}>
+                            <ToggleSwitch
                               checked={() => val.activeStatus === "active" ? true : false}
                               size="lg"
                               handleChecked={handleChecked}
                               id={val.projectId}
                             />
-                          : ""
-                        }
-                      </CCol>
-                      <CCol sm={7} className="d-none d-md-block">
-                        <div className='text-end'>
-                          <CIcon icon={cilSettings} className="me-2" size="xl" onClick={() => handleModalMasterWerehouse(val.projectId)} />
-                          {(val.publishStatus === "notPublished" 
-                              && val.activeStatus !== "inactive" 
-                              && !['/usr/dashboardOpsLead'].includes(Dashboard?.detailDashboard?.dashboardURL)) 
-                            && (
-                            <CIcon icon={cilSend} className="me-2" size="xl" onClick={() => handleSend(val.projectId)} />
-                          )}
-                        </div>
-                      </CCol>
-                    </CRow>
-                  </CCardBody>
-                </CCard>
-              </CCol>
-            ))}
-          </CRow>
+                          </CCol>
+                          <CCol sm={7} className="d-none d-md-block">
+                            <div className='text-end'>
+                              <CIcon icon={cilSettings} className="me-2" size="xl" onClick={() => handleModalMasterWerehouse(val.projectId)} />
+                              <CIcon icon={cilSend} className="me-2" size="xl" onClick={() => handleSend(val.projectId)} />
+                            </div>
+                          </CCol>
+                        </CRow>
+                      </CCardBody>
+                    </CCard>
+                  </CCol>
+                ))}
+              </CRow>
+            </>
+          ) : (
+            <>
+              {filteredListProject?.map((val, index) => (
+                <DashboardOpsLead projectId={val.projectId} key={index}/>
+              ))}
+            </>
+          )
+        }
       </CContainer>
 
       <ModalCreateProject open={modalCreate} setOpen={setModalCreate} />
