@@ -10,15 +10,11 @@ import {
   CContainer,
   CForm,
   CFormInput,
-  CInputGroup,
-  CInputGroupText,
   CRow,
   CAlert,
   CFormLabel,
   CFormCheck
 } from '@coreui/react'
-import CIcon from '@coreui/icons-react'
-import { cilLockLocked, cilUser } from '@coreui/icons'
 import { useCookies } from "react-cookie";
 import * as actions from '../../../config/redux/Global/actions'
 
@@ -108,7 +104,7 @@ const Login = () => {
                     </CRow>
                     <CRow className="mb-3">
                       <CCol className="d-grid gap-2">
-                        <CButton className='colorBtn-yellow' type="submit">
+                        <CButton className="colorBtn-yellow" type="submit">
                           LOGIN
                         </CButton>
                       </CCol>
@@ -117,6 +113,11 @@ const Login = () => {
                 </CCardBody>
               </CCard>
             </CCardGroup>
+          </CCol>
+        </CRow>
+        <CRow className="justify-content-center mt-2">
+          <CCol md={4} className="text-center">
+              <small className="textWhite">COPYRIGHT @ 2023 | FIS AUTOMATION SYSTEM</small>
           </CCol>
         </CRow>
       </CContainer>
