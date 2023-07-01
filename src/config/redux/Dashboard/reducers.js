@@ -15,6 +15,9 @@ let initialState = {
     listProjectMember: [],
     listUserNotRegisteredByRolePm: [],
     listAccountManagement: [],
+    listWarehouseMembership: [],
+    listOrdeRequest: [],
+    listPickAndPackPending:[]
 };
 
 const Dashboard = (state = initialState, { type, payload }) => {
@@ -22,7 +25,7 @@ const Dashboard = (state = initialState, { type, payload }) => {
         case actionType.SET_DETAIL_DASHBOARD:
             return {
                 ...state,
-                detailDashboard : payload
+                detailDashboard: payload
             };
 
         case actionType.SET_DASHBOARD:
@@ -113,9 +116,21 @@ const Dashboard = (state = initialState, { type, payload }) => {
                 ...state,
                 listAccountManagement: payload
             }
-
-        
-
+        case actionType.SET_LIST_WAREHOUSE_MEMBERSHIP:
+            return {
+                ...state,
+                listWarehouseMembership: payload
+            }
+        case actionType.SET_LIST_ORDER_REQUEST:
+            return {
+                ...state,
+                listOrdeRequest: payload
+            }
+            case actionType.SET_LIST_PICK_AND_PACK_PENDING:
+                return {
+                    ...state,
+                    listPickAndPackPending:payload
+                }
 
         default:
             return { ...state };

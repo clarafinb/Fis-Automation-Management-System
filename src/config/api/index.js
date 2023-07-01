@@ -82,6 +82,9 @@ export const API_ADD_PROJECT_MEMBER = BASE_URL + "userrole/projectUserMembership
 export const API_GET_ROLES_WH_GROUP = BASE_URL + "userrole/getRolesWHGroup";
 export const API_SET_PROJECT_MEMBER_ACTIVE = BASE_URL + "userrole/projectUserMembershipSetStatusIsActive";
 export const API_SET_PROJECT_MEMBER_INACTIVE = BASE_URL + "userrole/projectUserMembershipSetStatusIsInActive";
+export const API_GET_WAREHOUSE_MEMBERSHIP = BASE_URL + "logmanagement/getUserWHProject"
+export const API_ADD_WH_PROJECT_MEMBERSHIP = BASE_URL + "logmanagement/addUserWHProjectMembership"
+export const API_DELETE_WH_PROJECT_MEMBERSHIP = BASE_URL + "logmanagement/deleteUserWHProjectMembership"
 //USER ACCOUNT
 export const API_GET_USER_ACCOUNT_ADMIN = BASE_URL + "userrole/userAccountGetAllAdminOnly";
 export const API_UPDATE_USER_ACCOUNT = BASE_URL + "userrole/userAccountUpdate";
@@ -96,3 +99,17 @@ export const API_DELETE_USER_PHOTO = BASE_URL + "userrole/userAccountPhotoProfil
 export const API_SET_USER_PHOTO_ACTIVE = BASE_URL + "userrole/userAccountSetIsActivePhotoProfile"
 export const API_SET_USER_PHOTO_INACTIVE = BASE_URL + "userrole/userAccountSetIsInActivePhotoProfile"
 export const API_ADD_PHOTO_USER = BASE_URL + "userrole/userAddPhotoProfile"
+//ORDER REQUEST
+export const API_GET_ORDER_REQUEST = BASE_URL + "logmanagement/getOrderRequestWHProject"
+export const API_CANCEL_ORDER_REQUEST = BASE_URL + "logmanagement/cancelOrderRequestWHProject"
+export const API_DELETE_ORDER_REQUEST = BASE_URL + "logmanagement/deleteOrderRequestWHProject"
+export const API_GET_TYPE_DELIVERY_PROCESS = BASE_URL + "masterdata/deliveryProcessTypeGetAll"
+export const API_GET_TYPE_ROUTE = BASE_URL + "masterdata/routeTypeGetAll"
+export const API_GET_ORIGIN_POINT = BASE_URL + "masterdata/getOriginPointList"
+export const API_GET_DESTINATION_KEY_WH_PROJECT = BASE_URL + "masterdata/getDestinationPointList"
+export const API_ADD_ORDER_REQUEST = BASE_URL + "logmanagement/addOrderRequestWHProject"
+//PICK AND PACK
+export const API_GET_PICK_AND_PACK_PENDING = BASE_URL + "logmanagement/getPickandPackPendingWHProject";
+export const API_START_PICK_AND_PACK = BASE_URL + "logmanagement/pickandPackStart";
+export const API_RESET_ORDER_REQUEST = BASE_URL + "logmanagement/orderRequestItemReset"
+export const API_GET_ORDER_REQUEST_ITEM = BASE_URL + "logmanagement/getOrderRequestItemList"

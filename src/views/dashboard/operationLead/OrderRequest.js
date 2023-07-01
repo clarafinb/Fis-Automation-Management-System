@@ -1,0 +1,282 @@
+import React, { useState, useCallback, useEffect } from 'react'
+import { useRedux } from 'src/utils/hooks'
+
+import {
+    CButton,
+    CCard,
+    CCardBody,
+    CCol,
+    CFormLabel,
+    CFormTextarea,
+    CModal,
+    CModalBody,
+    CModalFooter,
+    CModalHeader,
+    CModalTitle,
+    CNav,
+    CNavItem,
+    CNavLink,
+    CRow
+} from '@coreui/react'
+
+import * as actions from '../../../config/redux/Dashboard/actions'
+import CIcon from '@coreui/icons-react'
+import { cilCloudUpload, cilFile, cilPlus } from '@coreui/icons'
+import SmartTable from 'src/components/custom/table/SmartTable'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faClipboard, faFileExcel, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons'
+import ToggleSwitch from 'src/components/custom/toggle/ToggleSwitch'
+import Swal from 'sweetalert2'
+import ModalCreateOrderRequest from 'src/components/dashboard/operationLead/ModalCreateOrderRequest'
+
+function OrderRequest() {
+    const { dispatch, Global, Dashboard } = useRedux()
+    const [detailProject, setDetailProject] = useState({})
+    const [projectId, setProjectId] = useState("")
+    const [openModal, setOpenModal] = useState(false)
+    const [values, setValues] = useState({})
+    const [orderReqId, setOrderReqId] = useState()
+    const [openModalOrderRequest, setOpenModalOrderRequest] = useState(false)
+    useEffect(() => {
+        const id = window.location.href.split("/").pop();
+        setProjectId(id)
+        if (Global?.user?.userID) {
+            dispatch(
+                actions.getActivitySummaryWHProject(Global?.user?.userID, id)
+            ).then(result => {
+                setDetailProject(result[0])
+                dispatch(actions.getListOrderRequest(id, result[0].whId, Global?.user?.userID))
+            })
+        }
+    }, [Global?.user?.userID, projectId]);
+
+    const handleOnchange = useCallback(
+        (e) => {
+            const { value, name } = e.target;
+            setValues((prev) => ({
+                ...prev,
+                [name]: value
+            }));
+
+        }, [setValues]
+    )
+
+    const handleComponent = useCallback(
+        (name, orderReqId) => {
+            setOrderReqId(orderReqId)
+            if (name === 'delete') {
+                const payload = {
+                    orderReqId: orderReqId,
+                    LMBY: Global.user.userID,
+                    orderReqStatus: "Deleted"
+                }
+                dispatch(actions.deleteOrderRequest(payload, projectId, detailProject.whId))
+            } else {
+                setOpenModal(true)
+            }
+        }
+    )
+
+    const handleClose = () => {
+        setValues({})
+        setOpenModal(false)
+    }
+
+    const handleCreate = () => {
+        setOpenModalOrderRequest(true)
+    }
+
+    const handleCancel = () => {
+        if (values.remarks === "" || values.remarks === undefined) {
+            return (
+                Swal.fire({
+                    title: 'Error!',
+                    text: 'Remarks Empty',
+                    icon: 'error',
+                    confirmButtonText: 'OK'
+                })
+            )
+        } else {
+            const payload = {
+                orderReqId: orderReqId,
+                LMBY: Global.user.userID,
+                remarks: values.remarks,
+                orderReqStatus: "cancelled"
+            }
+            dispatch(actions.cancelOrderRequest(payload, projectId, detailProject.whId))
+            setOpenModal(false)
+        }
+    }
+
+    const filterValue = [
+        { name: 'no', operator: 'startsWith', type: 'string', value: '' },
+        { name: 'whCode', operator: 'startsWith', type: 'string', value: '' },
+        { name: 'whName', operator: 'startsWith', type: 'string', value: '' },
+        { name: 'orderRequestDesc', operator: 'startsWith', type: 'string', value: '' },
+        { name: 'orderRequestDesc', operator: 'startsWith', type: 'string', value: '' },
+        { name: 'requestorName', operator: 'startsWith', type: 'string', value: '' },
+        { name: 'orderRequestDate', operator: 'startsWith', type: 'string', value: '' },
+        { name: 'deliveryReqType', operator: 'startsWith', type: 'string', value: '' },
+        { name: 'transportReqType', operator: 'startsWith', type: 'string', value: '' },
+        { name: 'origin', operator: 'startsWith', type: 'string', value: '' },
+        { name: 'destination', operator: 'startsWith', type: 'string', value: '' },
+        { name: 'orderRequestStatus', operator: 'startsWith', type: 'string', value: '' },
+        { name: 'createBy', operator: 'startsWith', type: 'string', value: '' },
+        { name: 'createDate', operator: 'startsWith', type: 'string', value: '' }
+    ]
+
+    const columns = [
+        { name: 'no', header: 'No', defaultVisible: true, defaultWidth: 80, type: 'number' },
+        { name: 'whCode', header: 'WH Code', defaultFlex: 1 },
+        { name: 'whName', header: 'WH Name', defaultFlex: 1 },
+        { name: 'orderRequestDesc', header: 'Order Req Desc', defaultFlex: 1 },
+        { name: 'requestorName', header: 'Requestor', defaultFlex: 1 },
+        { name: 'orderRequestDate', header: 'Order Request Date', defaultFlex: 1, textAlign: 'center' },
+        { name: 'deliveryReqType', header: 'Delivery Req Type', defaultFlex: 1 },
+        { name: 'transportReqType', header: 'Transport Req Type', defaultFlex: 1 },
+        { name: 'origin', header: 'Origin', defaultFlex: 1 },
+        { name: 'destination', header: 'Destination', defaultFlex: 1 },
+        { name: 'orderRequestStatus', header: 'Order Status', defaultFlex: 1 },
+        { name: 'createBy', header: 'Created By', defaultFlex: 1 },
+        { name: 'createDate', header: 'Created date', defaultFlex: 1 },
+        {
+            name: 'orderReqId',
+            header: 'Action',
+            defaultFlex: 1,
+            textAlign: 'center',
+            render: ({ value, cellProps }) => {
+                return (
+                    <>
+                        <FontAwesomeIcon
+                            icon={faTrash}
+                            className='textBlue px-2'
+                            onClick={() =>
+                                handleComponent("delete", value)
+                            }
+                        />
+                        <FontAwesomeIcon
+                            icon={faClipboard}
+                            className='textBlue'
+                            onClick={() =>
+                                handleComponent("cancel", value)
+                            }
+                        />
+                    </>
+                )
+            }
+        },
+    ];
+
+    return (
+        <>
+            <CCard className="">
+                <CCardBody>
+                    <CRow>
+                        <CCol sm={5}>
+                            <h4 className="card-title mb-0">
+                                Order Request
+                            </h4>
+                        </CCol>
+                    </CRow>
+                    <br />
+                    <CRow>
+                        <CCol sm={5}>
+                            <h5 className="card-title mb-0">
+                                {detailProject?.projectName} | {detailProject?.whName} | {detailProject?.whCode}
+                            </h5>
+                        </CCol>
+                        <CCol className="d-none d-md-block text-end">
+                            <CIcon
+                                icon={cilPlus}
+                                className="me-2 text-primary"
+                                size="xl"
+                                onClick={handleCreate}
+                            />
+                            {/* </CCol> */}
+                            {/* <CCol className="d-none d-md-block text-end"> */}
+                            <CIcon
+                                icon={cilCloudUpload}
+                                className="me-2 text-primary"
+                                size="xl"
+                            // onClick={handleCreate}
+                            />
+                        </CCol>
+                    </CRow>
+                    <br />
+                    <CRow>
+                        <CNav variant="tabs">
+                            <CNavItem>
+                                <CNavLink active>
+                                    Order Request
+                                </CNavLink>
+                            </CNavItem>
+                            <CNavItem>
+                                <CNavLink>Order Req Bulk Upload Log</CNavLink>
+                            </CNavItem>
+                            <CNavItem>
+                                <CNavLink>Item Order Req Bulk Upload Log</CNavLink>
+                            </CNavItem>
+                        </CNav>
+                    </CRow>
+                    <br />
+                    <CRow>
+                        <CCol className="d-none d-md-block text-end">
+                            <CIcon
+                                icon={cilFile}
+                                className="me-2 text-success"
+                                size="xl"
+                            // onClick={handleCreate}
+                            />
+                        </CCol>
+                    </CRow>
+                    <CRow>
+                        <CCol className="d-none d-md-block text-end">
+                            <SmartTable
+                                data={Dashboard?.listOrdeRequest}
+                                filterValue={filterValue}
+                                columns={columns}
+                            />
+                        </CCol>
+                    </CRow>
+
+                </CCardBody>
+            </CCard>
+            <CModal
+                size="lg"
+                visible={openModal}
+                onClose={() => setOpenModal(false)}
+                alignment='center'
+            >
+                <CModalHeader>
+                    <CModalTitle>Cancel Order Request</CModalTitle>
+                </CModalHeader>
+                <CModalBody>
+                    <CRow className="mb-3">
+                        <CFormLabel className="col-sm-2 col-form-label">Remarks <code>(*)</code></CFormLabel>
+                        <CCol sm={10}>
+                            <CFormTextarea
+                                rows={3}
+                                name="remarks"
+                                value={values?.remarks}
+                                onChange={handleOnchange}
+                            >
+                            </CFormTextarea>
+                        </CCol>
+                    </CRow>
+                </CModalBody>
+                <CModalFooter>
+                    <CButton onClick={handleClose} color="secondary">Close</CButton>
+                    <CButton color="primary" onClick={handleCancel}>Save</CButton>
+                </CModalFooter>
+            </CModal>
+            <ModalCreateOrderRequest
+                open={openModalOrderRequest}
+                setOpen={setOpenModalOrderRequest}
+                projectId={projectId}
+                detailProject={detailProject}
+            />
+        </>
+    )
+}
+
+export default OrderRequest

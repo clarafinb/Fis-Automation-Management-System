@@ -50,7 +50,7 @@ export const actionLogin = (payload) => {
         title: 'Error!',
         text: error.message,
         icon: 'error',
-        confirmButtonText: 'Cool'
+        confirmButtonText: 'Close'
       })
     }
   }
@@ -70,7 +70,7 @@ export const actionSetReduxUser = (payload) => {
         title: 'Error!',
         text: error.message,
         icon: 'error',
-        confirmButtonText: 'Cool'
+        confirmButtonText: 'Close'
       })
     }
   }
@@ -90,7 +90,7 @@ export const actionResetUser = () => {
         title: 'Error!',
         text: error.message,
         icon: 'error',
-        confirmButtonText: 'Cool'
+        confirmButtonText: 'Close'
       })
     }
   };
@@ -108,7 +108,7 @@ export const actionGetGeocode = (address) => {
         title: 'Error!',
         text: error.message,
         icon: 'error',
-        confirmButtonText: 'Cool'
+        confirmButtonText: 'Close'
       })
     }
   };
@@ -124,7 +124,7 @@ export const getDetailProfile = (userId) => {
         title: 'Error!',
         text: error.message,
         icon: 'error',
-        confirmButtonText: 'Cool'
+        confirmButtonText: 'Close'
       })
     }
   }
@@ -140,7 +140,7 @@ export const getUserActivePhoto = (userId) => {
         title: 'Error!',
         text: error.message,
         icon: 'error',
-        confirmButtonText: 'Cool'
+        confirmButtonText: 'Close'
       })
     }
   }
@@ -167,7 +167,7 @@ export const getListUserPhoto = (payload) => {
         title: 'Error!',
         text: error.message,
         icon: 'error',
-        confirmButtonText: 'Cool'
+        confirmButtonText: 'Close'
       })
     }
   }
@@ -186,7 +186,7 @@ export const setStatusPhoto = (photoId, userId) => {
         title: 'Error!',
         text: error.message,
         icon: 'error',
-        confirmButtonText: 'Cool'
+        confirmButtonText: 'Close'
       })
     }
   }
@@ -211,7 +211,7 @@ export const setStatusActivePhoto = (val, photoId, userId) => {
         title: 'Error!',
         text: error.message,
         icon: 'error',
-        confirmButtonText: 'Cool'
+        confirmButtonText: 'Close'
       })
     }
   }
@@ -235,7 +235,7 @@ export const addNewPhotoUser = (formData, userId) => {
         title: 'Error!',
         text: error.message,
         icon: 'error',
-        confirmButtonText: 'Cool'
+        confirmButtonText: 'Close'
       })
     }
   };
