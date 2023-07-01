@@ -11,14 +11,21 @@ import {
     cilMedicalCross,
 } from '@coreui/icons'
 import CIcon from '@coreui/icons-react'
-import StandardTable from 'src/components/custom/table/StandardTable'
 import * as actions from '../../config/redux/Dashboard/actions'
 import ModalCreateProjectMember from 'src/components/dashboard/ModalCreateProjectMember'
+import ModalWarehouseMembership from 'src/components/dashboard/ModalWarehouseMembership'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faPlus } from '@fortawesome/free-solid-svg-icons'
+import SmartTable from 'src/components/custom/table/SmartTable'
+import ToggleSwitch from 'src/components/custom/toggle/ToggleSwitch'
 
 function ProjectMember() {
     const { dispatch, Global, Dashboard } = useRedux()
     const [modalCreate, setModalCreate] = useState(false)
     const [projectId, setProjectId] = useState()
+    const [modalWarehouse, setModalWarehouse] = useState(false)
+    const [projectUserId, setProjectUserId] = useState(false)
+
 
     useEffect(() => {
         if (Global?.user?.token) {
@@ -28,35 +35,76 @@ function ProjectMember() {
         }
     }, [Global?.user]);
 
-    const head = [
-        "No",
-        "Fullname",
-        "Role",
-        "Email",
-        "Phone No",
-        "User Status",
-        "Active Status"
-    ]
-
-    const searchFilter = {
-        "Fullname" : "name",
-        "Role" : "role",
-        "Email" : "email",
-        "Phone No" : "phoneNo"
-    }
-
     const handleCreate = () => {
         setModalCreate(true)
     }
 
     const handleToogle = useCallback(
         (val, id) => {
-            let data = Dashboard.listProjectMember[id]
-            let projectUserId = data.detail.projectUserId
-            dispatch(actions.setStatusActiveProjectMember(val, projectUserId,projectId))
-
+            dispatch(actions.setStatusActiveProjectMember(val, id, projectId))
         }, [Dashboard.listProjectMember]
     )
+
+    const handleComponent = useCallback(
+        (name, projectId) => {
+            setProjectUserId(projectId)
+            setModalWarehouse(true)
+        }
+    )
+
+    const filterValue = [
+        { name: 'name', operator: 'startsWith', type: 'string' },
+        { name: 'role', operator: 'startsWith', type: 'string' },
+        { name: 'email', operator: 'startsWith', type: 'string' },
+        { name: 'phoneNo', operator: 'startsWith', type: 'string' },
+        { name: 'isActive', operator: 'startsWith', type: 'string' },
+        { name: 'whMembershipList', operator: 'startsWith', type: 'string' },
+    ]
+
+    const columns = [
+        { name: 'no', header: 'No', defaultVisible: true, defaultWidth: 80 },
+        { name: 'name', header: 'Fullname', defaultFlex: 1 },
+        { name: 'role', header: 'Role', defaultFlex: 1 },
+        { name: 'email', header: 'Email', defaultFlex: 1 },
+        { name: 'phoneNo', header: 'Phone No', defaultFlex: 1 },
+        { name: 'isActive', header: 'User Status', defaultFlex: 1, textAlign: 'center' },
+        { name: 'whMembershipList', header: 'WH Membership', defaultFlex: 1 },
+        {
+            name: 'whMemberStatus',
+            header: 'Warehouse Access',
+            defaultFlex: 1,
+            textAlign: 'center',
+            render: ({ cellProps }) => {
+                // console.log('projectId : ',cellProps.data.detail.projectId)
+                return (
+                    <FontAwesomeIcon
+                        icon={faPlus}
+                        className='textBlue'
+                        onClick={() =>
+                            handleComponent("projectUserId", cellProps.data.detail.projectId)
+                        }
+                    />
+                )
+            }
+        },
+        {
+            name: 'status',
+            header: 'Active Status',
+            defaultFlex: 1,
+            textAlign: 'center',
+            render: ({ cellProps }) => {
+                return (
+                    < ToggleSwitch
+                        checked={() => cellProps.data.detail.isActive}
+                        size="lg"
+                        handleChecked={handleToogle}
+                        id={cellProps.data.detail.projectUserId}
+                        className="d-flex justify-content-center"
+                    />
+                )
+            }
+        },
+    ];
 
     return (
         <>
@@ -83,19 +131,27 @@ function ProjectMember() {
                     <br />
                     <CRow>
                         <CCol className="d-none d-md-block text-end">
-                            <StandardTable
-                                head={head}
+                            <SmartTable
                                 data={Dashboard?.listProjectMember}
-                                isToogle="status"
-                                handleToogle={handleToogle}
-                                hide={["detail"]}
-                                searchFilter={searchFilter}
+                                filterValue={filterValue}
+                                columns={columns}
                             />
                         </CCol>
                     </CRow>
                 </CCardBody>
             </CCard>
-            <ModalCreateProjectMember open={modalCreate} setOpen={setModalCreate} projectId={projectId} />
+            <ModalCreateProjectMember
+                open={modalCreate}
+                setOpen={setModalCreate}
+                projectId={projectId}
+            />
+            <ModalWarehouseMembership
+                open={modalWarehouse}
+                setOpen={setModalWarehouse}
+                projectId={projectId}
+                // projectUserId={projectUserId}
+                userId={Global?.user?.userID}
+            />
         </>
     )
 }

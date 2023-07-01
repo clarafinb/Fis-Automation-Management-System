@@ -20,11 +20,10 @@ const AppSidebar = () => {
   const [url, setUrl] = useState()
 
   useEffect(() => {
-    console.log(Global?.sidebarShow, Global?.sidebarUnfoldable)
     if( !Global?.sidebarUnfoldable){
-      setUrl('images/fams_logo.png')
+      setUrl('logo/fams_logo.png')
     }else{
-      setUrl('icon/fams_icon.svg')
+      setUrl('logo/fams_icon.svg')
     }
   }, [Global?.sidebarUnfoldable])
   

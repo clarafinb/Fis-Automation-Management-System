@@ -13,6 +13,9 @@ const Sku = React.lazy(() => import('./views/dashboard/Sku'))
 const Customer = React.lazy(() => import('./views/dashboard/Customer'))
 const ProjectMember = React.lazy(() => import('./views/dashboard/ProjectMember'))
 const AccountManagement = React.lazy(() => import('./views/dashboard/AccountManagement'))
+//Operation Lead
+const OrderRequest = React.lazy(() => import('./views/dashboard/operationLead/OrderRequest'))
+const PickAndPack = React.lazy(() => import('./views/dashboard/operationLead/PickAndPack'))
 // const Colors = React.lazy(() => import('./views/theme/colors/Colors'))
 
 const routes = [
@@ -30,6 +33,9 @@ const routes = [
   { path: '/dashboard/project-service-charge/:id', name: 'Project Service Charge', element: ProjectServiceCharge },
   { path: '/dashboard/project-member/:id', name: 'Project Member', element: ProjectMember },
   { path: '/dashboard/sku/:id', name: 'Project Master SKU', element: Sku },
+  { path: '/operation-lead/order-request/:projectId', name: 'Order Request', element: OrderRequest },
+  { path: '/operation-lead/pick-pack/:projectId', name: 'Pick And Pack Pending', element: PickAndPack },
+
   // { path: '/theme', name: 'Theme', element: Colors, exact: true },
   // { path: '/theme/colors', name: 'Colors', element: Colors },
 ]

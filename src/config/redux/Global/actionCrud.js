@@ -121,3 +121,22 @@ export async function actionGeocode(address) {
           return Promise.reject(error)
      }
 }
+
+export async function actionParamRequest(fullParam, url, method = "GET") {
+     try {
+          let objAxios = {
+               method: `${method}`,
+               url: `${url}/${fullParam}`,
+          }
+          let { data } = await axios(objAxios);
+          return data;
+     } catch (error) {
+          Swal.fire({
+               title: "Attention",
+               text: error?.response?.data?.msg,
+               icon: "warning",
+               confirmButtonText: "Yes",
+          });
+          return Promise.reject(error)
+     }
+}

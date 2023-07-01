@@ -65,7 +65,22 @@ import {
   API_GET_CHECK_USER_LOGIN_EXIST,
   API_GET_PROJECT_BY_USERID,
   API_GET_DASHBOARD,
-  API_GET_ACTIVITY_SUMMARY_WH_PROJECT
+  API_GET_ACTIVITY_SUMMARY_WH_PROJECT,
+  API_GET_WAREHOUSE_MEMBERSHIP,
+  API_ADD_WH_PROJECT_MEMBERSHIP,
+  API_DELETE_WH_PROJECT_MEMBERSHIP,
+  API_GET_ORDER_REQUEST,
+  API_DELETE_ORDER_REQUEST,
+  API_CANCEL_ORDER_REQUEST,
+  API_GET_TYPE_DELIVERY_PROCESS,
+  API_GET_TYPE_ROUTE,
+  API_GET_ORIGIN_POINT,
+  API_GET_DESTINATION_KEY_WH_PROJECT,
+  API_ADD_ORDER_REQUEST,
+  API_GET_PICK_AND_PACK_PENDING,
+  API_GET_ORDER_REQUEST_ITEM,
+  API_START_PICK_AND_PACK,
+  API_RESET_ORDER_REQUEST
 } from "../../api/index"
 import Swal from "sweetalert2";
 
@@ -84,7 +99,7 @@ export const getDashboard = (roleId) => {
         title: 'Error!',
         text: error.message,
         icon: 'error',
-        confirmButtonText: 'Cool'
+        confirmButtonText: 'Close'
       })
     }
   }
@@ -102,7 +117,7 @@ export const setDashboard = (payload) => {
         title: 'Error!',
         text: error.message,
         icon: 'error',
-        confirmButtonText: 'Cool'
+        confirmButtonText: 'Close'
       })
     }
   }
@@ -122,7 +137,7 @@ export const getListProject = (payload) => {
         title: 'Error!',
         text: error.message,
         icon: 'error',
-        confirmButtonText: 'Cool'
+        confirmButtonText: 'Close'
       })
     }
   }
@@ -142,7 +157,7 @@ export const getListProjectByUser = (userId) => {
         title: 'Error!',
         text: error.message,
         icon: 'error',
-        confirmButtonText: 'Cool'
+        confirmButtonText: 'Close'
       })
     }
   }
@@ -162,7 +177,7 @@ export const setPublishedProject = (projectId) => {
         title: 'Error!',
         text: error.message,
         icon: 'error',
-        confirmButtonText: 'Cool'
+        confirmButtonText: 'Close'
       })
     }
   }
@@ -187,7 +202,7 @@ export const createProject = (payload) => {
           title: 'Error!',
           text: createProject?.message,
           icon: 'error',
-          confirmButtonText: 'Cool'
+          confirmButtonText: 'Close'
         })
       }
 
@@ -196,7 +211,7 @@ export const createProject = (payload) => {
         title: 'Error!',
         text: error.message,
         icon: 'error',
-        confirmButtonText: 'Cool'
+        confirmButtonText: 'Close'
       })
     }
   }
@@ -221,7 +236,7 @@ export const setStatusActiveProject = (val, projectId) => {
         title: 'Error!',
         text: error.message,
         icon: 'error',
-        confirmButtonText: 'Cool'
+        confirmButtonText: 'Close'
       })
     }
   }
@@ -254,7 +269,7 @@ export const getListServiceCharge = (payload) => {
         title: 'Error!',
         text: error.message,
         icon: 'error',
-        confirmButtonText: 'Cool'
+        confirmButtonText: 'Close'
       })
     }
   }
@@ -271,7 +286,7 @@ export const setServiceCharge = (payload) => (dispatch) => {
       title: 'Error!',
       text: error.message,
       icon: 'error',
-      confirmButtonText: 'Cool'
+      confirmButtonText: 'Close'
     })
   }
 };
@@ -296,7 +311,7 @@ export const createServiceCharge = (payload) => {
           title: 'Error!',
           text: create?.message,
           icon: 'error',
-          confirmButtonText: 'Cool'
+          confirmButtonText: 'Close'
         })
       }
 
@@ -305,7 +320,7 @@ export const createServiceCharge = (payload) => {
         title: 'Error!',
         text: error.message,
         icon: 'error',
-        confirmButtonText: 'Cool'
+        confirmButtonText: 'Close'
       })
     }
   }
@@ -330,7 +345,7 @@ export const setStatusActiveServiceCharge = (val, serviceChargeId) => {
         title: 'Error!',
         text: error.message,
         icon: 'error',
-        confirmButtonText: 'Cool'
+        confirmButtonText: 'Close'
       })
     }
   }
@@ -360,7 +375,7 @@ export const getListDelivery = (payload) => {
         title: 'Error!',
         text: error.message,
         icon: 'error',
-        confirmButtonText: 'Cool'
+        confirmButtonText: 'Close'
       })
     }
   }
@@ -385,7 +400,7 @@ export const setStatusActiveDelivery = (val, delModeId) => {
         title: 'Error!',
         text: error.message,
         icon: 'error',
-        confirmButtonText: 'Cool'
+        confirmButtonText: 'Close'
       })
     }
   }
@@ -415,7 +430,7 @@ export const getListTransport = (payload) => {
         title: 'Error!',
         text: error.message,
         icon: 'error',
-        confirmButtonText: 'Cool'
+        confirmButtonText: 'Close'
       })
     }
   }
@@ -440,7 +455,7 @@ export const setStatusActiveTransport = (val, transportModeId) => {
         title: 'Error!',
         text: error.message,
         icon: 'error',
-        confirmButtonText: 'Cool'
+        confirmButtonText: 'Close'
       })
     }
   }
@@ -472,7 +487,7 @@ export const getListTransportType = (payload) => {
         title: 'Error!',
         text: error.message,
         icon: 'error',
-        confirmButtonText: 'Cool'
+        confirmButtonText: 'Close'
       })
     }
   }
@@ -497,7 +512,7 @@ export const setStatusActiveTransportType = (val, transportTypeId) => {
         title: 'Error!',
         text: error.message,
         icon: 'error',
-        confirmButtonText: 'Cool'
+        confirmButtonText: 'Close'
       })
     }
   }
@@ -519,7 +534,7 @@ export const getSelectActiveTransport = (payload) => {
         title: 'Error!',
         text: error.message,
         icon: 'error',
-        confirmButtonText: 'Cool'
+        confirmButtonText: 'Close'
       })
     }
   }
@@ -541,7 +556,7 @@ export const getSelectActiveCurrency = (payload) => {
         title: 'Error!',
         text: error.message,
         icon: 'error',
-        confirmButtonText: 'Cool'
+        confirmButtonText: 'Close'
       })
     }
   }
@@ -563,7 +578,7 @@ export const getSelectProjectServiceChargeNotRegistered = (projectId) => {
         title: 'Error!',
         text: error.message,
         icon: 'error',
-        confirmButtonText: 'Cool'
+        confirmButtonText: 'Close'
       })
     }
   }
@@ -586,7 +601,7 @@ export const createTransportType = (payload) => {
           title: 'Error!',
           text: create?.message,
           icon: 'error',
-          confirmButtonText: 'Cool'
+          confirmButtonText: 'Close'
         })
       }
     } catch (error) {
@@ -594,7 +609,7 @@ export const createTransportType = (payload) => {
         title: 'Error!',
         text: error.message,
         icon: 'error',
-        confirmButtonText: 'Cool'
+        confirmButtonText: 'Close'
       })
     }
   }
@@ -617,7 +632,7 @@ export const createUom = (payload) => {
           title: 'Error!',
           text: create?.message,
           icon: 'error',
-          confirmButtonText: 'Cool'
+          confirmButtonText: 'Close'
         })
       }
     } catch (error) {
@@ -625,7 +640,7 @@ export const createUom = (payload) => {
         title: 'Error!',
         text: error.message,
         icon: 'error',
-        confirmButtonText: 'Cool'
+        confirmButtonText: 'Close'
       })
     }
   }
@@ -654,7 +669,7 @@ export const getListUom = (payload) => {
         title: 'Error!',
         text: error.message,
         icon: 'error',
-        confirmButtonText: 'Cool'
+        confirmButtonText: 'Close'
       })
     }
   }
@@ -679,7 +694,7 @@ export const setStatusUom = (val, uomId) => {
         title: 'Error!',
         text: error.message,
         icon: 'error',
-        confirmButtonText: 'Cool'
+        confirmButtonText: 'Close'
       })
     }
   }
@@ -701,7 +716,7 @@ export const getSelectActiveUom = (payload) => {
         title: 'Error!',
         text: error.message,
         icon: 'error',
-        confirmButtonText: 'Cool'
+        confirmButtonText: 'Close'
       })
     }
   }
@@ -735,7 +750,7 @@ export const getListWarehouse = (payload) => {
         title: 'Error!',
         text: error.message,
         icon: 'error',
-        confirmButtonText: 'Cool'
+        confirmButtonText: 'Close'
       })
     }
   }
@@ -760,7 +775,7 @@ export const setStatusActiveWarehouse = (val, whId, projectId) => {
         title: 'Error!',
         text: error.message,
         icon: 'error',
-        confirmButtonText: 'Cool'
+        confirmButtonText: 'Close'
       })
     }
   }
@@ -784,7 +799,7 @@ export const getSelectWarehouseType = (payload) => {
         title: 'Error!',
         text: error.message,
         icon: 'error',
-        confirmButtonText: 'Cool'
+        confirmButtonText: 'Close'
       })
     }
   }
@@ -808,7 +823,7 @@ export const getSelectWarehouseProvince = (payload) => {
         title: 'Error!',
         text: error.message,
         icon: 'error',
-        confirmButtonText: 'Cool'
+        confirmButtonText: 'Close'
       })
     }
   }
@@ -831,7 +846,7 @@ export const createWarehouse = (payload, methode) => {
           title: 'Error!',
           text: create?.message,
           icon: 'error',
-          confirmButtonText: 'Cool'
+          confirmButtonText: 'Close'
         })
       }
     } catch (error) {
@@ -839,7 +854,7 @@ export const createWarehouse = (payload, methode) => {
         title: 'Error!',
         text: error.message,
         icon: 'error',
-        confirmButtonText: 'Cool'
+        confirmButtonText: 'Close'
       })
     }
   }
@@ -871,7 +886,7 @@ export const getListProjectServiceCharge = (payload) => {
         title: 'Error!',
         text: error.message,
         icon: 'error',
-        confirmButtonText: 'Cool'
+        confirmButtonText: 'Close'
       })
     }
   }
@@ -894,7 +909,7 @@ export const createProjectServiceCharge = (payload) => {
           title: 'Error!',
           text: create?.message,
           icon: 'error',
-          confirmButtonText: 'Cool'
+          confirmButtonText: 'Close'
         })
       }
     } catch (error) {
@@ -902,7 +917,7 @@ export const createProjectServiceCharge = (payload) => {
         title: 'Error!',
         text: error.message,
         icon: 'error',
-        confirmButtonText: 'Cool'
+        confirmButtonText: 'Close'
       })
     }
   }
@@ -927,7 +942,7 @@ export const setStatusActiveProjectServiceCharge = (val, projectServiceChargeId,
         title: 'Error!',
         text: error.message,
         icon: 'error',
-        confirmButtonText: 'Cool'
+        confirmButtonText: 'Close'
       })
     }
   }
@@ -958,7 +973,7 @@ export const getListSku = (payload) => {
         title: 'Error!',
         text: error.message,
         icon: 'error',
-        confirmButtonText: 'Cool'
+        confirmButtonText: 'Close'
       })
     }
   }
@@ -981,7 +996,7 @@ export const createSku = (payload) => {
           title: 'Error!',
           text: create?.message,
           icon: 'error',
-          confirmButtonText: 'Cool'
+          confirmButtonText: 'Close'
         })
       }
     } catch (error) {
@@ -989,7 +1004,7 @@ export const createSku = (payload) => {
         title: 'Error!',
         text: error.message,
         icon: 'error',
-        confirmButtonText: 'Cool'
+        confirmButtonText: 'Close'
       })
     }
   }
@@ -1014,7 +1029,7 @@ export const setStatusActiveSku = (val, skuId, projectId) => {
         title: 'Error!',
         text: error.message,
         icon: 'error',
-        confirmButtonText: 'Cool'
+        confirmButtonText: 'Close'
       })
     }
   }
@@ -1044,7 +1059,7 @@ export const getListCustomer = (payload) => {
         title: 'Error!',
         text: error.message,
         icon: 'error',
-        confirmButtonText: 'Cool'
+        confirmButtonText: 'Close'
       })
     }
   }
@@ -1067,7 +1082,7 @@ export const createCustomer = (payload) => {
           title: 'Error!',
           text: create?.message,
           icon: 'error',
-          confirmButtonText: 'Cool'
+          confirmButtonText: 'Close'
         })
       }
     } catch (error) {
@@ -1075,7 +1090,7 @@ export const createCustomer = (payload) => {
         title: 'Error!',
         text: error.message,
         icon: 'error',
-        confirmButtonText: 'Cool'
+        confirmButtonText: 'Close'
       })
     }
   }
@@ -1100,7 +1115,7 @@ export const setStatusActiveCustomer = (val, customerId) => {
         title: 'Error!',
         text: error.message,
         icon: 'error',
-        confirmButtonText: 'Cool'
+        confirmButtonText: 'Close'
       })
     }
   }
@@ -1118,7 +1133,7 @@ export const setStatusPublishCustomer = (customerId) => {
         title: 'Error!',
         text: error.message,
         icon: 'error',
-        confirmButtonText: 'Cool'
+        confirmButtonText: 'Close'
       })
     }
   }
@@ -1140,7 +1155,7 @@ export const getSelectActiveCustomer = (payload) => {
         title: 'Error!',
         text: error.message,
         icon: 'error',
-        confirmButtonText: 'Cool'
+        confirmButtonText: 'Close'
       })
     }
   }
@@ -1158,6 +1173,8 @@ export const getListProjectMember = (payload) => {
           email: item.email,
           phoneNo: item.phoneNo,
           isActive: item.accountstatus,
+          whMembershipList: item.whMembershipList,
+          projectUserId: item.projectUserId,
           status: item.isActive,
           detail: { ...item, ...{ projectId: payload } }
         }
@@ -1171,7 +1188,7 @@ export const getListProjectMember = (payload) => {
         title: 'Error!',
         text: error.message,
         icon: 'error',
-        confirmButtonText: 'Cool'
+        confirmButtonText: 'Close'
       })
     }
   }
@@ -1194,7 +1211,7 @@ export const createProjectMember = (payload) => {
           title: 'Error!',
           text: create?.message,
           icon: 'error',
-          confirmButtonText: 'Cool'
+          confirmButtonText: 'Close'
         })
       }
     } catch (error) {
@@ -1202,7 +1219,7 @@ export const createProjectMember = (payload) => {
         title: 'Error!',
         text: error.message,
         icon: 'error',
-        confirmButtonText: 'Cool'
+        confirmButtonText: 'Close'
       })
     }
   }
@@ -1227,7 +1244,7 @@ export const setStatusActiveProjectMember = (val, projectUserId, projectId) => {
         title: 'Error!',
         text: error.message,
         icon: 'error',
-        confirmButtonText: 'Cool'
+        confirmButtonText: 'Close'
       })
     }
   }
@@ -1249,7 +1266,7 @@ export const getSelectRoleWhGroup = (payload) => {
         title: 'Error!',
         text: error.message,
         icon: 'error',
-        confirmButtonText: 'Cool'
+        confirmButtonText: 'Close'
       })
     }
   }
@@ -1279,7 +1296,7 @@ export const getUserNotRegisteredYetBasedOnRoleAndProject = (param1, param2) => 
         title: 'Error!',
         text: error.message,
         icon: 'error',
-        confirmButtonText: 'Cool'
+        confirmButtonText: 'Close'
       })
     }
   }
@@ -1315,7 +1332,7 @@ export const getListAccountManagement = (payload) => {
         title: 'Error!',
         text: error.message,
         icon: 'error',
-        confirmButtonText: 'Cool'
+        confirmButtonText: 'Close'
       })
     }
   }
@@ -1338,7 +1355,7 @@ export const updateUserPassword = (payload) => {
           title: 'Error!',
           text: create?.message,
           icon: 'error',
-          confirmButtonText: 'Cool'
+          confirmButtonText: 'Close'
         })
       }
     } catch (error) {
@@ -1346,7 +1363,7 @@ export const updateUserPassword = (payload) => {
         title: 'Error!',
         text: error.message,
         icon: 'error',
-        confirmButtonText: 'Cool'
+        confirmButtonText: 'Close'
       })
     }
   }
@@ -1369,7 +1386,7 @@ export const createAccountManagement = (payload) => {
           title: 'Error!',
           text: create?.message,
           icon: 'error',
-          confirmButtonText: 'Cool'
+          confirmButtonText: 'Close'
         })
       }
     } catch (error) {
@@ -1377,7 +1394,7 @@ export const createAccountManagement = (payload) => {
         title: 'Error!',
         text: error.message,
         icon: 'error',
-        confirmButtonText: 'Cool'
+        confirmButtonText: 'Close'
       })
     }
   }
@@ -1400,7 +1417,7 @@ export const updateAccountManagement = (payload) => {
           title: 'Error!',
           text: create?.message,
           icon: 'error',
-          confirmButtonText: 'Cool'
+          confirmButtonText: 'Close'
         })
       }
     } catch (error) {
@@ -1408,7 +1425,7 @@ export const updateAccountManagement = (payload) => {
         title: 'Error!',
         text: error.message,
         icon: 'error',
-        confirmButtonText: 'Cool'
+        confirmButtonText: 'Close'
       })
     }
   }
@@ -1430,7 +1447,7 @@ export const getSelectRolesByRoleId = (roleId) => {
         title: 'Error!',
         text: error.message,
         icon: 'error',
-        confirmButtonText: 'Cool'
+        confirmButtonText: 'Close'
       })
     }
   }
@@ -1446,7 +1463,7 @@ export const getUserLoginExist = (userLogin) => {
         title: 'Error!',
         text: error.message,
         icon: 'error',
-        confirmButtonText: 'Cool'
+        confirmButtonText: 'Close'
       })
     }
   }
@@ -1462,14 +1479,485 @@ export const getActivitySummaryWHProject = (userId, projectId) => {
         title: 'Error!',
         text: error.message,
         icon: 'error',
-        confirmButtonText: 'Cool'
+        confirmButtonText: 'Close'
       })
     }
   }
 }
 
+export const getListWarehouseMembership = (projectId, userId) => {
+  return async (dispatch) => {
+    try {
+      const fullParam = `${projectId}/${userId}`
+      let list = await actionCrud.actionParamRequest(fullParam, API_GET_WAREHOUSE_MEMBERSHIP, "GET");
+      let listWarehouseMembership = list?.map((item, idx) => {
+        return {
+          no: idx + 1,
+          whName: item.whName,
+          whCode: item.whCode,
+          isMainWH: item.isMainWH,
+          whMemberStatus: item.whMemberStatus,
+          detail: { ...item, ...{ projectId: projectId } }
+        }
+      })
+      dispatch({
+        type: actionType.SET_LIST_WAREHOUSE_MEMBERSHIP,
+        payload: listWarehouseMembership
+      });
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Close'
+      })
+    }
+  }
+}
 
+export const setWhProjectMembership = (payload, projectId) => {
+  return async (dispatch) => {
+    try {
+      let create = await actionCrud.actionCommonCrud(payload, API_ADD_WH_PROJECT_MEMBERSHIP, "POST");
 
+      if (create.status === "success") {
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: create?.message,
+          showConfirmButton: true
+        });
+        dispatch(getListWarehouseMembership(payload.userId, projectId));
+      } else {
+        Swal.fire({
+          title: 'Error!',
+          text: create?.message,
+          icon: 'error',
+          confirmButtonText: 'Close'
+        })
+      }
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Close'
+      })
+    }
+  }
+}
 
+export const deleteWhProjectMembership = (payload, projectId) => {
+  return async (dispatch) => {
+    try {
+      let create = await actionCrud.actionCommonCrud(payload, API_DELETE_WH_PROJECT_MEMBERSHIP, "POST");
 
+      if (create.status === "success") {
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: create?.message,
+          showConfirmButton: true
+        });
+        dispatch(getListWarehouseMembership(payload.userId, projectId));
+      } else {
+        Swal.fire({
+          title: 'Error!',
+          text: create?.message,
+          icon: 'error',
+          confirmButtonText: 'Close'
+        })
+      }
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Close'
+      })
+    }
+  }
+}
 
+export const getListOrderRequest = (projectId, whId, userId) => {
+  return async (dispatch) => {
+    try {
+      const fullParam = `${projectId}/${whId}/${userId}`
+      let list = await actionCrud.actionParamRequest(fullParam, API_GET_ORDER_REQUEST, "GET");
+      let listOrdeRequest = list?.map((item, idx) => {
+        return {
+          no: idx + 1,
+          orderReqId: item.orderReqId,
+          whName: item.whName,
+          whCode: item.whCode,
+          custOrderRequest: item.custOrderRequest,
+          orderRequestDesc: item.orderRequestDesc,
+          requestorName: item.requestorName,
+          orderRequestDate: item.orderRequestDate,
+          deliveryReqType: item.deliveryReqType,
+          transportReqType: item.transportReqType,
+          origin: item.origin,
+          destination: item.destination,
+          createBy: item.createBy,
+          createDate: item.createDate,
+          orderRequestStatus: item.orderRequestStatus,
+          detail: {
+            ...item,
+            ...{
+              projectId: projectId,
+              whId: whId,
+              userId: whId
+            }
+          }
+        }
+      })
+      dispatch({
+        type: actionType.SET_LIST_ORDER_REQUEST,
+        payload: listOrdeRequest
+      });
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Close'
+      })
+    }
+  }
+}
+
+export const deleteOrderRequest = (payload, projectId, whId) => {
+  return async (dispatch) => {
+    try {
+      let create = await actionCrud.actionCommonCrud(payload, API_DELETE_ORDER_REQUEST, "PUT");
+      if (create.status === "success") {
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: create?.message,
+          showConfirmButton: true
+        });
+        dispatch(getListOrderRequest(projectId, whId, payload.LMBY));
+      } else {
+        Swal.fire({
+          title: 'Error!',
+          text: create?.message,
+          icon: 'error',
+          confirmButtonText: 'Close'
+        })
+      }
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Close'
+      })
+    }
+  }
+}
+
+export const cancelOrderRequest = (payload, projectId, whId) => {
+  return async (dispatch) => {
+    try {
+      let create = await actionCrud.actionCommonCrud(payload, API_CANCEL_ORDER_REQUEST, "PUT");
+      if (create.status === "success") {
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: create?.message,
+          showConfirmButton: true
+        });
+        dispatch(getListOrderRequest(projectId, whId, payload.LMBY));
+      } else {
+        Swal.fire({
+          title: 'Error!',
+          text: create?.message,
+          icon: 'error',
+          confirmButtonText: 'Close'
+        })
+      }
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Close'
+      })
+    }
+  }
+}
+
+export const getSelectDeliveryProcess = (payload) => {
+  return async () => {
+    try {
+      let list = await actionCrud.actionCommonCrud(payload, API_GET_TYPE_DELIVERY_PROCESS, "GET");
+      let data = list?.map((item, idx) => {
+        return {
+          label: item.processName,
+          value: item.packageProcessId
+        }
+      })
+      return Promise.resolve(data)
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Close'
+      })
+    }
+  }
+}
+
+export const getSelectDeliveryType = (payload) => {
+  return async () => {
+    try {
+      let list = await actionCrud.actionCommonCrud(payload, API_GET_ACTIVE_DEL, "GET");
+      let data = list?.map((item, idx) => {
+        return {
+          label: item.deliveryMode,
+          value: item.deliveryModeId
+        }
+      })
+      return Promise.resolve(data)
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Close'
+      })
+    }
+  }
+}
+export const getSelecTransportType = (payload) => {
+  return async () => {
+    try {
+      let list = await actionCrud.actionCommonCrud(payload, API_GET_TRANSPORT_TYPE_ACTIVE_ONLY, "GET");
+      let data = list?.map((item, idx) => {
+        return {
+          label: item.transportMode + '-' + item.transportName,
+          value: item.transportTypeId
+        }
+      })
+      return Promise.resolve(data)
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Close'
+      })
+    }
+  }
+}
+export const getSelectOriginPoin = (projectId, routeTypeId, whCode) => {
+  return async () => {
+    try {
+      const fullParam = `${projectId}/${routeTypeId}/${whCode}`
+      let list = await actionCrud.actionParamRequest(fullParam, API_GET_ORIGIN_POINT, "GET");
+      let data = list?.map((item, idx) => {
+        return {
+          label: item.point_code,
+          value: item.point_code_id,
+          address: item.address
+        }
+      })
+      return Promise.resolve(data)
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Close'
+      })
+    }
+  }
+}
+export const getSelecRouteType = (payload) => {
+  return async () => {
+    try {
+      let list = await actionCrud.actionCommonSlice(payload, API_GET_TYPE_ROUTE, "GET");
+      let data = list?.map((item, idx) => {
+        return {
+          label: item.routeType,
+          value: item.routeTypeId
+        }
+      })
+      return Promise.resolve(data)
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Close'
+      })
+    }
+  }
+}
+export const getSelectDestination = (projectId, routeTypeId, whCode) => {
+  return async () => {
+    try {
+      const fullParam = `${projectId}/${routeTypeId}/${whCode}`
+      let list = await actionCrud.actionParamRequest(fullParam, API_GET_DESTINATION_KEY_WH_PROJECT, "GET");
+      console.log('desti', list)
+      let data = list?.map((item, idx) => {
+        return {
+          label: item.point_code,
+          value: item.point_code_id,
+          address: item.address
+        }
+      })
+      return Promise.resolve(data)
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Close'
+      })
+    }
+  }
+}
+export const createOrderRequest = (payload) => {
+  return async (dispatch) => {
+    try {
+      let create = await actionCrud.actionCommonCrud(payload, API_ADD_ORDER_REQUEST, "POST");
+      if (create.status === "success") {
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: create?.message,
+          showConfirmButton: true
+        });
+        dispatch(getListOrderRequest(payload.projectId, payload.whId, payload.LMBY));
+      } else {
+        Swal.fire({
+          title: 'Error!',
+          text: create?.message,
+          icon: 'error',
+          confirmButtonText: 'Close'
+        })
+      }
+
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Close'
+      })
+    }
+  }
+}
+
+export const getListPickAndPackPending = (projectId, whId, userId) => {
+  return async (dispatch) => {
+    try {
+      const fullParam = `${projectId}/${whId}/${userId}`
+      let list = await actionCrud.actionParamRequest(fullParam, API_GET_PICK_AND_PACK_PENDING, "GET");
+      let listPickAndPackPending = list?.map((item, idx) => {
+        return {
+          no: idx + 1,
+          ...item,
+          extra: {
+            ...{
+              projectId: projectId,
+              whId: whId,
+              userId: whId
+            }
+          }
+        }
+      })
+      dispatch({
+        type: actionType.SET_LIST_PICK_AND_PACK_PENDING,
+        payload: listPickAndPackPending
+      });
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Close'
+      })
+    }
+  }
+}
+
+export const getOrderRequestItemList = (orderRequestId) => {
+  return async (dispatch) => {
+    try {
+      const fullParam = `${orderRequestId}`
+      let list = await actionCrud.actionParamRequest(fullParam, API_GET_ORDER_REQUEST_ITEM, "GET");
+      return Promise.resolve(list)
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Close'
+      })
+    }
+  }
+}
+export const startPickAndPack = (payload, projectId, whId) => {
+  return async (dispatch) => {
+    try {
+      let create = await actionCrud.actionCommonCrud(payload, API_START_PICK_AND_PACK, "PUT");
+      if (create.status === "success") {
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: create?.message,
+          showConfirmButton: true
+        });
+        dispatch(getListPickAndPackPending(projectId, whId, payload.LMBY));
+      } else {
+        Swal.fire({
+          title: 'Error!',
+          text: create?.message,
+          icon: 'error',
+          confirmButtonText: 'Close'
+        })
+      }
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Close'
+      })
+    }
+  }
+}
+export const resetPickAndPack = (projectId, whId, userId) => {
+  return async (dispatch) => {
+    try {
+      let create = await actionCrud.actionCommonSlice(projectId, API_RESET_ORDER_REQUEST, "DELETE");
+      if (create.status === "success") {
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: create?.message,
+          showConfirmButton: true
+        });
+        dispatch(getListPickAndPackPending(projectId, whId, userId));
+      } else {
+        Swal.fire({
+          title: 'Error!',
+          text: create?.message,
+          icon: 'error',
+          confirmButtonText: 'Close'
+        })
+      }
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Close'
+      })
+    }
+  }
+}
