@@ -1,13 +1,12 @@
 import React, { useState, useCallback, useEffect } from 'react'
 import { useRedux } from 'src/utils/hooks'
+import { useNavigate } from 'react-router-dom'
 
 import {
     CButton,
     CCard,
     CCardBody,
     CCol,
-    CFormInput,
-    CFormLabel,
     CModal,
     CModalBody,
     CModalFooter,
@@ -18,16 +17,18 @@ import {
 
 import * as actions from '../../../config/redux/Dashboard/actions'
 import CIcon from '@coreui/icons-react'
-import { cilCloudUpload, cilFile, cilPlus } from '@coreui/icons'
+import { cilFile } from '@coreui/icons'
 import SmartTable from 'src/components/custom/table/SmartTable'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPlay, faRefresh, faUpload } from '@fortawesome/free-solid-svg-icons'
+import { faUpload } from '@fortawesome/free-solid-svg-icons'
 
 function PickAndPackProgress() {
+    const nav = useNavigate();
     const { dispatch, Global, Dashboard } = useRedux()
     const [detailProject, setDetailProject] = useState({})
     const [projectId, setProjectId] = useState("")
     const [openModal, setOpenModal] = useState(false)
+    const [openModalUpload, setOpenModalUpload] = useState(false)
     const [orderReqId, setOrderReqId] = useState()
     const [custOrderRequest, setCustOrderRequest] = useState(null)
     const [itemOrderRequest, setItemOrderRequest] = useState([])
@@ -40,7 +41,7 @@ function PickAndPackProgress() {
                 actions.getActivitySummaryWHProject(Global?.user?.userID, id)
             ).then(result => {
                 setDetailProject(result[0])
-                // dispatch(actions.getListPickAndPackPending(id, result[0].whId, Global?.user?.userID))
+                dispatch(actions.getListPickAndPackProgress(id, result[0].whId, Global?.user?.userID))
             })
         }
     }, [Global?.user?.userID, projectId]);
@@ -48,24 +49,13 @@ function PickAndPackProgress() {
     const handleComponent = useCallback(
         (action, orderReqId) => {
             setOrderReqId(orderReqId)
-            if (action === 'start') {
-                const payload = {
-                    orderReqId: orderReqId,
-                    LMBY: Global.user.userID
-                }
-                dispatch(actions.startPickAndPack(payload, projectId, detailProject.whId))
-            } else if (action === 'reset') {
-                dispatch(actions.resetPickAndPack(projectId, detailProject.whId, Global.user.userID))
-            } else {
-                // TODO insert action
-            }
+            nav(`detail/${orderReqId}`)
         }
     )
 
     const handleClose = () => {
         setOpenModal(false)
     }
-
 
     const handleModalDetailItem = ({ orderReqId, custOrderRequest }) => {
         setOrderReqId(orderReqId)
@@ -154,31 +144,16 @@ function PickAndPackProgress() {
                 return (
                     <>
                         {
-                            cellProps.data.totalItem > 0 ?
-                                <>
-                                    <FontAwesomeIcon
-                                        icon={faPlay}
-                                        className='textBlue px-2'
-                                        size='sm'
-                                        title='Pick and Pack Start'
-                                        onClick={() => handleComponent('start', value)} />
-                                    <FontAwesomeIcon
-                                        icon={faRefresh}
-                                        className='textBlue px-2'
-                                        size='sm'
-                                        title='Order Request Item Reset'
-                                        onClick={() => handleComponent('reset', value)} />
-                                </>
-                                :
+                            cellProps.data.totalItem == 0 ?
                                 <FontAwesomeIcon
                                     icon={faUpload}
                                     className='textBlue px-2'
                                     title='Order Request'
                                     size='sm'
                                     onClick={() =>
-                                        handleComponent('insert', value)
+                                        handleComponent('detail', value)
                                     }
-                                />
+                                /> : ''
                         }
                     </>
                 )
@@ -188,58 +163,47 @@ function PickAndPackProgress() {
 
     return (
         <>
-            <CRow className='py-2'>
-                <CCol sm={12}>
-                    <CCard>
-                        <CCardBody>
-                            <CRow>
-                                <CCol>
-                                    <h4 className="card-title mb-0">
-                                        Pick And Pack Progress
-                                    </h4>
-                                </CCol>
-                            </CRow>
-                        </CCardBody>
-                    </CCard>
-                </CCol>
-            </CRow>
-            <CRow>
-                <CCol sm={6}>
-                    <CCard>
-                        <CCardBody>
-                            <CRow>
-                                <CCol>
-                                    <h4 className="card-title mb-0">
-                                        Order Request Detail
-                                    </h4>
-                                </CCol>
-                            </CRow>
-                            <br />
-                            <pre>
-                                {JSON.stringify(detailProject)}
-                            </pre>
-                            <CRow>
-                                <CCol>
-                                    <CRow className="mb-3">
-                                        <CFormLabel
-                                            className="col-sm-3 col-form-label">Order Request Date <code>(*)</code>
-                                        </CFormLabel>
-                                        <CCol sm={9}>
-                                            <CFormInput
-                                                type="text"
-                                                name="materialCode"
-                                            // value={values?.materialCode}
-                                            // onChange={handleOnchange}
-                                            />
-                                        </CCol>
-                                    </CRow>
-                                </CCol>
-                            </CRow>
-                        </CCardBody>
-                    </CCard>
-                </CCol>
-            </CRow>
-            {/* <CModal
+            <CCard className="">
+                <CCardBody>
+                    <CRow>
+                        <CCol sm={5}>
+                            <h4 className="card-title mb-0">
+                                Pick And Pack Progress
+                            </h4>
+                        </CCol>
+                    </CRow>
+                    <br />
+                    <CRow>
+                        <CCol sm={5}>
+                            <h5 className="card-title mb-0">
+                                {detailProject?.projectName} | {detailProject?.whName} | {detailProject?.whCode}
+                            </h5>
+                        </CCol>
+                    </CRow>
+                    <br />
+                    <br />
+                    <CRow>
+                        <CCol className="d-none d-md-block text-end">
+                            <CIcon
+                                icon={cilFile}
+                                className="me-2 text-success"
+                                size="xl"
+                            />
+                        </CCol>
+                    </CRow>
+                    <CRow>
+                        <CCol className="d-none d-md-block text-end">
+                            <SmartTable
+                                data={Dashboard?.listPickAndPackProgress}
+                                filterValue={filterValue}
+                                columns={columns}
+                                minHeight={400}
+                            />
+                        </CCol>
+                    </CRow>
+                </CCardBody>
+            </CCard>
+            <CModal
                 size="lg"
                 visible={openModal}
                 onClose={() => setOpenModal(false)}
@@ -253,7 +217,6 @@ function PickAndPackProgress() {
                         <CCol className="d-none d-md-block text-end">
                             <SmartTable
                                 data={itemOrderRequestData}
-                                // filterValue={filterValue}
                                 columns={itemOrderRequest}
                                 minHeight={200}
                             />
@@ -263,7 +226,7 @@ function PickAndPackProgress() {
                 <CModalFooter>
                     <CButton onClick={handleClose} color="secondary">Close</CButton>
                 </CModalFooter>
-            </CModal> */}
+            </CModal>
         </>
     )
 }

@@ -92,7 +92,7 @@ function PickAndPack() {
         e.preventDefault()
         if (fileUpload) {
             const formData = new FormData(e.target);
-            dispatch(actions.addNewPhotoUser(formData, orderReqId))
+            dispatch(actions.uploadOrderReqItem(formData, orderReqId))
             setFileUpload(null)
         } else {
             Swal.fire({

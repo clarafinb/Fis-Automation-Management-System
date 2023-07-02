@@ -82,7 +82,9 @@ import {
   API_START_PICK_AND_PACK,
   API_RESET_ORDER_REQUEST,
   API_GET_TEMPLATE_ORDER_REQUEST_ITEM,
-  API_UPLOAD_CUST_ORDER_REQ_TEIM
+  API_UPLOAD_CUST_ORDER_REQ_TEIM,
+  API_GET_PICK_AND_PACK_PROGRESS,
+  API_GET_ORDER_REQUEST_DETAIL
 } from "../../api/index"
 import Swal from "sweetalert2";
 
@@ -1978,8 +1980,7 @@ export const getMassUploadTemplateOrderReqItemBulkUpload = () => {
     }
   }
 }
-// API_UPLOAD_CUST_ORDER_REQ_TEIM
-export const addNewPhotoUser = (formData, orderReqId) => {
+export const uploadOrderReqItem = (formData, orderReqId) => {
   return async () => {
     try {
       const { value } = await actionCrud.actionCommonSliceParam(orderReqId, API_UPLOAD_CUST_ORDER_REQ_TEIM, "POST", '', formData)
@@ -1998,4 +1999,51 @@ export const addNewPhotoUser = (formData, orderReqId) => {
       })
     }
   };
+}
+export const getListPickAndPackProgress = (projectId, whId, userId) => {
+  return async (dispatch) => {
+    try {
+      const fullParam = `${projectId}/${whId}/${userId}`
+      let list = await actionCrud.actionParamRequest(fullParam, API_GET_PICK_AND_PACK_PROGRESS, "GET");
+      let listPickAndPackProgress = list?.map((item, idx) => {
+        return {
+          no: idx + 1,
+          ...item,
+          extra: {
+            ...{
+              projectId: projectId,
+              whId: whId,
+              userId: whId
+            }
+          }
+        }
+      })
+      dispatch({
+        type: actionType.SET_LIST_PICK_AND_PACK_PROGRESS,
+        payload: listPickAndPackProgress
+      });
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Close'
+      })
+    }
+  }
+}
+export const getOrderRequestDetail = (orderReqId) => {
+  return async () => {
+    try {
+      let data = await actionCrud.actionParamRequest(orderReqId, API_GET_ORDER_REQUEST_DETAIL, "GET");
+      return Promise.resolve(data)
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Close'
+      })
+    }
+  }
 }

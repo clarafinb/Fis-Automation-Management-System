@@ -27,12 +27,10 @@ function ModalWarehouseMembership({ open, setOpen, projectId, userId }) {
 
     const handleComponent = useCallback(
         (name, val, id) => {
-            console.log(Global)
             let payload = {
                 "whId": id,
                 "userId": userId,
-                "LMBY": userId
-
+                "LMBY": Global?.user?.userId
             }
             if (val === "notmember") {
                 dispatch(actions.setWhProjectMembership(payload, projectId))

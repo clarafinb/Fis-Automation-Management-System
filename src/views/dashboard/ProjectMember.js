@@ -25,6 +25,7 @@ function ProjectMember() {
     const [projectId, setProjectId] = useState()
     const [modalWarehouse, setModalWarehouse] = useState(false)
     const [projectUserId, setProjectUserId] = useState(false)
+    const [userId, setUserId] = useState(null)
 
 
     useEffect(() => {
@@ -46,8 +47,8 @@ function ProjectMember() {
     )
 
     const handleComponent = useCallback(
-        (name, projectId) => {
-            setProjectUserId(projectId)
+        (name, userId) => {
+            setUserId(userId)
             setModalWarehouse(true)
         }
     )
@@ -75,13 +76,12 @@ function ProjectMember() {
             defaultFlex: 1,
             textAlign: 'center',
             render: ({ cellProps }) => {
-                // console.log('projectId : ',cellProps.data.detail.projectId)
                 return (
                     <FontAwesomeIcon
                         icon={faPlus}
                         className='textBlue'
                         onClick={() =>
-                            handleComponent("projectUserId", cellProps.data.detail.projectId)
+                            handleComponent("projectUserId", cellProps.data.detail.userId)
                         }
                     />
                 )
@@ -150,7 +150,7 @@ function ProjectMember() {
                 setOpen={setModalWarehouse}
                 projectId={projectId}
                 // projectUserId={projectUserId}
-                userId={Global?.user?.userID}
+                userId={userId}
             />
         </>
     )

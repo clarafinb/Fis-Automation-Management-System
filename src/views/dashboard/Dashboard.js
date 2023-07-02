@@ -28,7 +28,7 @@ import ModalMasterWerehouse from 'src/components/dashboard/ModalMasterWerehouse'
 import ModalSettingManagement from 'src/components/dashboard/ModalSettingManagement'
 import * as actions from '../../config/redux/Dashboard/actions'
 import debounce from "lodash.debounce"
-import DashboardOpsLead from 'src/components/dashboard/DashboardOpsLead'
+import DashboardOpsLead from 'src/views/dashboard/DashboardOpsLead'
 
 const Dashboard = () => {
   const { dispatch, Global, Dashboard } = useRedux()
@@ -41,24 +41,6 @@ const Dashboard = () => {
   const [modalSetManagement, setModalSetManagement] = useState(false)
   const [searchProject, setSearchProject] = useState("")
   const [filteredListProject, setFilteredProject] = useState([])
-
-  /*
-  const manipulateData = (cb) => {
-    try{
-      const prev = { ...Dashboard }
-      const newData = cb(prev)
-
-      dispatch(
-        actions.setDashboard({
-            ...prev,
-            ...newData
-        })
-      )
-    }catch (error){
-      console.log(error)
-    }
-  }
-  */
 
   const handleModalCreate = () => {
     setModalCreate(true)
@@ -179,14 +161,7 @@ const Dashboard = () => {
   useEffect(() => {
     if (searchProject) {
       let temp = Dashboard?.listProject.filter(row => row.projectName.toLowerCase().includes(searchProject))
-      
       setFilteredProject(temp)
-      /*
-        manipulateData((prev) => {
-          prev.listProject = temp
-          return prev
-        })
-      */
     }else{
       setFilteredProject(Dashboard?.listProject)
     }
@@ -284,9 +259,7 @@ const Dashboard = () => {
             </>
           ) : (
             <>
-              {filteredListProject?.map((val, index) => (
-                <DashboardOpsLead projectId={val.projectId} key={index}/>
-              ))}
+              <DashboardOpsLead data={Dashboard?.listProject} />
             </>
           )
         }

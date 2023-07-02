@@ -115,3 +115,10 @@ export const API_RESET_ORDER_REQUEST = BASE_URL + "logmanagement/orderRequestIte
 export const API_GET_ORDER_REQUEST_ITEM = BASE_URL + "logmanagement/getOrderRequestItemList"
 export const API_GET_TEMPLATE_ORDER_REQUEST_ITEM = BASE_URL + "masterdata/getMassUploadTemplateOrderReqItemBulkUpload"
 export const API_UPLOAD_CUST_ORDER_REQ_TEIM = BASE_URL + "logmanagement/custItemRequestUpload"
+//PICK AND PACK PROGRESS
+export const API_GET_PICK_AND_PACK_PROGRESS =  BASE_URL + "logmanagement/getPickandPackOnProgressWHProject"
+export const API_GET_ORDER_REQUEST_DETAIL = BASE_URL + "logmanagement/getOrderRequestDetail"
+export const API_GET_ORDER_REQUEST_SERVICE_CHARGE = BASE_URL + "servicecharge/orderRequestGetServiceChargeList"
+export const API_GET_ORDER_REQUEST_ADDED_SERVICE_CHARGE = BASE_URL + "servicecharge/orderRequestGetAddedServiceChargeList"
+export const API_GET_DELIVERY_MODE_BASED_TRANSPORT_MODE = BASE_URL + "logManagement/deliveryModeBasedOnTransportModeGetAll"
+export const API_ADD_ORDER_REQUEST_SERVICE_CHARGE = BASE_URL + "servicecharge/orderRequestServiceChargeAdd"

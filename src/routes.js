@@ -1,4 +1,5 @@
 import React from 'react'
+// import PickAndPackProgressDetail from './views/dashboard/operationLead/PickAndPackProgressDetail'
 
 const Profile = React.lazy(() => import('./views/account/Profile'))
 const Dashboard = React.lazy(() => import('./views/dashboard/Dashboard'))
@@ -17,6 +18,7 @@ const AccountManagement = React.lazy(() => import('./views/dashboard/AccountMana
 const OrderRequest = React.lazy(() => import('./views/dashboard/operationLead/OrderRequest'))
 const PickAndPack = React.lazy(() => import('./views/dashboard/operationLead/PickAndPack'))
 const PickAndPackProgress = React.lazy(() => import('./views/dashboard/operationLead/PickAndPackProgress'))
+const PickAndPackProgressDetail = React.lazy(() => import('./views/dashboard/operationLead/PickAndPackProgressDetail'))
 // const Colors = React.lazy(() => import('./views/theme/colors/Colors'))
 
 const routes = [
@@ -37,6 +39,7 @@ const routes = [
   { path: '/operation-lead/order-request/:projectId', name: 'Order Request', element: OrderRequest },
   { path: '/operation-lead/pick-pack/:projectId', name: 'Pick And Pack Pending', element: PickAndPack },
   { path: '/operation-lead/pick-pack/progress/:projectId', name: 'Pick And Pack Pending', element: PickAndPackProgress },
+  { path: '/operation-lead/pick-pack/progress/:projectId/detail/:orderReqId', name: 'Pick And Pack Pending', element: PickAndPackProgressDetail },
   // { path: '/theme', name: 'Theme', element: Colors, exact: true },
   // { path: '/theme/colors', name: 'Colors', element: Colors },
 ]
