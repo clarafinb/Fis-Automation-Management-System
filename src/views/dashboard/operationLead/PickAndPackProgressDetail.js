@@ -148,6 +148,25 @@ function PickAndPackProgressDetail() {
                     defaultFlex: 1
                 }
             })
+
+            remapData.push({
+                name: 'serviceChargeCode',
+                header: 'Qty',
+                defaultFlex: 1,
+                defaultWidth: 80,
+                render: ({ value, cellProps }) => {
+                    return (
+                        <>
+                            <CFormInput
+                                className='form-control'
+                                type="text"
+                                name="qty"
+                            />
+                        </>
+                    )
+                }
+            })
+
             setServiceChargeData(response)
             setServiceChargeHeader(remapData)
             setOpenModalAdditionalService(true)
