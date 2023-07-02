@@ -6,10 +6,8 @@ import {
     CCard,
     CCardBody,
     CCol,
-    CForm,
     CFormInput,
     CFormLabel,
-    CInputGroup,
     CModal,
     CModalBody,
     CModalFooter,
@@ -24,21 +22,16 @@ import { cilCloudUpload, cilFile, cilPlus } from '@coreui/icons'
 import SmartTable from 'src/components/custom/table/SmartTable'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlay, faRefresh, faUpload } from '@fortawesome/free-solid-svg-icons'
-import Swal from 'sweetalert2'
 
-function PickAndPack() {
+function PickAndPackProgress() {
     const { dispatch, Global, Dashboard } = useRedux()
     const [detailProject, setDetailProject] = useState({})
     const [projectId, setProjectId] = useState("")
-    const [templateName, setTemplateName] = useState("")
-    const [templateUrl, setTemplateUrl] = useState("")
     const [openModal, setOpenModal] = useState(false)
-    const [openModalUpload, setOpenModalUpload] = useState(false)
     const [orderReqId, setOrderReqId] = useState()
     const [custOrderRequest, setCustOrderRequest] = useState(null)
     const [itemOrderRequest, setItemOrderRequest] = useState([])
     const [itemOrderRequestData, setItemOrderRequestData] = useState([])
-    const [fileUpload, setFileUpload] = useState(null);
     useEffect(() => {
         const id = window.location.href.split("/").pop();
         setProjectId(id)
@@ -47,7 +40,7 @@ function PickAndPack() {
                 actions.getActivitySummaryWHProject(Global?.user?.userID, id)
             ).then(result => {
                 setDetailProject(result[0])
-                dispatch(actions.getListPickAndPackPending(id, result[0].whId, Global?.user?.userID))
+                // dispatch(actions.getListPickAndPackPending(id, result[0].whId, Global?.user?.userID))
             })
         }
     }, [Global?.user?.userID, projectId]);
@@ -64,13 +57,7 @@ function PickAndPack() {
             } else if (action === 'reset') {
                 dispatch(actions.resetPickAndPack(projectId, detailProject.whId, Global.user.userID))
             } else {
-                setOpenModalUpload(true)
-                dispatch(
-                    actions.getMassUploadTemplateOrderReqItemBulkUpload()
-                ).then(response => {
-                    setTemplateName(response?.templateName)
-                    setTemplateUrl(response?.templateURL)
-                })
+                // TODO insert action
             }
         }
     )
@@ -78,38 +65,6 @@ function PickAndPack() {
     const handleClose = () => {
         setOpenModal(false)
     }
-
-    const handleCloseModalUpload = () => {
-        setOpenModalUpload(false)
-        setFileUpload(null)
-    }
-
-    const handleDownloadTemplate = () => {
-        window.open(templateUrl, '_blank')
-    }
-
-    const handleUploadFile = (e) => {
-        e.preventDefault()
-        if (fileUpload) {
-            const formData = new FormData(e.target);
-            dispatch(actions.addNewPhotoUser(formData, orderReqId))
-            setFileUpload(null)
-        } else {
-            Swal.fire({
-                title: 'Error!',
-                text: 'File Empty !',
-                icon: 'error',
-                confirmButtonText: 'OK'
-            })
-        }
-
-
-    }
-
-    const handleFileChange = (event) => {
-        const file = event.target.files[0];
-        setFileUpload(file);
-    };
 
 
     const handleModalDetailItem = ({ orderReqId, custOrderRequest }) => {
@@ -233,59 +188,58 @@ function PickAndPack() {
 
     return (
         <>
-            <CCard className="">
-                <CCardBody>
-                    <CRow>
-                        <CCol sm={5}>
-                            <h4 className="card-title mb-0">
-                                Pick And Pack Pending
-                            </h4>
-                        </CCol>
-                    </CRow>
-                    <br />
-                    <CRow>
-                        <CCol sm={5}>
-                            <h5 className="card-title mb-0">
-                                {detailProject?.projectName} | {detailProject?.whName} | {detailProject?.whCode}
-                            </h5>
-                        </CCol>
-                        <CCol className="d-none d-md-block text-end">
-                            <CIcon
-                                icon={cilPlus}
-                                className="me-2 text-primary"
-                                size="xl"
-                            />
-                            <CIcon
-                                icon={cilCloudUpload}
-                                className="me-2 text-primary"
-                                size="xl"
-                            />
-                        </CCol>
-                    </CRow>
-                    <br />
-                    <br />
-                    <CRow>
-                        <CCol className="d-none d-md-block text-end">
-                            <CIcon
-                                icon={cilFile}
-                                className="me-2 text-success"
-                                size="xl"
-                            />
-                        </CCol>
-                    </CRow>
-                    <CRow>
-                        <CCol className="d-none d-md-block text-end">
-                            <SmartTable
-                                data={Dashboard?.listPickAndPackPending}
-                                filterValue={filterValue}
-                                columns={columns}
-                                minHeight={400}
-                            />
-                        </CCol>
-                    </CRow>
-                </CCardBody>
-            </CCard>
-            <CModal
+            <CRow className='py-2'>
+                <CCol sm={12}>
+                    <CCard>
+                        <CCardBody>
+                            <CRow>
+                                <CCol>
+                                    <h4 className="card-title mb-0">
+                                        Pick And Pack Progress
+                                    </h4>
+                                </CCol>
+                            </CRow>
+                        </CCardBody>
+                    </CCard>
+                </CCol>
+            </CRow>
+            <CRow>
+                <CCol sm={6}>
+                    <CCard>
+                        <CCardBody>
+                            <CRow>
+                                <CCol>
+                                    <h4 className="card-title mb-0">
+                                        Order Request Detail
+                                    </h4>
+                                </CCol>
+                            </CRow>
+                            <br />
+                            <pre>
+                                {JSON.stringify(detailProject)}
+                            </pre>
+                            <CRow>
+                                <CCol>
+                                    <CRow className="mb-3">
+                                        <CFormLabel
+                                            className="col-sm-3 col-form-label">Order Request Date <code>(*)</code>
+                                        </CFormLabel>
+                                        <CCol sm={9}>
+                                            <CFormInput
+                                                type="text"
+                                                name="materialCode"
+                                            // value={values?.materialCode}
+                                            // onChange={handleOnchange}
+                                            />
+                                        </CCol>
+                                    </CRow>
+                                </CCol>
+                            </CRow>
+                        </CCardBody>
+                    </CCard>
+                </CCol>
+            </CRow>
+            {/* <CModal
                 size="lg"
                 visible={openModal}
                 onClose={() => setOpenModal(false)}
@@ -299,6 +253,7 @@ function PickAndPack() {
                         <CCol className="d-none d-md-block text-end">
                             <SmartTable
                                 data={itemOrderRequestData}
+                                // filterValue={filterValue}
                                 columns={itemOrderRequest}
                                 minHeight={200}
                             />
@@ -308,51 +263,9 @@ function PickAndPack() {
                 <CModalFooter>
                     <CButton onClick={handleClose} color="secondary">Close</CButton>
                 </CModalFooter>
-            </CModal>
-            <CModal
-                size="lg"
-                visible={openModalUpload}
-                onClose={() => setOpenModalUpload(false)}
-                alignment='center'
-            >
-                <CModalHeader>
-                    <CModalTitle>Item List Upload {custOrderRequest}</CModalTitle>
-                </CModalHeader>
-                <CModalBody>
-                    <CRow className="mb-3">
-                        <CCol sm={6}>
-                            <CForm onSubmit={handleUploadFile} encType="multipart/form-data">
-                                <CInputGroup className="mb-3">
-                                    <CFormInput
-                                        type="file"
-                                        name="fileUpload"
-                                        onChange={(e) => handleFileChange(e)}
-                                    />
-                                    <CButton
-                                        type="submit"
-                                        color="success"
-                                        title='upload file'
-                                    >
-                                        <FontAwesomeIcon icon={faUpload} />
-                                    </CButton>
-                                </CInputGroup>
-                            </CForm>
-                        </CCol>
-                        <CCol>
-                            <CButton
-                                onClick={handleDownloadTemplate}
-                                color="info">
-                                Download {templateName}
-                            </CButton>
-                        </CCol>
-                    </CRow>
-                </CModalBody>
-                <CModalFooter>
-                    <CButton onClick={handleCloseModalUpload} color="secondary">Close</CButton>
-                </CModalFooter>
-            </CModal>
+            </CModal> */}
         </>
     )
 }
 
-export default PickAndPack
+export default PickAndPackProgress

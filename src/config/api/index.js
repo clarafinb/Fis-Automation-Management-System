@@ -113,3 +113,5 @@ export const API_GET_PICK_AND_PACK_PENDING = BASE_URL + "logmanagement/getPickan
 export const API_START_PICK_AND_PACK = BASE_URL + "logmanagement/pickandPackStart";
 export const API_RESET_ORDER_REQUEST = BASE_URL + "logmanagement/orderRequestItemReset"
 export const API_GET_ORDER_REQUEST_ITEM = BASE_URL + "logmanagement/getOrderRequestItemList"
+export const API_GET_TEMPLATE_ORDER_REQUEST_ITEM = BASE_URL + "masterdata/getMassUploadTemplateOrderReqItemBulkUpload"
+export const API_UPLOAD_CUST_ORDER_REQ_TEIM = BASE_URL + "logmanagement/custItemRequestUpload"
