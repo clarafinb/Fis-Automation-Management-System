@@ -84,7 +84,11 @@ import {
   API_GET_TEMPLATE_ORDER_REQUEST_ITEM,
   API_UPLOAD_CUST_ORDER_REQ_TEIM,
   API_GET_PICK_AND_PACK_PROGRESS,
-  API_GET_ORDER_REQUEST_DETAIL
+  API_GET_ORDER_REQUEST_DETAIL,
+  API_GET_DELIVERY_MODE_BASED_TRANSPORT_MODE,
+  API_GET_ORDER_REQUEST_ADDED_SERVICE_CHARGE,
+  API_COMPLETE_PICK_AND_PACK,
+  API_GET_ORDER_REQUEST_SERVICE_CHARGE
 } from "../../api/index"
 import Swal from "sweetalert2";
 
@@ -1935,10 +1939,10 @@ export const startPickAndPack = (payload, projectId, whId) => {
     }
   }
 }
-export const resetPickAndPack = (projectId, whId, userId) => {
+export const resetPickAndPack = (orderReqId, projectId, whId, userId) => {
   return async (dispatch) => {
     try {
-      let create = await actionCrud.actionCommonSlice(projectId, API_RESET_ORDER_REQUEST, "DELETE");
+      let create = await actionCrud.actionCommonSlice(orderReqId, API_RESET_ORDER_REQUEST, "DELETE");
       if (create.status === "success") {
         Swal.fire({
           position: "center",
@@ -1980,10 +1984,11 @@ export const getMassUploadTemplateOrderReqItemBulkUpload = () => {
     }
   }
 }
-export const uploadOrderReqItem = (formData, orderReqId) => {
-  return async () => {
+export const uploadOrderReqItem = (formData, orderReqId, projectId, whId, userId) => {
+  return async (dispatch) => {
     try {
       const { value } = await actionCrud.actionCommonSliceParam(orderReqId, API_UPLOAD_CUST_ORDER_REQ_TEIM, "POST", '', formData)
+      dispatch(getListPickAndPackPending(projectId, whId, userId));
       Swal.fire({
         title: value.status,
         text: value.message,
@@ -2037,6 +2042,165 @@ export const getOrderRequestDetail = (orderReqId) => {
     try {
       let data = await actionCrud.actionParamRequest(orderReqId, API_GET_ORDER_REQUEST_DETAIL, "GET");
       return Promise.resolve(data)
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Close'
+      })
+    }
+  }
+}
+export const getDeliveryRequestFinal = (transportModeId, orderReqId) => {
+  return async () => {
+    try {
+      const fullParam = `${transportModeId}/${orderReqId}`
+      let list = await actionCrud.actionCommonSliceParam(fullParam, API_GET_DELIVERY_MODE_BASED_TRANSPORT_MODE, "GET");
+      let listDeliveryFinal = list?.map((item, idx) => {
+        return {
+          label: item.deliveryMode,
+          value: item.deliveryModeId
+        }
+      })
+      return Promise.resolve(listDeliveryFinal)
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Close'
+      })
+    }
+  }
+}
+export const getOrderRequestServiceCharge = (orderReqId) => {
+  return async (dispatch) => {
+    try {
+      let data = await actionCrud.actionParamRequest(orderReqId, API_GET_ORDER_REQUEST_ADDED_SERVICE_CHARGE, "GET");
+      const listOrdeRequestAdditionalService = data.map((item, idx) => {
+        return {
+          no: idx + 1,
+          ...item,
+          extra: {
+            ...{
+              orderReqId: orderReqId,
+            }
+          }
+        }
+      })
+      dispatch({
+        type: actionType.SET_LIST_ORDER_REQUEST_ADDITIONAL_SERVICE,
+        payload: listOrdeRequestAdditionalService
+      });
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Close'
+      })
+    }
+  }
+}
+export const resetPickAndPackprogress = (orderReqId) => {
+  return async () => {
+    try {
+      let create = await actionCrud.actionCommonSlice(orderReqId, API_RESET_ORDER_REQUEST, "DELETE");
+      if (create.status === "success") {
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: create?.message,
+          showConfirmButton: true
+        });
+      } else {
+        Swal.fire({
+          title: 'Error!',
+          text: create?.message,
+          icon: 'error',
+          confirmButtonText: 'Close'
+        })
+      }
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Close'
+      })
+    }
+  }
+}
+export const uploadOrderReqItemPickAndPackProgress = (formData, orderReqId) => {
+  return async (dispatch) => {
+    try {
+      const { value } = await actionCrud.actionCommonSliceParam(orderReqId, API_UPLOAD_CUST_ORDER_REQ_TEIM, "POST", '', formData)
+      Swal.fire({
+        title: value.status,
+        text: value.message,
+        icon: "success",
+        confirmButtonText: "Yes",
+      });
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Close'
+      })
+    }
+  };
+}
+
+export const pickandPackComplete = (payload) => {
+  return async (dispatch) => {
+    try {
+      let create = await actionCrud.actionCommonCrud(payload, API_COMPLETE_PICK_AND_PACK, "PUT");
+      if (create.status === "success") {
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: create?.message,
+          showConfirmButton: true
+        });
+      } else {
+        Swal.fire({
+          title: 'Error!',
+          text: create?.message,
+          icon: 'error',
+          confirmButtonText: 'Close'
+        })
+      }
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Close'
+      })
+    }
+  }
+}
+// API_GET_ORDER_REQUEST_SERVICE_CHARGE
+export const getOrderRequestServiceChargeList = (projectid, orderReqId) => {
+  return async (dispatch) => {
+    try {
+      const fullParam = `${projectid}/${orderReqId}`
+      let data = await actionCrud.actionParamRequest(fullParam, API_GET_ORDER_REQUEST_SERVICE_CHARGE, "GET");
+      const result = data.map((item, idx) => {
+        return {
+          no: idx + 1,
+          ...item,
+          extra: {
+            ...{
+              projectid: projectid,
+              orderReqId: orderReqId,
+            }
+          }
+        }
+      })
+      return Promise.resolve(result)
     } catch (error) {
       Swal.fire({
         title: 'Error!',

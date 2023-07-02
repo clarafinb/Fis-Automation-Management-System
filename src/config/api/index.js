@@ -122,3 +122,4 @@ export const API_GET_ORDER_REQUEST_SERVICE_CHARGE = BASE_URL + "servicecharge/or
 export const API_GET_ORDER_REQUEST_ADDED_SERVICE_CHARGE = BASE_URL + "servicecharge/orderRequestGetAddedServiceChargeList"
 export const API_GET_DELIVERY_MODE_BASED_TRANSPORT_MODE = BASE_URL + "logManagement/deliveryModeBasedOnTransportModeGetAll"
 export const API_ADD_ORDER_REQUEST_SERVICE_CHARGE = BASE_URL + "servicecharge/orderRequestServiceChargeAdd"
+export const API_COMPLETE_PICK_AND_PACK = BASE_URL + "logmanagement/pickandPackComplete";

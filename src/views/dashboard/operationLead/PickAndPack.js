@@ -62,7 +62,7 @@ function PickAndPack() {
                 }
                 dispatch(actions.startPickAndPack(payload, projectId, detailProject.whId))
             } else if (action === 'reset') {
-                dispatch(actions.resetPickAndPack(projectId, detailProject.whId, Global.user.userID))
+                dispatch(actions.resetPickAndPack(orderReqId, projectId, detailProject.whId, Global.user.userID))
             } else {
                 setOpenModalUpload(true)
                 dispatch(
@@ -92,7 +92,13 @@ function PickAndPack() {
         e.preventDefault()
         if (fileUpload) {
             const formData = new FormData(e.target);
-            dispatch(actions.uploadOrderReqItem(formData, orderReqId))
+            dispatch(actions.uploadOrderReqItem(
+                formData,
+                orderReqId,
+                projectId,
+                detailProject.whId,
+                Global?.user?.userID
+            ))
             setFileUpload(null)
         } else {
             Swal.fire({
@@ -102,8 +108,6 @@ function PickAndPack() {
                 confirmButtonText: 'OK'
             })
         }
-
-
     }
 
     const handleFileChange = (event) => {

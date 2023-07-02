@@ -144,7 +144,7 @@ function PickAndPackProgress() {
                 return (
                     <>
                         {
-                            cellProps.data.totalItem == 0 ?
+                            cellProps.data.totalItem > 0 ?
                                 <FontAwesomeIcon
                                     icon={faUpload}
                                     className='textBlue px-2'
