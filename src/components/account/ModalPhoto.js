@@ -72,7 +72,7 @@ function ModalPhoto({ open, setOpen, userId }) {
             <CModalBody>
                 <CRow className="mb-3">
                     <CCol sm={6}>
-                        <CForm onSubmit={handleUploadImage} enctype="multipart/form-data">
+                        <CForm onSubmit={handleUploadImage} encType="multipart/form-data">
                             <CFormLabel className="col-sm-6 col-form-label">Upload New Photo</CFormLabel>
                             <CInputGroup className="mb-3">
                                 <CFormInput

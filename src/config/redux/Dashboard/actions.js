@@ -80,7 +80,9 @@ import {
   API_GET_PICK_AND_PACK_PENDING,
   API_GET_ORDER_REQUEST_ITEM,
   API_START_PICK_AND_PACK,
-  API_RESET_ORDER_REQUEST
+  API_RESET_ORDER_REQUEST,
+  API_GET_TEMPLATE_ORDER_REQUEST_ITEM,
+  API_UPLOAD_CUST_ORDER_REQ_TEIM
 } from "../../api/index"
 import Swal from "sweetalert2";
 
@@ -1960,4 +1962,40 @@ export const resetPickAndPack = (projectId, whId, userId) => {
       })
     }
   }
+}
+export const getMassUploadTemplateOrderReqItemBulkUpload = () => {
+  return async () => {
+    try {
+      let data = await actionCrud.actionParamRequest('', API_GET_TEMPLATE_ORDER_REQUEST_ITEM, "GET");
+      return Promise.resolve(data)
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Close'
+      })
+    }
+  }
+}
+// API_UPLOAD_CUST_ORDER_REQ_TEIM
+export const addNewPhotoUser = (formData, orderReqId) => {
+  return async () => {
+    try {
+      const { value } = await actionCrud.actionCommonSliceParam(orderReqId, API_UPLOAD_CUST_ORDER_REQ_TEIM, "POST", '', formData)
+      Swal.fire({
+        title: value.status,
+        text: value.message,
+        icon: "success",
+        confirmButtonText: "Yes",
+      });
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Close'
+      })
+    }
+  };
 }

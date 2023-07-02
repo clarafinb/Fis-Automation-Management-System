@@ -46,6 +46,10 @@ function DashboardOpsLead(projectId) {
             {
                 type: 'pickAndPackPending',
                 url: '/operation-lead/pick-pack/' + id
+            },
+            {
+                type: 'pickAndPackProgress',
+                url: '/operation-lead/pick-pack/progress/' + id
             }
         ]
 
@@ -137,7 +141,12 @@ function DashboardOpsLead(projectId) {
                                     <CRow>
                                         <CCol className="d-none d-md-block">
                                             <div className='text-end'>
-                                                <CIcon icon={cilSend} className="me-2" size="xl" />
+                                                <CIcon
+                                                    icon={cilSend}
+                                                    className="me-2"
+                                                    size="xl"
+                                                    onClick={() => handleNavigator("pickAndPackProgress", projectId.projectId)}
+                                                />
                                             </div>
                                         </CCol>
                                     </CRow>
