@@ -23,7 +23,7 @@ import CIcon from '@coreui/icons-react'
 import { cilCloudUpload, cilFile, cilPlus } from '@coreui/icons'
 import SmartTable from 'src/components/custom/table/SmartTable'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPencil, faPlay, faRefresh, faSearch, faUnlink, faUpload } from '@fortawesome/free-solid-svg-icons'
+import { faPencil, faPlay, faPlus, faRefresh, faSearch, faUnlink, faUpload } from '@fortawesome/free-solid-svg-icons'
 import moment from 'moment/moment'
 import Select from 'react-select'
 import Swal from 'sweetalert2'
@@ -49,6 +49,7 @@ function WaitingDispatchDetail() {
     const [templateUrl, setTemplateUrl] = useState("")
     const [serviceChargeData, setServiceChargeData] = useState([])
     const [serviceChargeHeader, setServiceChargeHeader] = useState([])
+    const [values, setValues] = useState({})
     useEffect(() => {
         const splitUri = window.location.href.split("/");
         const orderRequestId = splitUri[8]
@@ -69,6 +70,7 @@ function WaitingDispatchDetail() {
             })
 
             dispatch(actions.getTransportArragementOrderReq(orderRequestId))
+            dispatch(actions.getOrderRequestServiceCharge(orderRequestId))
         }
     }, [Global?.user?.userID]);
 
@@ -111,6 +113,17 @@ function WaitingDispatchDetail() {
             }
         }
         dispatch(actions.pickandPackComplete(payload))
+    }
+
+    const handleCreateAdditionalService = () => {
+        dispatch(
+            actions.getOrderRequestServiceChargeList(projectId, orderReqId)
+        ).then(response => {
+            setServiceChargeData(response)
+            setValues({})
+            setOpenModalAdditionalService(true)
+        })
+
     }
 
 
@@ -234,6 +247,90 @@ function WaitingDispatchDetail() {
                 setOpenModal(true)
             })
     }
+
+    const handleChangeQty = useCallback(
+        (e, data) => {
+
+            const { value } = e.target;
+
+            setValues((prev) => ({
+                ...prev,
+                [data?.projectServiceChargeId]: value
+            }));
+
+        }, [setValues]
+    )
+
+    const additionalServiceColumn = [
+        { name: 'no', header: 'No', defaultVisible: true, defaultWidth: 80, type: 'number' },
+        { name: 'serviceChargeCode', header: 'SVC Code', defaultFlex: 1 },
+        { name: 'serviceCharge', header: 'SVC Desc', defaultFlex: 1 },
+        { name: 'uom', header: 'UOM', defaultFlex: 1 },
+        { name: 'serviceQty', header: 'QTY', defaultFlex: 1 },
+    ]
+
+    const handleComponentQty = useCallback(
+        (projectServiceChargeId) => {
+            if (values[projectServiceChargeId]) {
+                let payload = {
+                    orderReqId: orderReqId,
+                    projectServiceChargeId: projectServiceChargeId,
+                    serviceQty: values[projectServiceChargeId],
+                    LMBY: Global?.user?.userID
+                }
+
+                dispatch(actions.addOrderRequestServiceCharge(payload))
+            } else {
+                alert("Qty is Empty !")
+            }
+        }
+    )
+
+    const additionalServiceChargeColumn = [
+        { name: 'no', header: 'No', defaultVisible: true, defaultWidth: 80, type: 'number' },
+        { name: 'serviceChargeCode', header: 'SVC Code', defaultFlex: 1 },
+        { name: 'serviceCharge', header: 'SVC Desc', defaultFlex: 1 },
+        { name: 'uom', header: 'UOM', defaultFlex: 1 },
+        {
+            name: 'serviceQty',
+            header: 'QTY',
+            defaultFlex: 1,
+            defaultWidth: 80,
+            render: ({ value, cellProps }) => {
+                return (
+                    <>
+                        <CFormInput
+                            className='form-control'
+                            type="text"
+                            name="qty"
+                            onChange={(e) => handleChangeQty(e, cellProps?.data)}
+                        />
+                    </>
+                )
+            }
+        }, {
+            name: 'projectServiceChargeId',
+            header: 'Action',
+            // defaultFlex: 1,
+            textAlign: 'center',
+            defaultWidth: 110,
+            render: ({ value, cellProps }) => {
+                return (
+                    <>
+                        <FontAwesomeIcon
+                            icon={faPlus}
+                            className='textBlue px-2'
+                            title='Order Request'
+                            size='sm'
+                            onClick={() =>
+                                handleComponentQty(value)
+                            }
+                        />
+                    </>
+                )
+            }
+        },
+    ]
 
     const transportArragementColumn = [
         { name: 'no', header: 'No', defaultVisible: true, defaultWidth: 80, type: 'number' },
@@ -569,14 +666,10 @@ function WaitingDispatchDetail() {
                                             <h5 className="card-title mb-0">
                                                 Transport Arrangement
                                             </h5>
-                                            <pre>
-                                                {'hasGroup : ' + orderReqDetail?.hasGroup}
-                                                <br />
-                                                {'List Arragment : ' + Dashboard?.listTransportArragement.length}
-                                            </pre>
                                         </CCol>
                                         {
-                                            Dashboard?.listTransportArragement.length == 0 && orderReqDetail?.hasGroup == 'No' ?
+                                            (Dashboard?.listTransportArragement.length == 0 && orderReqDetail?.hasGroup == 'No') ||
+                                                (orderReqDetail?.hasGroup == 'Yes') ?
                                                 <CCol className="d-none d-md-block text-end">
                                                     <CIcon
                                                         icon={cilPlus}
@@ -597,17 +690,33 @@ function WaitingDispatchDetail() {
                                             minHeight={200}
                                         />
                                     </CCol>
-                                    {
-                                        orderReqDetail?.totalItem > 0 ?
-                                            < CRow >
-                                                <CCol className="d-none d-md-block text-end py-3">
-                                                    <CButton onClick={handleConfirm} color="primary">Confirm</CButton>
-                                                </CCol>
-                                            </CRow>
-                                            : ''
-                                    }
                                 </CCol>
                             </CRow>
+                            <br />
+                            <br />
+                            <CRow>
+                                <CCol>
+                                    <h5 className="card-title mb-0">
+                                        Additional Service
+                                    </h5>
+                                </CCol>
+                                <CCol className="d-none d-md-block text-end">
+                                    <CIcon
+                                        icon={cilPlus}
+                                        className="me-2 text-default"
+                                        size="xl"
+                                        onClick={handleCreateAdditionalService}
+                                    />
+                                </CCol>
+                            </CRow>
+                            <CCol className="d-none d-md-block text-end">
+                                <SmartTable
+                                    data={Dashboard?.listOrdeRequestAdditionalService}
+                                    // filterValue={filterValue}
+                                    columns={additionalServiceColumn}
+                                    minHeight={200}
+                                />
+                            </CCol>
                         </CCardBody>
                     </CCard>
                 </CCol >
@@ -692,7 +801,7 @@ function WaitingDispatchDetail() {
                         <CCol className="d-none d-md-block text-end">
                             <SmartTable
                                 data={serviceChargeData}
-                                columns={serviceChargeHeader}
+                                columns={additionalServiceChargeColumn}
                                 minHeight={200}
                             />
                         </CCol>
