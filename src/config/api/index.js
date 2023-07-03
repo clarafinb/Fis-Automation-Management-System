@@ -116,10 +116,27 @@ export const API_GET_ORDER_REQUEST_ITEM = BASE_URL + "logmanagement/getOrderRequ
 export const API_GET_TEMPLATE_ORDER_REQUEST_ITEM = BASE_URL + "masterdata/getMassUploadTemplateOrderReqItemBulkUpload"
 export const API_UPLOAD_CUST_ORDER_REQ_TEIM = BASE_URL + "logmanagement/custItemRequestUpload"
 //PICK AND PACK PROGRESS
-export const API_GET_PICK_AND_PACK_PROGRESS =  BASE_URL + "logmanagement/getPickandPackOnProgressWHProject"
+export const API_GET_PICK_AND_PACK_PROGRESS = BASE_URL + "logmanagement/getPickandPackOnProgressWHProject"
 export const API_GET_ORDER_REQUEST_DETAIL = BASE_URL + "logmanagement/getOrderRequestDetail"
 export const API_GET_ORDER_REQUEST_SERVICE_CHARGE = BASE_URL + "servicecharge/orderRequestGetServiceChargeList"
 export const API_GET_ORDER_REQUEST_ADDED_SERVICE_CHARGE = BASE_URL + "servicecharge/orderRequestGetAddedServiceChargeList"
 export const API_GET_DELIVERY_MODE_BASED_TRANSPORT_MODE = BASE_URL + "logManagement/deliveryModeBasedOnTransportModeGetAll"
 export const API_ADD_ORDER_REQUEST_SERVICE_CHARGE = BASE_URL + "servicecharge/orderRequestServiceChargeAdd"
 export const API_COMPLETE_PICK_AND_PACK = BASE_URL + "logmanagement/pickandPackComplete"
+// WAITING DISPATCH
+export const API_GET_DELIVERY_PENDING = BASE_URL + "logmanagement/getDeliveryPendingWHProject"
+export const API_ADD_TRANSPORT_ARRAGEMENT = BASE_URL + "transportarrangement/transportArrangementAdd"
+export const API_GET_TRANSPORT_ARRAGEMENT_ORDER_REQ = BASE_URL + "transportarrangement/getTransportArrangementBasedOnOrderRequest"
+export const API_COMPLETE_TRANSPORT_ARRAGEMENT = BASE_URL + "transportarrangement/transportArrangementConfirmed"
+//WAITING DISPATCH -> TRANSPORT ARRAGEMENT
+export const API_GET_ORDER_REQUEST_TRANSPORT_ARRAGMENET = BASE_URL + "transportarrangement/getOrderRequestBasedOnTransportArrangement"
+export const API_GET_TRANSPORT_ARRAGEMENT_TYPE_LIST = BASE_URL + "transportarrangement/getTransportTypeList"
+export const API_GET_DISPATCHER_BASE_TRANSPORT_ARRAGEMENT = BASE_URL + "transportarrangement/getDispatcherBasedOnTransportArrangement"
+export const API_ADD_TRANSPORT_ARRAGEMENT_TYPE = BASE_URL + "transportarrangement/transportArrangementTransportTypeAdd"
+export const API_DELETE_TRANSPORT_ARRAGEMENT_TYPE = BASE_URL + "transportarrangement/transportArrangementTransportTypeDelete"
+export const API_GET_TRANSPORT_ARRAGEMENT_TYPE = BASE_URL + "transportarrangement/getTransportTypeArranged"
+//WAITING DISPATCH -> TRANSPORT ARRAGEMENT -> SERVICE CHARGE
+export const API_GET_TRANSPORT_ARRAGEMENT_SERVICE_CHARGE = BASE_URL + "servicecharge/transportArrangementGetServiceChargeList"
+export const API_ADD_TRANSPORT_ARRAGEMENT_SERVICE_CHARGE = BASE_URL + "servicecharge/transportArrangementServiceChargeAdd"
+export const API_GET_TRANSPORT_ARRAGEMENT_ADD_SERVICE_CHARGE_LIST = BASE_URL + "servicecharge/transportArrangementGetAddedServiceChargeList"
+export const API_DELETE_TRANSPORT_ARRAGEMENT_SERVICE_CHARGE = BASE_URL + "servicecharge/transportArrangementServiceChargeDelete"

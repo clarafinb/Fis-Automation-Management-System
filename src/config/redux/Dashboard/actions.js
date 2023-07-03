@@ -89,7 +89,9 @@ import {
   API_GET_ORDER_REQUEST_ADDED_SERVICE_CHARGE,
   API_COMPLETE_PICK_AND_PACK,
   API_GET_ORDER_REQUEST_SERVICE_CHARGE,
-  API_ADD_ORDER_REQUEST_SERVICE_CHARGE
+  API_ADD_ORDER_REQUEST_SERVICE_CHARGE,
+  API_GET_DELIVERY_PENDING,
+  API_GET_TRANSPORT_ARRAGEMENT_ORDER_REQ
 } from "../../api/index"
 import Swal from "sweetalert2";
 
@@ -2233,7 +2235,64 @@ export const addOrderRequestServiceCharge = (payload) => {
           confirmButtonText: 'Close'
         })
       }
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Close'
+      })
+    }
+  }
+}
 
+export const getListDeliveryPending = (projectId, whId, userId) => {
+  return async (dispatch) => {
+    try {
+      const fullParam = `${projectId}/${whId}/${userId}`
+      let list = await actionCrud.actionParamRequest(fullParam, API_GET_DELIVERY_PENDING, "GET");
+      let listDeliveryPending = list?.map((item, idx) => {
+        return {
+          no: idx + 1,
+          ...item,
+          extra: {
+            ...{
+              projectId: projectId,
+              whId: whId,
+              userId: whId
+            }
+          }
+        }
+      })
+      dispatch({
+        type: actionType.SET_LIST_DELIVERY_PENDING,
+        payload: listDeliveryPending
+      });
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Close'
+      })
+    }
+  }
+}
+export const getTransportArragementOrderReq = (orderReqId) => {
+  return async (dispatch) => {
+    try {
+      const fullParam = `${orderReqId}`
+      let list = await actionCrud.actionParamRequest(fullParam, API_GET_TRANSPORT_ARRAGEMENT_ORDER_REQ, "GET");
+      let listTransportArragement = list?.map((item, idx) => {
+        return {
+          no: idx + 1,
+          ...item,
+        }
+      })
+      dispatch({
+        type: actionType.SET_LIST_TRANSPORT_ARRAGEMENT,
+        payload: listTransportArragement
+      });
     } catch (error) {
       Swal.fire({
         title: 'Error!',
