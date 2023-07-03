@@ -5,18 +5,9 @@ import {
     CButton,
     CCol,
     CRow,
-    CFormInput,
-    CFormLabel,
-    CModal,
-    CModalHeader,
-    CModalTitle,
-    CModalBody,
-    CModalFooter,
-    CFormTextarea,
     CFormSelect,
     CCard,
     CCardBody,
-    CCardTitle,
     CCardText,
     CNav,
     CNavItem,
@@ -454,32 +445,67 @@ function DashboardOpsLead({ data }) {
                             </CCol>
                             <CCol>
                                 <CCard>
-                                    <CChart
-                                        type="bar"
-                                        data={{
-                                            labels: ['Total Order Request', 'Order Request Canceled', 'Pick And Pack Done', 'In Transit', 'Delivery Complete'],
-                                            datasets: [
-                                                {
-                                                    label: 'Chart',
-                                                    backgroundColor: [
-                                                        'rgba(255, 99, 132, 0.2)',
-                                                        'rgba(255, 159, 64, 0.2)',
-                                                        'rgba(255, 205, 86, 0.2)',
-                                                        'rgba(75, 192, 192, 0.2)',
-                                                        'rgba(54, 162, 235, 0.2)',
-                                                    ],
-                                                    data: [
-                                                        detailWarehouse?.totalOrderReqDelivery,
-                                                        detailWarehouse?.orderReqDeliveryCanceledCount,
-                                                        detailWarehouse?.pickandpackDoneCount,
-                                                        detailWarehouse?.pickupInTransitCount,
-                                                        detailWarehouse?.deliveryCompleteCount
-                                                    ],
+                                    <div className='m-2'>
+                                        <CChart
+                                            type="bar"
+                                            data={{
+                                                labels: [
+                                                            detailWarehouse?.totalOrderReqDelivery, 
+                                                            detailWarehouse?.orderReqDeliveryCanceledCount, 
+                                                            detailWarehouse?.pickandpackDoneCount, 
+                                                            detailWarehouse?.pickupInTransitCount, 
+                                                            detailWarehouse?.deliveryCompleteCount
+                                                        ],
+                                                datasets: [
+                                                    {
+                                                        label: 'Chart',
+                                                        backgroundColor: [
+                                                            '#E4AF00',
+                                                            '#F87272',
+                                                            '#00A9E0',
+                                                            'rgba(#202020, 0.25)',
+                                                            '#4ADE80',
+                                                        ],
+                                                        data: [
+                                                            detailWarehouse?.totalOrderReqDelivery,
+                                                            detailWarehouse?.orderReqDeliveryCanceledCount,
+                                                            detailWarehouse?.pickandpackDoneCount,
+                                                            detailWarehouse?.pickupInTransitCount,
+                                                            detailWarehouse?.deliveryCompleteCount
+                                                        ],
+                                                        borderWidth: 0,
+                                                    },
+                                                ],
+                                            }}
+                                            options={{
+                                                plugins: {
+                                                    legend: {
+                                                        display: false, // Menyembunyikan label
+                                                    },
                                                 },
-                                            ],
-                                        }}
-                                        labels="months"
-                                    />
+                                                scales: {
+                                                    x: {
+                                                        grid: {
+                                                            display: false, // Menyembunyikan garis grid pada sumbu x
+                                                        },
+                                                    },
+                                                    y: {
+                                                        display: false, // Menyembunyikan sumbu y
+                                                        grid: {
+                                                            display: false, // Menyembunyikan garis grid pada sumbu y
+                                                        },
+                                                    },
+                                                },
+                                            }}
+                                        />
+                                        <hr />   
+                                        <h8>INFORMATION :</h8>
+                                        <p><img src={'assets/Ellipse_orange.png'} /> ORDER REQUEST DELIVERY</p>
+                                        <p><img src={'assets/Ellipse_alert.png'} /> PICK & PACK ON PENDING</p>
+                                        <p><img src={'assets/Ellipse_blue.png'} /> PICK & PACK ON PROGRESS</p>
+                                        <p><img src={'assets/Ellipse_grey.png'} /> DELIVERY IN TRANSIT</p>
+                                        <p><img src={'assets/Ellipse_green.png'} /> DELIVERY COMPLETE</p>
+                                    </div>
                                 </CCard>
                             </CCol>
                         </CRow>

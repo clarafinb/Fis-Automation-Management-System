@@ -16,6 +16,13 @@ a {
   color: $yellowPrimary;
 }
 
+img {
+  overflow-clip-margin: content-box;
+  overflow: clip;
+  vertical-align: middle;
+  padding-bottom: 5%;
+}
+
 .colorBtn-orange {
   background-color: $orangePrimary !important;
   border: 1px solid $orangePrimary !important;

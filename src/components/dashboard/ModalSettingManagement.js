@@ -32,62 +32,45 @@ function ModalSettingManagement({
 
     return (
         <CModal
-            // size="lg"
+            size="lg"
             visible={open}
             onClose={() => setOpen(false)}
             alignment='center'
         >
             <CModalHeader>
-                <CModalTitle>Settings Management</CModalTitle>
+                <CModalTitle>SETTINGS MANAGEMENT</CModalTitle>
             </CModalHeader>
             <CModalBody>
                 <CRow>
                     <CCol sm={3}>
-                        <CCard className='text-center border-default border-top-default border-bottom-5'>
+                        <CCard className='text-center no-background' onClick={() => { handleViewModal("accountManagement") }}>
                             <CCardBody>
-                                <CTooltip
-                                    content="Account Management"
-                                    placement="bottom"
-                                >
-                                    <CIcon icon={cilUserFollow} className="text-default" size="3xl" onClick={() => { handleViewModal("accountManagement") }} />
-                                </CTooltip>
-                            </CCardBody>
-                        </CCard>
-                    </CCol>
-
-                    <CCol sm={3}>
-                        <CCard className='text-center border-default border-top-default border-bottom-5'>
-                            <CCardBody>
-                                <CTooltip
-                                    content="Delivery Mode"
-                                    placement="bottom"
-                                >
-                                    <CIcon icon={cilTruck} className="text-default" size="3xl" onClick={() => { handleViewModal("smDelivery") }} />
-                                </CTooltip>
+                                <img src={'icon/ACCOUNT-MANAGEMENT-ICON.png'} />
+                                <p>Account Management</p>
                             </CCardBody>
                         </CCard>
                     </CCol>
                     <CCol sm={3}>
-                        <CCard className='text-center border-default border-top-default border-bottom-5'>
+                        <CCard className='text-center no-background' onClick={() => { handleViewModal("smDelivery") }}>
                             <CCardBody>
-                                <CTooltip
-                                    content="Transport Mode"
-                                    placement="bottom"
-                                >
-                                    <CIcon icon={cilGarage} className="text-default" size="3xl" onClick={() => { handleViewModal("smTransport") }} />
-                                </CTooltip>
+                                <img src={'icon/DELIVERY-MODE-ICON.png'} />
+                                <p>Delivery Mode</p>
                             </CCardBody>
                         </CCard>
                     </CCol>
                     <CCol sm={3}>
-                        <CCard className='text-center border-default border-top-default border-bottom-5'>
+                        <CCard className='text-center no-background' onClick={() => { handleViewModal("smTransport") }}>
                             <CCardBody>
-                                <CTooltip
-                                    content="Transport Type"
-                                    placement="bottom"
-                                >
-                                    <CIcon icon={cilAirplaneMode} className="text-default" size="3xl" onClick={() => { handleViewModal("smTransportType") }} />
-                                </CTooltip>
+                                <img src={'icon/TRANSPORT-MODE-ICON.png'} />
+                                <p>Transport Mode</p>
+                            </CCardBody>
+                        </CCard>
+                    </CCol>
+                    <CCol sm={3}>
+                        <CCard className='text-center no-background' onClick={() => { handleViewModal("smTransportType") }}>
+                            <CCardBody>
+                                <img src={'icon/TRANSPORT-TYPE-ICON.png'} />
+                                <p>Transport Type</p>
                             </CCardBody>
                         </CCard>
                     </CCol>
@@ -95,38 +78,26 @@ function ModalSettingManagement({
                 <br />
                 <CRow>
                     <CCol sm={3}>
-                        <CCard className='text-center border-default border-top-default border-bottom-5'>
+                        <CCard className='text-center no-background' onClick={() => { handleViewModal("uom") }}>
                             <CCardBody>
-                                <CTooltip
-                                    content="Unit of Measurement"
-                                    placement="bottom"
-                                >
-                                    <CIcon icon={cilEqualizer} className="text-default" size="3xl" onClick={() => { handleViewModal("uom") }} />
-                                </CTooltip>
+                                <img src={'icon/UOM-ICON.png'} />
+                                <p>Unit Of Measurement</p>
                             </CCardBody>
                         </CCard>
                     </CCol>
                     <CCol sm={3}>
-                        <CCard className='text-center border-default border-top-default border-bottom-5'>
+                        <CCard className='text-center no-background' onClick={() => { handleViewModal("customer") }}>
                             <CCardBody>
-                                <CTooltip
-                                    content="Customer"
-                                    placement="bottom"
-                                >
-                                    <CIcon icon={cilUser} className="text-default" size="3xl" onClick={() => { handleViewModal("customer") }} />
-                                </CTooltip>
+                                <img src={'icon/CUSTOMER-ICON.png'} />
+                                <p>Customer</p>
                             </CCardBody>
                         </CCard>
                     </CCol>
                     <CCol sm={3}>
-                        <CCard className='text-center border-default border-top-default border-bottom-5'>
+                        <CCard className='text-center no-background' onClick={() => { handleViewModal("sc") }}>
                             <CCardBody>
-                                <CTooltip
-                                    content="Service Charge List"
-                                    placement="bottom"
-                                >
-                                    <CIcon icon={cilDescription} className="text-default" size="3xl" onClick={() => { handleViewModal("sc") }} />
-                                </CTooltip>
+                                <img src={'icon/SERVICE-CHARGE-ICON.png'} />
+                                <p>Service Charge List</p>
                             </CCardBody>
                         </CCard>
                     </CCol>

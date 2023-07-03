@@ -31,62 +31,46 @@ function ModalMasterWerehouse({
 }) {
     return (
         <CModal
-            // size="xl"
+            size="lg"
             visible={open}
             onClose={() => setOpen(false)}
             alignment='center'
         >
             <CModalHeader>
-                <CModalTitle>Master Warehouse</CModalTitle>
+                <CModalTitle>MASTER WAREHOUSE</CModalTitle>
             </CModalHeader>
             <CModalBody>
                 {/* <CFormLabel className="col-sm-2 col-form-label">Project Id : {data.projectId}</CFormLabel> */}
                 <CRow>
                     <CCol sm={3}>
-                        <CCard className='text-center border-default border-top-default border-bottom-5'>
+                        <CCard className='text-center no-background' onClick={() => { handleViewModal("warehouse",data.projectId) }}>
                             <CCardBody>
-                                <CTooltip
-                                    content="Master Warehouse per Project"
-                                    placement="bottom"
-                                >
-                                    <CIcon icon={cilHouse} className="text-default" size="3xl" onClick={() => { handleViewModal("warehouse",data.projectId) }} />
-                                </CTooltip>
+                                <img src={'icon/ACCOUNT-MANAGEMENT-ICON.png'} />
+                                <p>Master Warehouse</p>
                             </CCardBody>
                         </CCard>
                     </CCol>
                     <CCol sm={3}>
-                        <CCard className='text-center border-default border-top-default border-bottom-5'>
+                        <CCard className='text-center no-background' onClick={() => { handleViewModal("projectSc",data.projectId) }}>
                             <CCardBody>
-                                <CTooltip
-                                    content="Service Charge"
-                                    placement="bottom"
-                                >   
-                                    <CIcon icon={cilNewspaper} className="text-default" size="3xl" onClick={() => { handleViewModal("projectSc",data.projectId) }} />
-                                </CTooltip>
+                                <img src={'icon/SERVICE-CHARGE-ICON.png'} />
+                                <p>Service Charge List</p>
                             </CCardBody>
                         </CCard>
                     </CCol>
                     <CCol sm={3}>
-                        <CCard className='text-center border-default border-top-default border-bottom-5'>
+                        <CCard className='text-center no-background' onClick={() => { handleViewModal("sku",data.projectId) }}>
                             <CCardBody>
-                                <CTooltip
-                                    content="Master SKU"
-                                    placement="bottom"
-                                >
-                                    <CIcon icon={cilNotes} className="text-default" size="3xl" onClick={() => { handleViewModal("sku",data.projectId) }} />
-                                </CTooltip>
+                                <img src={'icon/DELIVERY-MODE-ICON.png'} />
+                                <p>Master SKU</p>
                             </CCardBody>
                         </CCard>
                     </CCol>
                     <CCol sm={3}>
-                        <CCard className='text-center border-default border-top-default border-bottom-5'>
+                        <CCard className='text-center no-background' onClick={() => { handleViewModal("projectMember",data.projectId) }}>
                             <CCardBody>
-                                <CTooltip
-                                    content="Project Member"
-                                    placement="bottom"
-                                >
-                                    <CIcon icon={cilPeople} className="text-default" size="3xl" onClick={() => { handleViewModal("projectMember",data.projectId) }} />
-                                </CTooltip>
+                                <img src={'icon/CUSTOMER-ICON.png'} />
+                                <p>Project Member</p>
                             </CCardBody>
                         </CCard>
                     </CCol>

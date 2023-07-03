@@ -59,29 +59,30 @@ function ModalCreateProject({ open, setOpen }) {
 
     return (
         <CModal
-            size="xl"
+            // size="lg"
             visible={open}
             onClose={() => setOpen(false)}
+            alignment="center"
         >
             <CModalHeader>
-                <CModalTitle>Project Creation</CModalTitle>
+                <CModalTitle>ADD PROJECT</CModalTitle>
             </CModalHeader>
             <CModalBody>
                 <CRow className="mb-3">
-                    <CFormLabel className="col-sm-2 col-form-label">Project Name</CFormLabel>
-                    <CCol sm={10}>
+                    <CFormLabel >Project Name</CFormLabel>
+                    <CCol>
                         <CFormInput type="text" name="projectName" value={values?.projectName} onChange={handleOnchange} />
                     </CCol>
                 </CRow>
                 <CRow className="mb-3">
-                    <CFormLabel className="col-sm-2 col-form-label">Project Code</CFormLabel>
-                    <CCol sm={10}>
+                    <CFormLabel >Project Code</CFormLabel>
+                    <CCol>
                         <CFormInput type="text" name="projectCode" value={values?.projectCode} onChange={handleOnchange} />
                     </CCol>
                 </CRow>
                 <CRow className="mb-3">
-                    <CFormLabel className="col-sm-2 col-form-label">Customer</CFormLabel>
-                    <CCol sm={10}>
+                    <CFormLabel >Customer</CFormLabel>
+                    <CCol>
                         <CFormSelect
                             name="customerId"
                             options={customerList}
@@ -90,16 +91,19 @@ function ModalCreateProject({ open, setOpen }) {
                     </CCol>
                 </CRow>
                 <CRow className="mb-3">
-                    <CFormLabel className="col-sm-2 col-form-label">Description</CFormLabel>
-                    <CCol sm={10}>
+                    <CFormLabel >Description</CFormLabel>
+                    <CCol>
                         <CFormTextarea rows={3} name="description" value={values?.description} onChange={handleOnchange}></CFormTextarea>
                     </CCol>
                 </CRow>
+                <CRow className="mb-3">
+                    <CCol className="d-grid gap-2">
+                        <CButton className="colorBtn-yellow" onClick={handleCreateProject}>
+                          SAVE
+                        </CButton>
+                    </CCol>
+                </CRow>
             </CModalBody>
-            <CModalFooter>
-                <CButton onClick={() => setOpen(false)} color="secondary">Close</CButton>
-                <CButton color="primary" onClick={handleCreateProject}>Add</CButton>
-            </CModalFooter>
         </CModal>
     )
 }
