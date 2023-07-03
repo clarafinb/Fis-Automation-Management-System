@@ -23,7 +23,7 @@ import CIcon from '@coreui/icons-react'
 import { cilCloudUpload, cilFile, cilPlus } from '@coreui/icons'
 import SmartTable from 'src/components/custom/table/SmartTable'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPlay, faRefresh, faSearch, faUpload } from '@fortawesome/free-solid-svg-icons'
+import { faPlay, faPlus, faRefresh, faSearch, faUpload } from '@fortawesome/free-solid-svg-icons'
 import moment from 'moment/moment'
 import Select from 'react-select'
 import Swal from 'sweetalert2'
@@ -49,6 +49,8 @@ function PickAndPackProgressDetail() {
     const [templateUrl, setTemplateUrl] = useState("")
     const [serviceChargeData, setServiceChargeData] = useState([])
     const [serviceChargeHeader, setServiceChargeHeader] = useState([])
+    const [values, setValues] = useState({})
+
     useEffect(() => {
         const splitUri = window.location.href.split("/");
         const orderRequestId = splitUri[9]
@@ -132,6 +134,26 @@ function PickAndPackProgressDetail() {
         }
     )
 
+    const handleComponentQty = useCallback(
+        (projectServiceChargeId) => {
+            if (values[projectServiceChargeId]) {
+                let payload = {
+                    orderReqId: orderReqId,
+                    projectServiceChargeId: projectServiceChargeId,
+                    serviceQty: values[projectServiceChargeId],
+                    LMBY: Global?.user?.userID
+                }
+
+                dispatch(actions.addOrderRequestServiceCharge(payload))
+            } else {
+                alert("Qty is Empty !")
+            }
+
+            
+        }
+    )
+
+
     const handleClose = () => {
         setOpenModal(false)
     }
@@ -169,6 +191,7 @@ function PickAndPackProgressDetail() {
 
             setServiceChargeData(response)
             setServiceChargeHeader(remapData)
+            setValues({})
             setOpenModalAdditionalService(true)
 
         })
@@ -235,12 +258,71 @@ function PickAndPackProgressDetail() {
             })
     }
 
+    const handleChangeQty = useCallback(
+        (e, data) => {
+
+            const { value } = e.target;
+
+            setValues((prev) => ({
+                ...prev,
+                [data?.projectServiceChargeId]: value
+            }));
+
+        }, [setValues]
+    )
+
     const additionalServiceColumn = [
         { name: 'no', header: 'No', defaultVisible: true, defaultWidth: 80, type: 'number' },
         { name: 'serviceChargeCode', header: 'SVC Code', defaultFlex: 1 },
         { name: 'serviceCharge', header: 'SVC Desc', defaultFlex: 1 },
         { name: 'uom', header: 'UOM', defaultFlex: 1 },
         { name: 'serviceQty', header: 'QTY', defaultFlex: 1 },
+    ]
+
+    const additionalServiceChargeColumn = [
+        { name: 'no', header: 'No', defaultVisible: true, defaultWidth: 80, type: 'number' },
+        { name: 'serviceChargeCode', header: 'SVC Code', defaultFlex: 1 },
+        { name: 'serviceCharge', header: 'SVC Desc', defaultFlex: 1 },
+        { name: 'uom', header: 'UOM', defaultFlex: 1 },
+        {
+            name: 'serviceQty',
+            header: 'QTY',
+            defaultFlex: 1,
+            defaultWidth: 80,
+            render: ({ value, cellProps }) => {
+                return (
+                    <>
+                        <CFormInput
+                            className='form-control'
+                            type="text"
+                            name="qty"
+                            onChange={(e) => handleChangeQty(e, cellProps?.data)}
+                        />
+                    </>
+                )
+            }
+        }, {
+            name: 'projectServiceChargeId',
+            header: 'Action',
+            // defaultFlex: 1,
+            textAlign: 'center',
+            defaultWidth: 110,
+            render: ({ value, cellProps }) => {
+                return (
+                    <>
+                        <FontAwesomeIcon
+                            icon={faPlus}
+                            className='textBlue px-2'
+                            title='Order Request'
+                            size='sm'
+                            onClick={() =>
+                                handleComponentQty(value)
+                            }
+                        />
+                    </>
+                )
+            }
+        },
     ]
 
     return (
@@ -684,14 +766,14 @@ function PickAndPackProgressDetail() {
                 alignment='center'
             >
                 <CModalHeader>
-                    <CModalTitle>Service Charge List {custOrderRequest}</CModalTitle>
+                    <CModalTitle>Additonal Service Charge {custOrderRequest}</CModalTitle>
                 </CModalHeader>
                 <CModalBody>
                     <CRow>
                         <CCol className="d-none d-md-block text-end">
                             <SmartTable
                                 data={serviceChargeData}
-                                columns={serviceChargeHeader}
+                                columns={additionalServiceChargeColumn}
                                 minHeight={200}
                             />
                         </CCol>

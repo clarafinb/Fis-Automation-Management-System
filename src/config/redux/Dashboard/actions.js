@@ -88,7 +88,8 @@ import {
   API_GET_DELIVERY_MODE_BASED_TRANSPORT_MODE,
   API_GET_ORDER_REQUEST_ADDED_SERVICE_CHARGE,
   API_COMPLETE_PICK_AND_PACK,
-  API_GET_ORDER_REQUEST_SERVICE_CHARGE
+  API_GET_ORDER_REQUEST_SERVICE_CHARGE,
+  API_ADD_ORDER_REQUEST_SERVICE_CHARGE
 } from "../../api/index"
 import Swal from "sweetalert2";
 
@@ -2201,6 +2202,38 @@ export const getOrderRequestServiceChargeList = (projectid, orderReqId) => {
         }
       })
       return Promise.resolve(result)
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Close'
+      })
+    }
+  }
+}
+
+export const addOrderRequestServiceCharge = (payload) => {
+  return async (dispatch) => {
+    try {
+      let create = await actionCrud.actionCommonCrud(payload, API_ADD_ORDER_REQUEST_SERVICE_CHARGE, "POST");
+      if (create.status === "success") {
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: create?.message,
+          showConfirmButton: true
+        });
+        dispatch(getOrderRequestServiceCharge(payload.orderReqId));
+      } else {
+        Swal.fire({
+          title: 'Error!',
+          text: create?.message,
+          icon: 'error',
+          confirmButtonText: 'Close'
+        })
+      }
+
     } catch (error) {
       Swal.fire({
         title: 'Error!',
