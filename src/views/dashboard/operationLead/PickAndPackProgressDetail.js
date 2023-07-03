@@ -148,8 +148,6 @@ function PickAndPackProgressDetail() {
             } else {
                 alert("Qty is Empty !")
             }
-
-            
         }
     )
 
@@ -163,37 +161,9 @@ function PickAndPackProgressDetail() {
         dispatch(
             actions.getOrderRequestServiceChargeList(projectId, orderReqId)
         ).then(response => {
-            const remapData = response.map((row, idx) => {
-                return {
-                    name: Object.keys(row)[idx],
-                    header: Object.keys(row)[idx],
-                    defaultFlex: 1
-                }
-            })
-
-            remapData.push({
-                name: 'serviceChargeCode',
-                header: 'Qty',
-                defaultFlex: 1,
-                defaultWidth: 80,
-                render: ({ value, cellProps }) => {
-                    return (
-                        <>
-                            <CFormInput
-                                className='form-control'
-                                type="text"
-                                name="qty"
-                            />
-                        </>
-                    )
-                }
-            })
-
             setServiceChargeData(response)
-            setServiceChargeHeader(remapData)
             setValues({})
             setOpenModalAdditionalService(true)
-
         })
 
     }
