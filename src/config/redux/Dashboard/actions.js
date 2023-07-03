@@ -539,7 +539,7 @@ export const getSelectActiveTransport = (payload) => {
           value: item.transportModeId
         }
       })
-      return Promise.resolve(['Please Select..', ...listTransport])
+      return Promise.resolve(listTransport)
     } catch (error) {
       Swal.fire({
         title: 'Error!',

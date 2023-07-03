@@ -65,7 +65,7 @@ function PickAndPackProgressDetail() {
             })
 
             dispatch(
-                actions.getSelecTransportType()
+                actions.getSelectActiveTransport()
             ).then(result => {
                 setTrasportMode(result)
             })
