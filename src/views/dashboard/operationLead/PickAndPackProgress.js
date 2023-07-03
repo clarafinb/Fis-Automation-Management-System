@@ -20,7 +20,7 @@ import CIcon from '@coreui/icons-react'
 import { cilFile } from '@coreui/icons'
 import SmartTable from 'src/components/custom/table/SmartTable'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faUpload } from '@fortawesome/free-solid-svg-icons'
+import { faArrowRight } from '@fortawesome/free-solid-svg-icons'
 
 function PickAndPackProgress() {
     const nav = useNavigate();
@@ -146,7 +146,7 @@ function PickAndPackProgress() {
                         {
                             cellProps.data.totalItem > 0 ?
                                 <FontAwesomeIcon
-                                    icon={faUpload}
+                                    icon={faArrowRight}
                                     className='textBlue px-2'
                                     title='Order Request'
                                     size='sm'
