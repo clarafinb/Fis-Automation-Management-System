@@ -15,12 +15,14 @@ import {
     CTabContent,
     CTabPane
 } from '@coreui/react'
+import { useCookies } from "react-cookie";
 import * as actions from '../../config/redux/Dashboard/actions'
 import CIcon from '@coreui/icons-react'
 import { cilList, cilSend } from '@coreui/icons'
 import { CChart } from '@coreui/react-chartjs'
 
 function DashboardOpsLead({ data }) {
+    const [cookies, setCookie] = useCookies(["dashboardOpsLead"]);
     const { dispatch, Global, Dashboard } = useRedux()
     const [detailProject, setDetailProject] = useState([])
     const [detailWarehouse, setDetailWarehouse] = useState({})
@@ -29,23 +31,6 @@ function DashboardOpsLead({ data }) {
     const [values, setValues] = useState({})
     const [activeKey, setActiveKey] = useState(1)
     const nav = useNavigate()
-
-    const manipulateData = (cb) => {
-        try {
-            const prev = { ...Dashboard }
-            const newData = cb(prev)
-
-            dispatch(
-                actions.setDashboard({
-                    ...prev,
-                    ...newData
-                })
-            )
-        } catch (error) {
-            console.log(error)
-        }
-    }
-
 
     useEffect(() => {
         if (data) {
@@ -60,13 +45,16 @@ function DashboardOpsLead({ data }) {
 
         }
 
-        if(Dashboard?.dashboardOpsLead){
+        console.log(cookies)
+
+        if(cookies?.dashboardOpsLead){
             setValues((prev) => ({
                 ...prev,
-                projectId: Dashboard?.dashboardOpsLead?.projectId,
-                whId: Dashboard?.dashboardOpsLead?.whId
+                projectId: cookies?.dashboardOpsLead?.projectId,
+                whId: cookies?.dashboardOpsLead?.whId
             }));
         }
+
     }, [data]);
 
     useEffect(() => {
@@ -89,10 +77,7 @@ function DashboardOpsLead({ data }) {
             let temp = detailProject.find(e => e.whId == values.whId)
             setDetailWarehouse(temp)
 
-            manipulateData((prev) => {
-                prev.dashboardOpsLead = values
-                return prev
-            })
+            setCookie('dashboardOpsLead', values, { path: '/' })
         }
       
     }, [values]);
@@ -146,7 +131,7 @@ function DashboardOpsLead({ data }) {
                         name="projectId"
                         options={optionProject}
                         onChange={handleOnchange}
-                        defaultValue={values?.projectId || optionProject[0]}
+                        defaultValue={values?.projectId || optionProject[1]}
                     />
                 </CCol>
                 <CCol sm={3}>
@@ -154,7 +139,7 @@ function DashboardOpsLead({ data }) {
                         name="whId"
                         options={optionWarehouse}
                         onChange={handleOnchange}
-                        defaultValue={values?.whId || optionWarehouse[0]}
+                        defaultValue={values?.whId || optionWarehouse[1]}
                     />
                 </CCol>
             </CRow>
@@ -500,11 +485,11 @@ function DashboardOpsLead({ data }) {
                                         />
                                         <hr />   
                                         <h8>INFORMATION :</h8>
-                                        <p><img src={'assets/Ellipse_orange.png'} /> ORDER REQUEST DELIVERY</p>
-                                        <p><img src={'assets/Ellipse_alert.png'} /> PICK & PACK ON PENDING</p>
-                                        <p><img src={'assets/Ellipse_blue.png'} /> PICK & PACK ON PROGRESS</p>
-                                        <p><img src={'assets/Ellipse_grey.png'} /> DELIVERY IN TRANSIT</p>
-                                        <p><img src={'assets/Ellipse_green.png'} /> DELIVERY COMPLETE</p>
+                                        <p className='m-0'><img src={'assets/Ellipse_orange.png'} /> ORDER REQUEST DELIVERY</p>
+                                        <p className='m-0'><img src={'assets/Ellipse_alert.png'} /> PICK & PACK ON PENDING</p>
+                                        <p className='m-0'><img src={'assets/Ellipse_blue.png'} /> PICK & PACK ON PROGRESS</p>
+                                        <p className='m-0'><img src={'assets/Ellipse_grey.png'} /> DELIVERY IN TRANSIT</p>
+                                        <p className='m-0'><img src={'assets/Ellipse_green.png'} /> DELIVERY COMPLETE</p>
                                     </div>
                                 </CCard>
                             </CCol>
