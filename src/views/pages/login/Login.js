@@ -77,13 +77,13 @@ const Login = () => {
                     <p className="text-medium-emphasis"><b>Sign In to continue</b></p>
                     <hr />
                     <CRow className="mb-3">
-                      <CFormLabel><b>Username</b></CFormLabel>
+                      <CFormLabel>Username</CFormLabel>
                       <CCol>
                         <CFormInput placeholder="Username" name="username"/>
                       </CCol>
                     </CRow>
                     <CRow className="mb-3">
-                      <CFormLabel><b>Password</b></CFormLabel>
+                      <CFormLabel>Password</CFormLabel>
                       <CCol>
                         <CFormInput
                           type="password"

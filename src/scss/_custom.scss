@@ -3,8 +3,7 @@ body {
   margin: 0;
   font-family: "Open Sans", sans-serif;
   font-size: var(--cui-body-font-size);
-  font-weight: var(--cui-body-font-weight);
-  line-height: var(--cui-body-line-height);
+  font-weight: bold;
   color: var(--cui-body-color);
   text-align: var(--cui-body-text-align);
   background-color: var(--cui-body-bg);
@@ -14,6 +13,11 @@ body {
 
 a {
   color: $yellowPrimary;
+}
+
+p {
+  font-size: 12px;
+  font-weight: bold;
 }
 
 .colorBtn-orange {
