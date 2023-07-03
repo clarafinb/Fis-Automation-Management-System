@@ -45,9 +45,7 @@ function DashboardOpsLead({ data }) {
 
         }
 
-        console.log(cookies)
-
-        if(cookies?.dashboardOpsLead){
+        if (Dashboard?.dashboardOpsLead) {
             setValues((prev) => ({
                 ...prev,
                 projectId: cookies?.dashboardOpsLead?.projectId,
@@ -79,7 +77,7 @@ function DashboardOpsLead({ data }) {
 
             setCookie('dashboardOpsLead', values, { path: '/' })
         }
-      
+
     }, [values]);
 
     const handleNavigator = (type, id) => {
@@ -95,6 +93,10 @@ function DashboardOpsLead({ data }) {
             {
                 type: 'pickAndPackProgress',
                 url: '/operation-lead/pick-pack/progress/' + id
+            },
+            {
+                type: 'waitingDispatch',
+                url: '/operation-lead/waiting-dispatch/' + id
             }
         ]
 
@@ -275,7 +277,7 @@ function DashboardOpsLead({ data }) {
                                                             <CCol className="d-grid gap-2">
                                                                 <CButton
                                                                     className="colorBtn-yellow"
-                                                                // onClick={() => handleNavigator("orderRequest", values?.projectId)}
+                                                                    onClick={() => handleNavigator("waitingDispatch", values?.projectId)}
                                                                 >
                                                                     DETAIL
                                                                 </CButton>
@@ -435,12 +437,12 @@ function DashboardOpsLead({ data }) {
                                             type="bar"
                                             data={{
                                                 labels: [
-                                                            detailWarehouse?.totalOrderReqDelivery, 
-                                                            detailWarehouse?.orderReqDeliveryCanceledCount, 
-                                                            detailWarehouse?.pickandpackDoneCount, 
-                                                            detailWarehouse?.pickupInTransitCount, 
-                                                            detailWarehouse?.deliveryCompleteCount
-                                                        ],
+                                                    detailWarehouse?.totalOrderReqDelivery,
+                                                    detailWarehouse?.orderReqDeliveryCanceledCount,
+                                                    detailWarehouse?.pickandpackDoneCount,
+                                                    detailWarehouse?.pickupInTransitCount,
+                                                    detailWarehouse?.deliveryCompleteCount
+                                                ],
                                                 datasets: [
                                                     {
                                                         label: 'Chart',
@@ -483,7 +485,7 @@ function DashboardOpsLead({ data }) {
                                                 },
                                             }}
                                         />
-                                        <hr />   
+                                        <hr />
                                         <h8>INFORMATION :</h8>
                                         <p className='m-0'><img src={'assets/Ellipse_orange.png'} /> ORDER REQUEST DELIVERY</p>
                                         <p className='m-0'><img src={'assets/Ellipse_alert.png'} /> PICK & PACK ON PENDING</p>
