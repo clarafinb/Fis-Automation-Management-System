@@ -23,7 +23,7 @@ import CIcon from '@coreui/icons-react'
 import { cilCloudUpload, cilFile, cilPlus } from '@coreui/icons'
 import SmartTable from 'src/components/custom/table/SmartTable'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPlay, faRefresh, faSearch, faUpload } from '@fortawesome/free-solid-svg-icons'
+import { faPencil, faPlay, faRefresh, faSearch, faUnlink, faUpload } from '@fortawesome/free-solid-svg-icons'
 import moment from 'moment/moment'
 import Select from 'react-select'
 import Swal from 'sweetalert2'
@@ -240,8 +240,41 @@ function WaitingDispatchDetail() {
         { name: 'transportArrangementRefId', header: 'Arrangement Ref Id', defaultFlex: 1 },
         { name: 'deliveryMode', header: 'Delivery Mode', defaultFlex: 1 },
         { name: 'transportMode', header: 'Transport Mode', defaultFlex: 1 },
-        { name: 'transportDispatcherList', header: 'Transport Type List', defaultFlex: 1 },
+        { name: 'transportTypeList', header: 'Transport Type List', defaultFlex: 1 },
         { name: 'transportDispatcherList', header: 'Dispatcher', defaultFlex: 1 },
+        {
+            name: 'transportArrangementOrderReqId',
+            header: 'Action',
+            defaultFlex: 1,
+            render: ({ value, cellProps }) => {
+                return (
+                    <>
+                        {
+                            cellProps.data.hasDetachFunction != 'No' ?
+                                <FontAwesomeIcon
+                                    icon={faUnlink}
+                                    className='textBlue px-2'
+                                    title='Detach Transport Arrangement'
+                                    size='sm'
+                                    onClick={() =>
+                                        handleComponent('detachTransport', value)
+                                    }
+                                />
+                                : ''
+                        }
+                        <FontAwesomeIcon
+                            icon={faPencil}
+                            className='textBlue px-2'
+                            title='Add Arrangement'
+                            size='sm'
+                            onClick={() =>
+                                handleComponent('addTransport', value)
+                            }
+                        />
+                    </>
+                )
+            }
+        },
     ]
 
     return (
@@ -536,15 +569,25 @@ function WaitingDispatchDetail() {
                                             <h5 className="card-title mb-0">
                                                 Transport Arrangement
                                             </h5>
+                                            <pre>
+                                                {'hasGroup : ' + orderReqDetail?.hasGroup}
+                                                <br />
+                                                {'List Arragment : ' + Dashboard?.listTransportArragement.length}
+                                            </pre>
                                         </CCol>
-                                        <CCol className="d-none d-md-block text-end">
-                                            <CIcon
-                                                icon={cilPlus}
-                                                className="me-2 text-default"
-                                                size="xl"
-                                                onClick={handleCreateTransportArragement}
-                                            />
-                                        </CCol>
+                                        {
+                                            Dashboard?.listTransportArragement.length == 0 && orderReqDetail?.hasGroup == 'No' ?
+                                                <CCol className="d-none d-md-block text-end">
+                                                    <CIcon
+                                                        icon={cilPlus}
+                                                        className="me-2 text-default"
+                                                        size="xl"
+                                                        onClick={handleCreateTransportArragement}
+                                                    />
+                                                </CCol>
+                                                :
+                                                ''
+                                        }
                                     </CRow>
                                     <CCol className="d-none d-md-block text-end">
                                         <SmartTable

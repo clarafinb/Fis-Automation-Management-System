@@ -138,7 +138,7 @@ function WaitingDispatch() {
                 return (
                     <>
                         {
-                            cellProps.data.totalItem == 0 ?
+                            cellProps.data.totalItem > 0 ?
                                 <FontAwesomeIcon
                                     icon={faArrowRight}
                                     className='textBlue px-2'
