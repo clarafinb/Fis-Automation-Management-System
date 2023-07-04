@@ -22,7 +22,7 @@ import { cilList, cilSend } from '@coreui/icons'
 import { CChart } from '@coreui/react-chartjs'
 
 function DashboardOpsLead({ data }) {
-    const [cookies, setCookie] = useCookies(["dashboardOpsLead"]);
+    const [cookies, setCookie, removeCookie ] = useCookies(["dashboardOpsLead"]);
     const { dispatch, Global, Dashboard } = useRedux()
     const [detailProject, setDetailProject] = useState([])
     const [detailWarehouse, setDetailWarehouse] = useState({})
@@ -45,7 +45,7 @@ function DashboardOpsLead({ data }) {
 
         }
 
-        if (Dashboard?.dashboardOpsLead) {
+        if (cookies?.dashboardOpsLead) {
             setValues((prev) => ({
                 ...prev,
                 projectId: cookies?.dashboardOpsLead?.projectId,
@@ -57,6 +57,7 @@ function DashboardOpsLead({ data }) {
 
     useEffect(() => {
         if (values?.projectId) {
+            removeCookie('dashboardOpsLead');
             dispatch(
                 actions.getActivitySummaryWHProject(Global?.user?.userID, values.projectId)
             ).then(result => {

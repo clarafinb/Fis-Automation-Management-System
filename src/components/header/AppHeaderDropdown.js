@@ -29,6 +29,7 @@ const AppHeaderDropdown = () => {
 
     dispatch(actions.actionResetUser());
     removeCookie('user');
+    removeCookie('dashboardOpsLead');
 
     nav("/login");
 
