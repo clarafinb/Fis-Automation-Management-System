@@ -24,10 +24,10 @@ import CIcon from '@coreui/icons-react'
 import { cilCloudUpload, cilFile, cilPlus } from '@coreui/icons'
 import SmartTable from 'src/components/custom/table/SmartTable'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faClipboard, faFileExcel, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons'
-import ToggleSwitch from 'src/components/custom/toggle/ToggleSwitch'
+import { faClipboard, faTrash } from '@fortawesome/free-solid-svg-icons'
 import Swal from 'sweetalert2'
 import ModalCreateOrderRequest from 'src/components/dashboard/operationLead/ModalCreateOrderRequest'
+import moment from 'moment/moment'
 
 function OrderRequest() {
     const { dispatch, Global, Dashboard } = useRedux()
@@ -109,7 +109,6 @@ function OrderRequest() {
     }
 
     const filterValue = [
-        { name: 'no', operator: 'startsWith', type: 'string', value: '' },
         { name: 'whCode', operator: 'startsWith', type: 'string', value: '' },
         { name: 'whName', operator: 'startsWith', type: 'string', value: '' },
         { name: 'orderRequestDesc', operator: 'startsWith', type: 'string', value: '' },
@@ -126,23 +125,43 @@ function OrderRequest() {
     ]
 
     const columns = [
-        { name: 'no', header: 'No', defaultVisible: true, defaultWidth: 80, type: 'number' },
-        { name: 'whCode', header: 'WH Code', defaultFlex: 1 },
-        { name: 'whName', header: 'WH Name', defaultFlex: 1 },
-        { name: 'orderRequestDesc', header: 'Order Req Desc', defaultFlex: 1 },
-        { name: 'requestorName', header: 'Requestor', defaultFlex: 1 },
-        { name: 'orderRequestDate', header: 'Order Request Date', defaultFlex: 1, textAlign: 'center' },
-        { name: 'deliveryReqType', header: 'Delivery Req Type', defaultFlex: 1 },
-        { name: 'transportReqType', header: 'Transport Req Type', defaultFlex: 1 },
-        { name: 'origin', header: 'Origin', defaultFlex: 1 },
-        { name: 'destination', header: 'Destination', defaultFlex: 1 },
-        { name: 'orderRequestStatus', header: 'Order Status', defaultFlex: 1 },
-        { name: 'createBy', header: 'Created By', defaultFlex: 1 },
-        { name: 'createDate', header: 'Created date', defaultFlex: 1 },
+        { name: 'no', header: 'No', defaultVisible: true, defaultWidth: 80, type: 'number', textAlign: 'center' },
+        { name: 'whCode', header: 'WH Code', defaultWidth: 120 },
+        { name: 'whName', header: 'WH Name', defaultWidth: 120 },
+        { name: 'orderRequestDesc', header: 'Order Req Desc', defaultWidth: 200 },
+        { name: 'requestorName', header: 'Requestor', defaultWidth: 150 },
+        {
+            name: 'orderRequestDate',
+            header: 'Order Request Date',
+            defaultWidth: 200,
+            textAlign: 'center',
+            render: ({ value }) => {
+                return (
+                    moment(value).format('DD-MM-YYYY HH:mm:ss')
+                )
+            }
+        },
+        { name: 'deliveryReqType', header: 'Delivery Req Type', defaultWidth: 180 },
+        { name: 'transportReqType', header: 'Transport Req Type', defaultWidth: 180 },
+        { name: 'origin', header: 'Origin', defaultWidth: 180 },
+        { name: 'destination', header: 'Destination', defaultWidth: 180 },
+        { name: 'orderRequestStatus', header: 'Order Status', defaultWidth: 180 },
+        { name: 'createBy', header: 'Created By', defaultWidth: 180 },
+        {
+            name: 'createDate',
+            header: 'Created date',
+            textAlign: 'center',
+            defaultWidth: 180,
+            render: ({ value }) => {
+                return (
+                    moment(value).format('DD-MM-YYYY')
+                )
+            }
+        },
         {
             name: 'orderReqId',
             header: 'Action',
-            defaultFlex: 1,
+            defaultWidth: 100,
             textAlign: 'center',
             render: ({ value, cellProps }) => {
                 return (
@@ -150,6 +169,7 @@ function OrderRequest() {
                         <FontAwesomeIcon
                             icon={faTrash}
                             className='textBlue px-2'
+                            title='Delete Order Request'
                             onClick={() =>
                                 handleComponent("delete", value)
                             }
@@ -157,6 +177,7 @@ function OrderRequest() {
                         <FontAwesomeIcon
                             icon={faClipboard}
                             className='textBlue'
+                            title='Cancel Order Request'
                             onClick={() =>
                                 handleComponent("cancel", value)
                             }
@@ -235,6 +256,7 @@ function OrderRequest() {
                                 data={Dashboard?.listOrdeRequest}
                                 filterValue={filterValue}
                                 columns={columns}
+                                minHeight={500}
                             />
                         </CCol>
                     </CRow>
