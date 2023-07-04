@@ -20,7 +20,7 @@ import CIcon from '@coreui/icons-react'
 import { cilFile } from '@coreui/icons'
 import SmartTable from 'src/components/custom/table/SmartTable'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faArrowRight } from '@fortawesome/free-solid-svg-icons'
+import { faArrowRight, faTable } from '@fortawesome/free-solid-svg-icons'
 
 function PickAndPackProgress() {
     const nav = useNavigate();
@@ -69,15 +69,17 @@ function PickAndPackProgress() {
                         defaultVisible: true,
                         defaultWidth: 80,
                         type: 'number'
-                    }]
+                    }
+                ]
                 result.map((row, idx) => {
-                    remapData.push({
-                        name: Object.keys(row)[idx],
-                        header: Object.keys(row)[idx],
-                        defaultFlex: 1
-                    })
+                    if (Object.keys(row)[idx]) {
+                        remapData.push({
+                            name: Object.keys(row)[idx],
+                            header: Object.keys(row)[idx],
+                            defaultFlex: 1
+                        })
+                    }
                 })
-
                 const dataSet = result.map((item, index) => {
                     return {
                         no: index + 1,
@@ -107,33 +109,37 @@ function PickAndPackProgress() {
 
     const columns = [
         { name: 'no', header: 'No', defaultVisible: true, defaultWidth: 80, type: 'number' },
-        { name: 'whCode', header: 'WH Code', defaultFlex: 1 },
-        { name: 'custOrderRequest', header: 'Customer Order Request', defaultFlex: 1 },
-        { name: 'orderRequestDesc', header: 'Order Req Desc', defaultFlex: 1 },
-        { name: 'requestorName', header: 'Requestor', defaultFlex: 1 },
-        { name: 'orderRequestDate', header: 'Order Request Date', defaultFlex: 1, textAlign: 'center' },
-        { name: 'deliveryReqType', header: 'Delivery Req Type', defaultFlex: 1 },
-        { name: 'transportReqType', header: 'Transport Req Type', defaultFlex: 1 },
-        { name: 'origin', header: 'Origin', defaultFlex: 1 },
-        { name: 'destination', header: 'Destination', defaultFlex: 1 },
+        { name: 'whCode', header: 'WH Code', defaultWidth: 200 },
+        { name: 'custOrderRequest', header: 'Customer Order Request', defaultWidth: 230 },
+        { name: 'orderRequestDesc', header: 'Order Req Desc', defaultWidth: 200 },
+        { name: 'requestorName', header: 'Requestor', defaultWidth: 200 },
+        { name: 'orderRequestDate', header: 'Order Request Date', defaultWidth: 200, textAlign: 'center' },
+        { name: 'deliveryReqType', header: 'Delivery Req Type', defaultWidth: 200 },
+        { name: 'transportReqType', header: 'Transport Req Type', defaultWidth: 200 },
+        { name: 'origin', header: 'Origin', defaultWidth: 200 },
+        { name: 'destination', header: 'Destination', defaultWidth: 200 },
         {
             name: 'totalItem',
             header: 'Total Item Request',
-            defaultFlex: 1,
+            defaultWidth: 200,
             textAlign: 'center',
             render: ({ value, cellProps }) => {
                 return (
-                    // eslint-disable-next-line jsx-a11y/anchor-is-valid
-                    <a
-                        title='Detail Item List'
-                        onClick={() => handleModalDetailItem(cellProps.data)}>
-                        {value}
-                    </a>
+                    <>
+                        <span>{value}</span>
+                        <FontAwesomeIcon
+                            icon={faTable}
+                            className='textBlue px-2'
+                            size='lg'
+                            title='Detail Item List'
+                            onClick={() => handleModalDetailItem(cellProps.data)} />
+
+                    </>
                 )
             }
         },
-        { name: 'createBy', header: 'Created By', defaultFlex: 1 },
-        { name: 'createDate', header: 'Created date', defaultFlex: 1 },
+        { name: 'createBy', header: 'Created By', defaultWidth: 200 },
+        { name: 'createDate', header: 'Created date', defaultWidth: 200 },
         {
             name: 'orderReqId',
             header: 'Action',

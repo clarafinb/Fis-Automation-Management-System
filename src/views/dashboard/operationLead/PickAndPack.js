@@ -23,7 +23,7 @@ import CIcon from '@coreui/icons-react'
 import { cilCloudUpload, cilFile, cilPlus } from '@coreui/icons'
 import SmartTable from 'src/components/custom/table/SmartTable'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPlay, faRefresh, faUpload } from '@fortawesome/free-solid-svg-icons'
+import { faPlay, faRefresh, faTable, faUpload } from '@fortawesome/free-solid-svg-icons'
 import Swal from 'sweetalert2'
 
 function PickAndPack() {
@@ -128,15 +128,17 @@ function PickAndPack() {
                         defaultVisible: true,
                         defaultWidth: 80,
                         type: 'number'
-                    }]
+                    }
+                ]
                 result.map((row, idx) => {
-                    remapData.push({
-                        name: Object.keys(row)[idx],
-                        header: Object.keys(row)[idx],
-                        defaultFlex: 1
-                    })
+                    if (Object.keys(row)[idx]) {
+                        remapData.push({
+                            name: Object.keys(row)[idx],
+                            header: Object.keys(row)[idx],
+                            defaultFlex: 1
+                        })
+                    }
                 })
-
                 const dataSet = result.map((item, index) => {
                     return {
                         no: index + 1,
@@ -165,38 +167,42 @@ function PickAndPack() {
     ]
 
     const columns = [
-        { name: 'no', header: 'No', defaultVisible: true, defaultWidth: 80, type: 'number' },
-        { name: 'whCode', header: 'WH Code', defaultFlex: 1 },
-        { name: 'custOrderRequest', header: 'Customer Order Request', defaultFlex: 1 },
-        { name: 'orderRequestDesc', header: 'Order Req Desc', defaultFlex: 1 },
-        { name: 'requestorName', header: 'Requestor', defaultFlex: 1 },
-        { name: 'orderRequestDate', header: 'Order Request Date', defaultFlex: 1, textAlign: 'center' },
-        { name: 'deliveryReqType', header: 'Delivery Req Type', defaultFlex: 1 },
-        { name: 'transportReqType', header: 'Transport Req Type', defaultFlex: 1 },
-        { name: 'origin', header: 'Origin', defaultFlex: 1 },
-        { name: 'destination', header: 'Destination', defaultFlex: 1 },
+        { name: 'no', header: 'No', defaultWidth: 80, type: 'number' },
+        { name: 'whCode', header: 'WH Code', defaultWidth: 120 },
+        { name: 'custOrderRequest', header: 'Customer Order Request', defaultWidth: 230 },
+        { name: 'orderRequestDesc', header: 'Order Req Desc', defaultWidth: 230 },
+        { name: 'requestorName', header: 'Requestor', defaultWidth: 230 },
+        { name: 'orderRequestDate', header: 'Order Request Date', defaultWidth: 230, textAlign: 'center' },
+        { name: 'deliveryReqType', header: 'Delivery Req Type', defaultWidth: 230 },
+        { name: 'transportReqType', header: 'Transport Req Type', defaultWidth: 230 },
+        { name: 'origin', header: 'Origin', defaultWidth: 200 },
+        { name: 'destination', header: 'Destination', defaultWidth: 200 },
         {
             name: 'totalItem',
             header: 'Total Item Request',
-            defaultFlex: 1,
+            defaultWidth: 150,
             textAlign: 'center',
             render: ({ value, cellProps }) => {
                 return (
-                    // eslint-disable-next-line jsx-a11y/anchor-is-valid
-                    <a
-                        title='Detail Item List'
-                        onClick={() => handleModalDetailItem(cellProps.data)}>
-                        {value}
-                    </a>
+                    <>
+                        <span>{value}</span>
+                        <FontAwesomeIcon
+                            icon={faTable}
+                            className='textBlue px-2'
+                            size='lg'
+                            title='Detail Item List'
+                            onClick={() => handleModalDetailItem(cellProps.data)} />
+
+                    </>
                 )
             }
         },
-        { name: 'createBy', header: 'Created By', defaultFlex: 1 },
-        { name: 'createDate', header: 'Created date', defaultFlex: 1 },
+        { name: 'createBy', header: 'Created By', defaultWidth: 250 },
+        { name: 'createDate', header: 'Created date', defaultWidth: 250 },
         {
             name: 'orderReqId',
             header: 'Action',
-            // defaultFlex: 1,
+            defaultWidth: 250,
             textAlign: 'center',
             defaultWidth: 110,
             render: ({ value, cellProps }) => {
@@ -252,18 +258,6 @@ function PickAndPack() {
                             <h5 className="card-title mb-0">
                                 {detailProject?.projectName} | {detailProject?.whName} | {detailProject?.whCode}
                             </h5>
-                        </CCol>
-                        <CCol className="d-none d-md-block text-end">
-                            <CIcon
-                                icon={cilPlus}
-                                className="me-2 text-primary"
-                                size="xl"
-                            />
-                            <CIcon
-                                icon={cilCloudUpload}
-                                className="me-2 text-primary"
-                                size="xl"
-                            />
                         </CCol>
                     </CRow>
                     <br />
