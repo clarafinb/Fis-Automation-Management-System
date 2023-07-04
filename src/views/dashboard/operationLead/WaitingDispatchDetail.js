@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useEffect } from 'react'
 import { useRedux } from 'src/utils/hooks'
-
+import { useNavigate } from 'react-router-dom'
 import {
     CButton,
     CCard,
@@ -9,6 +9,7 @@ import {
     CForm,
     CFormInput,
     CFormLabel,
+    CFormTextarea,
     CInputGroup,
     CModal,
     CModalBody,
@@ -30,6 +31,7 @@ import Swal from 'sweetalert2'
 
 function WaitingDispatchDetail() {
     const { dispatch, Global, Dashboard } = useRedux()
+    const nav = useNavigate()
     const [detailProject, setDetailProject] = useState({})
     const [orderReqDetail, setOrderReqDetail] = useState({})
     const [projectId, setProjectId] = useState("")
@@ -50,6 +52,7 @@ function WaitingDispatchDetail() {
     const [serviceChargeData, setServiceChargeData] = useState([])
     const [serviceChargeHeader, setServiceChargeHeader] = useState([])
     const [values, setValues] = useState({})
+
     useEffect(() => {
         const splitUri = window.location.href.split("/");
         const orderRequestId = splitUri[8]
@@ -70,7 +73,7 @@ function WaitingDispatchDetail() {
             })
 
             dispatch(actions.getTransportArragementOrderReq(orderRequestId))
-            dispatch(actions.getOrderRequestServiceCharge(orderRequestId))
+            // dispatch(actions.getOrderRequestServiceCharge(orderRequestId))
         }
     }, [Global?.user?.userID]);
 
@@ -128,19 +131,11 @@ function WaitingDispatchDetail() {
 
 
     const handleComponent = useCallback(
-        (action, orderReqId) => {
+        (action, id) => {
             // setOrderReqId(orderReqId)
-            if (action === 'start') {
-            } else if (action === 'reset') {
-                dispatch(actions.resetPickAndPackprogress(orderReqId, projectId, detailProject.whId, Global.user.userID))
-            } else {
-                setOpenModalUpload(true)
-                dispatch(
-                    actions.getMassUploadTemplateOrderReqItemBulkUpload()
-                ).then(response => {
-                    setTemplateName(response?.templateName)
-                    setTemplateUrl(response?.templateURL)
-                })
+            if(action === 'addTransport'){
+                let param = `${id}/${orderReqDetail.transportModeId}/${projectId}/${orderReqId}`
+                nav('/operation-lead/waiting-dispatch/transport-arrangment/' + param)
             }
         }
     )
@@ -551,7 +546,7 @@ function WaitingDispatchDetail() {
                                         </CFormLabel>
                                         <CCol>
                                             <CFormInput
-                                                type="text"
+                                                type="textarea"
                                                 name="destination"
                                                 value={orderReqDetail?.destination}
                                                 readOnly
@@ -564,7 +559,7 @@ function WaitingDispatchDetail() {
                                             className="col-sm-3 col-form-label">
                                         </CFormLabel>
                                         <CCol>
-                                            <CFormInput
+                                            <CFormTextarea
                                                 type="text"
                                                 name="destinationAddress"
                                                 value={orderReqDetail?.destinationAddress}
@@ -692,6 +687,7 @@ function WaitingDispatchDetail() {
                                     </CCol>
                                 </CCol>
                             </CRow>
+                            {/*
                             <br />
                             <br />
                             <CRow>
@@ -716,7 +712,7 @@ function WaitingDispatchDetail() {
                                     columns={additionalServiceColumn}
                                     minHeight={200}
                                 />
-                            </CCol>
+                            </CCol> */}
                         </CCardBody>
                     </CCard>
                 </CCol >

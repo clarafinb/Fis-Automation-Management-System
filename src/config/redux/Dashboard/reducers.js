@@ -21,7 +21,10 @@ let initialState = {
     listPickAndPackProgress: [],
     listOrdeRequestAdditionalService: [],
     listDeliveryPending: [],
-    listTransportArragement: []
+    listTransportArragement: [],
+    listRequestTransportArragement: [],
+    listTransportArragementType: [],
+    listTransportArragementSc: []
 };
 
 const Dashboard = (state = initialState, { type, payload }) => {
@@ -157,6 +160,27 @@ const Dashboard = (state = initialState, { type, payload }) => {
                 ...state,
                 listTransportArragement: payload
             }
+
+        case actionType.SET_LIST_REQUEST_TRANSPORT_ARRANGEMENT:
+            return {
+                ...state,
+                listRequestTransportArragement: payload
+            }
+        
+        case actionType.SET_LIST_TRANSPORT_ARRANGEMENT_TYPE:
+            return {
+                ...state,
+                listTransportArragementType: payload
+            }
+        
+        case actionType.SET_LIST_TRANSPORT_ARRANGEMENT_SC:
+            return {
+                ...state,
+                listTransportArragementSc: payload
+            }
+            
+            
+            
 
         default:
             return { ...state };

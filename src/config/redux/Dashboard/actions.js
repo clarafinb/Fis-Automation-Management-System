@@ -91,7 +91,18 @@ import {
   API_GET_ORDER_REQUEST_SERVICE_CHARGE,
   API_ADD_ORDER_REQUEST_SERVICE_CHARGE,
   API_GET_DELIVERY_PENDING,
-  API_GET_TRANSPORT_ARRAGEMENT_ORDER_REQ
+  API_GET_TRANSPORT_ARRAGEMENT_ORDER_REQ,
+  API_GET_ORDER_REQUEST_TRANSPORT_ARRAGMENET,
+  API_GET_TRANSPORT_ARRAGEMENT_TYPE,
+  API_GET_TRANSPORT_ARRAGEMENT_TYPE_LIST,
+  API_GET_DISPATCHER_BASE_TRANSPORT_ARRAGEMENT,
+  API_DELETE_TRANSPORT_ARRAGEMENT_TYPE,
+  API_ADD_TRANSPORT_ARRAGEMENT_TYPE,
+  API_GET_TRANSPORT_ARRAGEMENT_ADD_SERVICE_CHARGE_LIST,
+  API_DELETE_TRANSPORT_ARRAGEMENT_SERVICE_CHARGE,
+  API_GET_TRANSPORT_ARRAGEMENT_SERVICE_CHARGE,
+  API_ADD_TRANSPORT_ARRAGEMENT_SERVICE_CHARGE,
+  API_TRANSPORT_ARRANGEMENT_COMPELETE
 } from "../../api/index"
 import Swal from "sweetalert2";
 
@@ -2293,6 +2304,315 @@ export const getTransportArragementOrderReq = (orderReqId) => {
         type: actionType.SET_LIST_TRANSPORT_ARRAGEMENT,
         payload: listTransportArragement
       });
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Close'
+      })
+    }
+  }
+}
+
+export const getOrderRequestTransportArrangment = (transportArrangementId) => {
+  return async (dispatch) => {
+    try {
+      const fullParam = `${transportArrangementId}`
+      let list = await actionCrud.actionParamRequest(fullParam, API_GET_ORDER_REQUEST_TRANSPORT_ARRAGMENET, "GET");
+      let listRequestTransportArragement = list?.map((item, idx) => {
+        return {
+          no: idx + 1,
+          ...item,
+        }
+      })
+      dispatch({
+        type: actionType.SET_LIST_REQUEST_TRANSPORT_ARRANGEMENT,
+        payload: listRequestTransportArragement
+      });
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Close'
+      })
+    }
+  }
+}
+
+export const getTransportTypeArranged = (transportArrangementId) => {
+  return async (dispatch) => {
+    try {
+      const fullParam = `${transportArrangementId}`
+      let list = await actionCrud.actionParamRequest(fullParam, API_GET_TRANSPORT_ARRAGEMENT_TYPE, "GET");
+      let listTransportArrangmentType = list?.map((item, idx) => {
+        return {
+          no: idx + 1,
+          ...item,
+        }
+      })
+      dispatch({
+        type: actionType.SET_LIST_TRANSPORT_ARRANGEMENT_TYPE,
+        payload: listTransportArrangmentType
+      });
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Close'
+      })
+    }
+  }
+}
+
+export const getTransportTypeList = (transportModeId) => {
+  return async () => {
+    try {
+      const fullParam = `${transportModeId}`
+      let list = await actionCrud.actionCommonSliceParam(fullParam, API_GET_TRANSPORT_ARRAGEMENT_TYPE_LIST, "GET");
+      let listTransportType = list?.map((item, idx) => {
+        return {
+          label: item.transportName,
+          value: item.transportTypeId
+        }
+      })
+      return Promise.resolve(listTransportType)
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Close'
+      })
+    }
+  }
+}
+
+export const getDispatcherList = (transportArrangementId, projectId) => {
+  return async () => {
+    try {
+      const fullParam = `${transportArrangementId}/${projectId}`
+      let list = await actionCrud.actionCommonSliceParam(fullParam, API_GET_DISPATCHER_BASE_TRANSPORT_ARRAGEMENT, "GET");
+      let listDispatcher = list?.map((item, idx) => {
+        return {
+          label: item.dispatcherName,
+          value: item.usr_id
+        }
+      })
+      return Promise.resolve(listDispatcher)
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Close'
+      })
+    }
+  }
+}
+
+export const deleteTransportType = (transportTypeArrangementId,transportArrangementId) => {
+  return async (dispatch) => {
+    try {
+      let create = await actionCrud.actionCommonSlice(transportTypeArrangementId, API_DELETE_TRANSPORT_ARRAGEMENT_TYPE, "DELETE");
+      if (create.status === "success") {
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: create?.message,
+          showConfirmButton: true
+        });
+        dispatch(getTransportTypeArranged(transportArrangementId));
+      } else {
+        Swal.fire({
+          title: 'Error!',
+          text: create?.message,
+          icon: 'error',
+          confirmButtonText: 'Close'
+        })
+      }
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Close'
+      })
+    }
+  }
+}
+
+export const addTransportArrangmentType = (payload) => {
+  return async (dispatch) => {
+    try {
+      let create = await actionCrud.actionCommonCrud(payload, API_ADD_TRANSPORT_ARRAGEMENT_TYPE, "POST");
+      if (create.status === "success") {
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: create?.message,
+          showConfirmButton: true
+        });
+        dispatch(getTransportTypeArranged(payload.transportArrangmentId));
+      } else {
+        Swal.fire({
+          title: 'Error!',
+          text: create?.message,
+          icon: 'error',
+          confirmButtonText: 'Close'
+        })
+      }
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Close'
+      })
+    }
+  }
+}
+
+export const getTransportArrangmentServiceChargeList = (transportArrangementId) => {
+  return async (dispatch) => {
+    try {
+      const fullParam = `${transportArrangementId}`
+      let list = await actionCrud.actionParamRequest(fullParam, API_GET_TRANSPORT_ARRAGEMENT_ADD_SERVICE_CHARGE_LIST, "GET");
+      let listTransportArrangmentServiceCode = list?.map((item, idx) => {
+        return {
+          no: idx + 1,
+          ...item,
+        }
+      })
+      dispatch({
+        type: actionType.SET_LIST_TRANSPORT_ARRANGEMENT_SC,
+        payload: listTransportArrangmentServiceCode
+      });
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Close'
+      })
+    }
+  }
+}
+
+export const addTransportArrangmentServiceCharge = (payload) => {
+  return async (dispatch) => {
+    try {
+      let create = await actionCrud.actionCommonCrud(payload, API_ADD_TRANSPORT_ARRAGEMENT_SERVICE_CHARGE, "POST");
+      if (create.status === "success") {
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: create?.message,
+          showConfirmButton: true
+        });
+        dispatch(getTransportArrangmentServiceChargeList(payload.transportArrangmentId));
+      } else {
+        Swal.fire({
+          title: 'Error!',
+          text: create?.message,
+          icon: 'error',
+          confirmButtonText: 'Close'
+        })
+      }
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Close'
+      })
+    }
+  }
+}
+
+export const deleteTransportArrangmentServiceCharge = (transportArrangementServiceId,lmby,transportArrangementId) => {
+  return async (dispatch) => {
+    try {
+      const fullParam = `${transportArrangementServiceId}/${lmby}`
+      let create = await actionCrud.actionCommonSlice(fullParam, API_DELETE_TRANSPORT_ARRAGEMENT_SERVICE_CHARGE, "DELETE");
+      if (create.status === "success") {
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: create?.message,
+          showConfirmButton: true
+        });
+        dispatch(getTransportArrangmentServiceChargeList(transportArrangementId));
+      } else {
+        Swal.fire({
+          title: 'Error!',
+          text: create?.message,
+          icon: 'error',
+          confirmButtonText: 'Close'
+        })
+      }
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Close'
+      })
+    }
+  }
+}
+
+export const getServiceChargeList = (transportArrangementId, projectId) => {
+  return async (dispatch) => {
+    try {
+      const fullParam = `${transportArrangementId}/${projectId}`
+      let list = await actionCrud.actionCommonSliceParam(fullParam, API_GET_TRANSPORT_ARRAGEMENT_SERVICE_CHARGE, "GET");
+      let listServiceChargeList = list?.map((item, idx) => {
+        return {
+          no: idx + 1,
+          ...item,
+        }
+      })
+
+      dispatch({
+        type: actionType.SET_LIST_ORDER_REQUEST_ADDITIONAL_SERVICE,
+        payload: listServiceChargeList
+      });
+
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Close'
+      })
+    }
+  }
+}
+
+
+export const completeTransportArrangement = (transportArrangmentId, lmby) => {
+  return async () => {
+    try {
+      const fullParam = `${transportArrangmentId}/${lmby}`
+      let create = await actionCrud.actionCommonSlice(fullParam, API_TRANSPORT_ARRANGEMENT_COMPELETE, "PUT");
+      if (create.status === "success") {
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: create?.message,
+          showConfirmButton: true
+        });
+      } else {
+        Swal.fire({
+          title: 'Error!',
+          text: create?.message,
+          icon: 'error',
+          confirmButtonText: 'Close'
+        })
+      }
     } catch (error) {
       Swal.fire({
         title: 'Error!',

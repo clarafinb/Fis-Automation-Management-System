@@ -21,6 +21,7 @@ const PickAndPackProgress = React.lazy(() => import('./views/dashboard/operation
 const PickAndPackProgressDetail = React.lazy(() => import('./views/dashboard/operationLead/PickAndPackProgressDetail'))
 const WaitingDispatch = React.lazy(() => import('./views/dashboard/operationLead/WaitingDispatch'))
 const WaitingDispatchDetail = React.lazy(() => import('./views/dashboard/operationLead/WaitingDispatchDetail'))
+const TransportArrangmentDetail = React.lazy(() => import('./views/dashboard/operationLead/TransportArrangmentDetail'))
 // const Colors = React.lazy(() => import('./views/theme/colors/Colors'))
 
 const routes = [
@@ -44,6 +45,7 @@ const routes = [
   { path: '/operation-lead/pick-pack/progress/:projectId/detail/:orderReqId', name: 'PICK AND PACK PENDING', element: PickAndPackProgressDetail },
   { path: '/operation-lead/waiting-dispatch/:projectId', name: 'WAITING DELIVERY', element: WaitingDispatch},
   { path: '/operation-lead/waiting-dispatch/:projectId/detail/:orderReqId', name: 'WAITING DELIVERY DETAIL', element: WaitingDispatchDetail},
+  { path: '/operation-lead/waiting-dispatch/transport-arrangment/:transportArrangmentId/:transportModeId/:projectId/:orderReqId', name: 'TRANSPORT ARRANGMENT DETAIL', element: TransportArrangmentDetail},
   // { path: '/theme', name: 'Theme', element: Colors, exact: true },
   // { path: '/theme/colors', name: 'Colors', element: Colors },
 ]
