@@ -2,6 +2,7 @@ import React, { useState, useCallback, useEffect } from 'react'
 import { useRedux } from 'src/utils/hooks'
 
 import {
+    CButton,
     CCard,
     CCardBody,
     CCol,
@@ -9,7 +10,7 @@ import {
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
 import {
-    cilMedicalCross,
+    cilMedicalCross, cilPlus,
 } from '@coreui/icons'
 import StandardTable from 'src/components/custom/table/StandardTable'
 import * as actions from '../../config/redux/Dashboard/actions'
@@ -45,12 +46,12 @@ function AccountManagementList() {
     ]
 
     const searchFilter = {
-        "Full Name" : "fullname",
-        "Role" : "roleName",
-        "Email" : "email",
-        "Phone No" : "phoneNo",
-        "User Title" : "userTitle",
-        "Employee ID" : "employeeId"
+        "Full Name": "fullname",
+        "Role": "roleName",
+        "Email": "email",
+        "Phone No": "phoneNo",
+        "User Title": "userTitle",
+        "Employee ID": "employeeId"
     }
 
     const handleCreate = () => {
@@ -69,8 +70,8 @@ function AccountManagementList() {
 
     return (
         <>
-            <CCard>
-                <CCardBody>
+            {/* <CCard>
+                <CCardBody> */}
                     <CRow>
                         <CCol sm={5}>
                             <h4 className="card-title mb-0">
@@ -80,13 +81,15 @@ function AccountManagementList() {
                     </CRow>
                     <br />
                     <CRow>
-                        <CCol className="d-none d-md-block text-end">
-                            <CIcon
-                                icon={cilMedicalCross}
-                                className="me-2 text-warning"
-                                size="xl"
-                                onClick={handleCreate}
-                            />
+                        <CCol className="">
+                            <CButton
+                                className="colorBtn-white px-1"
+                                onClick={handleCreate}>
+                                <CIcon icon={cilPlus}
+                                    className="me-2 text-warning"
+                                />
+                                <b>ADD USER</b>
+                            </CButton>
                         </CCol>
                     </CRow>
                     <br />
@@ -108,8 +111,8 @@ function AccountManagementList() {
                             />
                         </CCol>
                     </CRow>
-                </CCardBody>
-            </CCard>
+                {/* </CCardBody>
+            </CCard> */}
             <ModalCreateAccountManagement
                 open={modalCreate}
                 setOpen={setModalCreate}

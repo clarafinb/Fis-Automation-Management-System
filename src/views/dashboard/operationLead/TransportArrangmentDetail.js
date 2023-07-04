@@ -228,13 +228,14 @@ function TransportArragmentDetail() {
     ]
 
     const handleCreateTransportArrangmentType = async () => {
-        setOpenModal(true)
 
         let listTransportType = await dispatch(actions.getTransportTypeList(param?.transportModeId))
         let listDispatcher = await dispatch(actions.getDispatcherList(param?.transportArrangmentId, param?.projectId))
 
-        setTransportType(listTransportType)
-        setDispatcher(listDispatcher)
+        setTransportType(['Select Transport Type', ...listTransportType])
+        setDispatcher(['Select Dispatcher', ...listDispatcher])
+
+        setOpenModal(true)
     }
 
     const handleCreateServiceCharge = async () => {
@@ -248,10 +249,16 @@ function TransportArragmentDetail() {
             transportArrangmentId: param?.transportArrangmentId,
             transportTypeId: values?.transportType,
             mainDispatcherId: values?.dispatcher,
+            notes: "",
             LMBY: Global?.user?.userID
         }
-        
-        dispatch(actions.addTransportArrangmentType(payload))
+
+        if (!payload.transportTypeId || !payload.mainDispatcherId) {
+            alert("Required Field is Empty !")
+        } else {
+            dispatch(actions.addTransportArrangmentType(payload))
+        }
+
     }
 
     const handleOnchange = useCallback(
@@ -300,7 +307,7 @@ function TransportArragmentDetail() {
                                 data={Dashboard?.listRequestTransportArragement}
                                 columns={requestTransportArrangmentColumns}
                                 minHeight={200}
-                                filterValue={filterValue}
+                            // filterValue={filterValue}
                             />
                         </CCol>
                     </CRow>
@@ -326,7 +333,7 @@ function TransportArragmentDetail() {
                                 data={Dashboard?.listTransportArragementType}
                                 columns={transportTypeAndDispatcherColumns}
                                 minHeight={200}
-                                filterValue={filterValue}
+                            // filterValue={filterValue}
                             />
                         </CCol>
                     </CRow>
@@ -353,7 +360,7 @@ function TransportArragmentDetail() {
                                 data={Dashboard?.listTransportArragementSc}
                                 columns={serviceChargeColumns}
                                 minHeight={200}
-                                filterValue={filterValue}
+                            // filterValue={filterValue}
                             />
                         </CCol>
                     </CRow>

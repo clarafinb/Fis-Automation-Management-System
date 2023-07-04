@@ -102,7 +102,8 @@ import {
   API_DELETE_TRANSPORT_ARRAGEMENT_SERVICE_CHARGE,
   API_GET_TRANSPORT_ARRAGEMENT_SERVICE_CHARGE,
   API_ADD_TRANSPORT_ARRAGEMENT_SERVICE_CHARGE,
-  API_TRANSPORT_ARRANGEMENT_COMPELETE
+  API_TRANSPORT_ARRANGEMENT_COMPELETE,
+  API_ADD_TRANSPORT_ARRAGEMENT
 } from "../../api/index"
 import Swal from "sweetalert2";
 
@@ -2413,7 +2414,7 @@ export const getDispatcherList = (transportArrangementId, projectId) => {
   }
 }
 
-export const deleteTransportType = (transportTypeArrangementId,transportArrangementId) => {
+export const deleteTransportType = (transportTypeArrangementId, transportArrangementId) => {
   return async (dispatch) => {
     try {
       let create = await actionCrud.actionCommonSlice(transportTypeArrangementId, API_DELETE_TRANSPORT_ARRAGEMENT_TYPE, "DELETE");
@@ -2532,7 +2533,7 @@ export const addTransportArrangmentServiceCharge = (payload) => {
   }
 }
 
-export const deleteTransportArrangmentServiceCharge = (transportArrangementServiceId,lmby,transportArrangementId) => {
+export const deleteTransportArrangmentServiceCharge = (transportArrangementServiceId, lmby, transportArrangementId) => {
   return async (dispatch) => {
     try {
       const fullParam = `${transportArrangementServiceId}/${lmby}`
@@ -2605,6 +2606,37 @@ export const completeTransportArrangement = (transportArrangmentId, lmby) => {
           title: create?.message,
           showConfirmButton: true
         });
+      } else {
+        Swal.fire({
+          title: 'Error!',
+          text: create?.message,
+          icon: 'error',
+          confirmButtonText: 'Close'
+        })
+      }
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Close'
+      })
+    }
+  }
+}
+
+export const addTransportArrangment = (payload) => {
+  return async (dispatch) => {
+    try {
+      let create = await actionCrud.actionCommonCrud(payload, API_ADD_TRANSPORT_ARRAGEMENT, "POST");
+      if (create.status === "success") {
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: create?.message,
+          showConfirmButton: true
+        });
+        dispatch(getTransportArragementOrderReq(payload.orderReqId))
       } else {
         Swal.fire({
           title: 'Error!',

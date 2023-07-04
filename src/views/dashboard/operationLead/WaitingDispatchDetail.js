@@ -46,7 +46,7 @@ function WaitingDispatchDetail() {
     const [selectedDeliveryRequest, setSelectedDeliveryRequest] = useState({});
     const [templateName, setTemplateName] = useState("")
     const [openModalUpload, setOpenModalUpload] = useState(false)
-    const [openModalAdditionalService, setOpenModalAdditionalService] = useState(false)
+    const [openModalDeliveryArrangment, setOpenModalDeliveryArrangment] = useState(false)
     const [fileUpload, setFileUpload] = useState(null);
     const [templateUrl, setTemplateUrl] = useState("")
     const [serviceChargeData, setServiceChargeData] = useState([])
@@ -77,63 +77,15 @@ function WaitingDispatchDetail() {
         }
     }, [Global?.user?.userID]);
 
-    const handleOnChangeTransportMode = (selectedTransportMode) => {
-        setSelectedTransportMode(selectedTransportMode);
-        dispatch(actions.getDeliveryRequestFinal(selectedTransportMode.value, orderReqId))
-            .then(resp => {
-                setDeliveryRequest(resp)
-            })
-    }
-
-    const handleOnChangeDeliveryRequest = (selectedDeliveryRequest) => {
-        setSelectedDeliveryRequest(selectedDeliveryRequest);
-    }
-
     const handleCloseModalUpload = () => {
         setOpenModalUpload(false)
         setFileUpload(null)
     }
 
-    const handleConfirm = () => {
-        const payload = {
-            orderReqId: orderReqId,
-            deliveryModeId: selectedDeliveryRequest.value,
-            transportModeId: selectedTransportMode.value,
-            LMBY: Global?.user?.userID
-        }
-
-        for (const key in payload) {
-            if (Object.hasOwnProperty.call(payload, key)) {
-                const element = payload[key];
-                if (element == "" || element == undefined) {
-                    return Swal.fire({
-                        title: 'Error!',
-                        text: 'Field Empty !',
-                        icon: 'error',
-                        confirmButtonText: 'OK'
-                    })
-                }
-            }
-        }
-        dispatch(actions.pickandPackComplete(payload))
-    }
-
-    const handleCreateAdditionalService = () => {
-        dispatch(
-            actions.getOrderRequestServiceChargeList(projectId, orderReqId)
-        ).then(response => {
-            setServiceChargeData(response)
-            setValues({})
-            setOpenModalAdditionalService(true)
-        })
-
-    }
-
 
     const handleComponent = useCallback(
         (action, id) => {
-            // setOrderReqId(orderReqId)
-            if(action === 'addTransport'){
+            if (action === 'addTransport') {
                 let param = `${id}/${orderReqDetail.transportModeId}/${projectId}/${orderReqId}`
                 nav('/operation-lead/waiting-dispatch/transport-arrangment/' + param)
             }
@@ -144,43 +96,18 @@ function WaitingDispatchDetail() {
         setOpenModal(false)
     }
 
+    const handleCreateTransportArragementSave = () => {
+        const payload = {
+            orderReqId: orderReqId,
+            deliveryModeId: orderReqDetail.deliveryModeId,
+            transportModeId: orderReqDetail.transportModeId,
+            LMBY: Global?.user?.userID
+        }
+        dispatch(actions.addTransportArrangment(payload))
+    }
+
     const handleCreateTransportArragement = () => {
-
-        dispatch(
-            actions.getOrderRequestServiceChargeList(projectId, orderReqId)
-        ).then(response => {
-            const remapData = response.map((row, idx) => {
-                return {
-                    name: Object.keys(row)[idx],
-                    header: Object.keys(row)[idx],
-                    defaultFlex: 1
-                }
-            })
-
-            remapData.push({
-                name: 'serviceChargeCode',
-                header: 'Qty',
-                defaultFlex: 1,
-                defaultWidth: 80,
-                render: ({ value, cellProps }) => {
-                    return (
-                        <>
-                            <CFormInput
-                                className='form-control'
-                                type="text"
-                                name="qty"
-                            />
-                        </>
-                    )
-                }
-            })
-
-            setServiceChargeData(response)
-            setServiceChargeHeader(remapData)
-            setOpenModalAdditionalService(true)
-
-        })
-
+        setOpenModalDeliveryArrangment(true)
     }
 
     const handleDownloadTemplate = () => {
@@ -785,26 +712,47 @@ function WaitingDispatchDetail() {
             </CModal>
             <CModal
                 size="lg"
-                visible={openModalAdditionalService}
-                onClose={() => setOpenModalAdditionalService(false)}
+                visible={openModalDeliveryArrangment}
+                onClose={() => setOpenModalDeliveryArrangment(false)}
                 alignment='center'
             >
                 <CModalHeader>
-                    <CModalTitle>Service Charge List {custOrderRequest}</CModalTitle>
+                    <CModalTitle>Add New Delivery Arrangement</CModalTitle>
                 </CModalHeader>
                 <CModalBody>
                     <CRow>
-                        <CCol className="d-none d-md-block text-end">
-                            <SmartTable
-                                data={serviceChargeData}
-                                columns={additionalServiceChargeColumn}
-                                minHeight={200}
-                            />
-                        </CCol>
+                        <CRow className="mb-4">
+                            <CFormLabel
+                                className="col-sm-3 col-form-label">Delivery Mode
+                            </CFormLabel>
+                            <CCol>
+                                <CFormInput
+                                    type="text"
+                                    name="deliveryMode"
+                                    value={orderReqDetail?.deliveryMode}
+                                    readOnly
+                                    disabled
+                                />
+                            </CCol>
+                        </CRow>
+                        <CRow className="mb-4">
+                            <CFormLabel
+                                className="col-sm-3 col-form-label">Transport Mode
+                            </CFormLabel>
+                            <CCol>
+                                <CFormInput
+                                    type="text"
+                                    name="transportMode"
+                                    value={orderReqDetail?.transportMode}
+                                    readOnly
+                                    disabled
+                                />
+                            </CCol>
+                        </CRow>
                     </CRow>
                 </CModalBody>
                 <CModalFooter>
-                    {/* <CButton onClick={handleClose} color="secondary">Close</CButton> */}
+                    <CButton onClick={handleCreateTransportArragementSave} color="primary">Create</CButton>
                 </CModalFooter>
             </CModal>
         </>

@@ -103,9 +103,9 @@ function ModalSettingManagement({
                     </CCol>
                 </CRow>
             </CModalBody>
-            <CModalFooter>
+            {/* <CModalFooter>
                 <CButton onClick={() => setOpen(false)} color="secondary">Close</CButton>
-            </CModalFooter>
+            </CModalFooter> */}
         </CModal>
     )
 }

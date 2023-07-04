@@ -140,4 +140,4 @@ export const API_GET_TRANSPORT_ARRAGEMENT_SERVICE_CHARGE = BASE_URL + "servicech
 export const API_ADD_TRANSPORT_ARRAGEMENT_SERVICE_CHARGE = BASE_URL + "servicecharge/transportArrangementServiceChargeAdd"
 export const API_GET_TRANSPORT_ARRAGEMENT_ADD_SERVICE_CHARGE_LIST = BASE_URL + "servicecharge/transportArrangementGetAddedServiceChargeList"
 export const API_DELETE_TRANSPORT_ARRAGEMENT_SERVICE_CHARGE = BASE_URL + "servicecharge/transportArrangementServiceChargeDelete"
-export const API_TRANSPORT_ARRANGEMENT_COMPELETE = BASE_URL + "transportarrangement/gtransportArrangementConfirmed"
+export const API_TRANSPORT_ARRANGEMENT_COMPELETE = BASE_URL + "transportarrangement/transportArrangementConfirmed"
