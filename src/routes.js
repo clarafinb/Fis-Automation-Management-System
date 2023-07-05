@@ -22,6 +22,10 @@ const PickAndPackProgressDetail = React.lazy(() => import('./views/dashboard/ope
 const WaitingDispatch = React.lazy(() => import('./views/dashboard/operationLead/WaitingDispatch'))
 const WaitingDispatchDetail = React.lazy(() => import('./views/dashboard/operationLead/WaitingDispatchDetail'))
 const TransportArrangmentDetail = React.lazy(() => import('./views/dashboard/operationLead/TransportArrangmentDetail'))
+const DeliveryTransit = React.lazy(() => import('./views/dashboard/operationLead/DeliveryTransit'))
+const DeliveryTransitDetail = React.lazy(() => import('./views/dashboard/operationLead/DeliveryTransitDetail'))
+const DeliveryComplete = React.lazy(() => import('./views/dashboard/operationLead/DeliveryComplete'))
+const DeliveryCompleteDetail = React.lazy(() => import('./views/dashboard/operationLead/DeliveryCompleteDetail'))
 // const Colors = React.lazy(() => import('./views/theme/colors/Colors'))
 
 const routes = [
@@ -43,9 +47,14 @@ const routes = [
   { path: '/operation-lead/pick-pack/:projectId', name: 'PICK AND PACK PENDING', element: PickAndPack },
   { path: '/operation-lead/pick-pack/progress/:projectId', name: 'PICK AND PACK PENDING', element: PickAndPackProgress },
   { path: '/operation-lead/pick-pack/progress/:projectId/detail/:orderReqId', name: 'PICK AND PACK PENDING', element: PickAndPackProgressDetail },
-  { path: '/operation-lead/waiting-dispatch/:projectId', name: 'WAITING DELIVERY', element: WaitingDispatch},
-  { path: '/operation-lead/waiting-dispatch/:projectId/detail/:orderReqId', name: 'WAITING DELIVERY DETAIL', element: WaitingDispatchDetail},
-  { path: '/operation-lead/waiting-dispatch/transport-arrangment/:transportArrangmentId/:transportModeId/:projectId/:orderReqId', name: 'TRANSPORT ARRANGMENT DETAIL', element: TransportArrangmentDetail},
+  { path: '/operation-lead/waiting-dispatch/:projectId', name: 'WAITING DELIVERY', element: WaitingDispatch },
+  { path: '/operation-lead/waiting-dispatch/:projectId/detail/:orderReqId', name: 'WAITING DELIVERY DETAIL', element: WaitingDispatchDetail },
+  { path: '/operation-lead/waiting-dispatch/transport-arrangment/:transportArrangmentId/:transportModeId/:projectId/:orderReqId', name: 'TRANSPORT ARRANGMENT DETAIL', element: TransportArrangmentDetail },
+  { path: '/operation-lead/delivery-transit/:projectId', name: 'DELIVERY TRANSIT', element: DeliveryTransit },
+  { path: '/operation-lead/delivery-transit/:projectId/detail/:orderReqId', name: 'DELIVERY TRANSIT DETAIL', element: DeliveryTransitDetail },
+  { path: '/operation-lead/delivery-complete/:projectId', name: 'DELIVERY COMPLETE', element: DeliveryComplete },
+  { path: '/operation-lead/delivery-complete/:projectId/detail/:orderReqId', name: 'DELIVERY COMPLETE DETAIL', element: DeliveryCompleteDetail },
+
   // { path: '/theme', name: 'Theme', element: Colors, exact: true },
   // { path: '/theme/colors', name: 'Colors', element: Colors },
 ]

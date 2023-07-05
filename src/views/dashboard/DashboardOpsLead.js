@@ -22,7 +22,7 @@ import { cilList, cilSend } from '@coreui/icons'
 import { CChart } from '@coreui/react-chartjs'
 
 function DashboardOpsLead({ data }) {
-    const [cookies, setCookie, removeCookie ] = useCookies(["dashboardOpsLead"]);
+    const [cookies, setCookie, removeCookie] = useCookies(["dashboardOpsLead"]);
     const { dispatch, Global, Dashboard } = useRedux()
     const [detailProject, setDetailProject] = useState([])
     const [detailWarehouse, setDetailWarehouse] = useState({})
@@ -98,7 +98,15 @@ function DashboardOpsLead({ data }) {
             {
                 type: 'waitingDispatch',
                 url: '/operation-lead/waiting-dispatch/' + id
-            }
+            },
+            {
+                type: 'deliveryTransit',
+                url: '/operation-lead/delivery-transit/' + id
+            },
+            {
+                type: 'deliveryComplete',
+                url: '/operation-lead/delivery-complete/' + id
+            },
         ]
 
         let url = navigate.find(e => e.type === type)
@@ -300,7 +308,7 @@ function DashboardOpsLead({ data }) {
                                                             <CCol className="d-grid gap-2">
                                                                 <CButton
                                                                     className="colorBtn-yellow"
-                                                                // onClick={() => handleNavigator("orderRequest", values?.projectId)}
+                                                                    onClick={() => handleNavigator("deliveryTransit", values?.projectId)}
                                                                 >
                                                                     DETAIL
                                                                 </CButton>
@@ -322,7 +330,7 @@ function DashboardOpsLead({ data }) {
                                                             <CCol className="d-grid gap-2">
                                                                 <CButton
                                                                     className="colorBtn-yellow"
-                                                                // onClick={() => handleNavigator("orderRequest", values?.projectId)}
+                                                                    onClick={() => handleNavigator("deliveryComplete", values?.projectId)}
                                                                 >
                                                                     DETAIL
                                                                 </CButton>

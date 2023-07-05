@@ -103,7 +103,10 @@ import {
   API_GET_TRANSPORT_ARRAGEMENT_SERVICE_CHARGE,
   API_ADD_TRANSPORT_ARRAGEMENT_SERVICE_CHARGE,
   API_TRANSPORT_ARRANGEMENT_COMPELETE,
-  API_ADD_TRANSPORT_ARRAGEMENT
+  API_ADD_TRANSPORT_ARRAGEMENT,
+  API_GET_DELIVERY_TRANSIT,
+  API_GET_DELIVERY_COMPLETE,
+  API_GET_TRANSPORT_ARRAGEMENT_DELIVERY
 } from "../../api/index"
 import Swal from "sweetalert2";
 
@@ -2645,6 +2648,89 @@ export const addTransportArrangment = (payload) => {
           confirmButtonText: 'Close'
         })
       }
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Close'
+      })
+    }
+  }
+}
+
+export const getListDeliveryTransit = (projectId, whId, userId) => {
+  return async (dispatch) => {
+    try {
+      const fullParam = `${projectId}/${whId}/${userId}`
+      let list = await actionCrud.actionParamRequest(fullParam, API_GET_DELIVERY_TRANSIT, "GET");
+      let listDeliveryTransit = list?.map((item, idx) => {
+        return {
+          no: idx + 1,
+          ...item,
+          extra: {
+            ...{
+              projectId: projectId,
+              whId: whId,
+              userId: whId
+            }
+          }
+        }
+      })
+      dispatch({
+        type: actionType.SET_LIST_DELIVERY_TRANSIT,
+        payload: listDeliveryTransit
+      });
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Close'
+      })
+    }
+  }
+}
+
+export const getListDeliveryComplete = (projectId, whId, userId) => {
+  return async (dispatch) => {
+    try {
+      const fullParam = `${projectId}/${whId}/${userId}`
+      let list = await actionCrud.actionParamRequest(fullParam, API_GET_DELIVERY_COMPLETE, "GET");
+      let listDeliveryComplete = list?.map((item, idx) => {
+        return {
+          no: idx + 1,
+          ...item,
+          extra: {
+            ...{
+              projectId: projectId,
+              whId: whId,
+              userId: whId
+            }
+          }
+        }
+      })
+      dispatch({
+        type: actionType.SET_LIST_DELIVERY_COMPLETE,
+        payload: listDeliveryComplete
+      });
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Close'
+      })
+    }
+  }
+}
+
+export const getTransportArragementLocation = (orderReqId) => {
+  return async (dispatch) => {
+    try {
+      const fullParam = `${orderReqId}`
+      let data = await actionCrud.actionParamRequest(fullParam, API_GET_TRANSPORT_ARRAGEMENT_DELIVERY, "GET");
+      return Promise.resolve(data)
     } catch (error) {
       Swal.fire({
         title: 'Error!',

@@ -24,7 +24,9 @@ let initialState = {
     listTransportArragement: [],
     listRequestTransportArragement: [],
     listTransportArragementType: [],
-    listTransportArragementSc: []
+    listTransportArragementSc: [],
+    listDeliveryTransit: [],
+    listDeliveryComplete: []
 };
 
 const Dashboard = (state = initialState, { type, payload }) => {
@@ -166,21 +168,30 @@ const Dashboard = (state = initialState, { type, payload }) => {
                 ...state,
                 listRequestTransportArragement: payload
             }
-        
+
         case actionType.SET_LIST_TRANSPORT_ARRANGEMENT_TYPE:
             return {
                 ...state,
                 listTransportArragementType: payload
             }
-        
+
         case actionType.SET_LIST_TRANSPORT_ARRANGEMENT_SC:
             return {
                 ...state,
                 listTransportArragementSc: payload
             }
-            
-            
-            
+
+        case actionType.SET_LIST_DELIVERY_TRANSIT:
+            return {
+                ...state,
+                listDeliveryTransit: payload
+            }
+
+        case actionType.SET_LIST_DELIVERY_COMPLETE:
+            return {
+                ...state,
+                listDeliveryComplete: payload
+            }
 
         default:
             return { ...state };
