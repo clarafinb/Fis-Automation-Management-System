@@ -186,3 +186,9 @@ p {
   border-color: var(--cui-form-check-input-checked-border-color, #E0E2E6);
   background-image: var(--cui-form-switch-checked-bg-image, url("data:image/svg+xml,%3csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%27-4 -4 8 8%27%3e%3ccircle r=%273%27 fill=%27rgba%28255, 255, 255, 0.87%29%27/%3e%3c/svg%3e"));
 }
+
+.InovuaReactDataGrid__cell__content {
+  overflow: hidden !important;
+  white-space: normal !important;
+  text-overflow: ellipsis !important;
+}
