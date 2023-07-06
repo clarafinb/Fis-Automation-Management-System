@@ -140,3 +140,23 @@ export async function actionParamRequest(fullParam, url, method = "GET") {
           return Promise.reject(error)
      }
 }
+
+export async function actionUpdateWithBody(url, body, method = "PUT") {
+     try {
+          let objAxios = {
+               method: `${method}`,
+               url: `${url}`,
+               data: body
+          }
+          let { data } = await axios(objAxios);
+          return data;
+     } catch (error) {
+          Swal.fire({
+               title: "Attention",
+               text: error?.response?.data?.msg,
+               icon: "warning",
+               confirmButtonText: "Yes",
+          });
+          return Promise.reject(error)
+     }
+}

@@ -48,7 +48,7 @@ function OrderRequest() {
                 dispatch(actions.getListOrderRequest(id, result[0].whId, Global?.user?.userID))
             })
         }
-    }, [Global?.user?.userID, projectId]);
+    }, [Global?.user?.userID]);
 
     const handleOnchange = useCallback(
         (e) => {
@@ -111,7 +111,7 @@ function OrderRequest() {
     const filterValue = [
         { name: 'whCode', operator: 'startsWith', type: 'string', value: '' },
         { name: 'whName', operator: 'startsWith', type: 'string', value: '' },
-        { name: 'orderRequestDesc', operator: 'startsWith', type: 'string', value: '' },
+        { name: 'custOrderRequest', operator: 'startsWith', type: 'string', value: '' },
         { name: 'orderRequestDesc', operator: 'startsWith', type: 'string', value: '' },
         { name: 'requestorName', operator: 'startsWith', type: 'string', value: '' },
         { name: 'orderRequestDate', operator: 'startsWith', type: 'string', value: '' },
@@ -128,6 +128,7 @@ function OrderRequest() {
         { name: 'no', header: 'No', defaultVisible: true, defaultWidth: 80, type: 'number', textAlign: 'center' },
         { name: 'whCode', header: 'WH Code', defaultWidth: 120 },
         { name: 'whName', header: 'WH Name', defaultWidth: 120 },
+        { name: 'custOrderRequest', header: 'Cust Order Request', defaultWidth: 200 },
         { name: 'orderRequestDesc', header: 'Order Req Desc', defaultWidth: 200 },
         { name: 'requestorName', header: 'Requestor', defaultWidth: 150 },
         {
@@ -164,6 +165,7 @@ function OrderRequest() {
             defaultWidth: 100,
             textAlign: 'center',
             render: ({ value, cellProps }) => {
+                console.log(cellProps.data.detail.visibleCancelledFunction)
                 return (
                     <>
                         <FontAwesomeIcon
@@ -174,14 +176,16 @@ function OrderRequest() {
                                 handleComponent("delete", value)
                             }
                         />
-                        <FontAwesomeIcon
-                            icon={faClipboard}
-                            className='textBlue'
-                            title='Cancel Order Request'
-                            onClick={() =>
-                                handleComponent("cancel", value)
-                            }
-                        />
+                        {cellProps.data.detail.visibleCancelledFunction !== 0 ?
+                            <FontAwesomeIcon
+                                icon={faClipboard}
+                                className='textBlue'
+                                title='Cancel Order Request'
+                                onClick={() =>
+                                    handleComponent("cancel", value)
+                                }
+                            />
+                            : ''}
                     </>
                 )
             }

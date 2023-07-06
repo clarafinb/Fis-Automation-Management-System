@@ -36,7 +36,7 @@ function ModalCreateOrderRequest({ open, setOpen, projectId, detailProject }) {
     const [selectedOriginPoint, setSelectedOriginPoint] = useState({});
     const [selectedDestination, setSelectedDestination] = useState({});
     // const [mapKey, setMapKey] = useState(Date.now())
-    const [data, setData] = useState({})
+    // const [data, setData] = useState({})
 
     const handleOnChangeDeliveryProcess = (selectedDeliveryProcess) => {
         setSelectedDeliveryProcess(selectedDeliveryProcess);
@@ -84,7 +84,7 @@ function ModalCreateOrderRequest({ open, setOpen, projectId, detailProject }) {
     }
 
     useEffect(() => {
-        if (Global?.user?.token && projectId) {
+        if (Global?.user?.token && open) {
             dispatch(actions.getSelectDeliveryProcess()).then(e => {
                 setDeliveryProcess(e)
             })
@@ -96,10 +96,12 @@ function ModalCreateOrderRequest({ open, setOpen, projectId, detailProject }) {
             dispatch(actions.getSelecTransportType()).then(e => {
                 setTransportType(e)
             })
-
-            setData({})
         }
-    }, [Global?.user, projectId]);
+    }, [Global?.user,open]);
+
+    useEffect(() => {
+        setValues({})
+    }, [open])
 
 
     const handleCreate = () => {
@@ -122,7 +124,8 @@ function ModalCreateOrderRequest({ open, setOpen, projectId, detailProject }) {
 
         let methode = "POST"
         dispatch(actions.createOrderRequest(payload, methode))
-        setData({})
+        // setData({})
+        setValues({})
         setOpen(false)
     }
 
@@ -146,7 +149,7 @@ function ModalCreateOrderRequest({ open, setOpen, projectId, detailProject }) {
     }
 
     const handleClose = () => {
-        setData({})
+        setValues({})
         setOpen(false)
     }
 

@@ -41,7 +41,6 @@ function ModalWarehouseMembership({ open, setOpen, projectId, userId }) {
     )
 
     const filterValue = [
-        { name: 'no', operator: 'startsWith', type: 'string', value: '' },
         { name: 'whName', operator: 'startsWith', type: 'string', value: '' },
         { name: 'whCode', operator: 'startsWith', type: 'string', value: '' },
         { name: 'isMainWH', operator: 'startsWith', type: 'string', value: '' }
@@ -51,15 +50,23 @@ function ModalWarehouseMembership({ open, setOpen, projectId, userId }) {
         { name: 'no', header: 'No', defaultVisible: true, defaultWidth: 80, type: 'number' },
         { name: 'whName', header: 'Warehouse', defaultFlex: 1 },
         { name: 'whCode', header: 'Warehouse Code', defaultFlex: 1 },
-        { name: 'isMainWH', header: 'Main WH', defaultFlex: 1 },
+        { name: 'isMainWH', header: 'Main WH', defaultFlex: 1, textAlign: 'center' },
         {
             name: 'whMemberStatus',
             header: 'Action',
             defaultFlex: 1,
             textAlign: 'center',
             render: ({ value, cellProps }) => value === "notmember"
-                ? <FontAwesomeIcon icon={faCheck} className='textBlue' onClick={() => handleComponent("whMemberStatus", value, cellProps.data.detail.whId)} />
-                : <FontAwesomeIcon icon={faXmark} className='textBlue' onClick={() => handleComponent("whMemberStatus", value, cellProps.data.detail.whId)} />
+                ? <FontAwesomeIcon
+                    icon={faCheck}
+                    className='textBlue'
+                    onClick={() =>
+                        handleComponent("whMemberStatus", value, cellProps.data.detail.whId)} />
+                : <FontAwesomeIcon
+                    icon={faXmark}
+                    className='textBlue'
+                    onClick={() =>
+                        handleComponent("whMemberStatus", value, cellProps.data.detail.whId)} />
 
         }
     ];

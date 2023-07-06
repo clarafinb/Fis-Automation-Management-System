@@ -23,12 +23,14 @@ import CIcon from '@coreui/icons-react'
 import { cilCloudUpload, cilFile, cilPlus } from '@coreui/icons'
 import SmartTable from 'src/components/custom/table/SmartTable'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPlay, faPlus, faRefresh, faSearch, faUpload } from '@fortawesome/free-solid-svg-icons'
+import { faPlay, faPlus, faRefresh, faSearch, faTrash, faUpload } from '@fortawesome/free-solid-svg-icons'
 import moment from 'moment/moment'
 import Select from 'react-select'
 import Swal from 'sweetalert2'
+import { useNavigate } from 'react-router-dom';
 
 function PickAndPackProgressDetail() {
+    const nav = useNavigate();
     const { dispatch, Global, Dashboard } = useRedux()
     const [detailProject, setDetailProject] = useState({})
     const [orderReqDetail, setOrderReqDetail] = useState({})
@@ -74,6 +76,17 @@ function PickAndPackProgressDetail() {
         }
     }, [Global?.user?.userID]);
 
+    useEffect(() => {
+        if (projectId && orderReqId) {
+            dispatch(
+                actions.getOrderRequestServiceChargeList(projectId, orderReqId)
+            ).then(response => {
+                setServiceChargeData(response)
+                setValues({})
+            })
+        }
+    }, [Dashboard?.listOrdeRequestAdditionalService])
+
     const handleOnChangeTransportMode = (selectedTransportMode) => {
         setSelectedTransportMode(selectedTransportMode);
         dispatch(actions.getDeliveryRequestFinal(selectedTransportMode.value, orderReqId))
@@ -89,6 +102,10 @@ function PickAndPackProgressDetail() {
     const handleCloseModalUpload = () => {
         setOpenModalUpload(false)
         setFileUpload(null)
+    }
+
+    const handleBack = () => {
+        nav(-1);
     }
 
     const handleConfirm = () => {
@@ -113,6 +130,7 @@ function PickAndPackProgressDetail() {
             }
         }
         dispatch(actions.pickandPackComplete(payload))
+        handleBack()
     }
 
 
@@ -241,12 +259,43 @@ function PickAndPackProgressDetail() {
         }, [setValues]
     )
 
+    const handleDeleteAddService = (custOrderRequestServiceChargeId) => {
+        dispatch(
+            actions
+                .deleteAddServicePickPack(
+                    orderReqId,
+                    {
+                        custOrderRequestServiceId: custOrderRequestServiceChargeId,
+                        LMBY: Global?.user?.userID
+                    }
+                )
+        )
+    }
+
     const additionalServiceColumn = [
         { name: 'no', header: 'No', defaultVisible: true, defaultWidth: 80, type: 'number' },
         { name: 'serviceChargeCode', header: 'SVC Code', defaultFlex: 1 },
         { name: 'serviceCharge', header: 'SVC Desc', defaultFlex: 1 },
         { name: 'uom', header: 'UOM', defaultFlex: 1 },
         { name: 'serviceQty', header: 'QTY', defaultFlex: 1 },
+        {
+            name: 'custOrderRequestServiceChargeId',
+            header: 'Action',
+            defaultFlex: 1,
+            textAlign: "center",
+            render: ({ value }) => {
+                return (
+                    <>
+                        <FontAwesomeIcon
+                            icon={faTrash}
+                            className='textBlue px-2'
+                            title='Delete Addtional Service'
+                            onClick={() => handleDeleteAddService(value)}
+                        />
+                    </>
+                )
+            }
+        },
     ]
 
     const additionalServiceChargeColumn = [
@@ -259,14 +308,15 @@ function PickAndPackProgressDetail() {
             header: 'QTY',
             defaultFlex: 1,
             defaultWidth: 80,
-            render: ({ value, cellProps }) => {
+            render: ({ value, data }) => {
                 return (
                     <>
                         <CFormInput
                             className='form-control'
                             type="text"
                             name="qty"
-                            onChange={(e) => handleChangeQty(e, cellProps?.data)}
+                            value={values?.qty}
+                            onChange={(e) => handleChangeQty(e, data)}
                         />
                     </>
                 )
@@ -650,9 +700,11 @@ function PickAndPackProgressDetail() {
                                     </CCol>
                                     {
                                         orderReqDetail?.totalItem > 0 ?
-                                            < CRow >
-                                                <CCol className="d-none d-md-block text-end py-3">
-                                                    <CButton onClick={handleConfirm} color="primary">Confirm</CButton>
+                                            < CRow className='mt-3'>
+                                                <CCol className="d-none d-md-block text-end" md={12}>
+                                                    <CButton onClick={handleConfirm} color="primary" >Confirm</CButton>
+                                                    &nbsp;&nbsp;&nbsp;
+                                                    <CButton onClick={handleBack} color="secondary">Cancel</CButton>
                                                 </CCol>
                                             </CRow>
                                             : ''

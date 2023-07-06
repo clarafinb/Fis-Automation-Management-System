@@ -5,7 +5,6 @@ import {
     CButton,
     CCol,
     CRow,
-    CFormInput,
     CFormLabel,
     CModal,
     CModalHeader,
@@ -15,9 +14,9 @@ import {
     CFormSelect
 } from '@coreui/react'
 import * as actions from '../../config/redux/Dashboard/actions'
-import StandardTable from 'src/components/custom/table/StandardTable'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus } from '@fortawesome/free-solid-svg-icons'
+import SmartTable from '../custom/table/SmartTable'
 
 function ModalCreateProjectMember({ open, setOpen, projectId }) {
     const { dispatch, Global, Dashboard } = useRedux()
@@ -34,30 +33,42 @@ function ModalCreateProjectMember({ open, setOpen, projectId }) {
     }, [projectId, open]);
 
     useEffect(() => {
-        if(values?.role){
-            dispatch(actions.getUserNotRegisteredYetBasedOnRoleAndProject(values.role,projectId))
+        if (values?.role) {
+            dispatch(actions.getUserNotRegisteredYetBasedOnRoleAndProject(values.role, projectId))
         }
     }, [projectId, values?.role]);
 
-    const handleCreateProjectServiceCharge = () => {
-        // let payload = {
-        //     projectId: projectId,
-        //     serviceChargeId: values.serviceChargeId,
-        //     currencyId: values.currencyId,
-        //     chargeFee: values.chargeFee,
-        //     LMBY: Global?.user?.userID
-        // }
-        // dispatch(actions.createProjectServiceCharge(payload))
-    }
-
-    const head = [
-        "No",
-        "Fullname",
-        "Email",
-        "Phone No",
-        "User Status",
-        ""
+    const filterValue = [
+        { name: 'name', operator: 'startsWith', type: 'string' },
+        { name: 'email', operator: 'startsWith', type: 'string' },
+        { name: 'phoneNo', operator: 'startsWith', type: 'string' },
+        { name: 'userStatus', operator: 'startsWith', type: 'string' },
     ]
+
+    const columns = [
+        { name: 'no', header: 'No', defaultVisible: true, defaultWidth: 80 },
+        { name: 'fullname', header: 'Fullname', defaultFlex: 1 },
+        { name: 'email', header: 'Email', defaultFlex: 1 },
+        { name: 'phoneNo', header: 'Phone No', defaultFlex: 1 },
+        { name: 'userStatus', header: 'User Status', defaultFlex: 1, textAlign: 'center' },
+        {
+            name: 'userId',
+            header: 'Action',
+            defaultFlex: 1,
+            textAlign: 'center',
+            render: ({ value }) => {
+                return (
+                    <FontAwesomeIcon
+                        icon={faPlus}
+                        className='textBlue'
+                        onClick={() =>
+                            handleComponent("userId", value)
+                        }
+                    />
+                )
+            }
+        },
+    ];
 
     const handleOnchange = useCallback(
         (e) => {
@@ -71,8 +82,8 @@ function ModalCreateProjectMember({ open, setOpen, projectId }) {
     )
 
     const handleComponent = useCallback(
-        (name, val, id) => {
-            if(name === 'userId'){
+        (name, val) => {
+            if (name === 'userId') {
                 let payload = {
                     roleId: values?.role,
                     projectId: projectId,
@@ -110,21 +121,14 @@ function ModalCreateProjectMember({ open, setOpen, projectId }) {
                 <CRow>
                     {values?.role && (
                         <CCol className="d-none d-md-block text-end">
-                            <StandardTable
-                                head={head}
+                            <SmartTable
                                 data={Dashboard?.listUserNotRegisteredByRolePm}
-                                hide={["detail"]}
-                                isComponent={true}
-                                component={[{
-                                    name: "userId",
-                                    type: "icon",
-                                    label: <FontAwesomeIcon icon={faPlus} className='textBlue'/>
-                                }]}
-                                handleComponent={handleComponent}
+                                filterValue={filterValue}
+                                columns={columns}
                             />
                         </CCol>
                     )}
-                    
+
                 </CRow>
             </CModalBody>
             <CModalFooter>

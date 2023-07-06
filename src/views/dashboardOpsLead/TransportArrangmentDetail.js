@@ -275,7 +275,7 @@ function TransportArragmentDetail() {
     const handleConfirm = (type) => {
         if (type == "confirm") {
             dispatch(actions.completeTransportArrangement(param?.transportArrangmentId, Global?.user?.userID))
-            nav('/operation-lead/waiting-dispatch/' + param?.projectId + '/detail/' + param?.orderReqId)
+            nav("/operation-lead/waiting-dispatch/"+param?.projectId, { replace: true })
         } else {
             nav('/operation-lead/waiting-dispatch/' + param?.projectId + '/detail/' + param?.orderReqId)
         }

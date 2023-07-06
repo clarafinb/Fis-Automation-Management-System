@@ -106,7 +106,8 @@ import {
   API_ADD_TRANSPORT_ARRAGEMENT,
   API_GET_DELIVERY_TRANSIT,
   API_GET_DELIVERY_COMPLETE,
-  API_GET_TRANSPORT_ARRAGEMENT_DELIVERY
+  API_GET_TRANSPORT_ARRAGEMENT_DELIVERY,
+  API_DELETE_ADDITIONAL_SERVICE_PICK_AND_PACK
 } from "../../api/index"
 import Swal from "sweetalert2";
 
@@ -267,6 +268,7 @@ export const setStatusActiveProject = (val, projectId) => {
     }
   }
 }
+//API_DELETE_ADDITIONAL_SERVICE_PICK_AND_PACK
 
 export const getListServiceCharge = (payload) => {
   return async (dispatch) => {
@@ -1539,13 +1541,14 @@ export const setWhProjectMembership = (payload, projectId) => {
       let create = await actionCrud.actionCommonCrud(payload, API_ADD_WH_PROJECT_MEMBERSHIP, "POST");
 
       if (create.status === "success") {
+        dispatch(getListWarehouseMembership(payload.userId, projectId));
+        dispatch(getListProjectMember(projectId))
         Swal.fire({
           position: "center",
           icon: "success",
           title: create?.message,
           showConfirmButton: true
         });
-        dispatch(getListWarehouseMembership(payload.userId, projectId));
       } else {
         Swal.fire({
           title: 'Error!',
@@ -1571,13 +1574,14 @@ export const deleteWhProjectMembership = (payload, projectId) => {
       let create = await actionCrud.actionCommonCrud(payload, API_DELETE_WH_PROJECT_MEMBERSHIP, "POST");
 
       if (create.status === "success") {
+        dispatch(getListWarehouseMembership(payload.userId, projectId));
+        dispatch(getListProjectMember(projectId))
         Swal.fire({
           position: "center",
           icon: "success",
           title: create?.message,
           showConfirmButton: true
         });
-        dispatch(getListWarehouseMembership(payload.userId, projectId));
       } else {
         Swal.fire({
           title: 'Error!',
@@ -2723,6 +2727,34 @@ export const getTransportArragementLocation = (orderReqId) => {
       const fullParam = `${orderReqId}`
       let data = await actionCrud.actionParamRequest(fullParam, API_GET_TRANSPORT_ARRAGEMENT_DELIVERY, "GET");
       return Promise.resolve(data)
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Close'
+      })
+    }
+  }
+}
+export const deleteAddServicePickPack = (orderReqId, payload) => {
+  return async (dispatch) => {
+    try {
+      let response = await actionCrud
+        .actionUpdateWithBody(
+          API_DELETE_ADDITIONAL_SERVICE_PICK_AND_PACK,
+          payload
+        );
+      if (response.status === "success") {
+        dispatch(getOrderRequestServiceCharge(orderReqId));
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: response?.message,
+          showConfirmButton: true
+        });
+      }
+
     } catch (error) {
       Swal.fire({
         title: 'Error!',

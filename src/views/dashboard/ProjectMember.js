@@ -2,13 +2,15 @@ import React, { useState, useCallback, useEffect } from 'react'
 import { useRedux } from 'src/utils/hooks'
 
 import {
+    CButton,
     CCard,
     CCardBody,
     CCol,
+    CContainer,
     CRow
 } from '@coreui/react'
 import {
-    cilMedicalCross,
+    cilPlus,
 } from '@coreui/icons'
 import CIcon from '@coreui/icons-react'
 import * as actions from '../../config/redux/Dashboard/actions'
@@ -24,7 +26,6 @@ function ProjectMember() {
     const [modalCreate, setModalCreate] = useState(false)
     const [projectId, setProjectId] = useState()
     const [modalWarehouse, setModalWarehouse] = useState(false)
-    const [projectUserId, setProjectUserId] = useState(false)
     const [userId, setUserId] = useState(null)
 
 
@@ -108,39 +109,45 @@ function ProjectMember() {
 
     return (
         <>
-            <CCard className="">
-                <CCardBody>
-                    <CRow>
-                        <CCol sm={5}>
-                            <h4 className="card-title mb-0">
-                                Project User Membership
-                            </h4>
-                        </CCol>
-                    </CRow>
-                    <br />
-                    <CRow>
-                        <CCol className="d-none d-md-block text-end">
-                            <CIcon
-                                icon={cilMedicalCross}
-                                className="me-2 text-warning"
-                                size="xl"
-                                onClick={handleCreate}
-                            />
-                        </CCol>
-                    </CRow>
-                    <br />
-                    <CRow>
-                        <CCol className="d-none d-md-block text-end">
-                            <SmartTable
-                                data={Dashboard?.listProjectMember}
-                                filterValue={filterValue}
-                                columns={columns}
-                            />
-                        </CCol>
-                    </CRow>
-                </CCardBody>
-            </CCard>
-            <ModalCreateProjectMember
+            <CContainer xl>
+                <CRow>
+                    <CCol sm={5}>
+                        <h4 className="card-title mb-0">
+                            <span className='text-underline'>PR</span>
+                            OJECT USER MEMBERSHIP
+                        </h4>
+                    </CCol>
+                </CRow>
+                <br />
+                <CRow>
+                    <CCol sm={5}>
+                        <CButton
+                            className="colorBtn-white"
+                            onClick={handleCreate}>
+                            <CIcon icon={cilPlus}
+                                className="me-2 text-warning" />
+                            ADD PROJECT USER MEMBERSHIP
+                        </CButton>
+                    </CCol>
+                </CRow>
+                <br />
+                <CRow className='pb-10'>
+                    <CCard>
+                        <CCardBody>
+                            <CCol className="d-none d-md-block text-end">
+                                <SmartTable
+                                    data={Dashboard?.listProjectMember}
+                                    filterValue={filterValue}
+                                    columns={columns}
+                                    minHeight={400}
+                                />
+                            </CCol>
+                        </CCardBody>
+                    </CCard>
+                </CRow>
+                <br />
+            </CContainer >
+            < ModalCreateProjectMember
                 open={modalCreate}
                 setOpen={setModalCreate}
                 projectId={projectId}
@@ -149,7 +156,6 @@ function ProjectMember() {
                 open={modalWarehouse}
                 setOpen={setModalWarehouse}
                 projectId={projectId}
-                // projectUserId={projectUserId}
                 userId={userId}
             />
         </>

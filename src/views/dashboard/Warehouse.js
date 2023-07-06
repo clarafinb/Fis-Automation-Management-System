@@ -25,12 +25,13 @@ function Warehouse() {
     const [warehouseSelected, setWhSelected] = useState({})
     const [mapKey, setMapKey] = useState(Date.now())
     const [isEdit, setIsEdit] = useState(false)
-    
+
     useEffect(() => {
         if (Global?.user?.token) {
             const id = window.location.href.split("/").pop();
             setProjectId(id)
             dispatch(actions.getListWarehouse(id))
+            setMapKey(Date.now())
         }
     }, [Global?.user]);
 
@@ -45,7 +46,6 @@ function Warehouse() {
             let projectId = data?.projectId
 
             dispatch(actions.setStatusActiveWarehouse(val, whId, projectId))
-
         }, [Dashboard.listWarehouse]
     )
 
@@ -108,11 +108,11 @@ function Warehouse() {
                 isEdit={isEdit} 
                 dataEdit={warehouseSelected} 
             />
-            <ModalOpenMap 
-                open={modalMap} 
-                setOpen={setModalMap} 
-                data={warehouseSelected} 
-                key={mapKey} 
+            <ModalOpenMap
+                open={modalMap}
+                setOpen={setModalMap}
+                data={warehouseSelected}
+                key={mapKey}
             />
         </>
     )

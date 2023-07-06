@@ -141,6 +141,22 @@ const Dashboard = () => {
   }
 
   useEffect(() => {
+    if (Global?.user?.token) {
+      dispatch(actions.getDashboard(Global?.user?.roleInf?.roleId))
+    }
+  }, [Global?.user]);
+
+  useEffect(() => {
+    if (Dashboard?.detailDashboard?.dashboardURL) {
+      if (Dashboard?.detailDashboard?.dashboardURL === '/usr/dashboardOpsLead') {
+        dispatch(actions.getListProjectByUser(Global?.user?.userID))
+      } else {
+        dispatch(actions.getListProject())
+      }
+    }
+  }, [Dashboard?.detailDashboard?.dashboardURL])
+
+  useEffect(() => {
     if (!cookies?.user) {
       nav("/login")
     }
