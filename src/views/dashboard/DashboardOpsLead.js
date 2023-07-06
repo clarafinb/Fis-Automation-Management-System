@@ -167,11 +167,11 @@ function DashboardOpsLead({ data }) {
                                 </h5>
                             </CCol>
                             <CCol className="d-none d-md-block">
-                                <CButton className="float-end btn colorBtn-white px-2">
+                                <CButton className="float-end btn colorBtn-white px-2 ms-2">
                                     <CIcon icon={cilList} className="me-2 text-warning" />
                                     Manage Order Request
                                 </CButton>
-                                <CButton className="float-end btn colorBtn-white px-2" >
+                                <CButton className="float-end btn colorBtn-white px-2 ms-2" >
                                     <CIcon icon={cilList} className="me-2 text-warning" />
                                     Manage Inventory
                                 </CButton>

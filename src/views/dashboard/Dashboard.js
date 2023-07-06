@@ -73,7 +73,7 @@ const Dashboard = () => {
       const { value } = e.target;
       setFilteredProject(Dashboard?.listProject)
 
-      if(value?.length > 2){
+      if (value?.length > 2) {
         setSearchProject(value.toLowerCase())
       }
     },
@@ -124,8 +124,8 @@ const Dashboard = () => {
         url: '/dashboard/project-member/' + id
       },
       {
-        type:'accountManagement',
-        url:'/dashboard/setting-management/account-management'
+        type: 'accountManagement',
+        url: '/dashboard/setting-management/account-management'
       }
     ]
 
@@ -143,10 +143,10 @@ const Dashboard = () => {
   }, [Global?.user]);
 
   useEffect(() => {
-    if(Dashboard?.detailDashboard?.dashboardURL){
-      if(Dashboard?.detailDashboard?.dashboardURL === '/usr/dashboardOpsLead'){
+    if (Dashboard?.detailDashboard?.dashboardURL) {
+      if (Dashboard?.detailDashboard?.dashboardURL === '/usr/dashboardOpsLead') {
         dispatch(actions.getListProjectByUser(Global?.user?.userID))
-      }else{
+      } else {
         dispatch(actions.getListProject())
       }
     }
@@ -162,15 +162,15 @@ const Dashboard = () => {
     if (searchProject) {
       let temp = Dashboard?.listProject.filter(row => row.projectName.toLowerCase().includes(searchProject))
       setFilteredProject(temp)
-    }else{
+    } else {
       setFilteredProject(Dashboard?.listProject)
     }
-  }, [searchProject,Dashboard?.listProject]);
+  }, [searchProject, Dashboard?.listProject]);
 
   return (
     <>
       <CContainer>
-      {!['/usr/dashboardOpsLead'].includes(Dashboard?.detailDashboard?.dashboardURL) 
+        {!['/usr/dashboardOpsLead'].includes(Dashboard?.detailDashboard?.dashboardURL)
           ? (
             <>
               <CRow>
@@ -189,13 +189,13 @@ const Dashboard = () => {
                   <CFormInput type="text" name="search" placeholder="Project Name" onChange={handleOnchange} />
                 </CCol>
                 <CCol className="d-none d-md-block">
-                  <CButton className="float-end colorBtn-white px-1" onClick={handleModalSetting}>
+                  <CButton className="float-end colorBtn-white px-1 ms-2" onClick={handleModalSetting}>
                     <CIcon icon={cilList} className="me-2 text-warning" />
                     SETTINGS
                   </CButton>
-                  <CButton className="float-end colorBtn-white px-1" onClick={handleModalCreate}>
+                  <CButton className="float-end colorBtn-white px-1 ms-2" onClick={handleModalCreate}>
                     <CIcon icon={cilPlus} className="me-2 text-warning" />
-                  ADD PROJECT
+                    ADD PROJECT
                   </CButton>
                 </CCol>
               </CRow>
@@ -211,13 +211,13 @@ const Dashboard = () => {
                               {val?.projectName}
                             </CCol>
                             <CCol className='text-end'>
-                              <CBadge 
-                                className= {val.activeStatus === "active" && val.publishStatus === "notPublished"
-                                          ? "badge-info"
-                                          : (val.activeStatus === "active" && val.publishStatus === "published"
-                                            ? "badge-success"
-                                            : "badge-secondary")
-                                        }
+                              <CBadge
+                                className={val.activeStatus === "active" && val.publishStatus === "notPublished"
+                                  ? "badge-info"
+                                  : (val.activeStatus === "active" && val.publishStatus === "published"
+                                    ? "badge-success"
+                                    : "badge-secondary")
+                                }
                                 size='sm'
                               >
                                 {val.activeStatus === "active" && val.publishStatus === "notPublished"

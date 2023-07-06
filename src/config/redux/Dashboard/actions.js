@@ -1547,13 +1547,14 @@ export const setWhProjectMembership = (payload, projectId) => {
       let create = await actionCrud.actionCommonCrud(payload, API_ADD_WH_PROJECT_MEMBERSHIP, "POST");
 
       if (create.status === "success") {
+        dispatch(getListWarehouseMembership(payload.userId, projectId));
+        dispatch(getListProjectMember(projectId))
         Swal.fire({
           position: "center",
           icon: "success",
           title: create?.message,
           showConfirmButton: true
         });
-        dispatch(getListWarehouseMembership(payload.userId, projectId));
       } else {
         Swal.fire({
           title: 'Error!',
@@ -1579,13 +1580,14 @@ export const deleteWhProjectMembership = (payload, projectId) => {
       let create = await actionCrud.actionCommonCrud(payload, API_DELETE_WH_PROJECT_MEMBERSHIP, "POST");
 
       if (create.status === "success") {
+        dispatch(getListWarehouseMembership(payload.userId, projectId));
+        dispatch(getListProjectMember(projectId))
         Swal.fire({
           position: "center",
           icon: "success",
           title: create?.message,
           showConfirmButton: true
         });
-        dispatch(getListWarehouseMembership(payload.userId, projectId));
       } else {
         Swal.fire({
           title: 'Error!',
