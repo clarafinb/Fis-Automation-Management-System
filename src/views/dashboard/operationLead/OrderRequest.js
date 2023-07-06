@@ -48,7 +48,7 @@ function OrderRequest() {
                 dispatch(actions.getListOrderRequest(id, result[0].whId, Global?.user?.userID))
             })
         }
-    }, [Global?.user?.userID, projectId]);
+    }, [Global?.user?.userID]);
 
     const handleOnchange = useCallback(
         (e) => {
@@ -164,6 +164,7 @@ function OrderRequest() {
             defaultWidth: 100,
             textAlign: 'center',
             render: ({ value, cellProps }) => {
+                console.log(cellProps.data.detail.visibleCancelledFunction)
                 return (
                     <>
                         <FontAwesomeIcon
@@ -174,14 +175,16 @@ function OrderRequest() {
                                 handleComponent("delete", value)
                             }
                         />
-                        <FontAwesomeIcon
-                            icon={faClipboard}
-                            className='textBlue'
-                            title='Cancel Order Request'
-                            onClick={() =>
-                                handleComponent("cancel", value)
-                            }
-                        />
+                        {cellProps.data.detail.visibleCancelledFunction !== 0 ?
+                            <FontAwesomeIcon
+                                icon={faClipboard}
+                                className='textBlue'
+                                title='Cancel Order Request'
+                                onClick={() =>
+                                    handleComponent("cancel", value)
+                                }
+                            />
+                            : ''}
                     </>
                 )
             }

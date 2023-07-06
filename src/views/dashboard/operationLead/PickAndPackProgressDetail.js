@@ -27,8 +27,10 @@ import { faPlay, faPlus, faRefresh, faSearch, faUpload } from '@fortawesome/free
 import moment from 'moment/moment'
 import Select from 'react-select'
 import Swal from 'sweetalert2'
+import { useNavigate } from 'react-router-dom';
 
 function PickAndPackProgressDetail() {
+    const nav = useNavigate();
     const { dispatch, Global, Dashboard } = useRedux()
     const [detailProject, setDetailProject] = useState({})
     const [orderReqDetail, setOrderReqDetail] = useState({})
@@ -89,6 +91,10 @@ function PickAndPackProgressDetail() {
     const handleCloseModalUpload = () => {
         setOpenModalUpload(false)
         setFileUpload(null)
+    }
+
+    const handleBack = () => {
+        nav(-1);
     }
 
     const handleConfirm = () => {
@@ -650,9 +656,12 @@ function PickAndPackProgressDetail() {
                                     </CCol>
                                     {
                                         orderReqDetail?.totalItem > 0 ?
-                                            < CRow >
-                                                <CCol className="d-none d-md-block text-end py-3">
+                                            < CRow className='mt-3'>
+                                                <CCol className="d-none d-md-block text-end" md={10}>
                                                     <CButton onClick={handleConfirm} color="primary">Confirm</CButton>
+                                                </CCol>
+                                                <CCol className="d-none d-md-block text-end">
+                                                    <CButton onClick={handleBack} color="secondary">Back</CButton>
                                                 </CCol>
                                             </CRow>
                                             : ''
