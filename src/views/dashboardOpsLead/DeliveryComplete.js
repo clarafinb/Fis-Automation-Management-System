@@ -15,14 +15,14 @@ import {
     CRow
 } from '@coreui/react'
 
-import * as actions from '../../../config/redux/Dashboard/actions'
+import * as actions from '../../config/redux/Dashboard/actions'
 import CIcon from '@coreui/icons-react'
 import { cilFile } from '@coreui/icons'
 import SmartTable from 'src/components/custom/table/SmartTable'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faArrowRight } from '@fortawesome/free-solid-svg-icons'
+import { faArrowRight, faTable } from '@fortawesome/free-solid-svg-icons'
 
-function WaitingDispatch() {
+function DeliveryComplete() {
     const nav = useNavigate();
     const { dispatch, Global, Dashboard } = useRedux()
     const [detailProject, setDetailProject] = useState({})
@@ -37,13 +37,13 @@ function WaitingDispatch() {
                 actions.getActivitySummaryWHProject(Global?.user?.userID, id)
             ).then(result => {
                 setDetailProject(result[0])
-                dispatch(actions.getListDeliveryPending(id, result[0].whId, Global?.user?.userID))
+                dispatch(actions.getListDeliveryComplete(id, result[0].whId, Global?.user?.userID))
             })
         }
     }, [Global?.user?.userID]);
 
     const handleComponent = useCallback(
-        (orderReqId) => {
+        (action, orderReqId) => {
             nav(`detail/${orderReqId}`)
         }
     )
@@ -63,15 +63,17 @@ function WaitingDispatch() {
                         defaultVisible: true,
                         defaultWidth: 80,
                         type: 'number'
-                    }]
+                    }
+                ]
                 result.map((row, idx) => {
-                    remapData.push({
-                        name: Object.keys(row)[idx],
-                        header: Object.keys(row)[idx],
-                        defaultFlex: 1
-                    })
+                    if (Object.keys(row)[idx]) {
+                        remapData.push({
+                            name: Object.keys(row)[idx],
+                            header: Object.keys(row)[idx],
+                            defaultFlex: 1
+                        })
+                    }
                 })
-
                 const dataSet = result.map((item, index) => {
                     return {
                         no: index + 1,
@@ -95,39 +97,45 @@ function WaitingDispatch() {
         { name: 'origin', operator: 'startsWith', type: 'string', value: '' },
         { name: 'destination', operator: 'startsWith', type: 'string', value: '' },
         { name: 'totalItem', operator: 'startsWith', type: 'string', value: '' },
-        { name: 'rfpConfirmBy', operator: 'startsWith', type: 'string', value: '' },
-        { name: 'pickandpackcompletedate', operator: 'startsWith', type: 'string', value: '' }
+        { name: 'pickandpackcompletedate', operator: 'startsWith', type: 'string', value: '' },
+        { name: 'pickupDate', operator: 'startsWith', type: 'string', value: '' },
+        { name: 'completeDate', operator: 'startsWith', type: 'string', value: '' }
     ]
 
     const columns = [
         { name: 'no', header: 'No', defaultVisible: true, defaultWidth: 80, type: 'number' },
-        { name: 'whCode', header: 'WH Code', defaultFlex: 1 },
-        { name: 'custOrderRequest', header: 'Customer Order Request', defaultFlex: 1 },
-        { name: 'orderRequestDesc', header: 'Order Req Desc', defaultFlex: 1 },
-        { name: 'requestorName', header: 'Requestor', defaultFlex: 1 },
-        { name: 'orderRequestDate', header: 'Order Request Date', defaultFlex: 1, textAlign: 'center' },
-        { name: 'deliveryReqType', header: 'Delivery Req Type', defaultFlex: 1 },
-        { name: 'transportReqType', header: 'Transport Req Type', defaultFlex: 1 },
-        { name: 'origin', header: 'Origin', defaultFlex: 1 },
-        { name: 'destination', header: 'Destination', defaultFlex: 1 },
+        { name: 'whCode', header: 'WH Code', defaultWidth: 200 },
+        { name: 'custOrderRequest', header: 'Customer Order Request', defaultWidth: 230 },
+        { name: 'orderRequestDesc', header: 'Order Req Desc', defaultWidth: 200 },
+        { name: 'requestorName', header: 'Requestor', defaultWidth: 200 },
+        { name: 'orderRequestDate', header: 'Order Request Date', defaultWidth: 200, textAlign: 'center' },
+        { name: 'deliveryReqType', header: 'Delivery Req Type', defaultWidth: 200 },
+        { name: 'transportReqType', header: 'Transport Req Type', defaultWidth: 200 },
+        { name: 'origin', header: 'Origin', defaultWidth: 200 },
+        { name: 'destination', header: 'Destination', defaultWidth: 200 },
         {
             name: 'totalItem',
             header: 'Total Item Request',
-            defaultFlex: 1,
+            defaultWidth: 200,
             textAlign: 'center',
             render: ({ value, cellProps }) => {
                 return (
-                    // eslint-disable-next-line jsx-a11y/anchor-is-valid
-                    <a
-                        title='Detail Item List'
-                        onClick={() => handleModalDetailItem(cellProps.data)}>
-                        {value}
-                    </a>
+                    <>
+                        <span>{value}</span>
+                        <FontAwesomeIcon
+                            icon={faTable}
+                            className='textBlue px-2'
+                            size='lg'
+                            title='Detail Item List'
+                            onClick={() => handleModalDetailItem(cellProps.data)} />
+
+                    </>
                 )
             }
         },
-        { name: 'rfpConfirmBy', header: 'Pick And Pack Done By', defaultFlex: 1 },
-        { name: 'pickandpackcompletedate', header: 'Pick And Pack Complete Date', defaultFlex: 1 },
+        { name: 'pickandpackcompletedate', header: 'Pick And Pack Complete Date', defaultWidth: 250 },
+        { name: 'pickupDate', header: 'Pickup Date', defaultWidth: 250 },
+        { name: 'completeDate', header: 'Delivery Complete Date', defaultWidth: 200 },
         {
             name: 'orderReqId',
             header: 'Action',
@@ -145,11 +153,9 @@ function WaitingDispatch() {
                                     title='Order Request'
                                     size='sm'
                                     onClick={() =>
-                                        handleComponent(value)
+                                        handleComponent('detail', value)
                                     }
-                                />
-                                :
-                                ''
+                                /> : ''
                         }
                     </>
                 )
@@ -164,7 +170,7 @@ function WaitingDispatch() {
                     <CRow>
                         <CCol sm={5}>
                             <h4 className="card-title mb-0">
-                                Waiting Delivery
+                                Delivery Complete
                             </h4>
                         </CCol>
                     </CRow>
@@ -190,7 +196,7 @@ function WaitingDispatch() {
                     <CRow>
                         <CCol className="d-none d-md-block text-end">
                             <SmartTable
-                                data={Dashboard?.listDeliveryPending}
+                                data={Dashboard?.listDeliveryComplete}
                                 filterValue={filterValue}
                                 columns={columns}
                                 minHeight={400}
@@ -227,4 +233,4 @@ function WaitingDispatch() {
     )
 }
 
-export default WaitingDispatch
+export default DeliveryComplete

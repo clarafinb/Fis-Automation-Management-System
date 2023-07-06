@@ -14,7 +14,14 @@ function SmartTable({
   columns = [],
   minHeight = 600,
 }) {
-  const gridStyle = { minHeight: minHeight }
+  const gridStyle = { 
+    minHeight: minHeight,
+  }
+
+  const cellStyle = {
+    whiteSpace: 'normal'
+  }
+
   return (
     <>
       <ReactDataGrid
@@ -26,6 +33,7 @@ function SmartTable({
         enableColumnAutosize={true}
         pagination
         defaultLimit={15}
+        cellStyle={cellStyle}
       />
     </>
   )

@@ -7,11 +7,11 @@ import {
     CModalBody,
     CModalFooter,
 } from '@coreui/react'
-import MapComponent from '../custom/map/MapLeaflef'
+import MapComponent from '../../custom/map/MapLeaflef'
 
 function ModalOpenMap({ open, setOpen, data, key }) {
 
-    const mapCenter = [data?.detail?.latitude, data?.detail?.longitude]
+    const mapCenter = [data?.latitude, data?.longitude]
 
     return (
         <CModal
@@ -20,7 +20,7 @@ function ModalOpenMap({ open, setOpen, data, key }) {
             onClose={() => setOpen}
         >
             <CModalHeader>
-                <CModalTitle>Map {data?.detail?.whName}</CModalTitle>
+                <CModalTitle>Map {data?.whName}</CModalTitle>
             </CModalHeader>
             <CModalBody>
                 <MapComponent latlong={mapCenter} id={key} />

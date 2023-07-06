@@ -15,14 +15,14 @@ import {
     CRow
 } from '@coreui/react'
 
-import * as actions from '../../../config/redux/Dashboard/actions'
+import * as actions from '../../config/redux/Dashboard/actions'
 import CIcon from '@coreui/icons-react'
 import { cilFile } from '@coreui/icons'
 import SmartTable from 'src/components/custom/table/SmartTable'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowRight, faTable } from '@fortawesome/free-solid-svg-icons'
 
-function DeliveryComplete() {
+function DeliveryTransit() {
     const nav = useNavigate();
     const { dispatch, Global, Dashboard } = useRedux()
     const [detailProject, setDetailProject] = useState({})
@@ -37,7 +37,7 @@ function DeliveryComplete() {
                 actions.getActivitySummaryWHProject(Global?.user?.userID, id)
             ).then(result => {
                 setDetailProject(result[0])
-                dispatch(actions.getListDeliveryComplete(id, result[0].whId, Global?.user?.userID))
+                dispatch(actions.getListDeliveryTransit(id, result[0].whId, Global?.user?.userID))
             })
         }
     }, [Global?.user?.userID]);
@@ -99,7 +99,7 @@ function DeliveryComplete() {
         { name: 'totalItem', operator: 'startsWith', type: 'string', value: '' },
         { name: 'pickandpackcompletedate', operator: 'startsWith', type: 'string', value: '' },
         { name: 'pickupDate', operator: 'startsWith', type: 'string', value: '' },
-        { name: 'completeDate', operator: 'startsWith', type: 'string', value: '' }
+        { name: 'pickupBy', operator: 'startsWith', type: 'string', value: '' }
     ]
 
     const columns = [
@@ -135,7 +135,7 @@ function DeliveryComplete() {
         },
         { name: 'pickandpackcompletedate', header: 'Pick And Pack Complete Date', defaultWidth: 250 },
         { name: 'pickupDate', header: 'Pickup Date', defaultWidth: 250 },
-        { name: 'completeDate', header: 'Delivery Complete Date', defaultWidth: 200 },
+        { name: 'pickupBy', header: 'Pickup By', defaultWidth: 200 },
         {
             name: 'orderReqId',
             header: 'Action',
@@ -170,7 +170,7 @@ function DeliveryComplete() {
                     <CRow>
                         <CCol sm={5}>
                             <h4 className="card-title mb-0">
-                                Delivery Complete
+                                Delivery In Transit
                             </h4>
                         </CCol>
                     </CRow>
@@ -196,7 +196,7 @@ function DeliveryComplete() {
                     <CRow>
                         <CCol className="d-none d-md-block text-end">
                             <SmartTable
-                                data={Dashboard?.listDeliveryComplete}
+                                data={Dashboard?.listDeliveryTransit}
                                 filterValue={filterValue}
                                 columns={columns}
                                 minHeight={400}
@@ -233,4 +233,4 @@ function DeliveryComplete() {
     )
 }
 
-export default DeliveryComplete
+export default DeliveryTransit

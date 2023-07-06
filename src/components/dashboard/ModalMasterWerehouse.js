@@ -31,7 +31,7 @@ function ModalMasterWerehouse({
 }) {
     return (
         <CModal
-            size="lg"
+            // size="lg"
             visible={open}
             onClose={() => setOpen(false)}
             alignment='center'

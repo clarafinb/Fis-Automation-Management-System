@@ -1,24 +1,21 @@
 import React, { useState, useCallback, useEffect } from 'react'
 import { useRedux } from 'src/utils/hooks'
-
 import {
+    CButton,
     CCard,
     CCardBody,
     CCol,
+    CContainer,
     CRow
 } from '@coreui/react'
 import {
-    cilMedicalCross,
+    cilMedicalCross, cilPlus,
 } from '@coreui/icons'
 import CIcon from '@coreui/icons-react'
-import StandardTable from 'src/components/custom/table/StandardTable'
 import * as actions from '../../config/redux/Dashboard/actions'
-import ModalCreateWarehouse from 'src/components/dashboard/ModalCreateWarehouse'
-import ModalOpenMap from 'src/components/dashboard/ModalOpenMap'
-
-
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faLocationDot, faEdit } from '@fortawesome/free-solid-svg-icons'
+import ModalCreateWarehouse from 'src/components/dashboard/warehouse/ModalCreateWarehouse'
+import ModalOpenMap from 'src/components/dashboard/warehouse/ModalOpenMap'
+import TableListWarehouse from 'src/components/dashboard/warehouse/TableListWarehouse'
 
 function Warehouse() {
     const { dispatch, Global, Dashboard } = useRedux()
@@ -37,38 +34,15 @@ function Warehouse() {
         }
     }, [Global?.user]);
 
-    const head = [
-        "No",
-        "Warehouse Name",
-        "Warehouse Code",
-        "Main CWH",
-        "Warehouse Type",
-        "Warehouse Space",
-        "Address",
-        "Map",
-        "Active Status",
-        "Action"
-    ]
-
-    const searchFilter = {
-        "Warehouse Name": "whName",
-        "Warehouse Code": "whCode",
-        "Main CWH": "isMainWH",
-        "Warehouse Type": "whType",
-        "Warehouse Space": "whSpace",
-        "Address": "whAddress"
-    }
-
     const handleCreate = () => {
         setIsEdit(false)
         setModalCreate(!modalCreate)
     }
 
     const handleToogle = useCallback(
-        (val, id) => {
-            let data = Dashboard.listWarehouse[id]
-            let whId = data.detail.whId
-            let projectId = data.detail.projectId
+        (val, data) => {
+            let whId = data?.whId
+            let projectId = data?.projectId
 
             dispatch(actions.setStatusActiveWarehouse(val, whId, projectId))
 
@@ -76,15 +50,14 @@ function Warehouse() {
     )
 
     const handleComponent = useCallback(
-        (name, val, id) => {
-            console.log(name, val, id)
+        (type, val, data) => {
             let temp = Dashboard?.listWarehouse.find(e => e.whId === val)
             setWhSelected(temp)
 
-            if(name === "map"){
+            if(type === "map"){
                 setModalMap(true)
                 setMapKey(Date.now())
-            }else if(name === "whId"){
+            }else if(type === "edit"){
                 setIsEdit(true)
                 setModalCreate(true)
             }
@@ -92,53 +65,42 @@ function Warehouse() {
     )
 
     return (
-        <>
-            <CCard className="">
-                <CCardBody>
-                    <CRow>
-                        <CCol sm={5}>
-                            <h4 className="card-title mb-0">
-                                Warehouse List
-                            </h4>
-                        </CCol>
-                    </CRow>
-                    <br />
-                    <CRow>
-                        <CCol className="d-none d-md-block text-end">
-                            <CIcon
-                                icon={cilMedicalCross}
-                                className="me-2 text-warning"
-                                size="xl"
-                                onClick={handleCreate}
-                            />
-                        </CCol>
-                    </CRow>
-                    <br />
-                    <CRow>
-                        <CCol className="d-none d-md-block text-end">
-                            <StandardTable
-                                head={head}
-                                data={Dashboard?.listWarehouse}
-                                isToogle="status"
-                                handleToogle={handleToogle}
-                                hide={["detail"]}
-                                isComponent= {true}
-                                component={[{
-                                    name: "map",
-                                    type: "icon",
-                                    label: <FontAwesomeIcon icon={faLocationDot} className='textBlue'/>
-                                },{
-                                    name: "whId",
-                                    type: "icon",
-                                    label: <FontAwesomeIcon icon={faEdit} className='textBlue'/>
-                                }]}
-                                handleComponent={handleComponent}
-                                searchFilter={searchFilter}
-                            />
-                        </CCol>
-                    </CRow>
-                </CCardBody>
-            </CCard>
+        <>  
+            <CContainer>
+                <CRow>
+                    <CCol sm={5}>
+                        <h4 className="card-title mb-0">
+                        <span className='text-underline'>MA</span>STER WAREHOUSE
+                        </h4>
+                    </CCol>
+                </CRow>
+                <br />
+                <CRow>
+                    <CCol className="d-none d-md-block">
+                        <CButton className="colorBtn-white" onClick={handleCreate}>
+                            <CIcon icon={cilPlus} className="me-2 text-warning" />
+                            ADD MASTER WAREHOUSE
+                        </CButton>
+                    </CCol>
+                </CRow>
+                <br />
+                <CRow>
+                    <CCard className="">
+                        <CCardBody>
+                            <CRow>
+                                <CCol className="d-none d-md-block">
+                                    <TableListWarehouse
+                                        data={Dashboard?.listWarehouse}
+                                        handleComponent={handleComponent}
+                                        handleToogle={handleToogle}
+                                    />
+                                </CCol>
+                            </CRow>
+                        </CCardBody>
+                    </CCard>
+                </CRow>
+            </CContainer>
+        
             <ModalCreateWarehouse 
                 open={modalCreate} 
                 setOpen={setModalCreate} 

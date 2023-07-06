@@ -20,7 +20,7 @@ const GeocodingForm = ({handleSetLongLat, isEdit, data, key}) => {
 
   useEffect(() => {
     if (isEdit) {
-      let longLat = [data?.detail?.latitude, data?.detail?.longitude]
+      let longLat = [data?.latitude, data?.longitude]
       setLongLat(longLat)
     }
 }, [isEdit]);

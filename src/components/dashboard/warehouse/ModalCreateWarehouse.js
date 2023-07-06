@@ -15,9 +15,9 @@ import {
     CFormSelect,
     CFormTextarea
 } from '@coreui/react'
-import * as actions from '../../config/redux/Dashboard/actions'
+import * as actions from '../../../config/redux/Dashboard/actions'
 import Select from 'react-select'
-import GeocodingForm from '../custom/map/OpenStreetMap'
+import GeocodingForm from '../../custom/map/OpenStreetMap'
 
 function ModalCreateWarehouse({ open, setOpen, projectId, isEdit, dataEdit }) {
     const { dispatch, Global } = useRedux()
@@ -50,8 +50,8 @@ function ModalCreateWarehouse({ open, setOpen, projectId, isEdit, dataEdit }) {
         if (isEdit) {
             setData(dataEdit)
             setSelectedProvince({
-                label: dataEdit?.detail?.provinceName,
-                value: dataEdit?.detail?.provinceId
+                label: dataEdit?.provinceName,
+                value: dataEdit?.provinceId
             })
             setMapKey(Date.now())
         }
@@ -60,13 +60,13 @@ function ModalCreateWarehouse({ open, setOpen, projectId, isEdit, dataEdit }) {
     const handleCreate = () => {
         let payload = {
             mProjectId: projectId,
-            whName: values?.warehouseName ? values?.warehouseName : data?.whName,
-            whCode: values?.warehouseCode ? values?.warehouseCode : data?.whCode,
+            whName: values?.warehouseName || data?.whName,
+            whCode: values?.warehouseCode || data?.whCode,
             isMainWH: true,
-            whTypeId: values?.warehouseType ? values?.warehouseType : data?.detail?.whTypeId,
+            whTypeId: values?.warehouseType || data?.detail?.whTypeId,
             provinceId: selectedProvince?.value,
-            whAddress: values?.address ? values?.address : data?.whAddress,
-            whSpace: values?.warehouseSpace ? values?.warehouseSpace : data?.whSpace,
+            whAddress: values?.address || data?.whAddress,
+            whSpace: values?.warehouseSpace || data?.whSpace,
             whLongitude: values?.longitude ? values?.longitude.toString() : data?.detail?.longitude.toString(),
             whLatitude: values?.latitude ? values?.latitude.toString() : data?.detail?.latitude.toString(),
             LMBY: Global?.user?.userID
@@ -149,7 +149,7 @@ function ModalCreateWarehouse({ open, setOpen, projectId, isEdit, dataEdit }) {
                             name="warehouseType"
                             options={warehouseType}
                             onChange={handleOnchange}
-                            defaultValue={isEdit ? data?.detail?.whTypeId : ""}
+                            defaultValue={isEdit ? data?.whTypeId : ""}
                         />
                     </CCol>
                 </CRow>
@@ -171,7 +171,7 @@ function ModalCreateWarehouse({ open, setOpen, projectId, isEdit, dataEdit }) {
                         <CFormTextarea 
                             rows={3} 
                             name="address" 
-                            value={values?.address ? values?.address : data?.whAddress} 
+                            value={values?.address || data?.whAddress} 
                             onChange={handleOnchange}
                         >
                         </CFormTextarea>
@@ -205,7 +205,7 @@ function ModalCreateWarehouse({ open, setOpen, projectId, isEdit, dataEdit }) {
                         <CFormInput 
                             type="text" 
                             name="longitude" 
-                            value={values?.longitude ? values?.longitude : data?.detail?.longitude} 
+                            value={values?.longitude || data?.longitude} 
                             className='bg-light' 
                             readOnly 
                         />
@@ -217,7 +217,7 @@ function ModalCreateWarehouse({ open, setOpen, projectId, isEdit, dataEdit }) {
                         <CFormInput 
                             type="text" 
                             name="latitude" 
-                            value={values?.latitude ? values?.latitude : data?.detail?.latitude} 
+                            value={values?.latitude || data?.latitude} 
                             readOnly 
                             className='bg-light' 
                         />

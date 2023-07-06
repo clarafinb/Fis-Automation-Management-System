@@ -18,7 +18,7 @@ import {
     CRow
 } from '@coreui/react'
 
-import * as actions from '../../../config/redux/Dashboard/actions'
+import * as actions from '../../config/redux/Dashboard/actions'
 import CIcon from '@coreui/icons-react'
 import { cilCloudUpload, cilFile, cilPlus } from '@coreui/icons'
 import SmartTable from 'src/components/custom/table/SmartTable'
@@ -27,7 +27,7 @@ import { faMap, faPlay, faPlus, faRefresh, faSearch, faUpload } from '@fortaweso
 import moment from 'moment/moment'
 import Select from 'react-select'
 import Swal from 'sweetalert2'
-import ModalOpenMap from 'src/components/dashboard/ModalOpenMap'
+import ModalOpenMap from 'src/components/dashboard/warehouse/ModalOpenMap'
 import {Route, Link, Routes, useNavigate} from 'react-router-dom';
 
 

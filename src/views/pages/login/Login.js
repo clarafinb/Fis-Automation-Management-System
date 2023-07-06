@@ -17,10 +17,11 @@ import {
 } from '@coreui/react'
 import { useCookies } from "react-cookie";
 import * as actions from '../../../config/redux/Global/actions'
+import * as actionsDashboard from '../../../config/redux/Dashboard/actions'
 
 const Login = () => {
   const [cookies, setCookie] = useCookies(["user"]);
-  const { dispatch, Global } = useRedux();
+  const { dispatch, Global, Dashboard } = useRedux();
   const nav = useNavigate();
 
   const [visible, setVisible] = useState(false)
@@ -48,9 +49,22 @@ const Login = () => {
   useEffect(() => {
 		if (Global.user.userLogin) {
       setCookie('user', Global?.user, { path: '/' })
-			nav("/");
+      dispatch(actionsDashboard.getDashboard(Global?.user?.roleInf?.roleId))
 		}
 	}, [Global.user, nav, setCookie]);
+
+  useEffect(() => {
+    if (Global.user.userLogin) {
+      setCookie('dashboard', Dashboard?.detailDashboard, { path: '/' })
+      if(Dashboard?.detailDashboard?.dashboardURL){
+        if(Dashboard?.detailDashboard?.dashboardURL === '/usr/dashboardOpsLead'){
+          nav("/dashboard-ops-lead");
+        }else{
+          nav("/dashboard");
+        }
+      }
+		}
+  }, [Dashboard?.detailDashboard?.dashboardURL])
 
   return (
     <div className="background-login min-vh-100 d-flex flex-row align-items-center">
