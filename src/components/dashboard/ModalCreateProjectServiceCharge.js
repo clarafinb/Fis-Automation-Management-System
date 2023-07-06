@@ -15,6 +15,7 @@ import {
     CFormSelect
 } from '@coreui/react'
 import * as actions from '../../config/redux/Dashboard/actions'
+import { separateComma } from 'src/utils/number'
 
 function ModalCreateProjectServiceCharge({ open, setOpen, projectId }) {
     const { dispatch, Global } = useRedux()
@@ -40,15 +41,17 @@ function ModalCreateProjectServiceCharge({ open, setOpen, projectId }) {
             projectId: projectId,
             serviceChargeId: values.serviceChargeId,
             currencyId: values.currencyId,
-            chargeFee: values.chargeFee,
+            chargeFee: values.chargeFee.replace(/,/g, ''),
             LMBY: Global?.user?.userID
         }
         dispatch(actions.createProjectServiceCharge(payload))
+        setValues({})
     }
 
     const handleOnchange = useCallback(
         (e) => {
-            const { value, name } = e.target;
+            let { value, name } = e.target;
+            if (name === 'chargeFee') value = separateComma(value)
             setValues((prev) => ({
                 ...prev,
                 [name]: value

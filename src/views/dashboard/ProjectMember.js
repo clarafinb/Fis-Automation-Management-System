@@ -10,7 +10,7 @@ import {
     CRow
 } from '@coreui/react'
 import {
-    cilMedicalCross, cilPlus,
+    cilPlus,
 } from '@coreui/icons'
 import CIcon from '@coreui/icons-react'
 import * as actions from '../../config/redux/Dashboard/actions'

@@ -74,13 +74,14 @@ function ModalCreateWarehouse({ open, setOpen, projectId, isEdit, dataEdit }) {
 
         let methode = "POST"
 
-        if(isEdit){
+        if (isEdit) {
             methode = "PUT"
             payload.whId = data?.whId
         }
 
         dispatch(actions.createWarehouse(payload, methode))
         setData({})
+        setValues({})
         setOpen(false)
     }
 
@@ -114,7 +115,7 @@ function ModalCreateWarehouse({ open, setOpen, projectId, isEdit, dataEdit }) {
             visible={open}
             onClose={() => setOpen(false)}
             backdrop="static"
-            keyboard={false} 
+            keyboard={false}
         >
             <CModalHeader>
                 <CModalTitle>Warehouse Creation</CModalTitle>
@@ -123,22 +124,22 @@ function ModalCreateWarehouse({ open, setOpen, projectId, isEdit, dataEdit }) {
                 <CRow className="mb-3">
                     <CFormLabel className="col-sm-2 col-form-label">Warehouse Name <code>(*)</code></CFormLabel>
                     <CCol sm={10}>
-                        <CFormInput 
-                            type="text" 
-                            name="warehouseName" 
-                            value={values?.warehouseName ? values?.warehouseName : data?.whName} 
-                            onChange={handleOnchange} 
+                        <CFormInput
+                            type="text"
+                            name="warehouseName"
+                            value={values?.warehouseName ? values?.warehouseName : data?.whName}
+                            onChange={handleOnchange}
                         />
                     </CCol>
                 </CRow>
                 <CRow className="mb-3">
                     <CFormLabel className="col-sm-2 col-form-label">Warehouse Code <code>(*)</code></CFormLabel>
                     <CCol sm={10}>
-                        <CFormInput 
-                            type="text" 
-                            name="warehouseCode" 
-                            value={values?.warehouseCode ? values?.warehouseCode : data?.whCode} 
-                            onChange={handleOnchange} 
+                        <CFormInput
+                            type="text"
+                            name="warehouseCode"
+                            value={values?.warehouseCode ? values?.warehouseCode : data?.whCode}
+                            onChange={handleOnchange}
                         />
                     </CCol>
                 </CRow>
@@ -168,10 +169,10 @@ function ModalCreateWarehouse({ open, setOpen, projectId, isEdit, dataEdit }) {
                 <CRow className="mb-3">
                     <CFormLabel className="col-sm-2 col-form-label">Address</CFormLabel>
                     <CCol sm={10}>
-                        <CFormTextarea 
-                            rows={3} 
-                            name="address" 
-                            value={values?.address ? values?.address : data?.whAddress} 
+                        <CFormTextarea
+                            rows={3}
+                            name="address"
+                            value={values?.address ? values?.address : data?.whAddress}
                             onChange={handleOnchange}
                         >
                         </CFormTextarea>
@@ -180,20 +181,20 @@ function ModalCreateWarehouse({ open, setOpen, projectId, isEdit, dataEdit }) {
                 <CRow className="mb-3">
                     <CFormLabel className="col-sm-2 col-form-label">Warehouse Space</CFormLabel>
                     <CCol sm={10}>
-                        <CFormInput 
-                            type="number" 
-                            name="warehouseSpace" 
-                            value={values?.warehouseSpace ? values?.warehouseSpace : data.whSpace} 
-                            onChange={handleOnchange} 
+                        <CFormInput
+                            type="number"
+                            name="warehouseSpace"
+                            value={values?.warehouseSpace ? values?.warehouseSpace : data.whSpace}
+                            onChange={handleOnchange}
                         />
                     </CCol>
                 </CRow>
                 <CRow className="mb-3">
                     <CFormLabel className="col-sm-2 col-form-label">Location</CFormLabel>
                     <CCol sm={10}>
-                        <GeocodingForm 
-                            handleSetLongLat={handleSetLongLat} 
-                            isEdit={isEdit} 
+                        <GeocodingForm
+                            handleSetLongLat={handleSetLongLat}
+                            isEdit={isEdit}
                             data={data}
                             key={mapKey}
                         />
@@ -202,24 +203,24 @@ function ModalCreateWarehouse({ open, setOpen, projectId, isEdit, dataEdit }) {
                 <CRow className="mb-3">
                     <CFormLabel className="col-sm-2 col-form-label">Longitude</CFormLabel>
                     <CCol sm={10}>
-                        <CFormInput 
-                            type="text" 
-                            name="longitude" 
-                            value={values?.longitude ? values?.longitude : data?.detail?.longitude} 
-                            className='bg-light' 
-                            readOnly 
+                        <CFormInput
+                            type="text"
+                            name="longitude"
+                            value={values?.longitude ? values?.longitude : data?.detail?.longitude}
+                            className='bg-light'
+                            readOnly
                         />
                     </CCol>
                 </CRow>
                 <CRow className="mb-3">
                     <CFormLabel className="col-sm-2 col-form-label">Latitude</CFormLabel>
                     <CCol sm={10}>
-                        <CFormInput 
-                            type="text" 
-                            name="latitude" 
-                            value={values?.latitude ? values?.latitude : data?.detail?.latitude} 
-                            readOnly 
-                            className='bg-light' 
+                        <CFormInput
+                            type="text"
+                            name="latitude"
+                            value={values?.latitude ? values?.latitude : data?.detail?.latitude}
+                            readOnly
+                            className='bg-light'
                         />
                     </CCol>
                 </CRow>

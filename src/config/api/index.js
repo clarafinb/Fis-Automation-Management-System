@@ -50,7 +50,7 @@ export const API_GET_WAREHOUSE_TYPE_GET_ALL = BASE_URL + "warehouse/warehouseTyp
 export const API_GET_WAREHOUSE_PROVINCE_ACTIVE = BASE_URL + "masterdata/provinceGetAllActiveOnly"
 export const API_ADD_WAREHOUSE = BASE_URL + "warehouse"
 export const API_SET_INACTIVE_WAREHOUSE = BASE_URL + "warehouse/setStatusIsInActive"
-export const API_SET_ACTIVE_WAREHOUSE = BASE_URL + "mproject/setActivate"
+export const API_SET_ACTIVE_WAREHOUSE = BASE_URL + "warehouse/setStatusIsActive"
 export const API_SET_PUBLISH_WAREHOUSE = BASE_URL + "warehouse/setActivate"
 //PROJECT SERVICE CHARGE
 export const API_GET_PROJECT_SERVICE_CHARGE_ADMIN = BASE_URL + "serviceCharge/projectServiceChargeGetAllAdminOnly"

@@ -9,7 +9,7 @@ import {
 } from '@coreui/react'
 import MapComponent from '../custom/map/MapLeaflef'
 
-function ModalOpenMap({ open, setOpen, data, key }) {
+function ModalOpenMap({ open, setOpen, data, key = Date.now() }) {
 
     const mapCenter = [data?.detail?.latitude, data?.detail?.longitude]
 
