@@ -2,23 +2,9 @@ import React, { useState, useCallback, useEffect } from 'react'
 import { useRedux } from 'src/utils/hooks'
 
 import {
-    CButton,
     CCol,
     CRow,
-    CFormInput,
-    CFormLabel,
-    CModal,
-    CModalHeader,
-    CModalTitle,
-    CModalBody,
-    CModalFooter,
-    CFormSelect,
-    CFormTextarea,
-    CTableDataCell
 } from '@coreui/react'
-import * as actions from '../../../config/redux/Dashboard/actions'
-import Select from 'react-select'
-import GeocodingForm from '../../custom/map/OpenStreetMap'
 import ToggleSwitch from 'src/components/custom/toggle/ToggleSwitch'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEdit, faLocationDot } from '@fortawesome/free-solid-svg-icons'

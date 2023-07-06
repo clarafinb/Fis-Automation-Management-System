@@ -5,12 +5,13 @@ import {
     CButton,
     CInputGroup
 } from '@coreui/react'
-
 import * as actions from '../../../config/redux/Global/actions'
 import MapComponent from './PointingMapLeaflef'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faSearch } from '@fortawesome/free-solid-svg-icons'
 
 const GeocodingForm = ({handleSetLongLat, isEdit, data, key}) => {
-  const { dispatch, Global } = useRedux()
+  const { dispatch } = useRedux()
   const [address, setAddress] = useState('')
   const [longLat, setLongLat] = useState()
 
@@ -45,8 +46,8 @@ const GeocodingForm = ({handleSetLongLat, isEdit, data, key}) => {
     <div>
       <CInputGroup className="mb-3">
         <CFormInput type="text" name="location" placeholder="Masukkan alamat" onChange={handleAddressChange}/>
-        <CButton type="button" color="success" onClick={handleGeocode}>
-          Generate
+        <CButton type="button" className='colorBtnIcon-white' onClick={handleGeocode}>
+          <FontAwesomeIcon icon={faSearch}  size='sm' />
         </CButton>
       </CInputGroup>
       <div>
