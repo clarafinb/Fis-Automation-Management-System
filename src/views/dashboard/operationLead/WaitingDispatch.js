@@ -84,6 +84,10 @@ function WaitingDispatch() {
             })
     }
 
+    const handleBack = () => {
+        nav(-1);
+    }
+
     const filterValue = [
         { name: 'whCode', operator: 'startsWith', type: 'string', value: '' },
         { name: 'custOrderRequest', operator: 'startsWith', type: 'string', value: '' },

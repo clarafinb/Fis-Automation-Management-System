@@ -111,7 +111,7 @@ function OrderRequest() {
     const filterValue = [
         { name: 'whCode', operator: 'startsWith', type: 'string', value: '' },
         { name: 'whName', operator: 'startsWith', type: 'string', value: '' },
-        { name: 'orderRequestDesc', operator: 'startsWith', type: 'string', value: '' },
+        { name: 'custOrderRequest', operator: 'startsWith', type: 'string', value: '' },
         { name: 'orderRequestDesc', operator: 'startsWith', type: 'string', value: '' },
         { name: 'requestorName', operator: 'startsWith', type: 'string', value: '' },
         { name: 'orderRequestDate', operator: 'startsWith', type: 'string', value: '' },
@@ -128,6 +128,7 @@ function OrderRequest() {
         { name: 'no', header: 'No', defaultVisible: true, defaultWidth: 80, type: 'number', textAlign: 'center' },
         { name: 'whCode', header: 'WH Code', defaultWidth: 120 },
         { name: 'whName', header: 'WH Name', defaultWidth: 120 },
+        { name: 'custOrderRequest', header: 'Cust Order Request', defaultWidth: 200 },
         { name: 'orderRequestDesc', header: 'Order Req Desc', defaultWidth: 200 },
         { name: 'requestorName', header: 'Requestor', defaultWidth: 150 },
         {

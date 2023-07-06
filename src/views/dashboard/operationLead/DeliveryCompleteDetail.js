@@ -701,10 +701,10 @@ function DeliveryCompleteDetail() {
                                     <CButton
                                         type="button"
                                         onClick={handleBack}
-                                        className='colorBtn-white px-1'
-                                        color="success"
+                                        className='px-1'
+                                        color="secondary"
                                         title='Back'
-                                    >Close</CButton>
+                                    >Back</CButton>
                                 </CCol>
                             </CRow>
                         </CCardBody>

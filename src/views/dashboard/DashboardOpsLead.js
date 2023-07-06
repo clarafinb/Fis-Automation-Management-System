@@ -159,7 +159,7 @@ function DashboardOpsLead({ data }) {
                 <>
                     <CCard>
                         <CRow className='m-3'>
-                            <CCol>
+                            <CCol sm={8}>
                                 <h5>
                                     <img src={'icon/icon_project.png'} alt="icon_project" className='px-2' />{detailWarehouse?.projectName} <span className='px-3'>|</span>
                                     <img src={'icon/icon_warehouse.png'} alt="icon_warehouse" className='px-2' /> {detailWarehouse?.whName} <span className='px-3'>|</span>
@@ -167,11 +167,11 @@ function DashboardOpsLead({ data }) {
                                 </h5>
                             </CCol>
                             <CCol className="d-none d-md-block">
-                                <CButton className="float-end btn colorBtn-white px-2 ms-2">
+                                <CButton className="float-end btn colorBtn-white px-1 ms-2">
                                     <CIcon icon={cilList} className="me-2 text-warning" />
                                     Manage Order Request
                                 </CButton>
-                                <CButton className="float-end btn colorBtn-white px-2 ms-2" >
+                                <CButton className="float-end btn colorBtn-white px-1 ms-2" >
                                     <CIcon icon={cilList} className="me-2 text-warning" />
                                     Manage Inventory
                                 </CButton>

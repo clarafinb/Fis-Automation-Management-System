@@ -208,6 +208,10 @@ function WaitingDispatchDetail() {
         }
     )
 
+    const handleBack = () => {
+        nav("/operation-lead/waiting-dispatch/"+projectId, { replace: true })
+    }
+
     const additionalServiceChargeColumn = [
         { name: 'no', header: 'No', defaultVisible: true, defaultWidth: 80, type: 'number' },
         { name: 'serviceChargeCode', header: 'SVC Code', defaultFlex: 1 },
@@ -612,6 +616,12 @@ function WaitingDispatchDetail() {
                                             minHeight={200}
                                         />
                                     </CCol>
+                                </CCol>
+                            </CRow>
+                            <br />
+                            < CRow className='mt-3'>
+                                <CCol className="d-none d-md-block text-end" md={12}>
+                                    <CButton onClick={handleBack} color="secondary">Back</CButton>
                                 </CCol>
                             </CRow>
                             {/*
