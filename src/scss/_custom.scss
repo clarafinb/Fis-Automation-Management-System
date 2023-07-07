@@ -51,14 +51,27 @@ p {
   border: 1px solid white !important;
   color: black;
   box-shadow: inset 0 1px 0 rgba($white, .15), 0 1px 1px rgba($black, .075);
-  // width: 120px;
-  // font-weight: bold;
+  font-size: 14px;
 
   &:hover {
     background-color: white !important;
     border: 1px solid white !important;
     color: black;
     box-shadow: 0 0 0 1px rgba($yellowPrimary, .5);
+  }
+}
+
+.colorBtnIcon-white {
+  background-color: white !important;
+  border: 1px solid var(--cui-input-border-color, #b1b7c1) !important;
+  color: black;
+  box-shadow: inset 0 1px 0 rgba($white, .15), 0 1px 1px rgba($black, .075);
+  font-size: 14px;
+
+  &:hover {
+    background-color: white !important;
+    border: 1px solid var(--cui-input-border-color, #b1b7c1) !important;
+    color: black;
   }
 }
 
@@ -121,14 +134,6 @@ p {
 //   margin-left: 10px;
 // }
 
-// .input-select {
-//   border-radius: 0 !important;
-// }
-
-// .card {
-//   border-radius: 0 !important;
-// }
-
 .container-dashboard {
   max-width: 1500px;
 }
@@ -180,4 +185,10 @@ p {
   background-color: #F87272;
   border-color: var(--cui-form-check-input-checked-border-color, #E0E2E6);
   background-image: var(--cui-form-switch-checked-bg-image, url("data:image/svg+xml,%3csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%27-4 -4 8 8%27%3e%3ccircle r=%273%27 fill=%27rgba%28255, 255, 255, 0.87%29%27/%3e%3c/svg%3e"));
+}
+
+.InovuaReactDataGrid__cell__content {
+  overflow: hidden !important;
+  white-space: normal !important;
+  text-overflow: ellipsis !important;
 }

@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useEffect } from 'react'
 import { useRedux } from 'src/utils/hooks'
-import { useNavigate } from 'react-router-dom'
+
 import {
     CButton,
     CCard,
@@ -9,7 +9,6 @@ import {
     CForm,
     CFormInput,
     CFormLabel,
-    CFormTextarea,
     CInputGroup,
     CModal,
     CModalBody,
@@ -19,19 +18,22 @@ import {
     CRow
 } from '@coreui/react'
 
-import * as actions from '../../../config/redux/Dashboard/actions'
+import * as actions from '../../config/redux/Dashboard/actions'
 import CIcon from '@coreui/icons-react'
 import { cilCloudUpload, cilFile, cilPlus } from '@coreui/icons'
 import SmartTable from 'src/components/custom/table/SmartTable'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPencil, faPlay, faPlus, faRefresh, faSearch, faUnlink, faUpload } from '@fortawesome/free-solid-svg-icons'
+import { faMap, faPlay, faPlus, faRefresh, faSearch, faUpload } from '@fortawesome/free-solid-svg-icons'
 import moment from 'moment/moment'
 import Select from 'react-select'
 import Swal from 'sweetalert2'
+import ModalOpenMap from 'src/components/dashboard/warehouse/ModalOpenMap'
+import {Route, Link, Routes, useNavigate} from 'react-router-dom';
 
-function WaitingDispatchDetail() {
+
+function DeliveryTransitDetail() {
+    const nav = useNavigate();
     const { dispatch, Global, Dashboard } = useRedux()
-    const nav = useNavigate()
     const [detailProject, setDetailProject] = useState({})
     const [orderReqDetail, setOrderReqDetail] = useState({})
     const [projectId, setProjectId] = useState("")
@@ -46,12 +48,15 @@ function WaitingDispatchDetail() {
     const [selectedDeliveryRequest, setSelectedDeliveryRequest] = useState({});
     const [templateName, setTemplateName] = useState("")
     const [openModalUpload, setOpenModalUpload] = useState(false)
-    const [openModalDeliveryArrangment, setOpenModalDeliveryArrangment] = useState(false)
+    const [openModalAdditionalService, setOpenModalAdditionalService] = useState(false)
     const [fileUpload, setFileUpload] = useState(null);
     const [templateUrl, setTemplateUrl] = useState("")
     const [serviceChargeData, setServiceChargeData] = useState([])
     const [serviceChargeHeader, setServiceChargeHeader] = useState([])
     const [values, setValues] = useState({})
+    const [transportArragmentData, setTransportArragmentData] = useState({})
+    const [modalMap, setModalMap] = useState(false)
+    const [mapKey, setMapKey] = useState(Date.now())
 
     useEffect(() => {
         const splitUri = window.location.href.split("/");
@@ -67,47 +72,137 @@ function WaitingDispatchDetail() {
             })
 
             dispatch(
-                actions.getSelecTransportType()
+                actions.getSelectActiveTransport()
             ).then(result => {
                 setTrasportMode(result)
             })
 
-            dispatch(actions.getTransportArragementOrderReq(orderRequestId))
-            // dispatch(actions.getOrderRequestServiceCharge(orderRequestId))
+            dispatch(
+                actions.getTransportArragementLocation(orderRequestId)
+            ).then(resp => {
+                if (resp.length > 0) {
+                    setTransportArragmentData({
+                        ...resp[0]
+                    })
+                }
+            })
         }
     }, [Global?.user?.userID]);
+
+    const handleOnChangeTransportMode = (selectedTransportMode) => {
+        setSelectedTransportMode(selectedTransportMode);
+        dispatch(actions.getDeliveryRequestFinal(selectedTransportMode.value, orderReqId))
+            .then(resp => {
+                setDeliveryRequest(resp)
+            })
+    }
+
+    const handleOnChangeDeliveryRequest = (selectedDeliveryRequest) => {
+        setSelectedDeliveryRequest(selectedDeliveryRequest);
+    }
 
     const handleCloseModalUpload = () => {
         setOpenModalUpload(false)
         setFileUpload(null)
     }
 
+    const handleConfirm = () => {
+        const payload = {
+            orderReqId: orderReqId,
+            deliveryModeId: selectedDeliveryRequest.value,
+            transportModeId: selectedTransportMode.value,
+            LMBY: Global?.user?.userID
+        }
+
+        for (const key in payload) {
+            if (Object.hasOwnProperty.call(payload, key)) {
+                const element = payload[key];
+                if (element == "" || element == undefined) {
+                    return Swal.fire({
+                        title: 'Error!',
+                        text: 'Field Empty !',
+                        icon: 'error',
+                        confirmButtonText: 'OK'
+                    })
+                }
+            }
+        }
+        dispatch(actions.pickandPackComplete(payload))
+    }
+
 
     const handleComponent = useCallback(
-        (action, id) => {
-            if (action === 'addTransport') {
-                let param = `${id}/${orderReqDetail.transportModeId}/${projectId}/${orderReqId}`
-                nav('/operation-lead/waiting-dispatch/transport-arrangment/' + param)
+        (action, orderReqId) => {
+            // setOrderReqId(orderReqId)
+            if (action === 'start') {
+            } else if (action === 'reset') {
+                dispatch(actions.resetPickAndPackprogress(orderReqId, projectId, detailProject.whId, Global.user.userID))
+            } else {
+                setOpenModalUpload(true)
+                dispatch(
+                    actions.getMassUploadTemplateOrderReqItemBulkUpload()
+                ).then(response => {
+                    setTemplateName(response?.templateName)
+                    setTemplateUrl(response?.templateURL)
+                })
             }
         }
     )
+
+    const handleBack = () => {
+        nav(-1);
+    }
+
+    const handleOpenModal = () => {
+        dispatch(
+            actions.getTransportArragementLocation(orderReqId)
+        ).then(resp => {
+            if (resp.length > 0) {
+                setTransportArragmentData({
+                    ...resp[0],
+                    detail: {
+                        latitude: resp[0]?.latitude,
+                        longitude: resp[0]?.longitude,
+                    }
+                })
+                setMapKey(Date.now())
+                setModalMap(true)
+            }
+        })
+    }
+
+    const handleComponentQty = useCallback(
+        (projectServiceChargeId) => {
+            if (values[projectServiceChargeId]) {
+                let payload = {
+                    orderReqId: orderReqId,
+                    projectServiceChargeId: projectServiceChargeId,
+                    serviceQty: values[projectServiceChargeId],
+                    LMBY: Global?.user?.userID
+                }
+
+                dispatch(actions.addOrderRequestServiceCharge(payload))
+            } else {
+                alert("Qty is Empty !")
+            }
+        }
+    )
+
 
     const handleClose = () => {
         setOpenModal(false)
     }
 
-    const handleCreateTransportArragementSave = () => {
-        const payload = {
-            orderReqId: orderReqId,
-            deliveryModeId: orderReqDetail.deliveryModeId,
-            transportModeId: orderReqDetail.transportModeId,
-            LMBY: Global?.user?.userID
-        }
-        dispatch(actions.addTransportArrangment(payload))
-    }
+    const handleCreateAdditionalService = () => {
 
-    const handleCreateTransportArragement = () => {
-        setOpenModalDeliveryArrangment(true)
+        dispatch(
+            actions.getOrderRequestServiceChargeList(projectId, orderReqId)
+        ).then(response => {
+            setServiceChargeData(response)
+            setValues({})
+            setOpenModalAdditionalService(true)
+        })
+
     }
 
     const handleDownloadTemplate = () => {
@@ -191,27 +286,6 @@ function WaitingDispatchDetail() {
         { name: 'serviceQty', header: 'QTY', defaultFlex: 1 },
     ]
 
-    const handleComponentQty = useCallback(
-        (projectServiceChargeId) => {
-            if (values[projectServiceChargeId]) {
-                let payload = {
-                    orderReqId: orderReqId,
-                    projectServiceChargeId: projectServiceChargeId,
-                    serviceQty: values[projectServiceChargeId],
-                    LMBY: Global?.user?.userID
-                }
-
-                dispatch(actions.addOrderRequestServiceCharge(payload))
-            } else {
-                alert("Qty is Empty !")
-            }
-        }
-    )
-
-    const handleBack = () => {
-        nav("/operation-lead/waiting-dispatch/"+projectId, { replace: true })
-    }
-
     const additionalServiceChargeColumn = [
         { name: 'no', header: 'No', defaultVisible: true, defaultWidth: 80, type: 'number' },
         { name: 'serviceChargeCode', header: 'SVC Code', defaultFlex: 1 },
@@ -258,48 +332,6 @@ function WaitingDispatchDetail() {
         },
     ]
 
-    const transportArragementColumn = [
-        { name: 'no', header: 'No', defaultVisible: true, defaultWidth: 80, type: 'number' },
-        { name: 'transportArrangementRefId', header: 'Arrangement Ref Id', defaultFlex: 1 },
-        { name: 'deliveryMode', header: 'Delivery Mode', defaultFlex: 1 },
-        { name: 'transportMode', header: 'Transport Mode', defaultFlex: 1 },
-        { name: 'transportTypeList', header: 'Transport Type List', defaultFlex: 1 },
-        { name: 'transportDispatcherList', header: 'Dispatcher', defaultFlex: 1 },
-        {
-            name: 'transportArrangementOrderReqId',
-            header: 'Action',
-            defaultFlex: 1,
-            render: ({ value, cellProps }) => {
-                return (
-                    <>
-                        {
-                            cellProps.data.hasDetachFunction != 'No' ?
-                                <FontAwesomeIcon
-                                    icon={faUnlink}
-                                    className='textBlue px-2'
-                                    title='Detach Transport Arrangement'
-                                    size='sm'
-                                    onClick={() =>
-                                        handleComponent('detachTransport', value)
-                                    }
-                                />
-                                : ''
-                        }
-                        <FontAwesomeIcon
-                            icon={faPencil}
-                            className='textBlue px-2'
-                            title='Add Arrangement'
-                            size='sm'
-                            onClick={() =>
-                                handleComponent('addTransport', value)
-                            }
-                        />
-                    </>
-                )
-            }
-        },
-    ]
-
     return (
         <>
             <CRow className='py-2'>
@@ -309,7 +341,7 @@ function WaitingDispatchDetail() {
                             <CRow>
                                 <CCol>
                                     <h4 className="card-title mb-0">
-                                        Waiting Delivery
+                                        Delivery Transit Detail
                                     </h4>
                                 </CCol>
                             </CRow>
@@ -477,7 +509,7 @@ function WaitingDispatchDetail() {
                                         </CFormLabel>
                                         <CCol>
                                             <CFormInput
-                                                type="textarea"
+                                                type="text"
                                                 name="destination"
                                                 value={orderReqDetail?.destination}
                                                 readOnly
@@ -490,7 +522,7 @@ function WaitingDispatchDetail() {
                                             className="col-sm-3 col-form-label">
                                         </CFormLabel>
                                         <CCol>
-                                            <CFormTextarea
+                                            <CFormInput
                                                 type="text"
                                                 name="destinationAddress"
                                                 value={orderReqDetail?.destinationAddress}
@@ -529,13 +561,13 @@ function WaitingDispatchDetail() {
                                     </CRow>
                                     <CRow className="mb-4">
                                         <CFormLabel
-                                            className="col-sm-3 col-form-label">Pick And Pack Complete Date
+                                            className="col-sm-3 col-form-label">Pick and Pack Complete Date
                                         </CFormLabel>
                                         <CCol>
                                             <CFormInput
                                                 type="text"
                                                 name="recipientCompanyName"
-                                                value={orderReqDetail.pickandpackCompleteDate}
+                                                value={orderReqDetail?.pickandpackCompleteDate}
                                                 readOnly
                                                 disabled
                                             />
@@ -559,6 +591,53 @@ function WaitingDispatchDetail() {
                             <br />
                             <CRow>
                                 <CCol>
+                                    {/* <CRow className="mb-4">
+                                        <CFormLabel
+                                            className="col-sm-3 col-form-label">Total Item Request
+                                        </CFormLabel>
+                                        <CCol md={2}>
+                                            <CFormInput
+                                                type="text"
+                                                name="totalItem"
+                                                value={orderReqDetail?.totalItem}
+                                                readOnly
+                                                disabled
+                                            />
+                                        </CCol>
+                                        <CCol>
+                                            <FontAwesomeIcon
+                                                icon={faSearch}
+                                                className='textBlue px-2'
+                                                title='Item List'
+                                                size='lg'
+                                                onClick={() =>
+                                                    handleModalDetailItem(orderReqId)
+                                                }
+                                            />
+                                            {
+                                                orderReqDetail?.totalItem > 0 ?
+                                                    <FontAwesomeIcon
+                                                        icon={faRefresh}
+                                                        className='textBlue px-2'
+                                                        title='Item List'
+                                                        size='lg'
+                                                        onClick={() =>
+                                                            handleComponent('reset', orderReqId)
+                                                        }
+                                                    />
+                                                    : ''
+                                            }
+                                            <FontAwesomeIcon
+                                                icon={faUpload}
+                                                className='textBlue px-2'
+                                                title='Item List'
+                                                size='lg'
+                                                onClick={() =>
+                                                    handleComponent('upload')
+                                                }
+                                            />
+                                        </CCol>
+                                    </CRow> */}
                                     <CRow className="mb-4">
                                         <CFormLabel
                                             className="col-sm-3 col-form-label">Final Delivery Mode
@@ -587,69 +666,136 @@ function WaitingDispatchDetail() {
                                             />
                                         </CCol>
                                     </CRow>
+                                    <CRow className="mb-4">
+                                        <CFormLabel
+                                            className="col-sm-3 col-form-label">Pickup Date
+                                        </CFormLabel>
+                                        <CCol>
+                                            <CFormInput
+                                                type="text"
+                                                name="pickupDate"
+                                                value={orderReqDetail?.pickupDate}
+                                                readOnly
+                                                disabled
+                                            />
+                                        </CCol>
+                                    </CRow>
+                                    <CRow className="mb-4">
+                                        <CFormLabel
+                                            className="col-sm-3 col-form-label">Pickup By
+                                        </CFormLabel>
+                                        <CCol>
+                                            <CFormInput
+                                                type="text"
+                                                name="pickupBy"
+                                                value={orderReqDetail?.pickupBy}
+                                                readOnly
+                                                disabled
+                                            />
+                                        </CCol>
+                                    </CRow>
+                                    <br />
                                     <CRow>
                                         <CCol>
-                                            <h5 className="card-title mb-0">
+                                            <h4 className="card-title mb-4">
                                                 Transport Arrangement
+                                            </h4>
+                                        </CCol>
+                                    </CRow>
+                                    <CRow className="mb-4">
+                                        {/* <CFormLabel
+                                            className="col-sm-8 col-form-label"> */}
+                                        <h5 className="card-title mb-4">
+                                            {transportArragmentData?.transportTypeArrangementId}&nbsp;|&nbsp;
+                                            {transportArragmentData?.transportName}&nbsp;|&nbsp;
+                                            {transportArragmentData?.assignBy}&nbsp;|&nbsp;
+                                            {moment(transportArragmentData?.assignDate).format('DD-MM-YYYY HH:mm:ss')}
+                                        </h5>
+                                        {/* </CFormLabel> */}
+                                    </CRow>
+                                    <CRow className="mb-4">
+                                        <h5 className="card-title mb-4">
+                                            Popup MAP
+                                            <CButton
+                                                type="button"
+                                                className='colorBtn-white px-1'
+                                                color="success"
+                                                title='Show Last Location'
+                                                onClick={handleOpenModal}
+                                            >
+                                                <FontAwesomeIcon icon={faMap} />
+                                            </CButton>
+                                        </h5>
+                                    </CRow>
+                                    < CRow >
+                                        <CCol className="d-none d-md-block text-end py-3">
+                                            <CButton
+                                                type="button"
+                                                onClick={handleBack}
+                                                className='colorBtn-white px-1'
+                                                color="success"
+                                                title='Back'
+                                            >Close</CButton>
+                                        </CCol>
+                                    </CRow>
+                                    {/* <CRow className="mb-4">
+                                        <CFormLabel className="col-sm-3 col-form-label">Transport Mode Final</CFormLabel>
+                                        <CCol>
+                                            <Select
+                                                className="input-select"
+                                                options={transportMode}
+                                                isSearchable={true}
+                                                value={selectedTransportMode}
+                                                onChange={handleOnChangeTransportMode}
+                                            />
+                                        </CCol>
+                                    </CRow>
+                                    <CRow className="mb-4">
+                                        <CFormLabel className="col-sm-3 col-form-label">Delivery Request Final</CFormLabel>
+                                        <CCol>
+                                            <Select
+                                                className="input-select"
+                                                options={deliveryRequest}
+                                                isSearchable={true}
+                                                value={selectedDeliveryRequest}
+                                                onChange={handleOnChangeDeliveryRequest}
+                                            />
+                                        </CCol>
+                                    </CRow> */}
+                                    {/* <CRow>
+                                        <CCol>
+                                            <h5 className="card-title mb-0">
+                                                Additional Service
                                             </h5>
                                         </CCol>
-                                        {
-                                            (Dashboard?.listTransportArragement.length == 0 && orderReqDetail?.hasGroup == 'No') ||
-                                                (orderReqDetail?.hasGroup == 'Yes') ?
-                                                <CCol className="d-none d-md-block text-end">
-                                                    <CIcon
-                                                        icon={cilPlus}
-                                                        className="me-2 text-default"
-                                                        size="xl"
-                                                        onClick={handleCreateTransportArragement}
-                                                    />
-                                                </CCol>
-                                                :
-                                                ''
-                                        }
-                                    </CRow>
+                                        <CCol className="d-none d-md-block text-end">
+                                            <CIcon
+                                                icon={cilPlus}
+                                                className="me-2 text-default"
+                                                size="xl"
+                                                onClick={handleCreateAdditionalService}
+                                            />
+                                        </CCol>
+                                    </CRow>  
                                     <CCol className="d-none d-md-block text-end">
                                         <SmartTable
-                                            data={Dashboard?.listTransportArragement}
+                                            data={Dashboard?.listOrdeRequestAdditionalService}
                                             // filterValue={filterValue}
-                                            columns={transportArragementColumn}
+                                            columns={additionalServiceColumn}
                                             minHeight={200}
                                         />
                                     </CCol>
+                                    {
+                                        orderReqDetail?.totalItem > 0 ?
+                                            < CRow >
+                                                <CCol className="d-none d-md-block text-end py-3">
+                                                    <CButton onClick={handleConfirm} color="primary">Confirm</CButton>
+                                                </CCol>
+                                            </CRow>
+                                            : ''
+                                    } */}
                                 </CCol>
                             </CRow>
-                            <br />
-                            < CRow className='mt-3'>
-                                <CCol className="d-none d-md-block text-end" md={12}>
-                                    <CButton onClick={handleBack} color="secondary">Back</CButton>
-                                </CCol>
-                            </CRow>
-                            {/*
-                            <br />
-                            <br />
-                            <CRow>
-                                <CCol>
-                                    <h5 className="card-title mb-0">
-                                        Additional Service
-                                    </h5>
-                                </CCol>
-                                <CCol className="d-none d-md-block text-end">
-                                    <CIcon
-                                        icon={cilPlus}
-                                        className="me-2 text-default"
-                                        size="xl"
-                                        onClick={handleCreateAdditionalService}
-                                    />
-                                </CCol>
-                            </CRow>
-                            <CCol className="d-none d-md-block text-end">
-                                <SmartTable
-                                    data={Dashboard?.listOrdeRequestAdditionalService}
-                                    // filterValue={filterValue}
-                                    columns={additionalServiceColumn}
-                                    minHeight={200}
-                                />
-                            </CCol> */}
                         </CCardBody>
                     </CCard>
                 </CCol >
@@ -722,51 +868,37 @@ function WaitingDispatchDetail() {
             </CModal>
             <CModal
                 size="lg"
-                visible={openModalDeliveryArrangment}
-                onClose={() => setOpenModalDeliveryArrangment(false)}
+                visible={openModalAdditionalService}
+                onClose={() => setOpenModalAdditionalService(false)}
                 alignment='center'
             >
                 <CModalHeader>
-                    <CModalTitle>Add New Delivery Arrangement</CModalTitle>
+                    <CModalTitle>Additonal Service Charge {custOrderRequest}</CModalTitle>
                 </CModalHeader>
                 <CModalBody>
                     <CRow>
-                        <CRow className="mb-4">
-                            <CFormLabel
-                                className="col-sm-3 col-form-label">Delivery Mode
-                            </CFormLabel>
-                            <CCol>
-                                <CFormInput
-                                    type="text"
-                                    name="deliveryMode"
-                                    value={orderReqDetail?.deliveryMode}
-                                    readOnly
-                                    disabled
-                                />
-                            </CCol>
-                        </CRow>
-                        <CRow className="mb-4">
-                            <CFormLabel
-                                className="col-sm-3 col-form-label">Transport Mode
-                            </CFormLabel>
-                            <CCol>
-                                <CFormInput
-                                    type="text"
-                                    name="transportMode"
-                                    value={orderReqDetail?.transportMode}
-                                    readOnly
-                                    disabled
-                                />
-                            </CCol>
-                        </CRow>
+                        <CCol className="d-none d-md-block text-end">
+                            <SmartTable
+                                data={serviceChargeData}
+                                columns={additionalServiceChargeColumn}
+                                minHeight={200}
+                            />
+                        </CCol>
                     </CRow>
                 </CModalBody>
                 <CModalFooter>
-                    <CButton onClick={handleCreateTransportArragementSave} color="primary">Create</CButton>
+                    {/* <CButton onClick={handleClose} color="secondary">Close</CButton> */}
                 </CModalFooter>
             </CModal>
+
+            <ModalOpenMap
+                open={modalMap}
+                setOpen={setModalMap}
+                data={transportArragmentData}
+                key={mapKey}
+            />
         </>
     )
 }
 
-export default WaitingDispatchDetail
+export default DeliveryTransitDetail

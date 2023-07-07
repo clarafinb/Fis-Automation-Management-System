@@ -757,16 +757,8 @@ export const getListWarehouse = (payload) => {
       let listWarehouse = list?.map((item, idx) => {
         return {
           no: idx + 1,
-          whName: item.whName,
-          whCode: item.whCode,
-          isMainWH: item.isMainWH,
-          whType: item.whType,
-          whSpace: item.whSpace,
-          whAddress: item.whAddress,
-          map: item.whId,
-          status: item.isActive,
-          whId: item.whId,
-          detail: { ...item, ...{ projectId: payload } }
+          projectId: payload,
+          ...item
         }
       })
       dispatch({

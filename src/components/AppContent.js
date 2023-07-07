@@ -1,4 +1,5 @@
 import React, { Suspense } from 'react'
+import { useCookies } from 'react-cookie'
 import { Navigate, Route, Routes } from 'react-router-dom'
 import { CContainer, CSpinner } from '@coreui/react'
 
@@ -6,6 +7,8 @@ import { CContainer, CSpinner } from '@coreui/react'
 import routes from '../routes'
 
 const AppContent = () => {
+  const [cookies, setCookie] = useCookies(["dashboard"]);
+  console.log(cookies)
   return (
     <CContainer xxl className='container-dashboard'>
       <Suspense fallback={<CSpinner color="primary" />}>
@@ -23,7 +26,12 @@ const AppContent = () => {
               )
             )
           })}
-          <Route path="/" element={<Navigate to="dashboard" replace />} />
+          <Route 
+            path="/" 
+            element={
+              <Navigate to={cookies?.dashboard?.dashboardURL === '/usr/dashboardOpsLead' ? "dashboard-ops-lead" : "dashboard"} replace />
+            } 
+          />
         </Routes>
       </Suspense>
     </CContainer>

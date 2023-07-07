@@ -19,7 +19,6 @@ import {
   cilPlus,
   cilSettings,
   cilSend,
-  cilApplications,
   cilList,
 } from '@coreui/icons'
 import ToggleSwitch from 'src/components/custom/toggle/ToggleSwitch'
@@ -28,7 +27,6 @@ import ModalMasterWerehouse from 'src/components/dashboard/ModalMasterWerehouse'
 import ModalSettingManagement from 'src/components/dashboard/ModalSettingManagement'
 import * as actions from '../../config/redux/Dashboard/actions'
 import debounce from "lodash.debounce"
-import DashboardOpsLead from 'src/views/dashboard/DashboardOpsLead'
 
 const Dashboard = () => {
   const { dispatch, Global, Dashboard } = useRedux()
@@ -41,6 +39,12 @@ const Dashboard = () => {
   const [modalSetManagement, setModalSetManagement] = useState(false)
   const [searchProject, setSearchProject] = useState("")
   const [filteredListProject, setFilteredProject] = useState([])
+
+  useEffect(() => {
+    if (Global?.user?.token) {
+      dispatch(actions.getListProject())
+    }
+  }, [Global?.user]);
 
   const handleModalCreate = () => {
     setModalCreate(true)
@@ -170,99 +174,86 @@ const Dashboard = () => {
   return (
     <>
       <CContainer>
-        {!['/usr/dashboardOpsLead'].includes(Dashboard?.detailDashboard?.dashboardURL)
-          ? (
-            <>
-              <CRow>
-                <CCol sm={5}>
-                  <h4 className="card-title mb-0">
-                    <span className='text-underline'>PR</span>OJECT
-                  </h4>
-                </CCol>
-                {/* <CCol sm={7} className="d-none d-md-block">
-                  <CIcon icon={cilApplications} className="me-2 float-end textBlue" size="xl" onClick={() => handleModalSetting()} />
-                </CCol> */}
-              </CRow>
-              <br />
-              <CRow>
-                <CCol sm={9}>
-                  <CFormInput type="text" name="search" placeholder="Project Name" onChange={handleOnchange} />
-                </CCol>
-                <CCol className="d-none d-md-block">
-                  <CButton className="float-end colorBtn-white px-1 ms-2" onClick={handleModalSetting}>
-                    <CIcon icon={cilList} className="me-2 text-warning" />
-                    SETTINGS
-                  </CButton>
-                  <CButton className="float-end colorBtn-white px-1 ms-2" onClick={handleModalCreate}>
-                    <CIcon icon={cilPlus} className="me-2 text-warning" />
-                    ADD PROJECT
-                  </CButton>
-                </CCol>
-              </CRow>
-              <br />
-              <CRow>
-                {filteredListProject?.map((val, index) => (
-                  <CCol sm={4} key={index}>
-                    <CCard className='mb-3' >
-                      <CCardBody>
-                        <CCardTitle>
-                          <CRow>
-                            <CCol>
-                              {val?.projectName}
-                            </CCol>
-                            <CCol className='text-end'>
-                              <CBadge
-                                className={val.activeStatus === "active" && val.publishStatus === "notPublished"
-                                  ? "badge-info"
-                                  : (val.activeStatus === "active" && val.publishStatus === "published"
-                                    ? "badge-success"
-                                    : "badge-secondary")
-                                }
-                                size='sm'
-                              >
-                                {val.activeStatus === "active" && val.publishStatus === "notPublished"
-                                  ? "ACTIVE"
-                                  : (val.activeStatus === "active" && val.publishStatus === "published"
-                                    ? "PUBLISHED"
-                                    : "INACTIVE")
-                                }
-                              </CBadge>
-                            </CCol>
-                          </CRow>
-                        </CCardTitle>
-                        <hr />
-                        <CCardText className='px-3'>
-                          {val?.projectDesc}
-                        </CCardText>
-                        <hr />
-                        <CRow>
-                          <CCol sm={5}>
-                            <ToggleSwitch
-                              checked={() => val.activeStatus === "active" ? true : false}
-                              size="lg"
-                              handleChecked={handleChecked}
-                              id={val.projectId}
-                            />
-                          </CCol>
-                          <CCol sm={7} className="d-none d-md-block">
-                            <div className='text-end'>
-                              <CIcon icon={cilSettings} className="me-2" size="xl" onClick={() => handleModalMasterWerehouse(val.projectId)} />
-                              <CIcon icon={cilSend} className="me-2" size="xl" onClick={() => handleSend(val.projectId)} />
-                            </div>
-                          </CCol>
-                        </CRow>
-                      </CCardBody>
-                    </CCard>
-                  </CCol>
-                ))}
-              </CRow>
-            </>
-          ) : (
-            <>
-              <DashboardOpsLead data={Dashboard?.listProject} />
-            </>
-          )
-        }
+        <CRow>
+          <CCol sm={5}>
+            <h4 className="card-title mb-0">
+              <span className='text-underline'>PR</span>OJECT
+            </h4>
+          </CCol>
+        </CRow>
+        <br />
+        <CRow>
+          <CCol sm={9}>
+            <CFormInput type="text" name="search" placeholder="Project Name" onChange={handleOnchange} />
+          </CCol>
+          <CCol className="d-none d-md-block">
+            <CButton className="float-end colorBtn-white" onClick={handleModalSetting}>
+              <CIcon icon={cilList} className="me-2 text-warning" />
+              SETTINGS
+            </CButton>
+            <CButton className="float-end colorBtn-white" onClick={handleModalCreate}>
+              <CIcon icon={cilPlus} className="me-2 text-warning" />
+              ADD PROJECT
+            </CButton>
+          </CCol>
+        </CRow>
+        <br />
+        <CRow>
+          {filteredListProject?.map((val, index) => (
+            <CCol sm={4} key={index}>
+              <CCard className='mb-3' >
+                <CCardBody>
+                  <CCardTitle>
+                    <CRow>
+                      <CCol>
+                        {val?.projectName}
+                      </CCol>
+                      <CCol className='text-end'>
+                        <CBadge
+                          className={val.activeStatus === "active" && val.publishStatus === "notPublished"
+                            ? "badge-info"
+                            : (val.activeStatus === "active" && val.publishStatus === "published"
+                              ? "badge-success"
+                              : "badge-secondary")
+                          }
+                          size='sm'
+                        >
+                          {val.activeStatus === "active" && val.publishStatus === "notPublished"
+                            ? "ACTIVE"
+                            : (val.activeStatus === "active" && val.publishStatus === "published"
+                              ? "PUBLISHED"
+                              : "INACTIVE")
+                          }
+                        </CBadge>
+                      </CCol>
+                    </CRow>
+                  </CCardTitle>
+                  <hr />
+                  <CCardText className='px-3'>
+                    {val?.projectDesc}
+                  </CCardText>
+                  <hr />
+                  <CRow>
+                    <CCol sm={5}>
+                      <ToggleSwitch
+                        checked={() => val.activeStatus === "active" ? true : false}
+                        size="lg"
+                        handleChecked={handleChecked}
+                        id={val.projectId}
+                      />
+                    </CCol>
+                    <CCol sm={7} className="d-none d-md-block">
+                      <div className='text-end'>
+                        <CIcon icon={cilSettings} className="me-2" size="xl" onClick={() => handleModalMasterWerehouse(val.projectId)} />
+                        <CIcon icon={cilSend} className="me-2" size="xl" onClick={() => handleSend(val.projectId)} />
+                      </div>
+                    </CCol>
+                  </CRow>
+                </CCardBody>
+              </CCard>
+            </CCol>
+          ))}
+        </CRow>
       </CContainer>
 
       <ModalCreateProject open={modalCreate} setOpen={setModalCreate} />

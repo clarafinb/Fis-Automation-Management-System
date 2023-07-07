@@ -18,8 +18,8 @@ const MapComponent = ({ latlong, handleMapClick }) => {
   return (
     <MapContainer
       center={latlong}
-      zoom={13}
-      style={{ height: '400px', width: '100%' }}
+      zoom={15}
+      style={{ height: '330px', width: '100%' }}
       zoomControl={false}
       whenCreated={(map) => {
         mapRef.current = map;

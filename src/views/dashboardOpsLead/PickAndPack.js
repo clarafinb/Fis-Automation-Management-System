@@ -1,12 +1,15 @@
 import React, { useState, useCallback, useEffect } from 'react'
 import { useRedux } from 'src/utils/hooks'
-import { useNavigate } from 'react-router-dom'
 
 import {
     CButton,
     CCard,
     CCardBody,
     CCol,
+    CForm,
+    CFormInput,
+    CFormLabel,
+    CInputGroup,
     CModal,
     CModalBody,
     CModalFooter,
@@ -15,24 +18,27 @@ import {
     CRow
 } from '@coreui/react'
 
-import * as actions from '../../../config/redux/Dashboard/actions'
+import * as actions from '../../config/redux/Dashboard/actions'
 import CIcon from '@coreui/icons-react'
-import { cilFile } from '@coreui/icons'
+import { cilCloudUpload, cilFile, cilPlus } from '@coreui/icons'
 import SmartTable from 'src/components/custom/table/SmartTable'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faArrowRight, faTable } from '@fortawesome/free-solid-svg-icons'
+import { faPlay, faRefresh, faTable, faUpload } from '@fortawesome/free-solid-svg-icons'
+import Swal from 'sweetalert2'
 
-function PickAndPackProgress() {
-    const nav = useNavigate();
+function PickAndPack() {
     const { dispatch, Global, Dashboard } = useRedux()
     const [detailProject, setDetailProject] = useState({})
     const [projectId, setProjectId] = useState("")
+    const [templateName, setTemplateName] = useState("")
+    const [templateUrl, setTemplateUrl] = useState("")
     const [openModal, setOpenModal] = useState(false)
     const [openModalUpload, setOpenModalUpload] = useState(false)
     const [orderReqId, setOrderReqId] = useState()
     const [custOrderRequest, setCustOrderRequest] = useState(null)
     const [itemOrderRequest, setItemOrderRequest] = useState([])
     const [itemOrderRequestData, setItemOrderRequestData] = useState([])
+    const [fileUpload, setFileUpload] = useState(null);
     useEffect(() => {
         const id = window.location.href.split("/").pop();
         setProjectId(id)
@@ -41,7 +47,7 @@ function PickAndPackProgress() {
                 actions.getActivitySummaryWHProject(Global?.user?.userID, id)
             ).then(result => {
                 setDetailProject(result[0])
-                dispatch(actions.getListPickAndPackProgress(id, result[0].whId, Global?.user?.userID))
+                dispatch(actions.getListPickAndPackPending(id, result[0].whId, Global?.user?.userID))
             })
         }
     }, [Global?.user?.userID, projectId]);
@@ -49,13 +55,66 @@ function PickAndPackProgress() {
     const handleComponent = useCallback(
         (action, orderReqId) => {
             setOrderReqId(orderReqId)
-            nav(`detail/${orderReqId}`)
+            if (action === 'start') {
+                const payload = {
+                    orderReqId: orderReqId,
+                    LMBY: Global.user.userID
+                }
+                dispatch(actions.startPickAndPack(payload, projectId, detailProject.whId))
+            } else if (action === 'reset') {
+                dispatch(actions.resetPickAndPack(orderReqId, projectId, detailProject.whId, Global.user.userID))
+            } else {
+                setOpenModalUpload(true)
+                dispatch(
+                    actions.getMassUploadTemplateOrderReqItemBulkUpload()
+                ).then(response => {
+                    setTemplateName(response?.templateName)
+                    setTemplateUrl(response?.templateURL)
+                })
+            }
         }
     )
 
     const handleClose = () => {
         setOpenModal(false)
     }
+
+    const handleCloseModalUpload = () => {
+        setOpenModalUpload(false)
+        setFileUpload(null)
+    }
+
+    const handleDownloadTemplate = () => {
+        window.open(templateUrl, '_blank')
+    }
+
+    const handleUploadFile = (e) => {
+        e.preventDefault()
+        if (fileUpload) {
+            const formData = new FormData(e.target);
+            dispatch(actions.uploadOrderReqItem(
+                formData,
+                orderReqId,
+                projectId,
+                detailProject.whId,
+                Global?.user?.userID
+            ))
+            setFileUpload(null)
+        } else {
+            Swal.fire({
+                title: 'Error!',
+                text: 'File Empty !',
+                icon: 'error',
+                confirmButtonText: 'OK'
+            })
+        }
+    }
+
+    const handleFileChange = (event) => {
+        const file = event.target.files[0];
+        setFileUpload(file);
+    };
+
 
     const handleModalDetailItem = ({ orderReqId, custOrderRequest }) => {
         setOrderReqId(orderReqId)
@@ -108,20 +167,20 @@ function PickAndPackProgress() {
     ]
 
     const columns = [
-        { name: 'no', header: 'No', defaultVisible: true, defaultWidth: 80, type: 'number' },
-        { name: 'whCode', header: 'WH Code', defaultWidth: 200 },
+        { name: 'no', header: 'No', defaultWidth: 80, type: 'number' },
+        { name: 'whCode', header: 'WH Code', defaultWidth: 120 },
         { name: 'custOrderRequest', header: 'Customer Order Request', defaultWidth: 230 },
-        { name: 'orderRequestDesc', header: 'Order Req Desc', defaultWidth: 200 },
-        { name: 'requestorName', header: 'Requestor', defaultWidth: 200 },
-        { name: 'orderRequestDate', header: 'Order Request Date', defaultWidth: 200, textAlign: 'center' },
-        { name: 'deliveryReqType', header: 'Delivery Req Type', defaultWidth: 200 },
-        { name: 'transportReqType', header: 'Transport Req Type', defaultWidth: 200 },
+        { name: 'orderRequestDesc', header: 'Order Req Desc', defaultWidth: 230 },
+        { name: 'requestorName', header: 'Requestor', defaultWidth: 230 },
+        { name: 'orderRequestDate', header: 'Order Request Date', defaultWidth: 230, textAlign: 'center' },
+        { name: 'deliveryReqType', header: 'Delivery Req Type', defaultWidth: 230 },
+        { name: 'transportReqType', header: 'Transport Req Type', defaultWidth: 230 },
         { name: 'origin', header: 'Origin', defaultWidth: 200 },
         { name: 'destination', header: 'Destination', defaultWidth: 200 },
         {
             name: 'totalItem',
             header: 'Total Item Request',
-            defaultWidth: 200,
+            defaultWidth: 150,
             textAlign: 'center',
             render: ({ value, cellProps }) => {
                 return (
@@ -138,12 +197,12 @@ function PickAndPackProgress() {
                 )
             }
         },
-        { name: 'createBy', header: 'Created By', defaultWidth: 200 },
-        { name: 'createDate', header: 'Created date', defaultWidth: 200 },
+        { name: 'createBy', header: 'Created By', defaultWidth: 250 },
+        { name: 'createDate', header: 'Created date', defaultWidth: 250 },
         {
             name: 'orderReqId',
             header: 'Action',
-            // defaultFlex: 1,
+            defaultWidth: 250,
             textAlign: 'center',
             defaultWidth: 110,
             render: ({ value, cellProps }) => {
@@ -151,15 +210,30 @@ function PickAndPackProgress() {
                     <>
                         {
                             cellProps.data.totalItem > 0 ?
+                                <>
+                                    <FontAwesomeIcon
+                                        icon={faPlay}
+                                        className='textBlue px-2'
+                                        size='sm'
+                                        title='Pick and Pack Start'
+                                        onClick={() => handleComponent('start', value)} />
+                                    <FontAwesomeIcon
+                                        icon={faRefresh}
+                                        className='textBlue px-2'
+                                        size='sm'
+                                        title='Order Request Item Reset'
+                                        onClick={() => handleComponent('reset', value)} />
+                                </>
+                                :
                                 <FontAwesomeIcon
-                                    icon={faArrowRight}
+                                    icon={faUpload}
                                     className='textBlue px-2'
                                     title='Order Request'
                                     size='sm'
                                     onClick={() =>
-                                        handleComponent('detail', value)
+                                        handleComponent('insert', value)
                                     }
-                                /> : ''
+                                />
                         }
                     </>
                 )
@@ -174,7 +248,7 @@ function PickAndPackProgress() {
                     <CRow>
                         <CCol sm={5}>
                             <h4 className="card-title mb-0">
-                                Pick And Pack Progress
+                                Pick And Pack Pending
                             </h4>
                         </CCol>
                     </CRow>
@@ -200,7 +274,7 @@ function PickAndPackProgress() {
                     <CRow>
                         <CCol className="d-none d-md-block text-end">
                             <SmartTable
-                                data={Dashboard?.listPickAndPackProgress}
+                                data={Dashboard?.listPickAndPackPending}
                                 filterValue={filterValue}
                                 columns={columns}
                                 minHeight={400}
@@ -233,8 +307,50 @@ function PickAndPackProgress() {
                     <CButton onClick={handleClose} color="secondary">Close</CButton>
                 </CModalFooter>
             </CModal>
+            <CModal
+                size="lg"
+                visible={openModalUpload}
+                onClose={() => setOpenModalUpload(false)}
+                alignment='center'
+            >
+                <CModalHeader>
+                    <CModalTitle>Item List Upload {custOrderRequest}</CModalTitle>
+                </CModalHeader>
+                <CModalBody>
+                    <CRow className="mb-3">
+                        <CCol sm={6}>
+                            <CForm onSubmit={handleUploadFile} encType="multipart/form-data">
+                                <CInputGroup className="mb-3">
+                                    <CFormInput
+                                        type="file"
+                                        name="fileUpload"
+                                        onChange={(e) => handleFileChange(e)}
+                                    />
+                                    <CButton
+                                        type="submit"
+                                        color="success"
+                                        title='upload file'
+                                    >
+                                        <FontAwesomeIcon icon={faUpload} />
+                                    </CButton>
+                                </CInputGroup>
+                            </CForm>
+                        </CCol>
+                        <CCol>
+                            <CButton
+                                onClick={handleDownloadTemplate}
+                                color="info">
+                                Download {templateName}
+                            </CButton>
+                        </CCol>
+                    </CRow>
+                </CModalBody>
+                <CModalFooter>
+                    <CButton onClick={handleCloseModalUpload} color="secondary">Close</CButton>
+                </CModalFooter>
+            </CModal>
         </>
     )
 }
 
-export default PickAndPackProgress
+export default PickAndPack

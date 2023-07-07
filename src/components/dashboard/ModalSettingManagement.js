@@ -32,10 +32,11 @@ function ModalSettingManagement({
 
     return (
         <CModal
-            size="lg"
+            // size="lg"
             visible={open}
             onClose={() => setOpen(false)}
             alignment='center'
+            style={{ minWidth: "600px" }}
         >
             <CModalHeader>
                 <CModalTitle>SETTINGS MANAGEMENT</CModalTitle>
