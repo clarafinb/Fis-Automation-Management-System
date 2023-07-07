@@ -238,10 +238,6 @@ function ModalCreateWarehouse({ open, setOpen, projectId, isEdit, dataEdit }) {
                     </CCol>
                 </CRow>
             </CModalBody>
-            {/* <CModalFooter>
-                <CButton onClick={handleClose} color="secondary">Close</CButton>
-                <CButton color="primary" onClick={handleCreate}>Add</CButton>
-            </CModalFooter> */}
         </CModal>
     )
 }

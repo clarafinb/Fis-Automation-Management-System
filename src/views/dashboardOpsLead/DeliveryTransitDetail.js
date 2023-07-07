@@ -82,11 +82,7 @@ function DeliveryTransitDetail() {
             ).then(resp => {
                 if (resp.length > 0) {
                     setTransportArragmentData({
-                        ...resp[0],
-                        detail: {
-                            latitude: resp[0]?.latitude,
-                            longitude: resp[0]?.longitude,
-                        }
+                        ...resp[0]
                     })
                 }
             })
