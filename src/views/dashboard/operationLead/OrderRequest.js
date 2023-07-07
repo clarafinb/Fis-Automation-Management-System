@@ -16,7 +16,9 @@ import {
     CNav,
     CNavItem,
     CNavLink,
-    CRow
+    CRow,
+    CTabContent,
+    CTabPane
 } from '@coreui/react'
 
 import * as actions from '../../../config/redux/Dashboard/actions'
@@ -37,6 +39,7 @@ function OrderRequest() {
     const [values, setValues] = useState({})
     const [orderReqId, setOrderReqId] = useState()
     const [openModalOrderRequest, setOpenModalOrderRequest] = useState(false)
+    const [activeKey, setActiveKey] = useState(1)
     useEffect(() => {
         const id = window.location.href.split("/").pop();
         setProjectId(id)
@@ -120,6 +123,7 @@ function OrderRequest() {
         { name: 'origin', operator: 'startsWith', type: 'string', value: '' },
         { name: 'destination', operator: 'startsWith', type: 'string', value: '' },
         { name: 'orderRequestStatus', operator: 'startsWith', type: 'string', value: '' },
+        { name: 'cancelRemarks', operator: 'startsWith', type: 'string', value: '' },
         { name: 'createBy', operator: 'startsWith', type: 'string', value: '' },
         { name: 'createDate', operator: 'startsWith', type: 'string', value: '' }
     ]
@@ -147,6 +151,7 @@ function OrderRequest() {
         { name: 'origin', header: 'Origin', defaultWidth: 180 },
         { name: 'destination', header: 'Destination', defaultWidth: 180 },
         { name: 'orderRequestStatus', header: 'Order Status', defaultWidth: 180 },
+        { name: 'cancelRemarks', header: 'Cancel Remarks', defaultWidth: 180 },
         { name: 'createBy', header: 'Created By', defaultWidth: 180 },
         {
             name: 'createDate',
@@ -196,7 +201,7 @@ function OrderRequest() {
         <>
             <CCard className="">
                 <CCardBody>
-                    <CRow>
+                    <CRow className='m-3'>
                         <CCol sm={5}>
                             <h4 className="card-title mb-0">
                                 Order Request
@@ -204,7 +209,7 @@ function OrderRequest() {
                         </CCol>
                     </CRow>
                     <br />
-                    <CRow>
+                    <CRow className='m-3'>
                         <CCol sm={5}>
                             <h5 className="card-title mb-0">
                                 {detailProject?.projectName} | {detailProject?.whName} | {detailProject?.whCode}
@@ -217,8 +222,6 @@ function OrderRequest() {
                                 size="xl"
                                 onClick={handleCreate}
                             />
-                            {/* </CCol> */}
-                            {/* <CCol className="d-none d-md-block text-end"> */}
                             <CIcon
                                 icon={cilCloudUpload}
                                 className="me-2 text-primary"
@@ -228,23 +231,35 @@ function OrderRequest() {
                         </CCol>
                     </CRow>
                     <br />
-                    <CRow>
+                    <CRow className='m-3'>
                         <CNav variant="tabs">
                             <CNavItem>
-                                <CNavLink active>
+                                <CNavLink
+                                    active={activeKey === 1}
+                                    onClick={() => setActiveKey(1)}
+                                >
                                     Order Request
                                 </CNavLink>
                             </CNavItem>
                             <CNavItem>
-                                <CNavLink>Order Req Bulk Upload Log</CNavLink>
+                                <CNavLink
+                                    active={activeKey === 2}
+                                    onClick={() => setActiveKey(2)}
+                                >
+                                    Order Req Bulk Upload Log
+                                </CNavLink>
                             </CNavItem>
                             <CNavItem>
-                                <CNavLink>Item Order Req Bulk Upload Log</CNavLink>
+                                <CNavLink
+                                    active={activeKey === 3}
+                                    onClick={() => setActiveKey(3)}
+                                >
+                                    Item Order Req Bulk Upload Log
+                                </CNavLink>
                             </CNavItem>
                         </CNav>
                     </CRow>
-                    <br />
-                    <CRow>
+                    <CRow className='m-3'>
                         <CCol className="d-none d-md-block text-end">
                             <CIcon
                                 icon={cilFile}
@@ -254,17 +269,20 @@ function OrderRequest() {
                             />
                         </CCol>
                     </CRow>
-                    <CRow>
+                    <CRow className='m-3'>
                         <CCol className="d-none d-md-block text-end">
-                            <SmartTable
-                                data={Dashboard?.listOrdeRequest}
-                                filterValue={filterValue}
-                                columns={columns}
-                                minHeight={500}
-                            />
+                            <CTabContent>
+                                <CTabPane role="tabpanel" aria-labelledby="home-tab" visible={activeKey === 1}>
+                                    <SmartTable
+                                        data={Dashboard?.listOrdeRequest}
+                                        filterValue={filterValue}
+                                        columns={columns}
+                                        minHeight={500}
+                                    />
+                                </CTabPane>
+                            </CTabContent>
                         </CCol>
                     </CRow>
-
                 </CCardBody>
             </CCard>
             <CModal
