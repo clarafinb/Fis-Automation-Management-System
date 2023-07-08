@@ -147,3 +147,9 @@ export const API_GET_DELIVERY_TRANSIT = BASE_URL + "logmanagement/getDeliveryInT
 export const API_GET_TRANSPORT_ARRAGEMENT_DELIVERY = BASE_URL + "transportarrangement/getTransportArrangementAndShareLatestLocationBasedOnOrderRequest"
 // DELIVERY COMPLETE
 export const API_GET_DELIVERY_COMPLETE = BASE_URL + "logmanagement/getDeliveryCompletedWHProject"
+// MASTER LOCATION
+export const API_GET_MASTER_LOCATION = BASE_URL + "masterdata/getMasterLocationsBasedOnProject"
+export const API_GET_ROUTE_CATEGORY_ACTIVE = BASE_URL + "masterdata/getRouteCategoryActiveOnly"
+export const API_ADD_MASTER_LOCATION = BASE_URL + "masterdata/addMasterLocation"
+export const API_DELETE_MASTER_LOCATION = BASE_URL + "masterdata/deleteMasterLocation"
+export const API_DELETE_ORDER_REQUEST_WH_PROJECT = BASE_URL + "logmanagement/deleteOrderRequestWHProject"

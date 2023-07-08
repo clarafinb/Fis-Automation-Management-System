@@ -107,7 +107,11 @@ import {
   API_GET_DELIVERY_TRANSIT,
   API_GET_DELIVERY_COMPLETE,
   API_GET_TRANSPORT_ARRAGEMENT_DELIVERY,
-  API_DELETE_ADDITIONAL_SERVICE_PICK_AND_PACK
+  API_DELETE_ADDITIONAL_SERVICE_PICK_AND_PACK,
+  API_GET_MASTER_LOCATION,
+  API_GET_ROUTE_CATEGORY_ACTIVE,
+  API_DELETE_MASTER_LOCATION,
+  API_ADD_MASTER_LOCATION
 } from "../../api/index"
 import Swal from "sweetalert2";
 
@@ -2755,6 +2759,109 @@ export const deleteAddServicePickPack = (orderReqId, payload) => {
         });
       }
 
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Close'
+      })
+    }
+  }
+}
+
+export const getListMasterLocation = (projectId) => {
+  return async (dispatch) => {
+    try {
+      const fullParam = `${projectId}`
+      let list = await actionCrud.actionParamRequest(fullParam, API_GET_MASTER_LOCATION, "GET");
+      let listMasterLocation = list?.map((item, idx) => {
+        return {
+          no: idx + 1,
+          ...item,
+        }
+      })
+      dispatch({
+        type: actionType.SET_LIST_MASTER_LOCATION,
+        payload: listMasterLocation
+      });
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Close'
+      })
+    }
+  }
+}
+export const getSelecRouteCategory = (payload) => {
+  return async () => {
+    try {
+      let list = await actionCrud.actionCommonCrud(payload, API_GET_ROUTE_CATEGORY_ACTIVE, "GET");
+      let listRouteCategory = list?.map((item, idx) => {
+        return {
+          label: item.routeCategoryName,
+          value: item.routeTypeCode
+        }
+      })
+      return Promise.resolve(listRouteCategory)
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Close'
+      })
+    }
+  }
+}
+
+export const deleteMasterLocation = (pointCodeId, userId, projectId) => {
+  return async (dispatch) => {
+    try {
+      const fullParam = `${pointCodeId}/${userId}`
+      let response = await actionCrud.actionParamRequest(fullParam, API_DELETE_MASTER_LOCATION, "PUT");
+      if (response.status === "success") {
+        dispatch(getListMasterLocation(projectId));
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: response?.message,
+          showConfirmButton: true
+        });
+      }
+
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Close'
+      })
+    }
+  }
+}
+export const createMasterLocation = (payload) => {
+  return async (dispatch) => {
+    try {
+      let response = await actionCrud.actionCommonCrud(payload, API_ADD_MASTER_LOCATION, "POST");
+      if (response.status === "success") {
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: response?.message,
+          showConfirmButton: true
+        });
+        dispatch(getListMasterLocation(payload.projectId));
+      } else {
+        Swal.fire({
+          title: 'Error!',
+          text: response?.message,
+          icon: 'error',
+          confirmButtonText: 'Close'
+        })
+      }
     } catch (error) {
       Swal.fire({
         title: 'Error!',

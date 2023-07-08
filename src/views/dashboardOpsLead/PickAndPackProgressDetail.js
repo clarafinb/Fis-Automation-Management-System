@@ -113,6 +113,8 @@ function PickAndPackProgressDetail() {
             orderReqId: orderReqId,
             deliveryModeId: selectedDeliveryRequest.value,
             transportModeId: selectedTransportMode.value,
+            totalCollies: values?.totalCollies,
+            totalVolume: values?.totalVolume,
             LMBY: Global?.user?.userID
         }
 
@@ -344,6 +346,17 @@ function PickAndPackProgressDetail() {
             }
         },
     ]
+
+    const handleOnchange = useCallback(
+        (e) => {
+            const { value, name } = e.target;
+            setValues((prev) => ({
+                ...prev,
+                [name]: value
+            }));
+
+        }, [setValues]
+    )
 
     return (
         <>
@@ -672,6 +685,28 @@ function PickAndPackProgressDetail() {
                                                 isSearchable={true}
                                                 value={selectedDeliveryRequest}
                                                 onChange={handleOnChangeDeliveryRequest}
+                                            />
+                                        </CCol>
+                                    </CRow>
+                                    <CRow className="mb-4">
+                                        <CFormLabel className="col-sm-3 col-form-label">Total Collies</CFormLabel>
+                                        <CCol>
+                                            <CFormInput
+                                                type="number"
+                                                name="totalCollies"
+                                                value={values?.totalCollies}
+                                                onChange={handleOnchange}
+                                            />
+                                        </CCol>
+                                    </CRow>
+                                    <CRow className="mb-4">
+                                        <CFormLabel className="col-sm-3 col-form-label">Total Volume (CBM)</CFormLabel>
+                                        <CCol>
+                                            <CFormInput
+                                                type="number"
+                                                name="totalVolume"
+                                                value={values?.totalVolume}
+                                                onChange={handleOnchange}
                                             />
                                         </CCol>
                                     </CRow>

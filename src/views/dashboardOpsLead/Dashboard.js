@@ -32,16 +32,43 @@ function Dashboard() {
     const [activeKey, setActiveKey] = useState(1)
     const nav = useNavigate()
 
-    console.log(detailWarehouses)
+    const getSummaryProject = (projectId) => {
+        dispatch(
+            actions.getActivitySummaryWHProject(Global?.user?.userID, projectId)
+        ).then(result => {
+            setDetailProject(result)
+            let option = result.map((item, idx) => {
+                return {
+                    label: item.whName,
+                    value: item.whId
+                }
+            })
+            setOptionWarehouse(['List Warehouse', ...option])
+            setDetailWarehouses(result)
+        })
+    }
 
     useEffect(() => {
+
+        console.log("cookies", cookies)
         if (!cookies?.user) {
-          nav("/login")
+            nav("/login")
         }
-      }, []);
+
+        if (cookies?.dashboardOpsLead && Global?.user?.userID) {
+
+            setValues((prev) => ({
+                ...prev,
+                projectId: cookies?.dashboardOpsLead?.projectId,
+                whId: cookies?.dashboardOpsLead?.whId
+            }));
+
+            getSummaryProject(cookies?.dashboardOpsLead?.projectId)
+        }
+    }, []);
 
     useEffect(() => {
-        if(Global?.user?.userID){
+        if (Global?.user?.userID) {
             dispatch(actions.getListProjectByUser(Global?.user?.userID))
         }
     }, [Global?.user])
@@ -72,19 +99,22 @@ function Dashboard() {
     useEffect(() => {
         if (values?.projectId && !values.whId) {
             removeCookie('dashboardOpsLead');
-            dispatch(
-                actions.getActivitySummaryWHProject(Global?.user?.userID, values.projectId)
-            ).then(result => {
-                setDetailProject(result)
-                let option = result.map((item, idx) => {
-                    return {
-                        label: item.whName,
-                        value: item.whId
-                    }
-                })
-                setOptionWarehouse(['List Warehouse', ...option])
-                setDetailWarehouses(result)
-            })
+
+            getSummaryProject(values.projectId)
+            // dispatch(
+            //     actions.getActivitySummaryWHProject(Global?.user?.userID, values.projectId)
+            // ).then(result => {
+            //     setDetailProject(result)
+            //     let option = result.map((item, idx) => {
+            //         return {
+            //             label: item.whName,
+            //             value: item.whId
+            //         }
+            //     })
+            //     setOptionWarehouse(['List Warehouse', ...option])
+            //     setDetailWarehouses(result)
+            // })
+            setCookie('dashboardOpsLead', values, { path: '/' })
         }
 
         if (values?.whId) {
@@ -123,6 +153,10 @@ function Dashboard() {
                 type: 'deliveryComplete',
                 url: '/dashboard-ops-lead/delivery-complete/' + id
             },
+            {
+                type: 'masterLocation',
+                url: '/dashboard-ops-lead/master-location/' + id
+            }
         ]
 
         let url = navigate.find(e => e.type === type)
@@ -145,6 +179,8 @@ function Dashboard() {
         }, [setValues]
     )
 
+    console.log(values)
+
     return (
         <>
             <CRow>
@@ -161,7 +197,7 @@ function Dashboard() {
                         name="projectId"
                         options={optionProject}
                         onChange={handleOnchange}
-                        defaultValue={values?.projectId || optionProject[1]}
+                        defaultValue={3}
                     />
                 </CCol>
                 <CCol sm={3}>
@@ -188,12 +224,18 @@ function Dashboard() {
                                         </h5>
                                     </CCol>
                                     <CCol className="d-none d-md-block">
-                                        <CButton className="float-end btn colorBtn-white px-1 ms-2">
-                                            <CIcon icon={cilList} className="me-2 text-warning" />
-                                            Manage Order Request
+                                        <CButton
+                                            onClick={() => handleNavigator("masterLocation", values?.projectId)}
+                                            className="float-end btn colorBtn-white px-1 ms-2">
+                                            <CIcon
+                                                icon={cilList}
+                                                className="me-2 text-warning" />
+                                            Master Location
                                         </CButton>
                                         <CButton className="float-end btn colorBtn-white px-1 ms-2" >
-                                            <CIcon icon={cilList} className="me-2 text-warning" />
+                                            <CIcon
+                                                icon={cilList}
+                                                className="me-2 text-warning" />
                                             Manage Inventory
                                         </CButton>
                                     </CCol>

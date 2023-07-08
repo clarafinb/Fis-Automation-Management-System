@@ -27,7 +27,9 @@ const DeliveryTransit = React.lazy(() => import('./views/dashboardOpsLead/Delive
 const DeliveryTransitDetail = React.lazy(() => import('./views/dashboardOpsLead/DeliveryTransitDetail'))
 const DeliveryComplete = React.lazy(() => import('./views/dashboardOpsLead/DeliveryComplete'))
 const DeliveryCompleteDetail = React.lazy(() => import('./views/dashboardOpsLead/DeliveryCompleteDetail'))
+const MasterLocation = React.lazy(() => import('./views/dashboardOpsLead/MasterLocation'))
 // const Colors = React.lazy(() => import('./views/theme/colors/Colors'))
+
 
 const routes = [
   // { path: '/', exact: true, name: 'HOME' },
@@ -56,6 +58,7 @@ const routes = [
   { path: '/dashboard-ops-lead/delivery-transit/:projectId/detail/:orderReqId', name: 'DELIVERY TRANSIT DETAIL', element: DeliveryTransitDetail },
   { path: '/dashboard-ops-lead/delivery-complete/:projectId', name: 'DELIVERY COMPLETE', element: DeliveryComplete },
   { path: '/dashboard-ops-lead/delivery-complete/:projectId/detail/:orderReqId', name: 'DELIVERY COMPLETE DETAIL', element: DeliveryCompleteDetail },
+  { path: '/dashboard-ops-lead/master-location/:projectId', name: 'MASTER LOCAITON', element: MasterLocation },
 
   // { path: '/theme', name: 'Theme', element: Colors, exact: true },
   // { path: '/theme/colors', name: 'Colors', element: Colors },
