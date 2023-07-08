@@ -8,7 +8,6 @@ import routes from '../routes'
 
 const AppContent = () => {
   const [cookies, setCookie] = useCookies(["dashboard"]);
-  console.log(cookies)
   return (
     <CContainer xxl className='container-dashboard'>
       <Suspense fallback={<CSpinner color="primary" />}>
