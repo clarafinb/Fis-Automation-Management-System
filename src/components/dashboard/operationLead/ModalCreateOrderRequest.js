@@ -12,31 +12,42 @@ import {
     CModalTitle,
     CModalBody,
     CModalFooter,
-    CFormSelect,
     CFormTextarea
 } from '@coreui/react'
 import * as actions from '../../../config/redux/Dashboard/actions'
 import Select from 'react-select'
-// import GeocodingForm from '../custom/map/OpenStreetMap'
 
 function ModalCreateOrderRequest({ open, setOpen, projectId, detailProject }) {
     const { dispatch, Global } = useRedux()
     const [values, setValues] = useState({})
-    // const [warehouseType, setWarehouseType] = useState([])
     const [deliveryProcess, setDeliveryProcess] = useState([])
     const [deliveryType, setDeliveryType] = useState([])
     const [routeType, setRouteType] = useState([])
     const [originPoint, setOriginPoint] = useState([])
-    const [destination, setDestination] = useState([])
     const [transportType, setTransportType] = useState([])
     const [selectedDeliveryProcess, setSelectedDeliveryProcess] = useState({});
     const [selectedDeliveryType, setSelectedDeliveryType] = useState({});
     const [selectedRouteType, setSelectedRouteType] = useState({});
     const [selectedTransportType, setSelectedTransportType] = useState({});
     const [selectedOriginPoint, setSelectedOriginPoint] = useState({});
-    const [selectedDestination, setSelectedDestination] = useState({});
-    // const [mapKey, setMapKey] = useState(Date.now())
-    // const [data, setData] = useState({})
+    const [province, setProvince] = useState([])
+    const [selectedProvince, setSelectedProvince] = useState(null);
+    const [subDistrict, setSubDistrict] = useState([]);
+    const [selectedSubDistrict, setSelectedSubDistrict] = useState(null);
+
+    const handleOnChangeProvince = (selectedProvince) => {
+        setSelectedProvince(selectedProvince);
+        if (selectedProvince.value) {
+            dispatch(actions.getSelectSubDistrictBaseOnProvince(selectedProvince.value))
+                .then(e => {
+                    setSubDistrict(e)
+                })
+        }
+    }
+
+    const handleOnChangeSubDistrict = (selectedSubDistrict) => {
+        setSelectedSubDistrict(selectedSubDistrict);
+    }
 
     const handleOnChangeDeliveryProcess = (selectedDeliveryProcess) => {
         setSelectedDeliveryProcess(selectedDeliveryProcess);
@@ -51,9 +62,6 @@ function ModalCreateOrderRequest({ open, setOpen, projectId, detailProject }) {
         if (projectId && selectedRouteType.value && detailProject.whCode) {
             dispatch(actions.getSelectOriginPoin(projectId, selectedRouteType.value, detailProject.whCode)).then(e => {
                 setOriginPoint(e)
-            })
-            dispatch(actions.getSelectDestination(projectId, selectedRouteType.value, detailProject.whCode)).then(e => {
-                setDestination(e)
             })
         }
     }
@@ -75,14 +83,6 @@ function ModalCreateOrderRequest({ open, setOpen, projectId, detailProject }) {
 
     }
 
-    const handleOnChangeDestination = (selectedDestination) => {
-        setSelectedDestination(selectedDestination)
-        setValues((prev) => ({
-            ...prev,
-            destinationAddress: selectedDestination.address
-        }))
-    }
-
     useEffect(() => {
         if (Global?.user?.token && open) {
             dispatch(actions.getSelectDeliveryProcess()).then(e => {
@@ -96,8 +96,12 @@ function ModalCreateOrderRequest({ open, setOpen, projectId, detailProject }) {
             dispatch(actions.getSelecTransportType()).then(e => {
                 setTransportType(e)
             })
+
+            dispatch(actions.getSelectWarehouseProvince()).then(e => {
+                setProvince(e)
+            })
         }
-    }, [Global?.user,open]);
+    }, [Global?.user, open]);
 
     useEffect(() => {
         setValues({})
@@ -116,7 +120,10 @@ function ModalCreateOrderRequest({ open, setOpen, projectId, detailProject }) {
             transportReqType: selectedTransportType?.label,
             routeTypeId: selectedRouteType.value,
             originPointId: selectedOriginPoint.value,
-            destinationPointId: selectedDestination.value,
+            destinationSubDistrictId: selectedSubDistrict.value,
+            destinationAddress: values?.destinationAddress,
+            siteId: values?.siteId,
+            siteName: values?.siteName,
             recipientName: values?.recipientName,
             recipientCompanyName: values?.recipientCompanyName,
             LMBY: Global?.user?.userID
@@ -124,7 +131,6 @@ function ModalCreateOrderRequest({ open, setOpen, projectId, detailProject }) {
 
         let methode = "POST"
         dispatch(actions.createOrderRequest(payload, methode))
-        // setData({})
         setValues({})
         setOpen(false)
     }
@@ -139,14 +145,6 @@ function ModalCreateOrderRequest({ open, setOpen, projectId, detailProject }) {
 
         }, [setValues]
     )
-
-    const handleSetLongLat = (long, lat) => {
-        setValues((prev) => ({
-            ...prev,
-            latitude: lat,
-            longitude: long
-        }));
-    }
 
     const handleClose = () => {
         setValues({})
@@ -165,165 +163,216 @@ function ModalCreateOrderRequest({ open, setOpen, projectId, detailProject }) {
                 <CModalTitle>Order Request Creation</CModalTitle>
             </CModalHeader>
             <CModalBody>
-                <CRow className="mb-3">
-                    <CFormLabel className="col-sm-2 col-form-label">Cust Order Req No <code>(*)</code></CFormLabel>
-                    <CCol sm={10}>
-                        <CFormInput
-                            type="text"
-                            name="custOrderRequest"
-                            value={values?.custOrderRequest}
-                            onChange={handleOnchange}
-                        />
+                <CRow>
+                    <CCol>
+                        <CRow className="mb-3">
+                            <CFormLabel className="col-form-label">Cust Order Req No <code>(*)</code></CFormLabel>
+                            <CCol>
+                                <CFormInput
+                                    type="text"
+                                    name="custOrderRequest"
+                                    value={values?.custOrderRequest}
+                                    onChange={handleOnchange}
+                                />
+                            </CCol>
+                        </CRow>
+                        <CRow className="mb-3">
+                            <CFormLabel className="col-form-label">Order Req Description</CFormLabel>
+                            <CCol>
+                                <CFormInput
+                                    type="text"
+                                    name="orderRequestDesc"
+                                    value={values?.orderRequestDesc}
+                                    onChange={handleOnchange}
+                                />
+                            </CCol>
+                        </CRow>
+                        <CRow className="mb-3">
+                            <CFormLabel className="col-form-label">Delivery Process Type <code>(*)</code></CFormLabel>
+                            <CCol>
+                                <Select
+                                    className="input-select"
+                                    options={deliveryProcess}
+                                    isSearchable={true}
+                                    value={selectedDeliveryProcess}
+                                    onChange={handleOnChangeDeliveryProcess}
+                                />
+                            </CCol>
+                        </CRow>
+                        <CRow className="mb-3">
+                            <CFormLabel className="col-form-label">Route Type <code>(*)</code></CFormLabel>
+                            <CCol>
+                                <Select
+                                    className="input-select"
+                                    options={routeType}
+                                    isSearchable={true}
+                                    value={selectedRouteType}
+                                    onChange={handleOnChangeRouteType}
+                                />
+                            </CCol>
+                        </CRow>
+                        <CRow className="mb-3">
+                            <CFormLabel className="col-form-label">Requestor Name <code>(*)</code></CFormLabel>
+                            <CCol>
+                                <CFormInput
+                                    type="text"
+                                    name="requestorName"
+                                    value={values?.requestorName}
+                                    onChange={handleOnchange}
+                                />
+                            </CCol>
+                        </CRow>
+                        <CRow className="mb-3">
+                            <CFormLabel className="col-form-label">Delivery Request Type</CFormLabel>
+                            <CCol>
+                                <Select
+                                    className="input-select"
+                                    options={deliveryType}
+                                    isSearchable={true}
+                                    value={selectedDeliveryType}
+                                    onChange={handleOnChangeDeliveryType}
+                                />
+                            </CCol>
+                        </CRow>
+                        <CRow className="mb-3">
+                            <CFormLabel className="col-form-label">Origin</CFormLabel>
+                            <CCol>
+                                <Select
+                                    className="input-select"
+                                    options={originPoint}
+                                    isSearchable={true}
+                                    value={selectedOriginPoint}
+                                    onChange={handleOnChangeOriginPoint}
+                                />
+                            </CCol>
+                        </CRow>
+                        <CRow className="mb-3">
+                            <CFormLabel className="col-form-label">Origin Address</CFormLabel>
+                            <CCol>
+                                <CFormInput
+                                    type="text"
+                                    name="originAddress"
+                                    value={values?.originAddress}
+                                    onChange={handleOnchange}
+                                    readOnly
+                                    disabled
+                                />
+                            </CCol>
+                        </CRow>
                     </CCol>
-                </CRow>
-                <CRow className="mb-3">
-                    <CFormLabel className="col-sm-2 col-form-label">Order Req Description</CFormLabel>
-                    <CCol sm={10}>
-                        <CFormInput
-                            type="text"
-                            name="orderRequestDesc"
-                            value={values?.orderRequestDesc}
-                            onChange={handleOnchange}
-                        />
-                    </CCol>
-                </CRow>
-                <CRow className="mb-3">
-                    <CFormLabel className="col-sm-2 col-form-label">Delivery Process Type <code>(*)</code></CFormLabel>
-                    <CCol sm={10}>
-                        <Select
-                            className="input-select"
-                            options={deliveryProcess}
-                            isSearchable={true}
-                            value={selectedDeliveryProcess}
-                            onChange={handleOnChangeDeliveryProcess}
-                        />
-                    </CCol>
-                </CRow>
-                <CRow className="mb-3">
-                    <CFormLabel className="col-sm-2 col-form-label">Route Type <code>(*)</code></CFormLabel>
-                    <CCol sm={10}>
-                        <Select
-                            className="input-select"
-                            options={routeType}
-                            isSearchable={true}
-                            value={selectedRouteType}
-                            onChange={handleOnChangeRouteType}
-                        />
-                    </CCol>
-                </CRow>
-                <CRow className="mb-3">
-                    <CFormLabel className="col-sm-2 col-form-label">Requestor Name <code>(*)</code></CFormLabel>
-                    <CCol sm={10}>
-                        <CFormInput
-                            type="text"
-                            name="requestorName"
-                            value={values?.requestorName}
-                            onChange={handleOnchange}
-                        />
-                    </CCol>
-                </CRow>
-                <CRow className="mb-3">
-                    <CFormLabel className="col-sm-2 col-form-label">Delivery Request Type</CFormLabel>
-                    <CCol sm={10}>
-                        <Select
-                            className="input-select"
-                            options={deliveryType}
-                            isSearchable={true}
-                            value={selectedDeliveryType}
-                            onChange={handleOnChangeDeliveryType}
-                        />
-                    </CCol>
-                </CRow>
-                <CRow className="mb-3">
-                    <CFormLabel className="col-sm-2 col-form-label">Transport Request Type</CFormLabel>
-                    <CCol sm={10}>
-                        <Select
-                            className="input-select"
-                            options={transportType}
-                            isSearchable={true}
-                            value={selectedTransportType}
-                            onChange={handleOnChangetransportType}
-                        />
-                    </CCol>
-                </CRow>
-                <CRow className="mb-3">
-                    <CFormLabel className="col-sm-2 col-form-label">Origin</CFormLabel>
-                    <CCol sm={10}>
-                        <Select
-                            className="input-select"
-                            options={originPoint}
-                            isSearchable={true}
-                            value={selectedOriginPoint}
-                            onChange={handleOnChangeOriginPoint}
-                        />
-                    </CCol>
-                </CRow>
-                <CRow className="mb-3">
-                    <CFormLabel className="col-sm-2 col-form-label"></CFormLabel>
-                    <CCol sm={10}>
-                        <CFormInput
-                            type="text"
-                            name="originAddress"
-                            value={values?.originAddress}
-                            onChange={handleOnchange}
-                            readOnly
-                            disabled
-                        />
-                    </CCol>
-                </CRow>
-                <CRow className="mb-3">
-                    <CFormLabel className="col-sm-2 col-form-label">Destination</CFormLabel>
-                    <CCol sm={10}>
-                        <Select
-                            className="input-select"
-                            options={destination}
-                            isSearchable={true}
-                            value={selectedDestination}
-                            onChange={handleOnChangeDestination}
-                        />
-                    </CCol>
-                </CRow>
-                <CRow className="mb-3">
-                    <CFormLabel className="col-sm-2 col-form-label"></CFormLabel>
-                    <CCol sm={10}>
-                        <CFormInput
-                            type="text"
-                            name="destinationAddress"
-                            value={values?.destinationAddress}
-                            onChange={handleOnchange}
-                            readOnly
-                            disabled
-                        />
-                    </CCol>
-                </CRow>
-                <CRow className="mb-3">
-                    <CFormLabel className="col-sm-2 col-form-label">Recipient Name <code>(*)</code></CFormLabel>
-                    <CCol sm={10}>
-                        <CFormInput
-                            type="text"
-                            name="recipientName"
-                            value={values?.recipientName}
-                            onChange={handleOnchange}
-                        />
-                    </CCol>
-                </CRow>
-                <CRow className="mb-3">
-                    <CFormLabel className="col-sm-2 col-form-label">Recipient Company Name <code>(*)</code></CFormLabel>
-                    <CCol sm={10}>
-                        <CFormInput
-                            type="text"
-                            name="recipientCompanyName"
-                            value={values?.recipientCompanyName}
-                            onChange={handleOnchange}
-                        />
+                    <CCol>
+                        <CRow className="mb-3">
+                            <CFormLabel className="col-form-label">Transport Request Type</CFormLabel>
+                            <CCol>
+                                <Select
+                                    className="input-select"
+                                    options={transportType}
+                                    isSearchable={true}
+                                    value={selectedTransportType}
+                                    onChange={handleOnChangetransportType}
+                                />
+                            </CCol>
+                        </CRow>
+                        <CRow className="mb-3">
+                            <CFormLabel className="col-form-label">Destination Province <code>(*)</code></CFormLabel>
+                            <CCol>
+                                <Select
+                                    className="input-select"
+                                    options={province}
+                                    isSearchable={true}
+                                    value={selectedProvince}
+                                    onChange={handleOnChangeProvince}
+                                />
+                            </CCol>
+                        </CRow>
+                        <CRow className="mb-3">
+                            <CFormLabel className="col-form-label">Destination Sub District <code>(*)</code></CFormLabel>
+                            <CCol>
+                                <Select
+                                    className="input-select"
+                                    options={subDistrict}
+                                    isSearchable={true}
+                                    value={selectedSubDistrict}
+                                    onChange={handleOnChangeSubDistrict}
+                                />
+                            </CCol>
+                        </CRow>
+                        <CRow className="mb-3">
+                            <CFormLabel className="col-form-label">Destination Address</CFormLabel>
+                            <CCol>
+                                <CFormTextarea
+                                    rows={5}
+                                    name="destinationAddress"
+                                    value={values?.destinationAddress}
+                                    onChange={handleOnchange}
+                                >
+                                </CFormTextarea>
+                            </CCol>
+                        </CRow>
+                        <CRow className="mb-3">
+                            <CFormLabel className="col-form-label">Site ID<code>(*)</code></CFormLabel>
+                            <CCol>
+                                <CFormInput
+                                    type="text"
+                                    name="siteId"
+                                    value={values?.siteId}
+                                    onChange={handleOnchange}
+                                />
+                            </CCol>
+                        </CRow>
+                        <CRow className="mb-3">
+                            <CFormLabel className="col-form-label">Sitename<code>(*)</code></CFormLabel>
+                            <CCol>
+                                <CFormInput
+                                    type="text"
+                                    name="siteName"
+                                    value={values?.siteName}
+                                    onChange={handleOnchange}
+                                />
+                            </CCol>
+                        </CRow>
+                        <CRow className="mb-3">
+                            <CFormLabel className="col-form-label">Recipient Name <code>(*)</code></CFormLabel>
+                            <CCol>
+                                <CFormInput
+                                    type="text"
+                                    name="recipientName"
+                                    value={values?.recipientName}
+                                    onChange={handleOnchange}
+                                />
+                            </CCol>
+                        </CRow>
+                        <CRow className="mb-3">
+                            <CFormLabel className="col-form-label">Recipient Company Name <code>(*)</code></CFormLabel>
+                            <CCol>
+                                <CFormInput
+                                    type="text"
+                                    name="recipientCompanyName"
+                                    value={values?.recipientCompanyName}
+                                    onChange={handleOnchange}
+                                />
+                            </CCol>
+                        </CRow>
                     </CCol>
                 </CRow>
             </CModalBody>
             <CModalFooter>
-                <CButton onClick={handleClose} color="secondary">Close</CButton>
-                <CButton color="primary" onClick={handleCreate}>Add</CButton>
+                <CRow className="mb-3">
+                    <CCol>
+                        <CButton
+                            className="colorBtn-cancel"
+                            onClick={handleClose}>
+                            CANCEL
+                        </CButton>
+                        <CButton
+                            className="colorBtn-yellow ms-3"
+                            onClick={handleCreate}>
+                            SAVE
+                        </CButton>
+                    </CCol>
+                </CRow>
             </CModalFooter>
-        </CModal>
+        </CModal >
     )
 }
 

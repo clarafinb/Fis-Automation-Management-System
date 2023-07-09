@@ -61,6 +61,21 @@ p {
   }
 }
 
+.colorBtn-cancel {
+  background-color: white !important;
+  border: 1px solid black !important;
+  color: black;
+  box-shadow: inset 0 1px 0 rgba($white, .15), 0 1px 1px rgba($black, .075);
+  font-size: 14px;
+
+  &:hover {
+    background-color: white !important;
+    border: 1px solid black !important;
+    color: black;
+    box-shadow: 0 0 0 1px rgba($yellowPrimary, .5);
+  }
+}
+
 .colorBtnIcon-white {
   background-color: white !important;
   border: 1px solid var(--cui-input-border-color, #b1b7c1) !important;

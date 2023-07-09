@@ -153,3 +153,10 @@ export const API_GET_ROUTE_CATEGORY_ACTIVE = BASE_URL + "masterdata/getRouteCate
 export const API_ADD_MASTER_LOCATION = BASE_URL + "masterdata/addMasterLocation"
 export const API_DELETE_MASTER_LOCATION = BASE_URL + "masterdata/deleteMasterLocation"
 export const API_DELETE_ORDER_REQUEST_WH_PROJECT = BASE_URL + "logmanagement/deleteOrderRequestWHProject"
+// SUB DISTRICT
+export const API_GET_SUB_DISTRICT_ACTIVE = BASE_URL + "masterdata/getSubDistrictAllAdminOnly"
+export const API_SET_SUB_DISTRICT_ACTIVE = BASE_URL + "masterdata/subDistrictSetActiveStatusAsActive"
+export const API_SET_SUB_DISTRICT_INACTIVE = BASE_URL + "masterdata/subDistrictSetActiveStatusAsInActive"
+export const API_ADD_SUB_DISTRICT = BASE_URL + "masterdata/addMasterSubDistrict"
+export const API_UPDATE_SUB_DISTRICT = BASE_URL + "masterdata/updateMasterSubDistrict"
+export const API_GET_SUB_DISTRICT_BASE_ON_PROVINCE = BASE_URL + "masterdata/getSubDistrictBasedOnProvince"
