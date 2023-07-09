@@ -22,7 +22,6 @@ function TableListWarehouse({
     }, [Global?.user]);
 
     const filterValue = [
-        { name: 'no', operator: 'startsWith', type: 'string', value: '' },
         { name: 'whName', operator: 'startsWith', type: 'string', value: '' },
         { name: 'whCode', operator: 'startsWith', type: 'string', value: '' },
         { name: 'isMainWH', operator: 'startsWith', type: 'string', value: '' },
@@ -38,7 +37,7 @@ function TableListWarehouse({
         { name: 'isMainWH', header: 'Main CWH', defaultWidth: 130 },
         { name: 'whType', header: 'Warehouse Type', defaultWidth: 180 },
         { name: 'whSpace', header: 'Warehouse Space', defaultWidth: 180, textAlign: 'center' },
-        { name: 'whAddress', header: 'Address', defaultWidth: 230 },
+        { name: 'whAddress', header: 'Address', defaultWidth: 300 },
         {
             name: 'whId',
             header: 'Map',

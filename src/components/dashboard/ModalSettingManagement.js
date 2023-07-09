@@ -102,6 +102,14 @@ function ModalSettingManagement({
                             </CCardBody>
                         </CCard>
                     </CCol>
+                    <CCol sm={3}>
+                        <CCard className='text-center no-background' onClick={() => { handleViewModal("subDistrict") }}>
+                            <CCardBody>
+                                <img src={'icon/SERVICE-CHARGE-ICON.png'} />
+                                <p>Sub District Management</p>
+                            </CCardBody>
+                        </CCard>
+                    </CCol>
                 </CRow>
             </CModalBody>
             {/* <CModalFooter>

@@ -111,7 +111,13 @@ import {
   API_GET_MASTER_LOCATION,
   API_GET_ROUTE_CATEGORY_ACTIVE,
   API_DELETE_MASTER_LOCATION,
-  API_ADD_MASTER_LOCATION
+  API_ADD_MASTER_LOCATION,
+  API_GET_SUB_DISTRICT_ACTIVE,
+  API_ADD_SUB_DISTRICT,
+  API_SET_SUB_DISTRICT_INACTIVE,
+  API_SET_SUB_DISTRICT_ACTIVE,
+  API_UPDATE_SUB_DISTRICT,
+  API_GET_SUB_DISTRICT_BASE_ON_PROVINCE
 } from "../../api/index"
 import Swal from "sweetalert2";
 
@@ -981,6 +987,7 @@ export const getListSku = (payload) => {
           no: idx + 1,
           materialCode: item.materialCode,
           materialDesc: item.materialDesc,
+          totalVolume: item.totalVolume,
           uom: item.uom,
           modifiedBy: item.modifiedBy,
           modifiedDate: item.modifiedDate,
@@ -2862,6 +2869,106 @@ export const createMasterLocation = (payload) => {
           confirmButtonText: 'Close'
         })
       }
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Close'
+      })
+    }
+  }
+}
+export const getListSubDistrict = () => {
+  return async (dispatch) => {
+    try {
+      let list = await actionCrud.actionCommonCrud(null, API_GET_SUB_DISTRICT_ACTIVE, "GET");
+      let listSubDistrict = list?.map((item, idx) => {
+        return {
+          no: idx + 1,
+          ...item,
+        }
+      })
+      dispatch({
+        type: actionType.SET_LIST_SUB_DISTRICT,
+        payload: listSubDistrict
+      });
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Close'
+      })
+    }
+  }
+}
+export const createSubDistrict = (payload, methode) => {
+  return async (dispatch) => {
+    try {
+      const url = methode === 'POST' ? API_ADD_SUB_DISTRICT : API_UPDATE_SUB_DISTRICT
+      let create = await actionCrud.actionCommonCrud(payload, url, methode);
+      if (create.status === "success") {
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: create?.message,
+          showConfirmButton: true
+        });
+        dispatch(getListSubDistrict());
+      } else {
+        Swal.fire({
+          title: 'Error!',
+          text: create?.message,
+          icon: 'error',
+          confirmButtonText: 'Close'
+        })
+      }
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Close'
+      })
+    }
+  }
+}
+export const setStatusActiveSubDistrict = (val, subDistrictId) => {
+  return async (dispatch) => {
+    try {
+
+      let url = API_SET_SUB_DISTRICT_INACTIVE
+      if (val) {
+        url = API_SET_SUB_DISTRICT_ACTIVE
+      }
+
+      let response = await actionCrud.actionCommonSlice(subDistrictId, url, "PUT");
+      if (response.status === "success") {
+        dispatch(getListSubDistrict());
+      }
+
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Close'
+      })
+    }
+  }
+}
+export const getSelectSubDistrictBaseOnProvince = (provinceId) => {
+  return async () => {
+    try {
+      let list = await actionCrud.actionCommonSlice(provinceId, API_GET_SUB_DISTRICT_BASE_ON_PROVINCE, "GET");
+      let listSubDistrict = list?.map((item, idx) => {
+        return {
+          label: item.subDistrictName,
+          value: item.subDistrictId
+        }
+      })
+      return Promise.resolve(listSubDistrict)
     } catch (error) {
       Swal.fire({
         title: 'Error!',

@@ -27,7 +27,8 @@ let initialState = {
     listTransportArragementSc: [],
     listDeliveryTransit: [],
     listDeliveryComplete: [],
-    listMasterLocation: []
+    listMasterLocation: [],
+    listSubDistrict: []
 };
 
 const Dashboard = (state = initialState, { type, payload }) => {
@@ -197,6 +198,11 @@ const Dashboard = (state = initialState, { type, payload }) => {
             return {
                 ...state,
                 listMasterLocation: payload
+            }
+        case actionType.SET_LIST_SUB_DISTRICT:
+            return {
+                ...state,
+                listSubDistrict: payload
             }
 
         default:

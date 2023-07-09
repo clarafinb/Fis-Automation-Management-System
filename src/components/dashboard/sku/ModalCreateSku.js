@@ -14,7 +14,7 @@ import {
     CModalFooter,
     CFormSelect
 } from '@coreui/react'
-import * as actions from '../../config/redux/Dashboard/actions'
+import * as actions from '../../../config/redux/Dashboard/actions'
 
 function ModalCreateSku({ open, setOpen, projectId }) {
     const { dispatch, Global } = useRedux()
@@ -35,6 +35,7 @@ function ModalCreateSku({ open, setOpen, projectId }) {
             materialCode: values.materialCode,
             materialDesc: values.materialDesc,
             uomId: values.uomId,
+            totalVolume: values.totalVolume,
             LMBY: Global?.user?.userID
         }
         dispatch(actions.createSku(payload))
@@ -89,6 +90,17 @@ function ModalCreateSku({ open, setOpen, projectId }) {
                         <CFormSelect
                             name="uomId"
                             options={uomList}
+                            onChange={handleOnchange}
+                        />
+                    </CCol>
+                </CRow>
+                <CRow className="mb-3">
+                    <CFormLabel className="col-sm-2 col-form-label">Total Volume (CBM)<code>(*)</code></CFormLabel>
+                    <CCol sm={10}>
+                        <CFormInput
+                            type="number"
+                            name="totalVolume"
+                            value={values?.totalVolume}
                             onChange={handleOnchange}
                         />
                     </CCol>

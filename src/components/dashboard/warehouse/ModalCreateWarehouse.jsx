@@ -27,9 +27,21 @@ function ModalCreateWarehouse({ open, setOpen, projectId, isEdit, dataEdit }) {
     const [selectedProvince, setSelectedProvince] = useState(null);
     const [mapKey, setMapKey] = useState(Date.now())
     const [data, setData] = useState({})
+    const [subDistrict, setSubDistrict] = useState([]);
+    const [selectedSubDistrict, setSelectedSubDistrict] = useState(null);
 
     const handleOnChangeProvince = (selectedProvince) => {
         setSelectedProvince(selectedProvince);
+        if (selectedProvince.value) {
+            dispatch(actions.getSelectSubDistrictBaseOnProvince(selectedProvince.value))
+                .then(e => {
+                    setSubDistrict(e)
+                })
+        }
+    }
+
+    const handleOnChangeSubDistrict = (selectedSubDistrict) => {
+        setSelectedSubDistrict(selectedSubDistrict);
     }
 
     useEffect(() => {
@@ -65,6 +77,7 @@ function ModalCreateWarehouse({ open, setOpen, projectId, isEdit, dataEdit }) {
             isMainWH: true,
             whTypeId: values?.warehouseType || data?.detail?.whTypeId,
             provinceId: selectedProvince?.value,
+            subDistrictId: selectedSubDistrict?.value,
             whAddress: values?.address || data?.whAddress,
             whSpace: values?.warehouseSpace || data?.whSpace,
             whLongitude: values?.longitude ? values?.longitude.toString() : data?.detail?.longitude.toString(),
@@ -169,6 +182,18 @@ function ModalCreateWarehouse({ open, setOpen, projectId, isEdit, dataEdit }) {
                             </CCol>
                         </CRow>
                         <CRow className="mb-3">
+                            <CFormLabel className="col-form-label">Sub District <code>(*)</code></CFormLabel>
+                            <CCol>
+                                <Select
+                                    className="input-select"
+                                    options={subDistrict}
+                                    isSearchable={true}
+                                    value={selectedSubDistrict}
+                                    onChange={handleOnChangeSubDistrict}
+                                />
+                            </CCol>
+                        </CRow>
+                        <CRow className="mb-3">
                             <CFormLabel className="col-form-label">Address</CFormLabel>
                             <CCol>
                                 <CFormTextarea
@@ -181,7 +206,7 @@ function ModalCreateWarehouse({ open, setOpen, projectId, isEdit, dataEdit }) {
                             </CCol>
                         </CRow>
                         <CRow className="mb-3">
-                            <CFormLabel className="col-form-label">Warehouse Space</CFormLabel>
+                            <CFormLabel className="col-form-label">Space (m2)</CFormLabel>
                             <CCol>
                                 <CFormInput
                                     type="number"

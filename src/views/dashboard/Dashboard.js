@@ -130,6 +130,10 @@ const Dashboard = () => {
       {
         type: 'accountManagement',
         url: '/dashboard/setting-management/account-management'
+      },
+      {
+        type: 'subDistrict',
+        url: '/dashboard/setting-management/sub-district'
       }
     ]
 
@@ -183,11 +187,11 @@ const Dashboard = () => {
         </CRow>
         <br />
         <CRow>
-          <CCol sm={9}>
+          <CCol sm={8}>
             <CFormInput type="text" name="search" placeholder="Project Name" onChange={handleOnchange} />
           </CCol>
           <CCol className="d-none d-md-block">
-            <CButton className="float-end colorBtn-white" onClick={handleModalSetting}>
+            <CButton className="float-end colorBtn-white ms-3" onClick={handleModalSetting}>
               <CIcon icon={cilList} className="me-2 text-warning" />
               SETTINGS
             </CButton>

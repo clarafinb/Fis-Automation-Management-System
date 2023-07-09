@@ -10,7 +10,7 @@ const _nav = [
   {
     component: CNavItem,
     name: 'Dashboard',
-    to: '/dashboard',
+    to: '/',
     icon: <img src={'icon/icon_dashboard.png'} className='px-1' />,
     badge: {
       color: 'info',
