@@ -20,6 +20,9 @@ import * as actions from '../../config/redux/Dashboard/actions'
 import CIcon from '@coreui/icons-react'
 import { cilList } from '@coreui/icons'
 import { CChart } from '@coreui/react-chartjs'
+import ButtonSubmit from 'src/components/custom/button/ButtonSubmit';
+import ModalProjectList from 'src/components/dashboardOpsLead/ModalProjectList';
+import ChartDetailWarehouse from 'src/components/dashboardOpsLead/ChartDetailWarehouse';
 
 function Dashboard() {
     const [cookies, setCookie, removeCookie] = useCookies(["dashboardOpsLead"]);
@@ -30,10 +33,13 @@ function Dashboard() {
     const [optionWarehouse, setOptionWarehouse] = useState([])
     const [values, setValues] = useState({})
     const [activeKey, setActiveKey] = useState(1)
+    const [modalProjectList, setModalProjectList] = useState(false)
     const nav = useNavigate()
 
     const getSummaryProject = (projectId) => {
+        setCookie('dashboardOpsLead', {projectId: projectId}, { path: '/' })
         dispatch(
+            //get semua warehouse pada project
             actions.getActivitySummaryWHProject(Global?.user?.userID, projectId)
         ).then(result => {
             setDetailProject(result)
@@ -43,20 +49,30 @@ function Dashboard() {
                     value: item.whId
                 }
             })
-            setOptionWarehouse(['List Warehouse', ...option])
-            setDetailWarehouses(result)
+            setOptionWarehouse([{label: 'All', value: 'all'}, ...option])
+
+            if(cookies?.dashboardOpsLead?.whId && cookies?.dashboardOpsLead?.whId != 'all'){
+                setValues({
+                    projectId: cookies?.dashboardOpsLead?.projectId,
+                    whId: cookies?.dashboardOpsLead?.whId
+                })
+            }else{
+                setDetailWarehouses(result)
+            }
         })
     }
 
     useEffect(() => {
+        // if (Global?.user?.userID) {
+        //     dispatch(actions.getListProjectByUser(Global?.user?.userID))
+        // }
 
-        console.log("cookies", cookies)
         if (!cookies?.user) {
             nav("/login")
         }
 
         if (cookies?.dashboardOpsLead && Global?.user?.userID) {
-
+            console.log("in")
             setValues((prev) => ({
                 ...prev,
                 projectId: cookies?.dashboardOpsLead?.projectId,
@@ -65,64 +81,55 @@ function Dashboard() {
 
             getSummaryProject(cookies?.dashboardOpsLead?.projectId)
         }
-    }, []);
-
-    useEffect(() => {
-        if (Global?.user?.userID) {
-            dispatch(actions.getListProjectByUser(Global?.user?.userID))
-        }
     }, [Global?.user])
 
+    const handleComponent = useCallback(
+        (type, val, data) => {
+            if(type == 'pilih'){
+                setValues({}) //reset values
+                removeCookie('dashboardOpsLead') //reset cookies 
+                getSummaryProject(val) //val: projectId
+                setModalProjectList(false)
+            }
+        }
+    )
+
+    // useEffect(() => {
+
+    //     console.log("cookies", cookies)
+    //     if (!cookies?.user) {
+    //         nav("/login")
+    //     }
+
+    //     if (cookies?.dashboardOpsLead && Global?.user?.userID) {
+
+    //         setValues((prev) => ({
+    //             ...prev,
+    //             projectId: cookies?.dashboardOpsLead?.projectId,
+    //             whId: cookies?.dashboardOpsLead?.whId
+    //         }));
+
+    //         getSummaryProject(cookies?.dashboardOpsLead?.projectId)
+    //     }
+    // }, [Global?.user?.userID]);
+
     useEffect(() => {
-        if (Dashboard?.listProject) {
-
-            let option = Dashboard?.listProject.map((item, idx) => {
-                return {
-                    label: item.projectName,
-                    value: item.projectId
-                }
-            })
-            setOptionProject(['List Project', ...option])
-
-        }
-
-        if (cookies?.dashboardOpsLead) {
-            setValues((prev) => ({
-                ...prev,
-                projectId: cookies?.dashboardOpsLead?.projectId,
-                whId: cookies?.dashboardOpsLead?.whId
-            }));
-        }
-
-    }, [Dashboard?.listProject]);
-
-    useEffect(() => {
-        if (values?.projectId && !values.whId) {
-            removeCookie('dashboardOpsLead');
-
-            getSummaryProject(values.projectId)
-            // dispatch(
-            //     actions.getActivitySummaryWHProject(Global?.user?.userID, values.projectId)
-            // ).then(result => {
-            //     setDetailProject(result)
-            //     let option = result.map((item, idx) => {
-            //         return {
-            //             label: item.whName,
-            //             value: item.whId
-            //         }
-            //     })
-            //     setOptionWarehouse(['List Warehouse', ...option])
-            //     setDetailWarehouses(result)
-            // })
-            setCookie('dashboardOpsLead', values, { path: '/' })
-        }
-
         if (values?.whId) {
-            let arr = []
-            let temp = detailProject.find(e => e.whId == values.whId)
-            arr.push(temp)
-            setDetailWarehouses(arr)
-            setCookie('dashboardOpsLead', values, { path: '/' })
+            let param = {
+                projectId: cookies?.dashboardOpsLead?.projectId,
+                whId: values?.whId
+            }
+
+            setCookie('dashboardOpsLead', param, { path: '/' })
+
+            if(values?.whId != 'all'){
+                let arr = []
+                let temp = detailProject.find(e => e.whId == values.whId)
+                arr.push(temp)
+                setDetailWarehouses(arr)
+            }else{
+                setDetailWarehouses(detailProject)
+            }
         }
 
     }, [values]);
@@ -168,23 +175,21 @@ function Dashboard() {
     const handleOnchange = useCallback(
         (e) => {
             const { value, name } = e.target;
-            if (name === 'projectId') {
-                setValues({ [name]: value })
-            } else {
-                setValues((prev) => ({
-                    ...prev,
-                    [name]: value
-                }));
-            }
+            setValues((prev) => ({
+                ...prev,
+                [name]: value
+            }));
         }, [setValues]
     )
 
-    console.log(values)
+    const handleOpenProjectList = () => {
+        setModalProjectList(true)
+    }
 
     return (
         <>
             <CRow>
-                <CCol sm={5}>
+                <CCol sm={5} >
                     <h4 className="card-title mb-0">
                         <span className='text-underline'>DA</span>SHBOARD
                     </h4>
@@ -192,26 +197,35 @@ function Dashboard() {
             </CRow>
             <br />
             <CRow>
-                <CCol sm={3}>
-                    <CFormSelect
+                <CCol sm={2} className="d-grid gap-2" >
+                    {/* <CFormSelect
                         name="projectId"
                         options={optionProject}
                         onChange={handleOnchange}
                         defaultValue={3}
-                    />
+                    /> */}
+                    <CButton 
+                        className="float-end btn colorBtn-white px-1 ms-2"
+                        onClick={handleOpenProjectList}
+                        >
+                        <CIcon
+                            icon={cilList}
+                            className="me-2 text-warning" />
+                        PROJECT
+                    </CButton>
                 </CCol>
                 <CCol sm={3}>
                     <CFormSelect
                         name="whId"
                         options={optionWarehouse}
                         onChange={handleOnchange}
-                        defaultValue={values?.whId || optionWarehouse[1]}
+                        value={cookies?.dashboardOpsLead?.whId || values?.whId}
                     />
                 </CCol>
             </CRow>
             <br />
             {
-                detailWarehouses.map((detailWarehouse) => {
+                detailWarehouses.length > 0 && detailWarehouses?.map((detailWarehouse) => {
                     return (
                         <>
                             <CCard>
@@ -505,65 +519,7 @@ function Dashboard() {
                                     <CCol sm={4}>
                                         <CCard>
                                             <div className='m-2'>
-                                                <CChart
-                                                    type="bar"
-                                                    data={{
-                                                        labels: [
-                                                            detailWarehouse?.totalOrderReqDelivery,
-                                                            detailWarehouse?.orderReqDeliveryCanceledCount,
-                                                            detailWarehouse?.pickandpackDoneCount,
-                                                            detailWarehouse?.pickupInTransitCount,
-                                                            detailWarehouse?.deliveryCompleteCount
-                                                        ],
-                                                        datasets: [
-                                                            {
-                                                                label: 'Chart',
-                                                                backgroundColor: [
-                                                                    '#E4AF00',
-                                                                    '#F87272',
-                                                                    '#00A9E0',
-                                                                    'rgba(#202020, 0.25)',
-                                                                    '#4ADE80',
-                                                                ],
-                                                                data: [
-                                                                    detailWarehouse?.totalOrderReqDelivery,
-                                                                    detailWarehouse?.orderReqDeliveryCanceledCount,
-                                                                    detailWarehouse?.pickandpackDoneCount,
-                                                                    detailWarehouse?.pickupInTransitCount,
-                                                                    detailWarehouse?.deliveryCompleteCount
-                                                                ],
-                                                                borderWidth: 0,
-                                                            },
-                                                        ],
-                                                    }}
-                                                    options={{
-                                                        plugins: {
-                                                            legend: {
-                                                                display: false, // Menyembunyikan label
-                                                            },
-                                                        },
-                                                        scales: {
-                                                            x: {
-                                                                grid: {
-                                                                    display: false, // Menyembunyikan garis grid pada sumbu x
-                                                                },
-                                                            },
-                                                            y: {
-                                                                display: false, // Menyembunyikan sumbu y
-                                                                grid: {
-                                                                    display: false, // Menyembunyikan garis grid pada sumbu y
-                                                                },
-                                                            },
-                                                        },
-                                                    }}
-                                                />
-                                                <hr />
-                                                <h8>INFORMATION :</h8>
-                                                <p className='m-0'><img src={'assets/Ellipse_orange.png'} /> ORDER REQUEST DELIVERY</p>
-                                                <p className='m-0'><img src={'assets/Ellipse_alert.png'} /> ORDER REQUEST CANCLED</p>
-                                                <p className='m-0'><img src={'assets/Ellipse_blue.png'} /> PICK & PACK DONE</p>
-                                                <p className='m-0'><img src={'assets/Ellipse_grey.png'} /> DELIVERY IN TRANSIT</p>
-                                                <p className='m-0'><img src={'assets/Ellipse_green.png'} /> DELIVERY COMPLETE</p>
+                                                <ChartDetailWarehouse data={detailWarehouse}/>
                                             </div>
                                         </CCard>
                                     </CCol>
@@ -574,7 +530,7 @@ function Dashboard() {
                     )
                 })
             }
-
+            <ModalProjectList open={modalProjectList} setOpen={setModalProjectList} handleProject={handleComponent}/>
         </>
     )
 }

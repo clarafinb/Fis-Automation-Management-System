@@ -183,8 +183,13 @@ export const getListProject = (payload) => {
 export const getListProjectByUser = (userId) => {
   return async (dispatch) => {
     try {
-      let listProject = await actionCrud.actionCommonSlice(userId, API_GET_PROJECT_BY_USERID, "GET");
-
+      let list = await actionCrud.actionCommonSlice(userId, API_GET_PROJECT_BY_USERID, "GET");
+      let listProject = list?.map((item, idx) => {
+        return {
+          no: idx + 1,
+          ...item
+        }
+      })
       dispatch({
         type: actionType.SET_LIST_PROJECT,
         payload: listProject

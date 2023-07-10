@@ -87,7 +87,7 @@ function WaitingDispatchDetail() {
         (action, id) => {
             if (action === 'addTransport') {
                 let param = `${id}/${orderReqDetail.transportModeId}/${projectId}/${orderReqId}`
-                nav('/operation-lead/waiting-dispatch/transport-arrangment/' + param)
+                nav('/dashboard-ops-lead/waiting-dispatch/transport-arrangment/' + param)
             }
         }
     )
