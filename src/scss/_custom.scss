@@ -76,6 +76,13 @@ p {
   }
 }
 
+.colorBtn-reject{
+  background-color:$redPrimary !important;
+  border: 1px solid $redPrimary !important;
+  color: white;
+  font-size: 14px;
+}
+
 .colorBtnIcon-white {
   background-color: white !important;
   border: 1px solid var(--cui-input-border-color, #b1b7c1) !important;
