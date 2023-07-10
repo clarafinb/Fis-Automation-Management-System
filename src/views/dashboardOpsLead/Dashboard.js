@@ -86,7 +86,7 @@ function Dashboard() {
     const handleComponent = useCallback(
         (type, val, data) => {
             if(type == 'pilih'){
-                setValues({}) //reset values
+                setValues({projectId: val})
                 removeCookie('dashboardOpsLead') //reset cookies 
                 getSummaryProject(val) //val: projectId
                 setModalProjectList(false)
