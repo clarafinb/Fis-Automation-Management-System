@@ -40,7 +40,6 @@ function ModalMasterWerehouse({
                 <CModalTitle>MASTER WAREHOUSE</CModalTitle>
             </CModalHeader>
             <CModalBody>
-                {/* <CFormLabel className="col-sm-2 col-form-label">Project Id : {data.projectId}</CFormLabel> */}
                 <CRow>
                     <CCol sm={3}>
                         <CCard className='text-center no-background' onClick={() => { handleViewModal("warehouse",data.projectId) }}>
@@ -76,9 +75,6 @@ function ModalMasterWerehouse({
                     </CCol>
                 </CRow>
             </CModalBody>
-            <CModalFooter>
-                <CButton onClick={() => setOpen(false)} color="secondary">Close</CButton>
-            </CModalFooter>
         </CModal>
     )
 }

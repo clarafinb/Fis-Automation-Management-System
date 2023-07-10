@@ -18,6 +18,7 @@ import {
 import { useCookies } from "react-cookie";
 import * as actions from '../../../config/redux/Global/actions'
 import * as actionsDashboard from '../../../config/redux/Dashboard/actions'
+import ButtonSubmit from 'src/components/custom/button/ButtonSubmit';
 
 const Login = () => {
   const [cookies, setCookie] = useCookies(["user"]);
@@ -118,9 +119,7 @@ const Login = () => {
                     </CRow>
                     <CRow className="mb-3">
                       <CCol className="d-grid gap-2">
-                        <CButton className="colorBtn-yellow" type="submit">
-                          LOGIN
-                        </CButton>
+                        <ButtonSubmit label="LOGIN" type="submit" />
                       </CCol>
                     </CRow>
                   </CForm>

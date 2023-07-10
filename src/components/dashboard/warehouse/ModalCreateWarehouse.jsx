@@ -18,6 +18,7 @@ import {
 import * as actions from '../../../config/redux/Dashboard/actions'
 import Select from 'react-select'
 import GeocodingForm from '../../custom/map/OpenStreetMap'
+import ButtonSubmit from 'src/components/custom/button/ButtonSubmit'
 
 function ModalCreateWarehouse({ open, setOpen, projectId, isEdit, dataEdit }) {
     const { dispatch, Global } = useRedux()
@@ -257,9 +258,7 @@ function ModalCreateWarehouse({ open, setOpen, projectId, isEdit, dataEdit }) {
                 </CRow>
                 <CRow className="mb-3">
                     <CCol className="d-grid gap-2">
-                        <CButton className="colorBtn-yellow" onClick={handleCreate}>
-                            SAVE
-                        </CButton>
+                        <ButtonSubmit onClick={handleCreate}/>
                     </CCol>
                 </CRow>
             </CModalBody>

@@ -13,6 +13,7 @@ import {
   CFormInput,
   CContainer,
   CBadge,
+  CInputGroup,
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
 import {
@@ -27,6 +28,8 @@ import ModalMasterWerehouse from 'src/components/dashboard/ModalMasterWerehouse'
 import ModalSettingManagement from 'src/components/dashboard/ModalSettingManagement'
 import * as actions from '../../config/redux/Dashboard/actions'
 import debounce from "lodash.debounce"
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faSearch } from '@fortawesome/free-solid-svg-icons'
 
 const Dashboard = () => {
   const { dispatch, Global, Dashboard } = useRedux()
@@ -188,7 +191,12 @@ const Dashboard = () => {
         <br />
         <CRow>
           <CCol sm={8}>
-            <CFormInput type="text" name="search" placeholder="Project Name" onChange={handleOnchange} />
+            <CInputGroup className="mb-3">
+              <CFormInput type="text" name="search" placeholder="Project Name" onChange={handleOnchange} />
+              <CButton type="button" className='colorBtnIcon-white'>
+                <FontAwesomeIcon icon={faSearch} size='sm' />
+              </CButton>
+            </CInputGroup>
           </CCol>
           <CCol className="d-none d-md-block">
             <CButton className="float-end colorBtn-white ms-3" onClick={handleModalSetting}>

@@ -16,6 +16,7 @@ import {
     CFormSelect
 } from '@coreui/react'
 import * as actions from '../../config/redux/Dashboard/actions'
+import ButtonSubmit from '../custom/button/ButtonSubmit'
 
 function ModalCreateProject({ open, setOpen }) {
     const { dispatch, Global } = useRedux()
@@ -98,9 +99,7 @@ function ModalCreateProject({ open, setOpen }) {
                 </CRow>
                 <CRow className="mb-3">
                     <CCol className="d-grid gap-2">
-                        <CButton className="colorBtn-yellow" onClick={handleCreateProject}>
-                          SAVE
-                        </CButton>
+                        <ButtonSubmit handleButton={handleCreateProject} />
                     </CCol>
                 </CRow>
             </CModalBody>
