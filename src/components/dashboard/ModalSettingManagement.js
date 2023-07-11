@@ -105,8 +105,16 @@ function ModalSettingManagement({
                     <CCol sm={3}>
                         <CCard className='text-center no-background' onClick={() => { handleViewModal("subDistrict") }}>
                             <CCardBody>
-                                <img src={'icon/SERVICE-CHARGE-ICON.png'} />
+                                <img src={'icon/SUB-DISTRICT-MANAGEMENT-ICON.png'} />
                                 <p>Sub District Management</p>
+                            </CCardBody>
+                        </CCard>
+                    </CCol>
+                    <CCol sm={3}>
+                        <CCard className='text-center no-background' onClick={() => { handleViewModal("warehouseType") }}>
+                            <CCardBody>
+                                <img src={'icon/UOM-ICON.png'} />
+                                <p>Warehouse Type</p>
                             </CCardBody>
                         </CCard>
                     </CCol>

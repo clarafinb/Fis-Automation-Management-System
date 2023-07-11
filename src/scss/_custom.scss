@@ -76,8 +76,8 @@ p {
   }
 }
 
-.colorBtn-reject{
-  background-color:$redPrimary !important;
+.colorBtn-reject {
+  background-color: $redPrimary !important;
   border: 1px solid $redPrimary !important;
   color: white;
   font-size: 14px;
@@ -193,4 +193,12 @@ p {
   overflow: hidden !important;
   white-space: normal !important;
   text-overflow: ellipsis !important;
+}
+
+.form-control {
+  border: 0px !important;
+}
+
+.nav-link {
+  color: #6a6880 !important;
 }

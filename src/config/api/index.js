@@ -160,3 +160,5 @@ export const API_SET_SUB_DISTRICT_INACTIVE = BASE_URL + "masterdata/subDistrictS
 export const API_ADD_SUB_DISTRICT = BASE_URL + "masterdata/addMasterSubDistrict"
 export const API_UPDATE_SUB_DISTRICT = BASE_URL + "masterdata/updateMasterSubDistrict"
 export const API_GET_SUB_DISTRICT_BASE_ON_PROVINCE = BASE_URL + "masterdata/getSubDistrictBasedOnProvince"
+// HO DOCUMENT
+export const API_GET_HO_DOCUMENT = BASE_URL + "transportarrangement/getTransportArrangementHOEvidence"

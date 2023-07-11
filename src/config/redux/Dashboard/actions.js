@@ -117,7 +117,8 @@ import {
   API_SET_SUB_DISTRICT_INACTIVE,
   API_SET_SUB_DISTRICT_ACTIVE,
   API_UPDATE_SUB_DISTRICT,
-  API_GET_SUB_DISTRICT_BASE_ON_PROVINCE
+  API_GET_SUB_DISTRICT_BASE_ON_PROVINCE,
+  API_GET_HO_DOCUMENT
 } from "../../api/index"
 import Swal from "sweetalert2";
 
@@ -2974,6 +2975,32 @@ export const getSelectSubDistrictBaseOnProvince = (provinceId) => {
         }
       })
       return Promise.resolve(listSubDistrict)
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Close'
+      })
+    }
+  }
+}
+export const getListHoDocument = (orderReqId) => {
+  return async (dispatch) => {
+    try {
+      let list = await actionCrud.actionCommonSliceParam(orderReqId, API_GET_HO_DOCUMENT, "GET");
+      let listHoDocument = list?.map((item, idx) => {
+        return {
+          no: idx + 1,
+          latitude: item.confirmLatitude,
+          longitude: item.confirmLongitude,
+          ...item,
+        }
+      })
+      dispatch({
+        type: actionType.SET_LIST_HO_DOCUMENT,
+        payload: listHoDocument
+      });
     } catch (error) {
       Swal.fire({
         title: 'Error!',

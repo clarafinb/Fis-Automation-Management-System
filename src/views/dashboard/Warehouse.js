@@ -54,10 +54,10 @@ function Warehouse() {
             let temp = Dashboard?.listWarehouse.find(e => e.whId === val)
             setWhSelected(temp)
 
-            if(type === "map"){
+            if (type === "map") {
                 setModalMap(true)
                 setMapKey(Date.now())
-            }else if(type === "edit"){
+            } else if (type === "edit") {
                 setIsEdit(true)
                 setModalCreate(true)
             }
@@ -65,12 +65,12 @@ function Warehouse() {
     )
 
     return (
-        <>  
+        <>
             <CContainer>
                 <CRow>
                     <CCol sm={5}>
                         <h4 className="card-title mb-0">
-                        <span className='text-underline'>MA</span>STER WAREHOUSE
+                            <span className='text-underline'>MA</span>STER WAREHOUSE
                         </h4>
                     </CCol>
                 </CRow>
@@ -100,13 +100,13 @@ function Warehouse() {
                     </CCard>
                 </CRow>
             </CContainer>
-        
-            <ModalCreateWarehouse 
-                open={modalCreate} 
-                setOpen={setModalCreate} 
-                projectId={projectId} 
-                isEdit={isEdit} 
-                dataEdit={warehouseSelected} 
+
+            <ModalCreateWarehouse
+                open={modalCreate}
+                setOpen={setModalCreate}
+                projectId={projectId}
+                isEdit={isEdit}
+                dataEdit={warehouseSelected}
             />
             <ModalOpenMap
                 open={modalMap}

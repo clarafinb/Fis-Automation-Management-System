@@ -1,13 +1,15 @@
 import React from 'react';
 import {
-    CButton,
     CModal,
     CModalHeader,
     CModalTitle,
     CModalBody,
     CModalFooter,
+    CRow,
+    CCol,
 } from '@coreui/react'
 import MapComponent from '../../custom/map/MapLeaflef'
+import ButtonCancel from 'src/components/custom/button/ButtonCancel';
 
 function ModalOpenMap({ open, setOpen, data, key = Date.now() }) {
 
@@ -26,7 +28,14 @@ function ModalOpenMap({ open, setOpen, data, key = Date.now() }) {
                 <MapComponent latlong={mapCenter} id={key} />
             </CModalBody>
             <CModalFooter>
-                <CButton onClick={() => setOpen(false)} color="secondary">Close</CButton>
+                < CRow >
+                    <CCol className="d-none d-md-block text-end py-3">
+                        <ButtonCancel
+                            label='CLOSE'
+                            handleButton={() => setOpen(false)}
+                        />
+                    </CCol>
+                </CRow>
             </CModalFooter>
         </CModal>
     )
