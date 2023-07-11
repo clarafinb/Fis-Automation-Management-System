@@ -1,28 +1,15 @@
 import React from 'react'
 
 import {
-    CButton,
     CModal,
     CModalHeader,
     CModalTitle,
     CModalBody,
-    CModalFooter,
     CRow,
     CCol,
     CCard,
     CCardBody,
-    CTooltip
 } from '@coreui/react'
-import {
-    cilDescription,
-    cilTruck,
-    cilGarage,
-    cilEqualizer,
-    cilAirplaneMode,
-    cilUser,
-    cilUserFollow
-} from '@coreui/icons'
-import CIcon from '@coreui/icons-react';
 
 function ModalSettingManagement({
     open,

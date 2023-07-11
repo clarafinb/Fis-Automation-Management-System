@@ -39,7 +39,7 @@ function Dashboard() {
             actions.getActivitySummaryWHProject(Global?.user?.userID, projectId)
         ).then(result => {
             setDetailProject(result)
-            
+
             let option = result.map((item, idx) => {
                 return {
                     label: item.whName,
@@ -71,7 +71,7 @@ function Dashboard() {
     }, [Global?.user])
 
     useEffect(() => {
-        if(DashboardOpsLead?.project?.whId){
+        if (DashboardOpsLead?.project?.whId) {
             setValues({
                 whId: DashboardOpsLead?.project?.whId
             })
@@ -99,12 +99,12 @@ function Dashboard() {
             setCookie('dashboardOpsLead', param, { path: '/' })
             dispatch(actions_dashOpsLead.setProject(param))
 
-            if(values?.whId != 'All'){
+            if (values?.whId != 'All') {
                 let arr = []
                 let temp = detailProject.find(e => e.whId == values.whId)
                 arr.push(temp)
                 setDetailWarehouses(arr)
-            }else{
+            } else {
                 setDetailWarehouses(detailProject)
             }
         }
@@ -254,7 +254,6 @@ function Dashboard() {
                                     <CCol sm={8}>
                                         <CTabContent>
                                             <CTabPane role="tabpanel" aria-labelledby="home-tab" visible={activeKey === 1}>
-                                                {/* <h6><span className='text-underline'>DE</span>LIVERY REQUEST</h6> */}
                                                 <CRow>
                                                     <CCol sm={4}>
                                                         <CCard className='mb-3' >
@@ -503,11 +502,11 @@ function Dashboard() {
                     )
                 })
             }
-            <ModalProjectList 
-                open={modalProjectList} 
-                setOpen={setModalProjectList} 
-                handleProject={handleComponent} 
-                />
+            <ModalProjectList
+                open={modalProjectList}
+                setOpen={setModalProjectList}
+                handleProject={handleComponent}
+            />
         </>
     )
 }

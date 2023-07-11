@@ -137,7 +137,11 @@ const Dashboard = () => {
       {
         type: 'subDistrict',
         url: '/dashboard/setting-management/sub-district'
-      }
+      },
+      {
+        type: 'warehouseType',
+        url: '/dashboard/setting-management/warehouse-type'
+      },
     ]
 
     let url = navigate.find(e => e.type === type)

@@ -118,7 +118,13 @@ import {
   API_SET_SUB_DISTRICT_ACTIVE,
   API_UPDATE_SUB_DISTRICT,
   API_GET_SUB_DISTRICT_BASE_ON_PROVINCE,
-  API_GET_HO_DOCUMENT
+  API_GET_HO_DOCUMENT,
+  API_GET_MASTER_WAREHOUSE_TYPE,
+  API_SET_MASTER_WAREHOUSE_TYPE_INACTIVE,
+  API_SET_MASTER_WAREHOUSE_TYPE_ACTIVE,
+  API_ADD_MASTER_WAREHOUSE_TYPE,
+  API_UPDATE_MASTER_WAREHOUSE_TYPE,
+  API_GET_PACKAGE_TYPE
 } from "../../api/index"
 import Swal from "sweetalert2";
 
@@ -1640,6 +1646,7 @@ export const getListOrderRequest = (projectId, whId, userId) => {
           createBy: item.createBy,
           createDate: item.createDate,
           orderRequestStatus: item.orderRequestStatus,
+          cancelRemarks: item.cancelRemarks,
           detail: {
             ...item,
             ...{
@@ -3001,6 +3008,107 @@ export const getListHoDocument = (orderReqId) => {
         type: actionType.SET_LIST_HO_DOCUMENT,
         payload: listHoDocument
       });
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Close'
+      })
+    }
+  }
+}
+export const getListMasterWarehouseType = () => {
+  return async (dispatch) => {
+    try {
+      let list = await actionCrud.actionCommonCrud(null, API_GET_MASTER_WAREHOUSE_TYPE, "GET");
+      let listMasterWarehouseType = list?.map((item, idx) => {
+        return {
+          no: idx + 1,
+          whTypeDescription: item.typeDescription,
+          ...item,
+        }
+      })
+      dispatch({
+        type: actionType.SET_LIST_MASTER_WAREHOUSE_TYPE,
+        payload: listMasterWarehouseType
+      });
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Close'
+      })
+    }
+  }
+}
+export const setStatusActiveMasterWarehouseType = (val, whTypeId) => {
+  return async (dispatch) => {
+    try {
+
+      let url = API_SET_MASTER_WAREHOUSE_TYPE_INACTIVE
+      if (val) {
+        url = API_SET_MASTER_WAREHOUSE_TYPE_ACTIVE
+      }
+
+      let response = await actionCrud.actionCommonSlice(whTypeId, url, "PUT");
+      if (response.status === "success") {
+        dispatch(getListMasterWarehouseType());
+      }
+
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Close'
+      })
+    }
+  }
+}
+export const createMasterWarehouseType = (payload, methode) => {
+  return async (dispatch) => {
+    try {
+      const url = methode === 'POST' ? API_ADD_MASTER_WAREHOUSE_TYPE : API_UPDATE_MASTER_WAREHOUSE_TYPE
+      let create = await actionCrud.actionCommonCrud(payload, url, methode);
+      if (create.status === "success") {
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: create?.message,
+          showConfirmButton: true
+        });
+        dispatch(getListMasterWarehouseType());
+      } else {
+        Swal.fire({
+          title: 'Error!',
+          text: create?.message,
+          icon: 'error',
+          confirmButtonText: 'Close'
+        })
+      }
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Close'
+      })
+    }
+  }
+}
+export const getSelectPackageType = () => {
+  return async () => {
+    try {
+      let list = await actionCrud.actionCommonCrud(null, API_GET_PACKAGE_TYPE, "GET");
+      let data = list?.map((item, idx) => {
+        return {
+          label: item.packageName,
+          value: item.packageId
+        }
+      })
+      return Promise.resolve(data)
     } catch (error) {
       Swal.fire({
         title: 'Error!',

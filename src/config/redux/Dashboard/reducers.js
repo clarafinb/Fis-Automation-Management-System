@@ -29,7 +29,8 @@ let initialState = {
     listDeliveryComplete: [],
     listMasterLocation: [],
     listSubDistrict: [],
-    listHoDocument: []
+    listHoDocument: [],
+    listMasterWarehouseType: []
 };
 
 const Dashboard = (state = initialState, { type, payload }) => {
@@ -210,7 +211,11 @@ const Dashboard = (state = initialState, { type, payload }) => {
                 ...state,
                 listHoDocument: payload
             }
-
+        case actionType.SET_LIST_MASTER_WAREHOUSE_TYPE:
+            return {
+                ...state,
+                listMasterWarehouseType: payload
+            }
         default:
             return { ...state };
     }

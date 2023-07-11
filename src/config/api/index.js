@@ -162,3 +162,12 @@ export const API_UPDATE_SUB_DISTRICT = BASE_URL + "masterdata/updateMasterSubDis
 export const API_GET_SUB_DISTRICT_BASE_ON_PROVINCE = BASE_URL + "masterdata/getSubDistrictBasedOnProvince"
 // HO DOCUMENT
 export const API_GET_HO_DOCUMENT = BASE_URL + "transportarrangement/getTransportArrangementHOEvidence"
+// MASTER WAREHOUSE TYPE
+export const API_GET_MASTER_WAREHOUSE_TYPE = BASE_URL + "warehouse/warehouseTypeGetAllAdminOnly"
+export const API_SET_MASTER_WAREHOUSE_TYPE_ACTIVE = BASE_URL + "warehouse/warehouseTypeSetStatusIsActive"
+export const API_SET_MASTER_WAREHOUSE_TYPE_INACTIVE = BASE_URL + "warehouse/warehouseTypeSetStatusIsInActive"
+export const API_ADD_MASTER_WAREHOUSE_TYPE = BASE_URL + "warehouse/warehouseTypeAdd"
+export const API_UPDATE_MASTER_WAREHOUSE_TYPE = BASE_URL + "warehouse/warehouseTypeUpdate"
+export const API_GET_DETAIL_MASTER_WAREHOUSE_TYPE = BASE_URL + "warehouse/warehouseTypeGetDetail"
+// PACKAGE TYPE
+export const API_GET_PACKAGE_TYPE = BASE_URL + "logmanagement/getPackageAllActiveOnly"

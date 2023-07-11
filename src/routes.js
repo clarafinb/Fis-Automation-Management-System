@@ -16,6 +16,7 @@ const Customer = React.lazy(() => import('./views/dashboard/Customer'))
 const ProjectMember = React.lazy(() => import('./views/dashboard/ProjectMember'))
 const AccountManagement = React.lazy(() => import('./views/dashboard/AccountManagement'))
 const SubDistrictManagement = React.lazy(() => import('./views/dashboard/SubDistrictManagement'))
+const WarehouseType = React.lazy(() => import('./views/dashboard/warehouseType/WarehouseType'))
 //Operation Lead
 const OrderRequest = React.lazy(() => import('./views/dashboardOpsLead/OrderRequest'))
 const PickAndPack = React.lazy(() => import('./views/dashboardOpsLead/PickAndPack'))
@@ -46,6 +47,7 @@ const routes = [
   { path: '/dashboard/setting-management/customer', name: 'CUSTOMER', element: Customer },
   { path: '/dashboard/setting-management/account-management', name: 'ACCOUNT MANAGEMENT', element: AccountManagement },
   { path: '/dashboard/setting-management/sub-district', name: 'SUB DISTRICT MANAGEMENT', element: SubDistrictManagement },
+  { path: '/dashboard/setting-management/warehouse-type', name: 'WAREHOUSE TYPE', element: WarehouseType },
   { path: '/dashboard/project-service-charge/:id', name: 'PROJECT SERVICE CHARGE', element: ProjectServiceCharge },
   { path: '/dashboard/project-member/:id', name: 'PROJECT MEMBER', element: ProjectMember },
   { path: '/dashboard/sku/:id', name: 'PROJECT MASTER SKU', element: Sku },

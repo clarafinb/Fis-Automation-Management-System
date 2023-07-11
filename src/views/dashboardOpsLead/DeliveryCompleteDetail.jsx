@@ -21,7 +21,6 @@ import { useNavigate } from 'react-router-dom';
 import ButtonCancel from 'src/components/custom/button/ButtonCancel'
 import HoDocument from 'src/components/dashboardOpsLead/deliveryComplete/HoDocument'
 
-
 function DeliveryCompleteDetail() {
     const nav = useNavigate();
     const { dispatch, Global } = useRedux()

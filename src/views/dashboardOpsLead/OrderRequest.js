@@ -30,6 +30,8 @@ import { faClipboard, faTrash } from '@fortawesome/free-solid-svg-icons'
 import Swal from 'sweetalert2'
 import ModalCreateOrderRequest from 'src/components/dashboard/operationLead/ModalCreateOrderRequest'
 import moment from 'moment/moment'
+import ButtonCancel from 'src/components/custom/button/ButtonCancel'
+import ButtonSubmit from 'src/components/custom/button/ButtonSubmit'
 
 function OrderRequest() {
     const { dispatch, Global, Dashboard } = useRedux()
@@ -309,8 +311,14 @@ function OrderRequest() {
                     </CRow>
                 </CModalBody>
                 <CModalFooter>
-                    <CButton onClick={handleClose} color="secondary">Close</CButton>
-                    <CButton color="primary" onClick={handleCancel}>Save</CButton>
+                    <ButtonCancel
+                        label='CLOSE'
+                        handleButton={handleClose}
+                    />
+                    <ButtonSubmit
+                        label='SAVE'
+                        handleButton={handleCancel}
+                    />
                 </CModalFooter>
             </CModal>
             <ModalCreateOrderRequest

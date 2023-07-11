@@ -35,6 +35,36 @@ function ModalCreateOrderRequest({ open, setOpen, projectId, detailProject }) {
     const [selectedProvince, setSelectedProvince] = useState(null);
     const [subDistrict, setSubDistrict] = useState([]);
     const [selectedSubDistrict, setSelectedSubDistrict] = useState(null);
+    const [packageType, setPackageType] = useState([])
+    const [selectedPackageType, setSelectedPackageType] = useState({})
+
+    useEffect(() => {
+        if (Global?.user?.token && open) {
+            dispatch(actions.getSelectDeliveryProcess()).then(e => {
+                setDeliveryProcess(e)
+            })
+
+            dispatch(actions.getSelectDeliveryType()).then(e => {
+                setDeliveryType(e)
+            })
+
+            dispatch(actions.getSelecTransportType()).then(e => {
+                setTransportType(e)
+            })
+
+            dispatch(actions.getSelectWarehouseProvince()).then(e => {
+                setProvince(e)
+            })
+
+            dispatch(actions.getSelectPackageType()).then(e => {
+                setPackageType(e)
+            })
+        }
+    }, [Global?.user, open]);
+
+    useEffect(() => {
+        setValues({})
+    }, [open])
 
     const handleOnChangeProvince = (selectedProvince) => {
         setSelectedProvince(selectedProvince);
@@ -48,6 +78,10 @@ function ModalCreateOrderRequest({ open, setOpen, projectId, detailProject }) {
 
     const handleOnChangeSubDistrict = (selectedSubDistrict) => {
         setSelectedSubDistrict(selectedSubDistrict);
+    }
+
+    const handleOnChangePackageType = (selectedPackageType) => {
+        setSelectedPackageType(selectedPackageType)
     }
 
     const handleOnChangeDeliveryProcess = (selectedDeliveryProcess) => {
@@ -94,31 +128,6 @@ function ModalCreateOrderRequest({ open, setOpen, projectId, detailProject }) {
 
     }
 
-    useEffect(() => {
-        if (Global?.user?.token && open) {
-            dispatch(actions.getSelectDeliveryProcess()).then(e => {
-                setDeliveryProcess(e)
-            })
-
-            dispatch(actions.getSelectDeliveryType()).then(e => {
-                setDeliveryType(e)
-            })
-
-            dispatch(actions.getSelecTransportType()).then(e => {
-                setTransportType(e)
-            })
-
-            dispatch(actions.getSelectWarehouseProvince()).then(e => {
-                setProvince(e)
-            })
-        }
-    }, [Global?.user, open]);
-
-    useEffect(() => {
-        setValues({})
-    }, [open])
-
-
     const handleCreate = (event) => {
 
         event.preventDefault()
@@ -127,6 +136,7 @@ function ModalCreateOrderRequest({ open, setOpen, projectId, detailProject }) {
         let payload = {
             projectId: projectId,
             whId: detailProject.whId,
+            packageId: selectedPackageType?.value,
             whCode: detailProject.whCode,
             custOrderRequest: values?.custOrderRequest,
             requestorName: values?.requestorName,
@@ -353,6 +363,18 @@ function ModalCreateOrderRequest({ open, setOpen, projectId, detailProject }) {
                                         name="siteName"
                                         value={values?.siteName}
                                         onChange={handleOnchange}
+                                    />
+                                </CCol>
+                            </CRow>
+                            <CRow className="mb-3">
+                                <CFormLabel className="col-form-label">Package Type</CFormLabel>
+                                <CCol>
+                                    <Select
+                                        className="input-select"
+                                        options={packageType}
+                                        isSearchable={true}
+                                        value={selectedPackageType}
+                                        onChange={handleOnChangePackageType}
                                     />
                                 </CCol>
                             </CRow>
