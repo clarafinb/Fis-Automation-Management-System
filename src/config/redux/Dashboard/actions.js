@@ -121,7 +121,7 @@ import {
 } from "../../api/index"
 import Swal from "sweetalert2";
 
-/****************************************** GLOBAL *******************************************/
+/****************************************** GLOBAL ****************************/
 export const getDashboard = (roleId) => {
   return async (dispatch) => {
     try {

@@ -1,27 +1,15 @@
 import React from 'react'
 
 import {
-    CButton,
     CModal,
     CModalHeader,
     CModalTitle,
     CModalBody,
-    CModalFooter,
     CRow,
     CCol,
     CCard,
-    CCardBody,
-    CTooltip,
+    CCardBody
 } from '@coreui/react'
-import {
-    cilHouse,
-    cilNewspaper,
-    cilNotes,
-    cilPeople
-} from '@coreui/icons'
-import CIcon from '@coreui/icons-react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faLocationDot } from '@fortawesome/free-solid-svg-icons'
 
 function ModalMasterWerehouse({ 
     open, 

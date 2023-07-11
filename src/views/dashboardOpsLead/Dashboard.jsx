@@ -17,19 +17,17 @@ import {
 } from '@coreui/react'
 import { useCookies } from "react-cookie";
 import * as actions from '../../config/redux/Dashboard/actions'
+import * as actions_dashOpsLead from '../../config/redux/DashboardOpsLead/actions'
 import CIcon from '@coreui/icons-react'
 import { cilList } from '@coreui/icons'
-import { CChart } from '@coreui/react-chartjs'
-import ButtonSubmit from 'src/components/custom/button/ButtonSubmit';
 import ModalProjectList from 'src/components/dashboardOpsLead/ModalProjectList';
 import ChartDetailWarehouse from 'src/components/dashboardOpsLead/ChartDetailWarehouse';
 
 function Dashboard() {
     const [cookies, setCookie, removeCookie] = useCookies(["dashboardOpsLead"]);
-    const { dispatch, Global, Dashboard } = useRedux()
+    const { dispatch, Global, DashboardOpsLead } = useRedux()
     const [detailProject, setDetailProject] = useState([])
     const [detailWarehouses, setDetailWarehouses] = useState([])
-    const [optionProject, setOptionProject] = useState([])
     const [optionWarehouse, setOptionWarehouse] = useState([])
     const [values, setValues] = useState({})
     const [activeKey, setActiveKey] = useState(1)
@@ -37,92 +35,71 @@ function Dashboard() {
     const nav = useNavigate()
 
     const getSummaryProject = (projectId) => {
-        setCookie('dashboardOpsLead', {projectId: projectId}, { path: '/' })
         dispatch(
-            //get semua warehouse pada project
             actions.getActivitySummaryWHProject(Global?.user?.userID, projectId)
         ).then(result => {
             setDetailProject(result)
+            
             let option = result.map((item, idx) => {
                 return {
                     label: item.whName,
                     value: item.whId
                 }
             })
-            setOptionWarehouse([{label: 'All', value: 'all'}, ...option])
 
-            if(cookies?.dashboardOpsLead?.whId && cookies?.dashboardOpsLead?.whId != 'all'){
-                setValues({
-                    projectId: cookies?.dashboardOpsLead?.projectId,
-                    whId: cookies?.dashboardOpsLead?.whId
-                })
-            }else{
-                setDetailWarehouses(result)
-            }
+            setOptionWarehouse([{ label: 'All', value: 0 }, ...option])
+
+            setDetailWarehouses(result)
         })
     }
 
     useEffect(() => {
-        // if (Global?.user?.userID) {
-        //     dispatch(actions.getListProjectByUser(Global?.user?.userID))
-        // }
-
         if (!cookies?.user) {
             nav("/login")
         }
 
         if (cookies?.dashboardOpsLead && Global?.user?.userID) {
-            console.log("in")
-            setValues((prev) => ({
-                ...prev,
+            let param = {
                 projectId: cookies?.dashboardOpsLead?.projectId,
-                whId: cookies?.dashboardOpsLead?.whId
-            }));
+                whId: cookies?.dashboardOpsLead?.whId || 0
+            }
+
+            dispatch(actions_dashOpsLead.setProject(param))
 
             getSummaryProject(cookies?.dashboardOpsLead?.projectId)
         }
     }, [Global?.user])
 
+    useEffect(() => {
+        if(DashboardOpsLead?.project?.whId){
+            setValues({
+                whId: DashboardOpsLead?.project?.whId
+            })
+        }
+    }, [DashboardOpsLead?.project])
+
     const handleComponent = useCallback(
         (type, val, data) => {
-            if(type == 'pilih'){
-                setValues({projectId: val})
-                removeCookie('dashboardOpsLead') //reset cookies 
+            if (type == 'pilih') {
+                setValues({})
+                setCookie('dashboardOpsLead', { projectId: val }, { path: '/' })
+                dispatch(actions_dashOpsLead.setProject({ projectId: val })) //set redux
                 getSummaryProject(val) //val: projectId
                 setModalProjectList(false)
             }
         }
     )
 
-    // useEffect(() => {
-
-    //     console.log("cookies", cookies)
-    //     if (!cookies?.user) {
-    //         nav("/login")
-    //     }
-
-    //     if (cookies?.dashboardOpsLead && Global?.user?.userID) {
-
-    //         setValues((prev) => ({
-    //             ...prev,
-    //             projectId: cookies?.dashboardOpsLead?.projectId,
-    //             whId: cookies?.dashboardOpsLead?.whId
-    //         }));
-
-    //         getSummaryProject(cookies?.dashboardOpsLead?.projectId)
-    //     }
-    // }, [Global?.user?.userID]);
-
     useEffect(() => {
-        if (values?.whId) {
+        if (values?.whId && detailProject) {
             let param = {
-                projectId: cookies?.dashboardOpsLead?.projectId,
+                projectId: DashboardOpsLead?.project?.projectId,
                 whId: values?.whId
             }
-
             setCookie('dashboardOpsLead', param, { path: '/' })
+            dispatch(actions_dashOpsLead.setProject(param))
 
-            if(values?.whId != 'all'){
+            if(values?.whId != 'All'){
                 let arr = []
                 let temp = detailProject.find(e => e.whId == values.whId)
                 arr.push(temp)
@@ -131,10 +108,11 @@ function Dashboard() {
                 setDetailWarehouses(detailProject)
             }
         }
+    }, [values?.whId, detailProject]);
 
-    }, [values]);
+    const handleNavigator = (type) => {
 
-    const handleNavigator = (type, id) => {
+        const id = DashboardOpsLead?.project?.projectId
         const navigate = [
             {
                 type: 'orderRequest',
@@ -174,7 +152,8 @@ function Dashboard() {
 
     const handleOnchange = useCallback(
         (e) => {
-            const { value, name } = e.target;
+            const { value, name } = e.target
+
             setValues((prev) => ({
                 ...prev,
                 [name]: value
@@ -198,16 +177,10 @@ function Dashboard() {
             <br />
             <CRow>
                 <CCol sm={2} className="d-grid gap-2" >
-                    {/* <CFormSelect
-                        name="projectId"
-                        options={optionProject}
-                        onChange={handleOnchange}
-                        defaultValue={3}
-                    /> */}
-                    <CButton 
+                    <CButton
                         className="float-end btn colorBtn-white px-1 ms-2"
                         onClick={handleOpenProjectList}
-                        >
+                    >
                         <CIcon
                             icon={cilList}
                             className="me-2 text-warning" />
@@ -219,7 +192,7 @@ function Dashboard() {
                         name="whId"
                         options={optionWarehouse}
                         onChange={handleOnchange}
-                        value={cookies?.dashboardOpsLead?.whId || values?.whId}
+                        value={values?.whId || 0}
                     />
                 </CCol>
             </CRow>
@@ -228,7 +201,7 @@ function Dashboard() {
                 detailWarehouses.length > 0 && detailWarehouses?.map((detailWarehouse) => {
                     return (
                         <>
-                            <CCard>
+                            <CCard key={detailWarehouse?.whId}>
                                 <CRow className='m-3'>
                                     <CCol sm={8}>
                                         <h5>
@@ -295,7 +268,7 @@ function Dashboard() {
                                                                     <CCol className="d-grid gap-2">
                                                                         <CButton
                                                                             className="colorBtn-yellow"
-                                                                            onClick={() => handleNavigator("orderRequest", values?.projectId)}
+                                                                            onClick={() => handleNavigator("orderRequest")}
                                                                         >
                                                                             DETAIL
                                                                         </CButton>
@@ -317,7 +290,7 @@ function Dashboard() {
                                                                     <CCol className="d-grid gap-2">
                                                                         <CButton
                                                                             className="colorBtn-yellow"
-                                                                            onClick={() => handleNavigator("pickAndPackPending", values?.projectId)}
+                                                                            onClick={() => handleNavigator("pickAndPackPending")}
                                                                         >
                                                                             DETAIL
                                                                         </CButton>
@@ -339,7 +312,7 @@ function Dashboard() {
                                                                     <CCol className="d-grid gap-2">
                                                                         <CButton
                                                                             className="colorBtn-yellow"
-                                                                            onClick={() => handleNavigator("pickAndPackProgress", values?.projectId)}
+                                                                            onClick={() => handleNavigator("pickAndPackProgress")}
                                                                         >
                                                                             DETAIL
                                                                         </CButton>
@@ -363,7 +336,7 @@ function Dashboard() {
                                                                     <CCol className="d-grid gap-2">
                                                                         <CButton
                                                                             className="colorBtn-yellow"
-                                                                            onClick={() => handleNavigator("waitingDispatch", values?.projectId)}
+                                                                            onClick={() => handleNavigator("waitingDispatch")}
                                                                         >
                                                                             DETAIL
                                                                         </CButton>
@@ -385,7 +358,7 @@ function Dashboard() {
                                                                     <CCol className="d-grid gap-2">
                                                                         <CButton
                                                                             className="colorBtn-yellow"
-                                                                            onClick={() => handleNavigator("deliveryTransit", values?.projectId)}
+                                                                            onClick={() => handleNavigator("deliveryTransit")}
                                                                         >
                                                                             DETAIL
                                                                         </CButton>
@@ -407,7 +380,7 @@ function Dashboard() {
                                                                     <CCol className="d-grid gap-2">
                                                                         <CButton
                                                                             className="colorBtn-yellow"
-                                                                            onClick={() => handleNavigator("deliveryComplete", values?.projectId)}
+                                                                            onClick={() => handleNavigator("deliveryComplete")}
                                                                         >
                                                                             DETAIL
                                                                         </CButton>
@@ -519,7 +492,7 @@ function Dashboard() {
                                     <CCol sm={4}>
                                         <CCard>
                                             <div className='m-2'>
-                                                <ChartDetailWarehouse data={detailWarehouse}/>
+                                                <ChartDetailWarehouse data={detailWarehouse} />
                                             </div>
                                         </CCard>
                                     </CCol>
@@ -530,7 +503,11 @@ function Dashboard() {
                     )
                 })
             }
-            <ModalProjectList open={modalProjectList} setOpen={setModalProjectList} handleProject={handleComponent}/>
+            <ModalProjectList 
+                open={modalProjectList} 
+                setOpen={setModalProjectList} 
+                handleProject={handleComponent} 
+                />
         </>
     )
 }
