@@ -1352,18 +1352,7 @@ export const getListAccountManagement = (payload) => {
       let listAccountManagement = list?.map((item, idx) => {
         return {
           no: idx + 1,
-          fullname: item.fullname,
-          roleName: item.roleName,
-          email: item.email,
-          phoneNo: item.phoneNo,
-          userTitle: item.userTitle,
-          employeeId: item.employeeId,
-          accountStatus: item.accountStatus,
-          createDate: item.createDate,
-          modifiedDate: item.modifiedDate,
-          modifiedBy: item.modifiedBy,
-          userId: item.userId,
-          detail: { ...item }
+          ...item
         }
       })
       dispatch({
