@@ -261,7 +261,7 @@ const Dashboard = () => {
                     <CCol sm={7} className="d-none d-md-block">
                       <div className='text-end'>
                         <CIcon icon={cilSettings} className="me-2" size="xl" onClick={() => handleModalMasterWerehouse(val.projectId)} />
-                        <CIcon icon={cilSend} className="me-2" size="xl" onClick={() => handleSend(val.projectId)} />
+                        <CIcon icon={cilSend} className="me-2 rotate-icon" size="xl" onClick={() => handleSend(val.projectId)} />
                       </div>
                     </CCol>
                   </CRow>

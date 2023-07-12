@@ -20,6 +20,10 @@ p {
   font-weight: bold;
 }
 
+.logo {
+  max-width: 50px;
+}
+
 .colorBtn-orange {
   background-color: $orangePrimary !important;
   border: 1px solid $orangePrimary !important;
@@ -197,4 +201,8 @@ p {
 
 .nav-link {
   color: #6a6880 !important;
+}
+
+.rotate-icon {
+  transform: rotate(45deg);
 }

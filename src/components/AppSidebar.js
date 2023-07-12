@@ -18,12 +18,15 @@ import { useState } from 'react'
 const AppSidebar = () => {
   const { dispatch, Global } = useRedux()
   const [url, setUrl] = useState()
+  const [style, setStyle] = useState()
 
   useEffect(() => {
     if( !Global?.sidebarUnfoldable){
       setUrl('logo/fams_logo.png')
+      setStyle()
     }else{
       setUrl('logo/fams_icon.svg')
+      setStyle("logo")
     }
   }, [Global?.sidebarUnfoldable])
   
@@ -42,7 +45,7 @@ const AppSidebar = () => {
       className='bg-white'
     >
       <CSidebarBrand className="d-none d-md-flex bg-white m-4" to="/">
-          <div><img src={url} /></div>
+          <div><img src={url} className={style} /></div>
       </CSidebarBrand>
       <hr />
       <CSidebarNav>
