@@ -14,7 +14,7 @@ import {
     CInputGroup,
     CForm
 } from '@coreui/react'
-import * as actions from '../../../config/redux/Dashboard/actions'
+import * as actions from '../../../../config/redux/Dashboard/actions'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
 import Swal from "sweetalert2";
@@ -52,7 +52,7 @@ function ModalCreateAccountManagement({ open, setOpen, isEdit, dataEdit }) {
         }
     }, [isEdit, open]);
 
-    const handleCreateAccountManagement = () => {
+    const handleCreateAccountManagement = (event) => {
         let payload = {
             Fullname: values.Fullname ? values.Fullname : data.fullname,
             userTitle: values.userTitle ? values.userTitle : data.userTitle,
@@ -76,6 +76,9 @@ function ModalCreateAccountManagement({ open, setOpen, isEdit, dataEdit }) {
 
         setData({})
         setOpen(false)
+
+        event.preventDefault()
+        event.stopPropagation()
     }
 
     const handleOnchange = useCallback(

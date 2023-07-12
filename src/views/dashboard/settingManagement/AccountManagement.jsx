@@ -12,9 +12,9 @@ import CIcon from '@coreui/icons-react'
 import {
     cilPlus,
 } from '@coreui/icons'
-import * as actions from '../../config/redux/Dashboard/actions'
-import ModalCreateAccountManagement from 'src/components/dashboard/accountManagement/ModalCreateAccountManagement'
-import TableListAccountManagement from 'src/components/dashboard/accountManagement/TableListAccountManagement'
+import * as actions from '../../../config/redux/Dashboard/actions'
+import ModalCreateAccountManagement from 'src/components/dashboard/settingManagement/accountManagement/ModalCreateAccountManagement'
+import TableListAccountManagement from 'src/components/dashboard/settingManagement/accountManagement/TableListAccountManagement'
 
 function AccountManagementList() {
     const { dispatch, Global, Dashboard } = useRedux()

@@ -6,6 +6,7 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEdit} from '@fortawesome/free-solid-svg-icons'
 import SmartTable from 'src/components/custom/table/SmartTable'
+import moment from 'moment'
 
 function TableListAccountManagement({
     data, 
@@ -26,23 +27,11 @@ function TableListAccountManagement({
     ]
 
     const columns = [
-        { name: 'no', header: 'No', defaultWidth: 80, type: 'number' },
-        { name: 'fullname', header: 'Full Name', defaultWidth: 280},
-        { name: 'roleName', header: 'Role', defaultWidth: 200},
-        { name: 'email', header: 'Email', defaultWidth: 280},
-        { name: 'phoneNo', header: 'Phone No', defaultWidth: 200},
-        { name: 'userTitle', header: 'User Title', defaultWidth: 200},
-        { name: 'employeeId', header: 'Employee ID', defaultWidth: 200},
-        { name: 'accountStatus', header: 'Account Status', defaultWidth: 150},
-        { name: 'createDate', header: 'Create Date', defaultWidth: 200},
-        { name: 'modifiedDate', header: 'Modified Date', defaultWidth: 200},
-        { name: 'modifiedBy', header: 'Modified By', defaultWidth: 200},
-    
         {
             name: 'userId',
-            header: 'Action',
+            header: 'ACTION',
             textAlign: 'center',
-            defaultWidth: 110,
+            defaultWidth: 150,
             render: ({ value, data }) => {
                 return (
                     <>  
@@ -57,6 +46,31 @@ function TableListAccountManagement({
                 )
             }
         },
+        { name: 'no', header: 'NO', defaultWidth: 80, type: 'number' },
+        { name: 'fullname', header: 'FULL NAME', defaultWidth: 280},
+        { name: 'roleName', header: 'ROLE', defaultWidth: 200},
+        { name: 'email', header: 'EMAIL', defaultWidth: 280},
+        { name: 'phoneNo', header: 'PHONE NO', defaultWidth: 200},
+        { name: 'userTitle', header: 'USER TITLE', defaultWidth: 200},
+        { name: 'employeeId', header: 'EMPLOYEE ID', defaultWidth: 200},
+        { name: 'accountStatus', header: 'ACCOUNT STATUS', defaultWidth: 150},
+        {
+            name: 'createDate',
+            header: 'CREATE DATE',
+            defaultWidth: 200,
+            render: ({ value }) => {
+                return moment(value).format('DD-MM-YYYY HH:mm:ss')
+            }
+        },
+        {
+            name: 'modifiedDate',
+            header: 'MODIFIED DATE',
+            defaultWidth: 200,
+            render: ({ value }) => {
+                return moment(value).format('DD-MM-YYYY HH:mm:ss')
+            }
+        },
+        { name: 'modifiedBy', header: 'MODIFIED BY', defaultWidth: 200},
     ];
 
     return (

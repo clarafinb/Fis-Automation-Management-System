@@ -300,13 +300,7 @@ export const getListServiceCharge = (payload) => {
       let listServiceCharge = list?.map((item, idx) => {
         return {
           no: idx + 1,
-          serviceCharge: item.serviceCharge,
-          serviceChargeCode: item.serviceChargeCode,
-          uom: item.uom,
-          modifiedBy: item.modifiedBy,
-          modifiedDate: item.modifiedDate,
-          status: item.isActive,
-          detail: item
+          ...item
         }
       })
 
@@ -409,10 +403,7 @@ export const getListDelivery = (payload) => {
       let listDelivery = list?.map((item, idx) => {
         return {
           no: idx + 1,
-          deliveryMode: item.deliveryMode,
-          deliveryCode: item.deliveryCode,
-          status: item.isActive,
-          detail: item
+          ...item
         }
       })
 
@@ -518,14 +509,7 @@ export const getListTransportType = (payload) => {
       let listTransportType = list?.map((item, idx) => {
         return {
           no: idx + 1,
-          transportType: item.transportName,
-          transportMode: item.transportMode,
-          createName: item.createName,
-          createDate: item.createDate,
-          modifiedBy: item.modifiedBy,
-          modifiedDate: item.modifiedDate,
-          status: item.isActive,
-          detail: item
+          ...item
         }
       })
       dispatch({
@@ -703,11 +687,7 @@ export const getListUom = (payload) => {
       let listUom = list?.map((item, idx) => {
         return {
           no: idx + 1,
-          uom: item.uom,
-          modifiedBy: item.modifiedBy,
-          modifiedDate: item.modifiedDate,
-          status: item.isActive,
-          detail: item
+          ...item
         }
       })
       dispatch({
@@ -1085,12 +1065,8 @@ export const getListCustomer = (payload) => {
       let listCustomer = list?.map((item, idx) => {
         return {
           no: idx + 1,
-          customerName: item.customer_name,
-          customerAliasName: item.customer_alias_name,
-          modifiedBy: item.modifiedBy,
-          modifiedDate: item.modifiedDate,
-          status: item.isActive,
-          detail: { ...item, ...{ projectId: payload } }
+          projectId: payload,
+          ...item
         }
       })
       dispatch({

@@ -2,7 +2,6 @@ import React, { useState, useCallback, useEffect } from 'react'
 import { useRedux } from 'src/utils/hooks'
 
 import {
-    CButton,
     CCol,
     CRow,
     CFormInput,
@@ -14,7 +13,7 @@ import {
     CModalFooter,
     CForm,
 } from '@coreui/react'
-import * as actions from '../../../config/redux/Dashboard/actions'
+import * as actions from '../../../../config/redux/Dashboard/actions'
 import ButtonCancel from 'src/components/custom/button/ButtonCancel'
 import ButtonSubmit from 'src/components/custom/button/ButtonSubmit'
 
@@ -66,7 +65,7 @@ function ModalCreateWarehouseType({ open, setOpen, isEdit = false, dataEdit }) {
 
     return (
         <CModal
-            size="xl"
+            // size="xl"
             visible={open}
             onClose={() => setOpen(false)}
             backdrop="static"
@@ -74,12 +73,12 @@ function ModalCreateWarehouseType({ open, setOpen, isEdit = false, dataEdit }) {
         >
             <CForm onSubmit={handleCreateWarehouseType}>
                 <CModalHeader>
-                    <CModalTitle>{isEdit ? 'Edit' : 'Add'} Warehouse Type</CModalTitle>
+                    <CModalTitle>{isEdit ? 'EDIT' : 'ADD'} WAREHOUSE TYPE</CModalTitle>
                 </CModalHeader>
                 <CModalBody>
                     <CRow className="mb-3">
-                        <CFormLabel className="col-sm-3 col-form-label">Warehouse Type <code>(*)</code></CFormLabel>
-                        <CCol sm={8}>
+                        <CFormLabel className="col-form-label">Warehouse Type <code>*</code></CFormLabel>
+                        <CCol>
                             <CFormInput
                                 type="text"
                                 name="whType"
@@ -90,8 +89,8 @@ function ModalCreateWarehouseType({ open, setOpen, isEdit = false, dataEdit }) {
                         </CCol>
                     </CRow>
                     <CRow className="mb-3">
-                        <CFormLabel className="col-sm-3 col-form-label">Description<code>(*)</code></CFormLabel>
-                        <CCol sm={8}>
+                        <CFormLabel className="col-form-label">Description<code>*</code></CFormLabel>
+                        <CCol>
                             <CFormInput
                                 type="text"
                                 name="whTypeDescription"

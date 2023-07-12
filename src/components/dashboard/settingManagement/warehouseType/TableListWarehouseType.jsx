@@ -9,6 +9,7 @@ import ToggleSwitch from 'src/components/custom/toggle/ToggleSwitch'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEdit, faLocationDot } from '@fortawesome/free-solid-svg-icons'
 import SmartTable from 'src/components/custom/table/SmartTable'
+import moment from 'moment'
 
 function TableListWarehouseType({
     data,
@@ -30,14 +31,22 @@ function TableListWarehouseType({
 
     const columns = [
         { name: 'no', header: 'No', defaultVisible: true, defaultWidth: 80 },
-        { name: 'whType', header: 'Warehouse Type', defaultWidth: 200 },
-        { name: 'typeDescription', header: 'Description', defaultWidth: 210, textAlign: 'center' },
-        { name: 'modifyBy', header: 'Modified By', defaultWidth: 200, textAlign: 'center' },
-        { name: 'modifyDate', header: 'Modified Date', defaultWidth: 310 },
+        { name: 'whType', header: 'WAREHOUSE TYPE', defaultFlex: 1},
+        { name: 'typeDescription', header: 'DESCRIPTION', defaultFlex: 1, textAlign: 'center' },
+        { name: 'modifyBy', header: 'MODIFIED BY', defaultWidth: 200, textAlign: 'center' },
+        {
+            name: 'modifiedDate',
+            header: 'MODIFIED DATE',
+            textAlign: 'center',
+            defaultWidth: 200,
+            render: ({ value }) => {
+                return moment(value).format('DD-MM-YYYY HH:mm:ss')
+            }
+        },
         {
             name: 'isActve',
-            header: 'Active Status',
-            defaultWidth: 200,
+            header: 'ACTIVE STATUS',
+            defaultWidth: 180,
             textAlign: 'center',
             render: ({ value, data }) => {
                 return (
@@ -53,7 +62,7 @@ function TableListWarehouseType({
         },
         {
             name: 'whTypeId',
-            header: 'Action',
+            header: 'ACTION',
             textAlign: 'center',
             defaultWidth: 100,
             render: ({ value, data }) => {

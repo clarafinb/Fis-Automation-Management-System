@@ -15,11 +15,7 @@ function SmartTable({
   minHeight = 600,
 }) {
   const gridStyle = { 
-    minHeight: minHeight,
-  }
-
-  const cellStyle = {
-    whiteSpace: 'normal'
+    minHeight: minHeight
   }
 
   return (
@@ -30,10 +26,9 @@ function SmartTable({
         defaultFilterValue={filterValue}
         columns={columns}
         dataSource={data}
-        enableColumnAutosize={true}
+        // enableColumnAutosize={true}
         pagination
-        defaultLimit={15}
-        cellStyle={cellStyle}
+        // defaultLimit={15}
       />
     </>
   )

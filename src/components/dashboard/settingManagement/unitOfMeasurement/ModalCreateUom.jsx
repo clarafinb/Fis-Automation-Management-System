@@ -1,8 +1,7 @@
-import React, { useState, useCallback, useEffect } from 'react'
+import React, { useState, useCallback } from 'react'
 import { useRedux } from 'src/utils/hooks'
 
 import {
-    CButton,
     CCol,
     CRow,
     CFormInput,
@@ -11,20 +10,24 @@ import {
     CModalHeader,
     CModalTitle,
     CModalBody,
-    CModalFooter,
+    CForm,
 } from '@coreui/react'
-import * as actions from '../../config/redux/Dashboard/actions'
+import * as actions from '../../../../config/redux/Dashboard/actions'
+import ButtonSubmit from 'src/components/custom/button/ButtonSubmit'
 
 function ModalCreateUom({ open, setOpen }) {
     const { dispatch, Global } = useRedux()
     const [values, setValues] = useState({})
 
-    const handleCreateUom = () => {
+    const handleCreateUom = (event) => {
         let payload = {
             uom: values.uom,
             LMBY: Global?.user?.userID
         }
         dispatch(actions.createUom(payload))
+
+        event.preventDefault()
+        event.stopPropagation()
     }
 
     const handleOnchange = useCallback(
@@ -40,7 +43,7 @@ function ModalCreateUom({ open, setOpen }) {
 
     return (
         <CModal
-            size="xl"
+            // size="xl"
             visible={open}
             onClose={() => setOpen(false)}
         >
@@ -48,17 +51,20 @@ function ModalCreateUom({ open, setOpen }) {
                 <CModalTitle>UOM Creation</CModalTitle>
             </CModalHeader>
             <CModalBody>
-                <CRow className="mb-3">
-                    <CFormLabel className="col-sm-2 col-form-label">UOM <code>(*)</code></CFormLabel>
-                    <CCol sm={10}>
-                        <CFormInput type="text" name="uom" value={values?.uom} onChange={handleOnchange} />
-                    </CCol>
-                </CRow>
+                <CForm onSubmit={handleCreateUom}>
+                    <CRow className="mb-3">
+                        <CFormLabel className="col-form-label">UOM <code>*</code></CFormLabel>
+                        <CCol>
+                            <CFormInput type="text" name="uom" value={values?.uom} onChange={handleOnchange} />
+                        </CCol>
+                    </CRow>
+                    <CRow className="mb-3">
+                        <CCol className="d-grid gap-2">
+                            <ButtonSubmit type="submit" />
+                        </CCol>
+                    </CRow>
+                </CForm>
             </CModalBody>
-            <CModalFooter>
-                <CButton onClick={() => setOpen(false)} color="secondary">Close</CButton>
-                <CButton color="primary" onClick={handleCreateUom}>Add</CButton>
-            </CModalFooter>
         </CModal>
     )
 }

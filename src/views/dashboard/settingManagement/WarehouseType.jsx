@@ -13,14 +13,8 @@ import {
 } from '@coreui/icons'
 import CIcon from '@coreui/icons-react'
 import * as actions from '../../../config/redux/Dashboard/actions'
-// import StandardTable from 'src/components/custom/table/StandardTable'
-// import ModalCreateProjectServiceCharge from 'src/components/dashboard/ModalCreateProjectServiceCharge'
-// import SmartTable from 'src/components/custom/table/SmartTable'
-// import ToggleSwitch from 'src/components/custom/toggle/ToggleSwitch'
-// import { separateComma } from 'src/utils/number'
-// import moment from 'moment'
-import ModalCreateWarehouseType from 'src/components/dashboard/warehouseType/ModalCreateWarehouseType'
-import TableListWarehouseType from 'src/components/dashboard/warehouseType/TableListWarehouseType'
+import ModalCreateWarehouseType from 'src/components/dashboard/settingManagement/warehouseType/ModalCreateWarehouseType'
+import TableListWarehouseType from 'src/components/dashboard/settingManagement/warehouseType/TableListWarehouseType'
 
 function WarehouseType() {
     const { dispatch, Global, Dashboard } = useRedux()
@@ -60,28 +54,24 @@ function WarehouseType() {
             <CRow>
                 <CCol sm={5}>
                     <h4 className="card-title mb-0">
-                        <span className='text-underline'>MA</span>
-                        STER WAREHOUSE TYPE
+                        <span className='text-underline'>MA</span>STER WAREHOUSE TYPE
                     </h4>
                 </CCol>
             </CRow>
             <br />
             <CRow>
-                <CCol sm={5}>
-                    <CButton
-                        className="colorBtn-white"
-                        onClick={handleCreate}>
-                        <CIcon icon={cilPlus}
-                            className="me-2 text-warning" />
+                <CCol className="d-none d-md-block">
+                    <CButton className="colorBtn-white" onClick={handleCreate}>
+                        <CIcon icon={cilPlus} className="me-2 text-warning" />
                         ADD MASTER WAREHOUSE TYPE
                     </CButton>
                 </CCol>
             </CRow>
             <br />
-            <CRow className='pb-10'>
+            <CRow>
                 <CCard>
                     <CCardBody>
-                        <CCol className="d-none d-md-block text-end">
+                        <CCol>
                             <TableListWarehouseType
                                 data={Dashboard?.listMasterWarehouseType}
                                 handleToogle={handleToogle}
