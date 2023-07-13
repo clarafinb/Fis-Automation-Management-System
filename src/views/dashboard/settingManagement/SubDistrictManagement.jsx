@@ -14,9 +14,9 @@ import {
     cilPlus,
 } from '@coreui/icons'
 import CIcon from '@coreui/icons-react'
-import * as actions from '../../config/redux/Dashboard/actions'
-import ModalCreateSubDistrict from 'src/components/dashboard/SubDistrict/ModalCreateSubDistrict'
-import TableListSubDistrict from 'src/components/dashboard/SubDistrict/TableListSubDistrict'
+import * as actions from '../../../config/redux/Dashboard/actions'
+import ModalCreateSubDistrict from 'src/components/dashboard/settingManagement/subDistrictManagement/ModalCreateSubDistrict'
+import TableListSubDistrict from 'src/components/dashboard/settingManagement/subDistrictManagement/TableListSubDistrict'
 
 function SubDistrictManagement() {
     const { dispatch, Global, Dashboard } = useRedux()

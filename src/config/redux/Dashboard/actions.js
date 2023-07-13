@@ -889,14 +889,8 @@ export const getListProjectServiceCharge = (payload) => {
       let listProjectServiceCharge = list?.map((item, idx) => {
         return {
           no: idx + 1,
-          serviceCharge: item.serviceCharge,
-          serviceChargeCode: item.serviceChargeCode,
-          chargeFee: item.chargeFee,
-          currencyName: item.currencyName,
-          modifiedBy: item.modifiedBy,
-          modifiedDate: item.modifiedDate,
-          status: item.isActive,
-          detail: { ...item, ...{ projectId: payload } }
+          projectId: payload,
+          ...item
         }
       })
       dispatch({
@@ -977,14 +971,8 @@ export const getListSku = (payload) => {
       let listSku = list?.map((item, idx) => {
         return {
           no: idx + 1,
-          materialCode: item.materialCode,
-          materialDesc: item.materialDesc,
-          totalVolume: item.totalVolume,
-          uom: item.uom,
-          modifiedBy: item.modifiedBy,
-          modifiedDate: item.modifiedDate,
-          status: item.isActive,
-          detail: { ...item, ...{ projectId: payload } }
+          projectId: payload,
+          ...item
         }
       })
       dispatch({
@@ -1187,15 +1175,8 @@ export const getListProjectMember = (payload) => {
       let listProjectMember = list?.map((item, idx) => {
         return {
           no: idx + 1,
-          name: item.Name,
-          role: item.role_name,
-          email: item.email,
-          phoneNo: item.phoneNo,
-          isActive: item.accountstatus,
-          whMembershipList: item.whMembershipList,
-          projectUserId: item.projectUserId,
-          status: item.isActive,
-          detail: { ...item, ...{ projectId: payload } }
+          projectId: payload,
+          ...item
         }
       })
       dispatch({
@@ -1291,19 +1272,17 @@ export const getSelectRoleWhGroup = (payload) => {
   }
 }
 
-export const getUserNotRegisteredYetBasedOnRoleAndProject = (param1, param2) => {
+export const getUserNotRegisteredYetBasedOnRoleAndProject = (payload) => {
   return async (dispatch) => {
     try {
-      let list = await actionCrud.actionCommonSlice(param1, API_GET_USER_NOT_REGISTER_BASE_ON_ROLE_AND_PROJECT, "GET", param2);
+      const param = `${payload.roleId}/${payload.projectId}`
+      let list = await actionCrud.actionCommonSlice(param, API_GET_USER_NOT_REGISTER_BASE_ON_ROLE_AND_PROJECT, "GET");
       let listUserNotRegistered = list?.map((item, idx) => {
         return {
           no: idx + 1,
-          fullname: item.name,
-          email: item.email,
-          phoneNo: item.phoneNo,
-          userStatus: item.accountStatus,
-          userId: item.userId,
-          detail: { ...item, ...{ projectId: param2 }, ...{ roleId: param1 } }
+          projectId: payload.projectId,
+          roleId: payload.roleId,
+          ...item
         }
       })
       dispatch({

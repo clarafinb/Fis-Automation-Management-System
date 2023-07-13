@@ -12,10 +12,10 @@ import {
     cilPlus,
 } from '@coreui/icons'
 import CIcon from '@coreui/icons-react'
-import * as actions from '../../config/redux/Dashboard/actions'
-import ModalCreateWarehouse from 'src/components/dashboard/warehouse/ModalCreateWarehouse'
-import ModalOpenMap from 'src/components/dashboard/warehouse/ModalOpenMap'
-import TableListWarehouse from 'src/components/dashboard/warehouse/TableListWarehouse'
+import * as actions from '../../../config/redux/Dashboard/actions'
+import ModalCreateWarehouse from 'src/components/dashboard/masterWarehouse/warehouse/ModalCreateWarehouse'
+import ModalOpenMap from 'src/components/dashboard/masterWarehouse/warehouse/ModalOpenMap'
+import TableListWarehouse from 'src/components/dashboard/masterWarehouse/warehouse/TableListWarehouse'
 
 function Warehouse() {
     const { dispatch, Global, Dashboard } = useRedux()

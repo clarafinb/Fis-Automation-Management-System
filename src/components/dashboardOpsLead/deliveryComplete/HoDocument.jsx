@@ -5,7 +5,7 @@ import {
     CRow
 } from '@coreui/react'
 import * as actions from '../../../config/redux/Dashboard/actions'
-import ModalOpenMap from 'src/components/dashboard/warehouse/ModalOpenMap'
+import ModalOpenMap from 'src/components/dashboard/masterWarehouse/warehouse/ModalOpenMap'
 import TableListHoDocument from 'src/components/dashboardOpsLead/deliveryComplete/TableListHoDocument'
 import ModalImageHo from 'src/components/dashboardOpsLead/deliveryComplete/ModalImageHo'
 

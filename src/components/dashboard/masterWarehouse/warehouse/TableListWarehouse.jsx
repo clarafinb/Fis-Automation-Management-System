@@ -1,5 +1,4 @@
-import React, { useState, useCallback, useEffect } from 'react'
-import { useRedux } from 'src/utils/hooks'
+import React from 'react'
 
 import {
     CCol,
@@ -15,12 +14,6 @@ function TableListWarehouse({
     handleComponent, 
     handleToogle 
 }) {
-    const { dispatch, Global } = useRedux()
-
-    useEffect(() => {
-        
-    }, [Global?.user]);
-
     const filterValue = [
         { name: 'whName', operator: 'startsWith', type: 'string', value: '' },
         { name: 'whCode', operator: 'startsWith', type: 'string', value: '' },
@@ -31,16 +24,16 @@ function TableListWarehouse({
     ]
 
     const columns = [
-        { name: 'no', header: 'No', defaultWidth: 80, type: 'number' },
-        { name: 'whName', header: 'Warehouse Name', defaultWidth: 230, cellProps: { className: 'customTable' } },
-        { name: 'whCode', header: 'Warehouse Code', defaultWidth: 230 },
-        { name: 'isMainWH', header: 'Main CWH', defaultWidth: 130 },
-        { name: 'whType', header: 'Warehouse Type', defaultWidth: 180 },
-        { name: 'whSpace', header: 'Warehouse Space', defaultWidth: 180, textAlign: 'center' },
-        { name: 'whAddress', header: 'Address', defaultWidth: 300 },
+        { name: 'no', header: 'NO', defaultWidth: 80, type: 'number' },
+        { name: 'whName', header: 'WAREHOUSE NAME', defaultWidth: 230, cellProps: { className: 'customTable' } },
+        { name: 'whCode', header: 'WAREHOUSE CODE', defaultWidth: 230 },
+        { name: 'isMainWH', header: 'MAIN CWH', defaultWidth: 130 },
+        { name: 'whType', header: 'WAREHOUSE TYPE', defaultWidth: 180 },
+        { name: 'whSpace', header: 'WAREHOUSE SPACE', defaultWidth: 180, textAlign: 'center' },
+        { name: 'whAddress', header: 'ADDRESS', defaultWidth: 300 },
         {
             name: 'whId',
-            header: 'Map',
+            header: 'MAP',
             textAlign: 'center',
             defaultWidth: 110,
             render: ({ value, data }) => {
@@ -59,9 +52,9 @@ function TableListWarehouse({
         },
         {
             name: 'isActive',
-            header: 'Active Status',
+            header: 'ACTIVE STATUS',
             textAlign: 'center',
-            defaultWidth: 110,
+            defaultWidth: 180,
             render: ({ value, data }) => {
                 return (
                     <>  
@@ -78,7 +71,7 @@ function TableListWarehouse({
         },
         {
             name: 'whId',
-            header: 'Action',
+            header: 'ACTION',
             textAlign: 'center',
             defaultWidth: 110,
             render: ({ value, data }) => {

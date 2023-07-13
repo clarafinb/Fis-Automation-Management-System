@@ -12,7 +12,7 @@ import {
     CModalBody,
     CForm
 } from '@coreui/react'
-import * as actions from '../../../config/redux/Dashboard/actions'
+import * as actions from '../../../../config/redux/Dashboard/actions'
 import Select from 'react-select'
 import ButtonSubmit from 'src/components/custom/button/ButtonSubmit'
 

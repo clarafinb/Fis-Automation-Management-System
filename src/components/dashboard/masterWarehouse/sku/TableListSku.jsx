@@ -1,25 +1,18 @@
-import React, { useEffect } from 'react'
-import { useRedux } from 'src/utils/hooks'
+import React from 'react'
 
 import {
     CCol,
     CRow,
 } from '@coreui/react'
 import ToggleSwitch from 'src/components/custom/toggle/ToggleSwitch'
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-// import { faEdit, faLocationDot } from '@fortawesome/free-solid-svg-icons'
 import SmartTable from 'src/components/custom/table/SmartTable'
+import moment from 'moment'
 
-function TableListWarehouse({
+function TableListSku({
     data,
     handleComponent,
     handleToogle
 }) {
-    const { dispatch, Global } = useRedux()
-
-    useEffect(() => {
-
-    }, [Global?.user]);
 
     const filterValue = [
         { name: 'materialCode', operator: 'startsWith', type: 'string', value: '' },
@@ -31,16 +24,24 @@ function TableListWarehouse({
     ]
 
     const columns = [
-        { name: 'no', header: 'No', defaultWidth: 80, type: 'number' },
-        { name: 'materialCode', header: 'Material Code', defaultWidth: 230, cellProps: { className: 'customTable' } },
-        { name: 'materialDesc', header: 'Material Desc', defaultWidth: 230 },
-        { name: 'totalVolume', header: 'Total Volume', defaultWidth: 200, textAlign: 'center' },
-        { name: 'uom', header: 'UOM', defaultWidth: 200 },
-        { name: 'modifiedBy', header: 'Last Modified By', defaultWidth: 250 },
-        { name: 'modifiedDate', header: 'Last Modified Date', defaultWidth: 250, textAlign: 'center' },
+        { name: 'no', header: 'No', defaultWidth: 80, type: 'number', textAlign: 'center' },
+        { name: 'materialCode', header: 'MATERIAL CODE', defaultWidth: 230,textAlign: 'center', cellProps: { className: 'customTable' } },
+        { name: 'materialDesc', header: 'MATERIAL DESC', defaultWidth: 230, textAlign: 'center' },
+        { name: 'totalVolume', header: 'TOTAL VOLUME', defaultWidth: 200, textAlign: 'center' },
+        { name: 'uom', header: 'UOM', defaultWidth: 200, textAlign: 'center' },
+        { name: 'modifiedBy', header: 'LAST MODIFIED BY', defaultWidth: 250, textAlign: 'center' },
+        {
+            name: 'modifiedDate',
+            header: 'LAST MODIFIED DATE	',
+            defaultWidth: 200,
+            textAlign: 'center',
+            render: ({ value }) => {
+                return moment(value).format('DD-MM-YYYY HH:mm:ss')
+            }
+        },
         {
             name: 'isActive',
-            header: 'Active Status',
+            header: 'ACTIVE STATUS',
             textAlign: 'center',
             defaultWidth: 250,
             render: ({ value, data }) => {
@@ -73,4 +74,4 @@ function TableListWarehouse({
     )
 }
 
-export default TableListWarehouse;
+export default TableListSku;

@@ -8,7 +8,7 @@ import {
     CRow,
     CCol,
 } from '@coreui/react'
-import MapComponent from '../../custom/map/MapLeaflef'
+import MapComponent from '../../../custom/map/MapLeaflef'
 import ButtonCancel from 'src/components/custom/button/ButtonCancel';
 
 function ModalOpenMap({ open, setOpen, data, key = Date.now() }) {

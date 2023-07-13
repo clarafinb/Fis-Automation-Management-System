@@ -19,9 +19,9 @@ import {
     cilPlus,
 } from '@coreui/icons'
 import CIcon from '@coreui/icons-react'
-import * as actions from '../../config/redux/Dashboard/actions'
-import ModalCreateSku from 'src/components/dashboard/sku/ModalCreateSku'
-import TableListSku from 'src/components/dashboard/sku/TableListSku'
+import * as actions from '../../../config/redux/Dashboard/actions'
+import ModalCreateSku from 'src/components/dashboard/masterWarehouse/sku/ModalCreateSku'
+import TableListSku from 'src/components/dashboard/masterWarehouse/sku/TableListSku'
 
 function Sku() {
     const { dispatch, Global, Dashboard } = useRedux()
@@ -46,9 +46,8 @@ function Sku() {
     }
 
     const handleToogle = useCallback(
-        (val, id) => {
-            let data = Dashboard.listSku[id]
-            let skuId = data.detail.materialId
+        (val, data) => {
+            let skuId = data?.materialId
 
             dispatch(actions.setStatusActiveSku(val, skuId, projectId))
 
@@ -72,8 +71,6 @@ function Sku() {
                             <CIcon icon={cilPlus} className="me-2 text-warning" />
                             ADD PROJECT MASTER SKU
                         </CButton>
-                        {/* </CCol>
-                    <CCol className="d-none d-md-block"> */}
                         <CButton className="colorBtn-white ms-3" onClick={handleBulkUpload}>
                             <CIcon icon={cilCloudUpload} className="me-2 text-warning" />
                             BULK UPLOAD PROJECT MASTER SKU

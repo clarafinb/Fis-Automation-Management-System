@@ -27,7 +27,7 @@ import { faMap, faPlay, faPlus, faRefresh, faSearch, faUpload } from '@fortaweso
 import moment from 'moment/moment'
 import Select from 'react-select'
 import Swal from 'sweetalert2'
-import ModalOpenMap from 'src/components/dashboard/warehouse/ModalOpenMap'
+import ModalOpenMap from 'src/components/dashboard/masterWarehouse/warehouse/ModalOpenMap'
 import {Route, Link, Routes, useNavigate} from 'react-router-dom';
 
 

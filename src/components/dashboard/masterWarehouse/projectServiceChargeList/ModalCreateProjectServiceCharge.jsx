@@ -12,10 +12,12 @@ import {
     CModalTitle,
     CModalBody,
     CModalFooter,
-    CFormSelect
+    CFormSelect,
+    CForm
 } from '@coreui/react'
-import * as actions from '../../config/redux/Dashboard/actions'
+import * as actions from '../../../../config/redux/Dashboard/actions'
 import { separateComma } from 'src/utils/number'
+import ButtonSubmit from 'src/components/custom/button/ButtonSubmit'
 
 function ModalCreateProjectServiceCharge({ open, setOpen, projectId }) {
     const { dispatch, Global } = useRedux()
@@ -36,7 +38,7 @@ function ModalCreateProjectServiceCharge({ open, setOpen, projectId }) {
         }
     }, [projectId]);
 
-    const handleCreateProjectServiceCharge = () => {
+    const handleCreateProjectServiceCharge = (event) => {
         let payload = {
             projectId: projectId,
             serviceChargeId: values.serviceChargeId,
@@ -46,6 +48,9 @@ function ModalCreateProjectServiceCharge({ open, setOpen, projectId }) {
         }
         dispatch(actions.createProjectServiceCharge(payload))
         setValues({})
+
+        event.preventDefault()
+        event.stopPropagation()
     }
 
     const handleOnchange = useCallback(
@@ -62,50 +67,56 @@ function ModalCreateProjectServiceCharge({ open, setOpen, projectId }) {
 
     return (
         <CModal
-            size="xl"
+            // size="xl"
             visible={open}
             onClose={() => setOpen(false)}
         >
             <CModalHeader>
-                <CModalTitle>Service Charge Creation</CModalTitle>
+                <CModalTitle>ADD PROJECT SERVICE SHARGE</CModalTitle>
             </CModalHeader>
             <CModalBody>
+                <CForm onSubmit={handleCreateProjectServiceCharge}>
                 <CRow className="mb-3">
-                    <CFormLabel className="col-sm-2 col-form-label">Service Charge <code>(*)</code></CFormLabel>
-                    <CCol sm={10}>
+                    <CFormLabel className="col-form-label">Service Charge <code>*</code></CFormLabel>
+                    <CCol>
                         <CFormSelect
                             name="serviceChargeId"
                             options={projectServiceChargeList}
                             onChange={handleOnchange}
+                            required
                         />
                     </CCol>
                 </CRow>
                 <CRow className="mb-3">
-                    <CFormLabel className="col-sm-2 col-form-label">Currency <code>(*)</code></CFormLabel>
-                    <CCol sm={10}>
+                    <CFormLabel className="col-form-label">Currency <code>*</code></CFormLabel>
+                    <CCol>
                         <CFormSelect
                             name="currencyId"
                             options={currency}
                             onChange={handleOnchange}
+                            required
                         />
                     </CCol>
                 </CRow>
                 <CRow className="mb-3">
-                    <CFormLabel className="col-sm-2 col-form-label">Charge Fee <code>(*)</code></CFormLabel>
-                    <CCol sm={10}>
+                    <CFormLabel className="col-form-label">Charge Fee <code>*</code></CFormLabel>
+                    <CCol>
                         <CFormInput
                             type="text"
                             name="chargeFee"
                             value={values?.chargeFee}
                             onChange={handleOnchange}
+                            required
                         />
                     </CCol>
                 </CRow>
+                <CRow className="mb-3">
+                        <CCol className="d-grid gap-2">
+                            <ButtonSubmit type="submit" />
+                        </CCol>
+                    </CRow>
+                </CForm>
             </CModalBody>
-            <CModalFooter>
-                <CButton onClick={() => setOpen(false)} color="secondary">Close</CButton>
-                <CButton color="primary" onClick={handleCreateProjectServiceCharge}>Add</CButton>
-            </CModalFooter>
         </CModal>
     )
 }
