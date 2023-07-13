@@ -71,13 +71,25 @@ function ModalCreateServiceChargeList({ open, setOpen }) {
                     <CRow className="mb-3">
                         <CFormLabel className="col-form-label">Service Charge Code<code>*</code></CFormLabel>
                         <CCol>
-                            <CFormInput type="text" name="serviceChargeCode" value={values?.serviceChargeCode} onChange={handleOnchange} required />
+                            <CFormInput
+                                type="text"
+                                name="serviceChargeCode"
+                                value={values?.serviceChargeCode}
+                                onChange={handleOnchange}
+                                required
+                            />
                         </CCol>
                     </CRow>
                     <CRow className="mb-3">
                         <CFormLabel className="col-form-label">Service Charge<code>*</code></CFormLabel>
                         <CCol>
-                            <CFormInput type="text" name="serviceCharge" value={values?.serviceCharge} onChange={handleOnchange} required />
+                            <CFormInput
+                                type="text"
+                                name="serviceCharge"
+                                value={values?.serviceCharge}
+                                onChange={handleOnchange}
+                                required
+                            />
                         </CCol>
                     </CRow>
                     <CRow className="mb-3">

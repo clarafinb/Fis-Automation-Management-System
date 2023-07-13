@@ -57,7 +57,7 @@ function ModalCreateTransportType({ open, setOpen }) {
             // size="xl"
             visible={open}
             onClose={() => setOpen(false)}
-            // alignment='center'
+        // alignment='center'
         >
             <CModalHeader>
                 <CModalTitle>ADD TRANSPORT TYPE</CModalTitle>
@@ -65,18 +65,25 @@ function ModalCreateTransportType({ open, setOpen }) {
             <CModalBody>
                 <CForm onSubmit={handleCreateTransportType}>
                     <CRow className="mb-3">
-                        <CFormLabel className="col-form-label">Transport Name</CFormLabel>
+                        <CFormLabel className="col-form-label">Transport Name<code>*</code></CFormLabel>
                         <CCol>
-                            <CFormInput type="text" name="transportName" value={values?.transportName} onChange={handleOnchange} />
+                            <CFormInput
+                                type="text"
+                                name="transportName"
+                                value={values?.transportName}
+                                onChange={handleOnchange}
+                                required
+                            />
                         </CCol>
                     </CRow>
                     <CRow className="mb-3">
-                        <CFormLabel className="col-form-label">Transport Type</CFormLabel>
+                        <CFormLabel className="col-form-label">Transport Type<code>*</code></CFormLabel>
                         <CCol>
                             <CFormSelect
                                 name="transportModeId"
                                 options={transportTypeList}
                                 onChange={handleOnchange}
+                                required
                             />
                         </CCol>
                     </CRow>

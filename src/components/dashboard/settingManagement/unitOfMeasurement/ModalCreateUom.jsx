@@ -55,7 +55,13 @@ function ModalCreateUom({ open, setOpen }) {
                     <CRow className="mb-3">
                         <CFormLabel className="col-form-label">UOM <code>*</code></CFormLabel>
                         <CCol>
-                            <CFormInput type="text" name="uom" value={values?.uom} onChange={handleOnchange} />
+                            <CFormInput
+                                type="text"
+                                name="uom"
+                                value={values?.uom}
+                                onChange={handleOnchange}
+                                required
+                            />
                         </CCol>
                     </CRow>
                     <CRow className="mb-3">

@@ -102,6 +102,7 @@ function ModalCreateSubDistrict({ open, setOpen, isEdit, dataEdit }) {
                                 isSearchable={true}
                                 value={selectedProvince}
                                 onChange={handleOnChangeProvince}
+                                required
                             />
                         </CCol>
                     </CRow>
@@ -113,6 +114,7 @@ function ModalCreateSubDistrict({ open, setOpen, isEdit, dataEdit }) {
                                 name="subDistrictName"
                                 value={values?.subDistrictName || data?.subDistrictName}
                                 onChange={handleOnchange}
+                                required
                             />
                         </CCol>
                     </CRow>
@@ -124,6 +126,7 @@ function ModalCreateSubDistrict({ open, setOpen, isEdit, dataEdit }) {
                                 name="mrsCode"
                                 value={values?.mrsCode || data?.mrsCode}
                                 onChange={handleOnchange}
+                                required
                             />
                         </CCol>
                     </CRow>
@@ -135,6 +138,7 @@ function ModalCreateSubDistrict({ open, setOpen, isEdit, dataEdit }) {
                                 name="postalCode"
                                 value={values?.postalCode || data?.postalCode}
                                 onChange={handleOnchange}
+                                required
                             />
                         </CCol>
                     </CRow>

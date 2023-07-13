@@ -58,23 +58,25 @@ function ModalCreateCustomer({ open, setOpen }) {
                     <CRow className="mb-3">
                         <CFormLabel className="col-form-label">Customer Name <code>*</code></CFormLabel>
                         <CCol>
-                            <CFormInput 
-                            type="text" 
-                            name="customerName" 
-                            value={values?.customerName} 
-                            onChange={handleOnchange} 
+                            <CFormInput
+                                type="text"
+                                name="customerName"
+                                value={values?.customerName}
+                                onChange={handleOnchange}
+                                required
                             />
                         </CCol>
                     </CRow>
                     <CRow className="mb-3">
                         <CFormLabel className="col-form-label">Customer Alias Name <code>*</code></CFormLabel>
                         <CCol>
-                            <CFormInput 
-                                type="text" 
-                                name="customerAliasName" 
-                                value={values?.customerAliasName} 
-                                onChange={handleOnchange} 
-                                />
+                            <CFormInput
+                                type="text"
+                                name="customerAliasName"
+                                value={values?.customerAliasName}
+                                onChange={handleOnchange}
+                                required
+                            />
                         </CCol>
                     </CRow>
                     <CRow className="mb-3">
