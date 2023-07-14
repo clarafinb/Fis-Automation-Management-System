@@ -20,6 +20,7 @@ const WarehouseType = React.lazy(() => import('./views/dashboard/settingManageme
 //Operation Lead
 const OrderRequest = React.lazy(() => import('./views/dashboardOpsLead/OrderRequest'))
 const PickAndPack = React.lazy(() => import('./views/dashboardOpsLead/PickAndPack'))
+const PickAndPackDetail = React.lazy(() => import('./views/dashboardOpsLead/PickAndPackDetail'))
 const PickAndPackProgress = React.lazy(() => import('./views/dashboardOpsLead/PickAndPackProgress'))
 const PickAndPackProgressDetail = React.lazy(() => import('./views/dashboardOpsLead/PickAndPackProgressDetail'))
 const WaitingDispatch = React.lazy(() => import('./views/dashboardOpsLead/WaitingDispatch'))
@@ -54,8 +55,9 @@ const routes = [
   { path: '/dashboard/sku/:id', name: 'PROJECT MASTER SKU', element: Sku },
   { path: '/dashboard-ops-lead/order-request/:projectId', name: 'ORDER REQUEST', element: OrderRequest },
   { path: '/dashboard-ops-lead/pick-pack/:projectId', name: 'PICK AND PACK PENDING', element: PickAndPack },
-  { path: '/dashboard-ops-lead/pick-pack/progress/:projectId', name: 'PICK AND PACK PENDING', element: PickAndPackProgress },
-  { path: '/dashboard-ops-lead/pick-pack/progress/:projectId/detail/:orderReqId', name: 'PICK AND PACK PENDING', element: PickAndPackProgressDetail },
+  { path: '/dashboard-ops-lead/pick-pack/:projectId/detail/:whId/:orderReqId', name: 'PICK AND PACK PENDING DETAIL', element: PickAndPackDetail },
+  { path: '/dashboard-ops-lead/pick-pack/progress/:projectId', name: 'PICK AND PACK PROGRESS', element: PickAndPackProgress },
+  { path: '/dashboard-ops-lead/pick-pack/progress/:projectId/detail/:orderReqId', name: 'PICK AND PACK PROGRESS DETAIL', element: PickAndPackProgressDetail },
   { path: '/dashboard-ops-lead/waiting-dispatch/:projectId', name: 'WAITING DELIVERY', element: WaitingDispatch },
   { path: '/dashboard-ops-lead/waiting-dispatch/:projectId/detail/:orderReqId', name: 'WAITING DELIVERY DETAIL', element: WaitingDispatchDetail },
   { path: '/dashboard-ops-lead/waiting-dispatch/transport-arrangment/:transportArrangmentId/:transportModeId/:projectId/:orderReqId', name: 'TRANSPORT ARRANGMENT DETAIL', element: TransportArrangmentDetail },

@@ -182,3 +182,4 @@ export const API_EXPORT_EXCEL_INBOUND_LOG_SUCCESS = BASE_URL + "inventory/inboun
 export const API_GET_TEMPLATE_UPLOAD_INBOUND = BASE_URL + "masterdata/getMassUploadInboundTemplate"
 export const API_UPLOAD_INVENTORY_ITEM = BASE_URL + "inventory/inboundItemFileUpload"
 export const API_UPLOAD_INVENTORY_BOX = BASE_URL + "inventory/inboundBoxFileUpload"
+export const API_GET_ORDER_REQUEST_ITEM_INVENTORY = BASE_URL + "logmanagement/getOrderRequestItemListWithInventory"

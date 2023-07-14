@@ -17,16 +17,17 @@ import {
     CModalTitle,
     CRow
 } from '@coreui/react'
-
+import { useNavigate } from 'react-router-dom'
 import * as actions from '../../config/redux/Dashboard/actions'
 import CIcon from '@coreui/icons-react'
 import { cilCloudUpload, cilFile, cilPlus } from '@coreui/icons'
 import SmartTable from 'src/components/custom/table/SmartTable'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPlay, faRefresh, faTable, faUpload } from '@fortawesome/free-solid-svg-icons'
+import { faPencil, faPlay, faRefresh, faTable, faUpload } from '@fortawesome/free-solid-svg-icons'
 import Swal from 'sweetalert2'
 
 function PickAndPack() {
+    const nav = useNavigate();
     const { dispatch, Global, Dashboard } = useRedux()
     const [detailProject, setDetailProject] = useState({})
     const [projectId, setProjectId] = useState("")
@@ -42,7 +43,7 @@ function PickAndPack() {
     useEffect(() => {
         const id = window.location.href.split("/").pop();
         setProjectId(id)
-        if (Global?.user?.userID) {
+        if (Global?.user?.userID && projectId) {
             dispatch(
                 actions.getActivitySummaryWHProject(Global?.user?.userID, id)
             ).then(result => {
@@ -63,7 +64,7 @@ function PickAndPack() {
                 dispatch(actions.startPickAndPack(payload, projectId, detailProject.whId))
             } else if (action === 'reset') {
                 dispatch(actions.resetPickAndPack(orderReqId, projectId, detailProject.whId, Global.user.userID))
-            } else {
+            } else if (action === 'insert') {
                 setOpenModalUpload(true)
                 dispatch(
                     actions.getMassUploadTemplateOrderReqItemBulkUpload()
@@ -71,6 +72,9 @@ function PickAndPack() {
                     setTemplateName(response?.templateName)
                     setTemplateUrl(response?.templateURL)
                 })
+            } else {
+                // detail
+                nav(`detail/${detailProject.whId}/${orderReqId}`)
             }
         }
     )
@@ -176,7 +180,16 @@ function PickAndPack() {
             render: ({ value, cellProps }) => {
                 return (
                     <>
-                        {
+                        <FontAwesomeIcon
+                            icon={faPencil}
+                            className='textBlue px-2'
+                            title='Order Request'
+                            size='sm'
+                            onClick={() =>
+                                handleComponent('detail', value)
+                            }
+                        />
+                        {/* {
                             cellProps.data.totalItem > 0 ?
                                 <>
                                     <FontAwesomeIcon
@@ -202,7 +215,7 @@ function PickAndPack() {
                                         handleComponent('insert', value)
                                     }
                                 />
-                        }
+                        } */}
                     </>
                 )
             }

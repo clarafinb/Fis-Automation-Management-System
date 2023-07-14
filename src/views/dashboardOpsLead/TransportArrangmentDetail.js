@@ -24,6 +24,8 @@ import { cilFile, cilPlus } from '@coreui/icons'
 import SmartTable from 'src/components/custom/table/SmartTable'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowRight, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons'
+import ButtonSubmit from 'src/components/custom/button/ButtonSubmit'
+import ButtonCancel from 'src/components/custom/button/ButtonCancel'
 
 function TransportArragmentDetail() {
     const nav = useNavigate();
@@ -127,7 +129,7 @@ function TransportArragmentDetail() {
     const transportTypeAndDispatcherColumns = [
         { name: 'no', header: 'No', defaultVisible: true, defaultWidth: 80, type: 'number' },
         { name: 'transportName', header: 'Transport Type', defaultFlex: 1 },
-        { name: 'mainDispatcherName', header: 'Dispatcher', defaultFlex: 1 }, ,
+        { name: 'mainDispatcherName', header: 'Dispatcher', defaultFlex: 1 },
         { name: 'pickandpackCompleteDate', header: 'Create Date', defaultFlex: 1 },
         {
             name: 'transportTypeArrangementId',
@@ -275,9 +277,9 @@ function TransportArragmentDetail() {
     const handleConfirm = (type) => {
         if (type == "confirm") {
             dispatch(actions.completeTransportArrangement(param?.transportArrangmentId, Global?.user?.userID))
-            nav("/operation-lead/waiting-dispatch/"+param?.projectId, { replace: true })
+            nav("/dashboard-ops-lead/waiting-dispatch/" + param?.projectId, { replace: true })
         } else {
-            nav('/operation-lead/waiting-dispatch/' + param?.projectId + '/detail/' + param?.orderReqId)
+            nav("/dashboard-ops-lead/waiting-dispatch/" + param?.projectId + "/detail/" + param?.orderReqId, { replace: true })
         }
     }
 
@@ -367,8 +369,17 @@ function TransportArragmentDetail() {
                     <br />
                     <CRow className='py-2'>
                         <CCol className='text-end'>
-                            <CButton onClick={() => handleConfirm("confirm")} color="success">Confirm</CButton>
-                            <CButton onClick={() => handleConfirm("cancel")} color="secondary">Cancel</CButton>
+                            {/* <CButton onClick={() => handleConfirm("confirm")} color="success">Confirm</CButton>
+                            <CButton onClick={() => handleConfirm("cancel")} color="secondary">Cancel</CButton> */}
+                            <ButtonSubmit
+                                label='CONFIRM'
+                                handleButton={() => handleConfirm("confirm")}
+                                className='me-2'
+                            />
+                            <ButtonCancel
+                                label='CANCEL'
+                                handleButton={() => handleConfirm("cancel")}
+                            />
                         </CCol>
                     </CRow>
                 </CCardBody>
@@ -405,7 +416,10 @@ function TransportArragmentDetail() {
                     </CRow>
                 </CModalBody>
                 <CModalFooter>
-                    <CButton onClick={handleAddTransportType} color="secondary">Add</CButton>
+                    <ButtonSubmit
+                        label='ADD'
+                        handleButton={handleAddTransportType}
+                    />
                 </CModalFooter>
             </CModal>
             <CModal

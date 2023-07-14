@@ -28,6 +28,7 @@ import { faPencil, faPlay, faPlus, faRefresh, faSearch, faUnlink, faUpload } fro
 import moment from 'moment/moment'
 import Select from 'react-select'
 import Swal from 'sweetalert2'
+import ButtonCancel from 'src/components/custom/button/ButtonCancel'
 
 function WaitingDispatchDetail() {
     const { dispatch, Global, Dashboard } = useRedux()
@@ -209,7 +210,7 @@ function WaitingDispatchDetail() {
     )
 
     const handleBack = () => {
-        nav("/operation-lead/waiting-dispatch/"+projectId, { replace: true })
+        nav("/dashboard-ops-lead/waiting-dispatch/" + projectId, { replace: true })
     }
 
     const additionalServiceChargeColumn = [
@@ -621,7 +622,11 @@ function WaitingDispatchDetail() {
                             <br />
                             < CRow className='mt-3'>
                                 <CCol className="d-none d-md-block text-end" md={12}>
-                                    <CButton onClick={handleBack} color="secondary">Back</CButton>
+                                    {/* <CButton onClick={handleBack} color="secondary">Back</CButton> */}
+                                    <ButtonCancel
+                                        label='CANCEL'
+                                        handleButton={handleBack}
+                                    />
                                 </CCol>
                             </CRow>
                             {/*

@@ -30,7 +30,8 @@ let initialState = {
     listMasterLocation: [],
     listSubDistrict: [],
     listHoDocument: [],
-    listMasterWarehouseType: []
+    listMasterWarehouseType: [],
+    listOrderReqItemWithInventory: []
 };
 
 const Dashboard = (state = initialState, { type, payload }) => {
@@ -215,6 +216,11 @@ const Dashboard = (state = initialState, { type, payload }) => {
             return {
                 ...state,
                 listMasterWarehouseType: payload
+            }
+        case actionType.SET_LIST_ORDER_REQ_ITEM_WITH_IVENTORY:
+            return {
+                ...state,
+                listOrderReqItemWithInventory: payload
             }
         default:
             return { ...state };

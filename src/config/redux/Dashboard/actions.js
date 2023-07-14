@@ -125,7 +125,8 @@ import {
   API_ADD_MASTER_WAREHOUSE_TYPE,
   API_UPDATE_MASTER_WAREHOUSE_TYPE,
   API_GET_PACKAGE_TYPE,
-  API_GET_WAREHOUSE_ACTIVE
+  API_GET_WAREHOUSE_ACTIVE,
+  API_GET_ORDER_REQUEST_ITEM_INVENTORY
 } from "../../api/index"
 import Swal from "sweetalert2";
 
@@ -3054,6 +3055,33 @@ export const getSelectPackageType = () => {
         }
       })
       return Promise.resolve(data)
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Close'
+      })
+    }
+  }
+}
+// API_GET_ORDER_REQUEST_ITEM_INVENTORY
+export const getOrderRequestItemListWithInventory = (orderReqId, whId, inboundType) => {
+  return async (dispatch) => {
+    try {
+      const fullParam = `${orderReqId}/${whId}/${inboundType}`
+      let list = await actionCrud.actionCommonSliceParam(fullParam, API_GET_ORDER_REQUEST_ITEM_INVENTORY, "GET");
+      let listOrderReqItemWithInventory = list?.map((item, idx) => {
+        return {
+          no: idx + 1,
+          whTypeDescription: item.typeDescription,
+          ...item,
+        }
+      })
+      dispatch({
+        type: actionType.SET_LIST_ORDER_REQ_ITEM_WITH_IVENTORY,
+        payload: listOrderReqItemWithInventory
+      });
     } catch (error) {
       Swal.fire({
         title: 'Error!',
