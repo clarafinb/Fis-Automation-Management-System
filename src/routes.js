@@ -30,6 +30,7 @@ const DeliveryTransitDetail = React.lazy(() => import('./views/dashboardOpsLead/
 const DeliveryComplete = React.lazy(() => import('./views/dashboardOpsLead/DeliveryComplete'))
 const DeliveryCompleteDetail = React.lazy(() => import('./views/dashboardOpsLead/DeliveryCompleteDetail'))
 const MasterLocation = React.lazy(() => import('./views/dashboardOpsLead/MasterLocation'))
+const ManageInventory = React.lazy(() => import('./views/dashboardOpsLead/ManageInventory'))
 // const Colors = React.lazy(() => import('./views/theme/colors/Colors'))
 
 
@@ -63,6 +64,7 @@ const routes = [
   { path: '/dashboard-ops-lead/delivery-complete/:projectId', name: 'DELIVERY COMPLETE', element: DeliveryComplete },
   { path: '/dashboard-ops-lead/delivery-complete/:projectId/detail/:orderReqId', name: 'DELIVERY COMPLETE DETAIL', element: DeliveryCompleteDetail },
   { path: '/dashboard-ops-lead/master-location/:projectId', name: 'MASTER LOCAITON', element: MasterLocation },
+  { path: '/dashboard-ops-lead/manage-inventory/:whId/:whCode', name: 'MANAGE INVENTORY', element: ManageInventory },
 
   // { path: '/theme', name: 'Theme', element: Colors, exact: true },
   // { path: '/theme/colors', name: 'Colors', element: Colors },

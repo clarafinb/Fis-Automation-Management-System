@@ -141,6 +141,11 @@ function Dashboard() {
             {
                 type: 'masterLocation',
                 url: '/dashboard-ops-lead/master-location/' + id
+            },
+            {
+                type: 'manageInventory',
+                url: '/dashboard-ops-lead/manage-inventory/' +
+                    detailWarehouses[0].whId + '/' + detailWarehouses[0].whCode
             }
         ]
 
@@ -219,7 +224,9 @@ function Dashboard() {
                                                 className="me-2 text-warning" />
                                             Master Location
                                         </CButton>
-                                        <CButton className="float-end btn colorBtn-white px-1 ms-2" >
+                                        <CButton
+                                            className="float-end btn colorBtn-white px-1 ms-2"
+                                            onClick={() => handleNavigator("manageInventory", values?.projectId)}>
                                             <CIcon
                                                 icon={cilList}
                                                 className="me-2 text-warning" />

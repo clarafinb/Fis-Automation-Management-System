@@ -45,7 +45,7 @@ function ModalCreateWarehouse({ open, setOpen, projectId, isEdit, dataEdit }) {
     }
 
     useEffect(() => {
-        if (Global?.user?.token) {
+        if (Global?.user?.token && open) {
             dispatch(actions.getSelectWarehouseType()).then(e => {
                 setWarehouseType(e)
             })
@@ -55,7 +55,7 @@ function ModalCreateWarehouse({ open, setOpen, projectId, isEdit, dataEdit }) {
             })
             setData({})
         }
-    }, [Global?.user]);
+    }, [Global?.user,open]);
 
     useEffect(() => {
         setData({})

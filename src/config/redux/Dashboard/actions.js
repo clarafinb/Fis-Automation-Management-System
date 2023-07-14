@@ -124,7 +124,8 @@ import {
   API_SET_MASTER_WAREHOUSE_TYPE_ACTIVE,
   API_ADD_MASTER_WAREHOUSE_TYPE,
   API_UPDATE_MASTER_WAREHOUSE_TYPE,
-  API_GET_PACKAGE_TYPE
+  API_GET_PACKAGE_TYPE,
+  API_GET_WAREHOUSE_ACTIVE
 } from "../../api/index"
 import Swal from "sweetalert2";
 
@@ -806,7 +807,7 @@ export const setStatusActiveWarehouse = (val, whId, projectId) => {
 export const getSelectWarehouseType = (payload) => {
   return async () => {
     try {
-      let list = await actionCrud.actionCommonCrud(payload, API_GET_WAREHOUSE_TYPE_GET_ALL, "GET");
+      let list = await actionCrud.actionCommonCrud(payload, API_GET_WAREHOUSE_ACTIVE, "GET");
 
 
       let listWarehouse = list?.map((item, idx) => {

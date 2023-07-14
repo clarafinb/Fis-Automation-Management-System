@@ -160,3 +160,26 @@ export async function actionUpdateWithBody(url, body, method = "PUT") {
           return Promise.reject(error)
      }
 }
+
+export async function actionCommonSliceParamBlob(param1, url, method = "GET", param2 = "", body) {
+     try {
+          let param = param2 ? `${url}/${param1}/${param2}` : `${url}/${param1}`
+
+          let objAxios = {
+               method: `${method}`,
+               url: `${param}`,
+               responseType: 'blob', // important
+               data: body
+          }
+          let { data } = await axios(objAxios);
+          return data;
+     } catch (error) {
+          Swal.fire({
+               title: "Attention",
+               text: error?.response?.data?.msg,
+               icon: "warning",
+               confirmButtonText: "Yes",
+          });
+          return Promise.reject(error)
+     }
+}

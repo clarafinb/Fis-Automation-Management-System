@@ -45,6 +45,7 @@ export const API_SET_INACTIVE_UOM = BASE_URL + "uom/setStatusIsInActive"
 export const API_ADD_UOM = BASE_URL + "uom"
 //WAREHOUSE
 export const API_GET_WAREHOUSE_ADMIN = BASE_URL + "warehouse/warehouseGetAllBasedOnProjectAdmin"
+export const API_GET_WAREHOUSE_ACTIVE = BASE_URL + "warehouse/warehouseTypeGetAllActiveOnly "
 export const API_GET_WAREHOUSE_PROJECT_OPERATION = BASE_URL + "warehouse/warehouseGetAllBasedOnProjectOperation"
 export const API_GET_WAREHOUSE_TYPE_GET_ALL = BASE_URL + "warehouse/warehouseTypeGetAll"
 export const API_GET_WAREHOUSE_PROVINCE_ACTIVE = BASE_URL + "masterdata/provinceGetAllActiveOnly"
@@ -171,3 +172,13 @@ export const API_UPDATE_MASTER_WAREHOUSE_TYPE = BASE_URL + "warehouse/warehouseT
 export const API_GET_DETAIL_MASTER_WAREHOUSE_TYPE = BASE_URL + "warehouse/warehouseTypeGetDetail"
 // PACKAGE TYPE
 export const API_GET_PACKAGE_TYPE = BASE_URL + "logmanagement/getPackageAllActiveOnly"
+// MANAGE INVENTORY
+export const API_GET_INVENTORY_ITEM = BASE_URL + "inventory/getInventoryItemBaseSummary"
+export const API_GET_INVENTORY_BOX = BASE_URL + "inventory/getInventoryBoxSummary"
+export const API_GET_INBOUND_FILE = BASE_URL + "inventory/getInboundFileUploadSummary"
+export const API_GET_INBOUND_LOG_ERROR = BASE_URL + "inventory/inboundErrLogExportToExcel"
+export const API_GET_INBOUND_LOG_SUCCESS = BASE_URL + "inventory/getInboundTransactionSuccess"
+export const API_EXPORT_EXCEL_INBOUND_LOG_SUCCESS = BASE_URL + "inventory/inboundTransactionSuccessExportToExcel"
+export const API_GET_TEMPLATE_UPLOAD_INBOUND = BASE_URL + "masterdata/getMassUploadInboundTemplate"
+export const API_UPLOAD_INVENTORY_ITEM = BASE_URL + "inventory/inboundItemFileUpload"
+export const API_UPLOAD_INVENTORY_BOX = BASE_URL + "inventory/inboundBoxFileUpload"

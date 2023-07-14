@@ -1,7 +1,11 @@
 import * as actionType from "./actionType";
 
 let initialState = {
-    project: {}
+    project: {},
+    listInventoryItem: [],
+    listInventoryBox: [],
+    listInboundFile: [],
+    listInboundLog: []
 };
 
 const DashboardOpsLead = (state = initialState, { type, payload }) => {
@@ -10,6 +14,29 @@ const DashboardOpsLead = (state = initialState, { type, payload }) => {
             return {
                 ...state,
                 project: payload
+            };
+
+        case actionType.SET_INVENTORY_ITEM:
+            return {
+                ...state,
+                listInventoryItem: payload
+            };
+
+        case actionType.SET_INVENTORY_BOX:
+            return {
+                ...state,
+                listInventoryBox: payload
+            };
+
+        case actionType.SET_LIST_INBOUND_FILE:
+            return {
+                ...state,
+                listInboundFile: payload
+            };
+        case actionType.SET_LIST_INBOUND_LOG:
+            return {
+                ...state,
+                listInboundLog: payload
             };
 
         default:

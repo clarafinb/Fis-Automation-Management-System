@@ -168,41 +168,9 @@ function PickAndPack() {
 
     const columns = [
         { name: 'no', header: 'No', defaultWidth: 80, type: 'number' },
-        { name: 'whCode', header: 'WH Code', defaultWidth: 120 },
-        { name: 'custOrderRequest', header: 'Customer Order Request', defaultWidth: 230 },
-        { name: 'orderRequestDesc', header: 'Order Req Desc', defaultWidth: 230 },
-        { name: 'requestorName', header: 'Requestor', defaultWidth: 230 },
-        { name: 'orderRequestDate', header: 'Order Request Date', defaultWidth: 230, textAlign: 'center' },
-        { name: 'deliveryReqType', header: 'Delivery Req Type', defaultWidth: 230 },
-        { name: 'transportReqType', header: 'Transport Req Type', defaultWidth: 230 },
-        { name: 'origin', header: 'Origin', defaultWidth: 200 },
-        { name: 'destination', header: 'Destination', defaultWidth: 200 },
-        {
-            name: 'totalItem',
-            header: 'Total Item Request',
-            defaultWidth: 150,
-            textAlign: 'center',
-            render: ({ value, cellProps }) => {
-                return (
-                    <>
-                        <span>{value}</span>
-                        <FontAwesomeIcon
-                            icon={faTable}
-                            className='textBlue px-2'
-                            size='lg'
-                            title='Detail Item List'
-                            onClick={() => handleModalDetailItem(cellProps.data)} />
-
-                    </>
-                )
-            }
-        },
-        { name: 'createBy', header: 'Created By', defaultWidth: 250 },
-        { name: 'createDate', header: 'Created date', defaultWidth: 250 },
         {
             name: 'orderReqId',
             header: 'Action',
-            defaultWidth: 250,
             textAlign: 'center',
             defaultWidth: 110,
             render: ({ value, cellProps }) => {
@@ -239,6 +207,37 @@ function PickAndPack() {
                 )
             }
         },
+        { name: 'whCode', header: 'WH Code', defaultWidth: 120 },
+        { name: 'custOrderRequest', header: 'Customer Order Request', defaultWidth: 230 },
+        { name: 'orderRequestDesc', header: 'Order Req Desc', defaultWidth: 230 },
+        { name: 'requestorName', header: 'Requestor', defaultWidth: 230 },
+        { name: 'orderRequestDate', header: 'Order Request Date', defaultWidth: 230, textAlign: 'center' },
+        { name: 'deliveryReqType', header: 'Delivery Req Type', defaultWidth: 230 },
+        { name: 'transportReqType', header: 'Transport Req Type', defaultWidth: 230 },
+        { name: 'origin', header: 'Origin', defaultWidth: 200 },
+        { name: 'destination', header: 'Destination', defaultWidth: 200 },
+        {
+            name: 'totalItem',
+            header: 'Total Item Request',
+            defaultWidth: 150,
+            textAlign: 'center',
+            render: ({ value, cellProps }) => {
+                return (
+                    <>
+                        <span>{value}</span>
+                        <FontAwesomeIcon
+                            icon={faTable}
+                            className='textBlue px-2'
+                            size='lg'
+                            title='Detail Item List'
+                            onClick={() => handleModalDetailItem(cellProps.data)} />
+
+                    </>
+                )
+            }
+        },
+        { name: 'createBy', header: 'Created By', defaultWidth: 250 },
+        { name: 'createDate', header: 'Created date', defaultWidth: 250 },
     ];
 
     return (
