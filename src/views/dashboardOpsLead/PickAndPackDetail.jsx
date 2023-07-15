@@ -322,34 +322,6 @@ function PickAndPackDetail() {
                                     </CRow>
                                     <CRow className="mb-4">
                                         <CFormLabel
-                                            className="col-form-label">Destination
-                                        </CFormLabel>
-                                        <CCol>
-                                            <CFormInput
-                                                type="text"
-                                                name="destination"
-                                                value={orderReqDetail?.destination}
-                                                readOnly
-                                                disabled
-                                            />
-                                        </CCol>
-                                    </CRow>
-                                    <CRow className="mb-4">
-                                        <CFormLabel
-                                            className="col-form-label">
-                                        </CFormLabel>
-                                        <CCol>
-                                            <CFormInput
-                                                type="text"
-                                                name="destinationAddress"
-                                                value={orderReqDetail?.destinationAddress}
-                                                readOnly
-                                                disabled
-                                            />
-                                        </CCol>
-                                    </CRow>
-                                    <CRow className="mb-4">
-                                        <CFormLabel
                                             className="col-form-label">Recipient Name
                                         </CFormLabel>
                                         <CCol>
@@ -492,48 +464,6 @@ function PickAndPackDetail() {
                     </CCard>
                 </CCol >
             </CRow >
-            {/* <CModal
-                size="lg"
-                visible={openModalUpload}
-                onClose={() => setOpenModalUpload(false)}
-                alignment='center'
-            >
-                <CModalHeader>
-                    <CModalTitle>Item List Upload</CModalTitle>
-                </CModalHeader>
-                <CModalBody>
-                    <CRow className="mb-3">
-                        <CCol sm={6}>
-                            <CForm onSubmit={handleUploadFile} encType="multipart/form-data">
-                                <CInputGroup className="mb-3">
-                                    <CFormInput
-                                        type="file"
-                                        name="fileUpload"
-                                        onChange={(e) => handleFileChange(e)}
-                                    />
-                                    <CButton
-                                        type="submit"
-                                        color="success"
-                                        title='upload file'
-                                    >
-                                        <FontAwesomeIcon icon={faUpload} />
-                                    </CButton>
-                                </CInputGroup>
-                            </CForm>
-                        </CCol>
-                        <CCol>
-                            <CButton
-                                onClick={handleDownloadTemplate}
-                                color="info">
-                                Download {templateName}
-                            </CButton>
-                        </CCol>
-                    </CRow>
-                </CModalBody>
-                <CModalFooter>
-                    <CButton onClick={handleCloseModalUpload} color="secondary">Close</CButton>
-                </CModalFooter>
-            </CModal> */}
             <ModalUploadFile
                 open={openModalUpload}
                 setOpen={setOpenModalUpload}
