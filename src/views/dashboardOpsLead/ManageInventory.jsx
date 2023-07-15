@@ -38,12 +38,21 @@ function ManageInventory() {
         setWhId(wId)
         setWhCode(wCode)
         if (Global?.user?.token) {
-            dispatch(actions.getInventoryItem(wId))
-            dispatch(actions.getInventoryBox(wId))
-            dispatch(actions.getInboundFileUploadSummary(wId))
-            dispatch(actions.getInboundTransactionSuccess(wId))
+            if (activeKey === 1) {
+                dispatch(actions.getInventoryItem(wId))
+                dispatch(actions.getInventoryBox(wId))
+            }
+
+            if (activeKey === 2) {
+                dispatch(actions.getInboundFileUploadSummary(wId))
+            }
+
+            if (activeKey === 3) {
+                dispatch(actions.getInboundTransactionSuccess(wId))
+            }
+
         }
-    }, [Global?.user]);
+    }, [Global?.user, activeKey]);
 
     const handleToogle = useCallback(
         (val, { subDistrictId }) => {
