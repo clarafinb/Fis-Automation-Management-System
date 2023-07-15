@@ -221,14 +221,14 @@ function PickAndPack() {
             }
         },
         { name: 'whCode', header: 'WH Code', defaultWidth: 120 },
-        { name: 'custOrderRequest', header: 'Customer Order Request', defaultWidth: 230 },
+        { name: 'custOrderRequest', header: 'Customer Order Request', defaultWidth: 300 },
         { name: 'orderRequestDesc', header: 'Order Req Desc', defaultWidth: 230 },
         { name: 'requestorName', header: 'Requestor', defaultWidth: 230 },
         { name: 'orderRequestDate', header: 'Order Request Date', defaultWidth: 230, textAlign: 'center' },
         { name: 'deliveryReqType', header: 'Delivery Req Type', defaultWidth: 230 },
         { name: 'transportReqType', header: 'Transport Req Type', defaultWidth: 230 },
         { name: 'origin', header: 'Origin', defaultWidth: 200 },
-        { name: 'destination', header: 'Destination', defaultWidth: 200 },
+        { name: 'destination', header: 'Destination', defaultWidth: 350 },
         {
             name: 'totalItem',
             header: 'Total Item Request',

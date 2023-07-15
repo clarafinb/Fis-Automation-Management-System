@@ -2,19 +2,11 @@ import React, { useState, useCallback, useEffect } from 'react'
 import { useRedux } from 'src/utils/hooks'
 
 import {
-    CButton,
     CCard,
     CCardBody,
     CCol,
-    CForm,
     CFormInput,
     CFormLabel,
-    CInputGroup,
-    CModal,
-    CModalBody,
-    CModalFooter,
-    CModalHeader,
-    CModalTitle,
     CRow
 } from '@coreui/react'
 
@@ -37,7 +29,6 @@ function PickAndPackDetail() {
     const [orderReqId, setOrderReqId] = useState()
     const [templateName, setTemplateName] = useState("")
     const [openModalUpload, setOpenModalUpload] = useState(false)
-    const [fileUpload, setFileUpload] = useState(null);
     const [templateUrl, setTemplateUrl] = useState("")
     const [whId, setWhId] = useState('')
     const [confirmStatus, setConfirmStatus] = useState(false)
@@ -54,12 +45,7 @@ function PickAndPackDetail() {
         if (Global?.user?.userID) {
             refreshData(orderRequestId, wId)
         }
-    }, [Global?.user?.userID]);
-
-    const handleCloseModalUpload = () => {
-        setOpenModalUpload(false)
-        setFileUpload(null)
-    }
+    }, [Global?.user?.userID, Dashboard?.listOrderReqItemWithInventory.length]);
 
     const handleBack = () => {
         nav("/dashboard-ops-lead/pick-pack/" + projectId, { replace: true })
@@ -87,14 +73,20 @@ function PickAndPackDetail() {
                 result[0].inboundType
             )).then(() => {
                 if (Dashboard?.listOrderReqItemWithInventory.length > 0) {
-                    const res = Dashboard?.listOrderReqItemWithInventory.filter(row => {
-                        return row.balanceQTY < 0
-                    })
-                    if (res.length > 0) {
+                    const res = Dashboard?.listOrderReqItemWithInventory
+                        .filter(row => row.balanceQTY < 0)
+                    if (res.length > 0 && Dashboard?.listOrderReqItemWithInventory.length === 0) {
                         setConfirmStatus(false)
-                    } else {
+                    }
+
+                    if (res.length === 0 && Dashboard?.listOrderReqItemWithInventory.length === 0) {
+                        setConfirmStatus(false)
+                    }
+
+                    if (res.length === 0 && Dashboard?.listOrderReqItemWithInventory.length > 0) {
                         setConfirmStatus(true)
                     }
+
                 } else {
                     setConfirmStatus(false)
                 }
@@ -137,7 +129,6 @@ function PickAndPackDetail() {
                 )
             ).then(() => {
                 refreshData(orderReqId, whId)
-                setFileUpload(null)
             })
         } else {
             Swal.fire({

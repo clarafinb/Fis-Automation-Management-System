@@ -1,5 +1,6 @@
 import React from 'react'
 import {
+    CBadge,
     CCol,
     CRow,
 } from '@coreui/react'
@@ -30,10 +31,14 @@ function TableListItemInventory({
             defaultWidth: 200,
             textAlign: 'center',
             render: ({ value }) => {
-                return (value >= 0) ?
-                    <p className="text-success">{value}</p>
-                    :
-                    <p className="text-danger">{value}</p>
+                return <CBadge
+                    color={value >= 0
+                        ? "success"
+                        : "danger"
+                    }
+                >
+                    {value}
+                </CBadge>
             }
         },
     ];
