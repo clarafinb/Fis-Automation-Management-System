@@ -30,7 +30,7 @@ function TableListItemInventory({
             defaultWidth: 200,
             textAlign: 'center',
             render: ({ value }) => {
-                return (value > 0) ?
+                return (value >= 0) ?
                     <p className="text-success">{value}</p>
                     :
                     <p className="text-danger">{value}</p>
