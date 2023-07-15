@@ -27,6 +27,7 @@ import { useNavigate } from 'react-router-dom';
 import TableListItemInventory from 'src/components/dashboardOpsLead/pickAndPackPending/TableListItemInventory'
 import ButtonCancel from 'src/components/custom/button/ButtonCancel'
 import ButtonSubmit from 'src/components/custom/button/ButtonSubmit'
+import ModalUploadFile from 'src/components/custom/modal/ModalUploadFile'
 
 function PickAndPackDetail() {
     const nav = useNavigate();
@@ -127,15 +128,8 @@ function PickAndPackDetail() {
         window.open(templateUrl, '_blank')
     }
 
-    const handleFileChange = (event) => {
-        const file = event.target.files[0];
-        setFileUpload(file);
-    };
-
-    const handleUploadFile = (e) => {
-        e.preventDefault()
-        if (fileUpload) {
-            const formData = new FormData(e.target);
+    const handleUploadFile = (formData) => {
+        if (formData) {
             dispatch(
                 actions.uploadOrderReqItemPickAndPackProgress(
                     formData,
@@ -498,7 +492,7 @@ function PickAndPackDetail() {
                     </CCard>
                 </CCol >
             </CRow >
-            <CModal
+            {/* <CModal
                 size="lg"
                 visible={openModalUpload}
                 onClose={() => setOpenModalUpload(false)}
@@ -539,7 +533,14 @@ function PickAndPackDetail() {
                 <CModalFooter>
                     <CButton onClick={handleCloseModalUpload} color="secondary">Close</CButton>
                 </CModalFooter>
-            </CModal>
+            </CModal> */}
+            <ModalUploadFile
+                open={openModalUpload}
+                setOpen={setOpenModalUpload}
+                handleDownloadTemplate={handleDownloadTemplate}
+                templateName={templateName}
+                handleUpload={handleUploadFile}
+            />
         </>
     )
 }
