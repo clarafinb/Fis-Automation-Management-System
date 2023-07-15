@@ -100,7 +100,7 @@ function ModalSettingManagement({
                     <CCol sm={3}>
                         <CCard className='text-center no-background' onClick={() => { handleViewModal("warehouseType") }}>
                             <CCardBody>
-                                <img src={'icon/UOM-ICON.png'} />
+                                <img src={'icon/WAREHOUSE-TYPE-ICON.png'} />
                                 <p>Warehouse Type</p>
                             </CCardBody>
                         </CCard>
