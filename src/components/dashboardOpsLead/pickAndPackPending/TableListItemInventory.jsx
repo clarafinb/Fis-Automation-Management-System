@@ -22,9 +22,9 @@ function TableListItemInventory({
         { name: 'no', header: 'No', defaultWidth: 80, type: 'number', textAlign: 'center' },
         { name: 'itemCode', header: 'Item Code', defaultWidth: 230, textAlign: 'center' },
         { name: 'itemDesc', header: 'Item Desc', defaultWidth: 230, textAlign: 'center' },
-        { name: 'uom', header: 'Inbound QTY', defaultWidth: 250, textAlign: 'center' },
-        { name: 'itemQty', header: 'On Hand QTY', defaultWidth: 230, textAlign: 'center' },
-        { name: 'balanceQTY', header: 'Booked QTY', defaultWidth: 230, textAlign: 'center' },
+        { name: 'uom', header: 'UOM', defaultWidth: 250, textAlign: 'center' },
+        { name: 'itemQty', header: 'Req QTY', defaultWidth: 230, textAlign: 'center' },
+        { name: 'balanceQTY', header: 'Balance QTY', defaultWidth: 230, textAlign: 'center' },
     ];
 
     return (
