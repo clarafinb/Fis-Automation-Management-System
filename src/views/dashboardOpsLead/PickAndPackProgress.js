@@ -44,7 +44,7 @@ function PickAndPackProgress() {
                 dispatch(actions.getListPickAndPackProgress(id, result[0].whId, Global?.user?.userID))
             })
         }
-    }, [Global?.user?.userID, projectId]);
+    }, [Global?.user?.userID]);
 
     const handleComponent = useCallback(
         (action, orderReqId) => {
@@ -109,6 +109,30 @@ function PickAndPackProgress() {
 
     const columns = [
         { name: 'no', header: 'No', defaultVisible: true, defaultWidth: 80, type: 'number' },
+        {
+            name: 'orderReqId',
+            header: 'Action',
+            textAlign: 'center',
+            defaultWidth: 110,
+            render: ({ value, cellProps }) => {
+                return (
+                    <>
+                        {
+                            cellProps.data.totalItem > 0 ?
+                                <FontAwesomeIcon
+                                    icon={faArrowRight}
+                                    className='textBlue px-2'
+                                    title='Order Request'
+                                    size='sm'
+                                    onClick={() =>
+                                        handleComponent('detail', value)
+                                    }
+                                /> : ''
+                        }
+                    </>
+                )
+            }
+        },
         { name: 'whCode', header: 'WH Code', defaultWidth: 200 },
         { name: 'custOrderRequest', header: 'Customer Order Request', defaultWidth: 230 },
         { name: 'orderRequestDesc', header: 'Order Req Desc', defaultWidth: 200 },
@@ -117,7 +141,7 @@ function PickAndPackProgress() {
         { name: 'deliveryReqType', header: 'Delivery Req Type', defaultWidth: 200 },
         { name: 'transportReqType', header: 'Transport Req Type', defaultWidth: 200 },
         { name: 'origin', header: 'Origin', defaultWidth: 200 },
-        { name: 'destination', header: 'Destination', defaultWidth: 200 },
+        { name: 'destination', header: 'Destination', defaultWidth: 350 },
         {
             name: 'totalItem',
             header: 'Total Item Request',
@@ -140,31 +164,6 @@ function PickAndPackProgress() {
         },
         { name: 'createBy', header: 'Created By', defaultWidth: 200 },
         { name: 'createDate', header: 'Created date', defaultWidth: 200 },
-        {
-            name: 'orderReqId',
-            header: 'Action',
-            // defaultFlex: 1,
-            textAlign: 'center',
-            defaultWidth: 110,
-            render: ({ value, cellProps }) => {
-                return (
-                    <>
-                        {
-                            cellProps.data.totalItem > 0 ?
-                                <FontAwesomeIcon
-                                    icon={faArrowRight}
-                                    className='textBlue px-2'
-                                    title='Order Request'
-                                    size='sm'
-                                    onClick={() =>
-                                        handleComponent('detail', value)
-                                    }
-                                /> : ''
-                        }
-                    </>
-                )
-            }
-        },
     ];
 
     return (

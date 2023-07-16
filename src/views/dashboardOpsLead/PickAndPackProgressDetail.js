@@ -9,6 +9,7 @@ import {
     CForm,
     CFormInput,
     CFormLabel,
+    CFormTextarea,
     CInputGroup,
     CModal,
     CModalBody,
@@ -28,6 +29,8 @@ import moment from 'moment/moment'
 import Select from 'react-select'
 import Swal from 'sweetalert2'
 import { useNavigate } from 'react-router-dom';
+import ButtonSubmit from 'src/components/custom/button/ButtonSubmit'
+import ButtonCancel from 'src/components/custom/button/ButtonCancel'
 
 function PickAndPackProgressDetail() {
     const nav = useNavigate();
@@ -105,7 +108,7 @@ function PickAndPackProgressDetail() {
     }
 
     const handleBack = () => {
-        nav(-1);
+        nav("/dashboard-ops-lead/pick-pack/progress/" + projectId, { replace: true })
     }
 
     const handleConfirm = () => {
@@ -376,7 +379,7 @@ function PickAndPackProgressDetail() {
                 </CCol>
             </CRow>
             <CRow>
-                <CCol sm={6}>
+                <CCol sm={4}>
                     <CCard>
                         <CCardBody>
                             <CRow>
@@ -391,7 +394,7 @@ function PickAndPackProgressDetail() {
                                 <CCol>
                                     <CRow className="mb-4">
                                         <CFormLabel
-                                            className="col-sm-3 col-form-label">Order Request Date
+                                            className=" col-form-label">Order Request Date
                                         </CFormLabel>
                                         <CCol>
                                             <CFormInput
@@ -405,7 +408,7 @@ function PickAndPackProgressDetail() {
                                     </CRow>
                                     <CRow className="mb-4">
                                         <CFormLabel
-                                            className="col-sm-3 col-form-label">Cust Order Req No
+                                            className=" col-form-label">Cust Order Req No
                                         </CFormLabel>
                                         <CCol>
                                             <CFormInput
@@ -419,7 +422,7 @@ function PickAndPackProgressDetail() {
                                     </CRow>
                                     <CRow className="mb-4">
                                         <CFormLabel
-                                            className="col-sm-3 col-form-label">Order Req Description
+                                            className=" col-form-label">Order Req Description
                                         </CFormLabel>
                                         <CCol>
                                             <CFormInput
@@ -433,7 +436,7 @@ function PickAndPackProgressDetail() {
                                     </CRow>
                                     <CRow className="mb-4">
                                         <CFormLabel
-                                            className="col-sm-3 col-form-label">Delivery Process Type
+                                            className=" col-form-label">Delivery Process Type
                                         </CFormLabel>
                                         <CCol>
                                             <CFormInput
@@ -447,7 +450,7 @@ function PickAndPackProgressDetail() {
                                     </CRow>
                                     <CRow className="mb-4">
                                         <CFormLabel
-                                            className="col-sm-3 col-form-label">Route Type
+                                            className=" col-form-label">Route Type
                                         </CFormLabel>
                                         <CCol>
                                             <CFormInput
@@ -461,7 +464,7 @@ function PickAndPackProgressDetail() {
                                     </CRow>
                                     <CRow className="mb-4">
                                         <CFormLabel
-                                            className="col-sm-3 col-form-label">Requestor Name
+                                            className=" col-form-label">Requestor Name
                                         </CFormLabel>
                                         <CCol>
                                             <CFormInput
@@ -475,7 +478,7 @@ function PickAndPackProgressDetail() {
                                     </CRow>
                                     <CRow className="mb-4">
                                         <CFormLabel
-                                            className="col-sm-3 col-form-label">Delivery Request Type
+                                            className=" col-form-label">Delivery Request Type
                                         </CFormLabel>
                                         <CCol>
                                             <CFormInput
@@ -489,7 +492,7 @@ function PickAndPackProgressDetail() {
                                     </CRow>
                                     <CRow className="mb-4">
                                         <CFormLabel
-                                            className="col-sm-3 col-form-label">Transport Request Type
+                                            className=" col-form-label">Transport Request Type
                                         </CFormLabel>
                                         <CCol>
                                             <CFormInput
@@ -503,7 +506,7 @@ function PickAndPackProgressDetail() {
                                     </CRow>
                                     <CRow className="mb-4">
                                         <CFormLabel
-                                            className="col-sm-3 col-form-label">Origin
+                                            className=" col-form-label">Origin
                                         </CFormLabel>
                                         <CCol>
                                             <CFormInput
@@ -517,7 +520,7 @@ function PickAndPackProgressDetail() {
                                     </CRow>
                                     <CRow className="mb-4">
                                         <CFormLabel
-                                            className="col-sm-3 col-form-label">
+                                            className=" col-form-label">
                                         </CFormLabel>
                                         <CCol>
                                             <CFormInput
@@ -529,9 +532,9 @@ function PickAndPackProgressDetail() {
                                             />
                                         </CCol>
                                     </CRow>
-                                    <CRow className="mb-4">
+                                    {/* <CRow className="mb-4">
                                         <CFormLabel
-                                            className="col-sm-3 col-form-label">Destination
+                                            className=" col-form-label">Destination
                                         </CFormLabel>
                                         <CCol>
                                             <CFormInput
@@ -542,24 +545,30 @@ function PickAndPackProgressDetail() {
                                                 disabled
                                             />
                                         </CCol>
-                                    </CRow>
+                                    </CRow> */}
                                     <CRow className="mb-4">
                                         <CFormLabel
-                                            className="col-sm-3 col-form-label">
+                                            className=" col-form-label">Destination
                                         </CFormLabel>
                                         <CCol>
-                                            <CFormInput
+                                            {/* <CFormInput
                                                 type="text"
                                                 name="destinationAddress"
                                                 value={orderReqDetail?.destinationAddress}
                                                 readOnly
                                                 disabled
-                                            />
+                                            /> */}
+                                            <CFormTextarea
+                                                rows={4}
+                                                name="description"
+                                                value={orderReqDetail?.destinationAddress}
+                                                readOnly
+                                                disabled />
                                         </CCol>
                                     </CRow>
                                     <CRow className="mb-4">
                                         <CFormLabel
-                                            className="col-sm-3 col-form-label">Recipient Name
+                                            className=" col-form-label">Recipient Name
                                         </CFormLabel>
                                         <CCol>
                                             <CFormInput
@@ -573,7 +582,7 @@ function PickAndPackProgressDetail() {
                                     </CRow>
                                     <CRow className="mb-4">
                                         <CFormLabel
-                                            className="col-sm-3 col-form-label">Recipient Company Name
+                                            className=" col-form-label">Recipient Company Name
                                         </CFormLabel>
                                         <CCol>
                                             <CFormInput
@@ -587,7 +596,7 @@ function PickAndPackProgressDetail() {
                                     </CRow>
                                     <CRow className="mb-4">
                                         <CFormLabel
-                                            className="col-sm-3 col-form-label">Create By / Create Date
+                                            className=" col-form-label">Create By / Create Date
                                         </CFormLabel>
                                         <CCol>
                                             <CFormInput
@@ -604,7 +613,7 @@ function PickAndPackProgressDetail() {
                         </CCardBody>
                     </CCard>
                 </CCol>
-                <CCol sm={6}>
+                <CCol sm={8}>
                     <CCard>
                         <CCardBody>
                             <CRow>
@@ -640,7 +649,7 @@ function PickAndPackProgressDetail() {
                                                     handleModalDetailItem(orderReqId)
                                                 }
                                             />
-                                            {
+                                            {/* {
                                                 orderReqDetail?.totalItem > 0 ?
                                                     <FontAwesomeIcon
                                                         icon={faRefresh}
@@ -661,11 +670,11 @@ function PickAndPackProgressDetail() {
                                                 onClick={() =>
                                                     handleComponent('upload')
                                                 }
-                                            />
+                                            /> */}
                                         </CCol>
                                     </CRow>
                                     <CRow className="mb-4">
-                                        <CFormLabel className="col-sm-3 col-form-label">Transport Mode Final</CFormLabel>
+                                        <CFormLabel className=" col-form-label">Transport Mode Final</CFormLabel>
                                         <CCol>
                                             <Select
                                                 className="input-select"
@@ -677,7 +686,7 @@ function PickAndPackProgressDetail() {
                                         </CCol>
                                     </CRow>
                                     <CRow className="mb-4">
-                                        <CFormLabel className="col-sm-3 col-form-label">Delivery Request Final</CFormLabel>
+                                        <CFormLabel className=" col-form-label">Delivery Request Final</CFormLabel>
                                         <CCol>
                                             <Select
                                                 className="input-select"
@@ -689,7 +698,7 @@ function PickAndPackProgressDetail() {
                                         </CCol>
                                     </CRow>
                                     <CRow className="mb-4">
-                                        <CFormLabel className="col-sm-3 col-form-label">Total Collies</CFormLabel>
+                                        <CFormLabel className=" col-form-label">Total Collies</CFormLabel>
                                         <CCol>
                                             <CFormInput
                                                 type="number"
@@ -700,7 +709,7 @@ function PickAndPackProgressDetail() {
                                         </CCol>
                                     </CRow>
                                     <CRow className="mb-4">
-                                        <CFormLabel className="col-sm-3 col-form-label">Total Volume (CBM)</CFormLabel>
+                                        <CFormLabel className=" col-form-label">Total Volume (CBM)</CFormLabel>
                                         <CCol>
                                             <CFormInput
                                                 type="number"
@@ -737,9 +746,15 @@ function PickAndPackProgressDetail() {
                                         orderReqDetail?.totalItem > 0 ?
                                             < CRow className='mt-3'>
                                                 <CCol className="d-none d-md-block text-end" md={12}>
-                                                    <CButton onClick={handleConfirm} color="primary" >Confirm</CButton>
-                                                    &nbsp;&nbsp;&nbsp;
-                                                    <CButton onClick={handleBack} color="secondary">Cancel</CButton>
+                                                    <ButtonSubmit
+                                                        label='CONFIRM'
+                                                        handleButton={handleConfirm}
+                                                        className='me-2'
+                                                    />
+                                                    <ButtonCancel
+                                                        label='CANCEL'
+                                                        handleButton={handleBack}
+                                                    />
                                                 </CCol>
                                             </CRow>
                                             : ''

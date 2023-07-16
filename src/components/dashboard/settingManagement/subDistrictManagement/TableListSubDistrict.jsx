@@ -16,6 +16,7 @@ function TableListSubDistrict({
 }) {
     const filterValue = [
         { name: 'subDistrictName', operator: 'startsWith', type: 'string', value: '' },
+        { name: 'provinceName', operator: 'startsWith', type: 'string', value: '' },
         { name: 'mrsCode', operator: 'startsWith', type: 'string', value: '' },
         { name: 'postalCode', operator: 'startsWith', type: 'string', value: '' },
         { name: 'province', operator: 'startsWith', type: 'string', value: '' },
@@ -24,6 +25,7 @@ function TableListSubDistrict({
     ]
 
     const columns = [
+        { name: 'no', header: 'No', defaultWidth: 80, type: 'number' },
         {
             name: 'isActive',
             header: 'ACTIVE STATUS',
@@ -62,15 +64,14 @@ function TableListSubDistrict({
                 )
             }
         },
-        { name: 'no', header: 'No', defaultWidth: 80, type: 'number' },
-        { name: 'subDistrictName', header: 'SUB DISTRIC', defaultWidth: 230, cellProps: { className: 'customTable' } },
-        { name: 'mrsCode', header: 'MRS CODE', defaultWidth: 230 },
-        { name: 'postalCode', header: 'POSTAL CODE', defaultWidth: 200, textAlign: 'center' },
         { name: 'provinceName', header: 'PROVINCE NAME', defaultWidth: 200 },
-        { name: 'modifyName', header: 'MODIFIED BY', defaultWidth: 250 },
+        { name: 'subDistrictName', header: 'SUB DISTRICT', defaultWidth: 230, cellProps: { className: 'customTable' } },
+        { name: 'postalCode', header: 'POSTAL CODE', defaultWidth: 200, textAlign: 'center' },
+        { name: 'mrsCode', header: 'MRS CODE', defaultWidth: 230 },
+        { name: 'modifyName', header: 'CREATE BY', defaultWidth: 250 },
         {
             name: 'modifyDate',
-            header: 'MODIFIED DATE',
+            header: 'CREATE DATE',
             defaultWidth: 250,
             textAlign: 'center',
             render: ({ value }) => {
