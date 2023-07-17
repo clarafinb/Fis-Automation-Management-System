@@ -17,6 +17,7 @@ import {
 } from '@coreui/react'
 import * as actions from '../../../config/redux/Dashboard/actions'
 import Select from 'react-select'
+import ButtonSubmit from 'src/components/custom/button/ButtonSubmit'
 
 function ModalCreateOrderRequest({ open, setOpen, projectId, detailProject }) {
     const { dispatch, Global } = useRedux()
@@ -178,7 +179,7 @@ function ModalCreateOrderRequest({ open, setOpen, projectId, detailProject }) {
 
     return (
         <CModal
-            size="xl"
+            size="lg"
             visible={open}
             onClose={() => setOpen(false)}
             backdrop="static"
@@ -404,23 +405,12 @@ function ModalCreateOrderRequest({ open, setOpen, projectId, detailProject }) {
                             </CRow>
                         </CCol>
                     </CRow>
-                </CModalBody>
-                <CModalFooter>
                     <CRow className="mb-3">
-                        <CCol>
-                            <CButton
-                                className="colorBtn-cancel"
-                                onClick={handleClose}>
-                                CANCEL
-                            </CButton>
-                            <CButton
-                                className="colorBtn-yellow ms-3"
-                                type="submit">
-                                SAVE
-                            </CButton>
+                        <CCol className="d-grid gap-2">
+                            <ButtonSubmit type="submit" />
                         </CCol>
                     </CRow>
-                </CModalFooter>
+                </CModalBody>
             </CForm>
         </CModal >
     )

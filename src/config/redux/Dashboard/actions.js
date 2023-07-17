@@ -1462,7 +1462,13 @@ export const getActivitySummaryWHProject = (userId, projectId) => {
   return async () => {
     try {
       let data = await actionCrud.actionCommonSlice(projectId, API_GET_ACTIVITY_SUMMARY_WH_PROJECT, "GET", userId);
-      return Promise.resolve(data)
+      const result = data?.map(row => {
+        return {
+          ...row,
+          projectId: projectId
+        }
+      })
+      return Promise.resolve(result)
     } catch (error) {
       Swal.fire({
         title: 'Error!',

@@ -53,7 +53,7 @@ const routes = [
   { path: '/dashboard/project-service-charge/:id', name: 'PROJECT SERVICE CHARGE', element: ProjectServiceCharge },
   { path: '/dashboard/project-member/:id', name: 'PROJECT MEMBER', element: ProjectMember },
   { path: '/dashboard/sku/:id', name: 'PROJECT MASTER SKU', element: Sku },
-  { path: '/dashboard-ops-lead/order-request/:projectId', name: 'ORDER REQUEST', element: OrderRequest },
+  { path: '/dashboard-ops-lead/order-request/:projectId/:whId', name: 'ORDER REQUEST', element: OrderRequest },
   { path: '/dashboard-ops-lead/pick-pack/:projectId', name: 'PICK AND PACK PENDING', element: PickAndPack },
   { path: '/dashboard-ops-lead/pick-pack/:projectId/detail/:whId/:orderReqId', name: 'PICK AND PACK PENDING DETAIL', element: PickAndPackDetail },
   { path: '/dashboard-ops-lead/pick-pack/progress/:projectId', name: 'PICK AND PACK PROGRESS', element: PickAndPackProgress },

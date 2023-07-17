@@ -24,7 +24,7 @@ import ModalProjectList from 'src/components/dashboardOpsLead/ModalProjectList';
 import ChartDetailWarehouse from 'src/components/dashboardOpsLead/ChartDetailWarehouse';
 
 function Dashboard() {
-    const [cookies, setCookie, removeCookie] = useCookies(["dashboardOpsLead"]);
+    const [cookies, setCookie] = useCookies(["dashboardOpsLead"]);
     const { dispatch, Global, DashboardOpsLead } = useRedux()
     const [detailProject, setDetailProject] = useState([])
     const [detailWarehouses, setDetailWarehouses] = useState([])
@@ -110,48 +110,45 @@ function Dashboard() {
         }
     }, [values?.whId, detailProject]);
 
-    const handleNavigator = (type) => {
-
-        const id = DashboardOpsLead?.project?.projectId
+    const handleNavigator = (type, { projectId, whId, whCode }) => {
         const navigate = [
             {
                 type: 'orderRequest',
-                url: '/dashboard-ops-lead/order-request/' + id
+                url: `/dashboard-ops-lead/order-request/${projectId}/${whId}`
             },
             {
                 type: 'pickAndPackPending',
-                url: '/dashboard-ops-lead/pick-pack/' + id
+                url: '/dashboard-ops-lead/pick-pack/' + projectId
             },
             {
                 type: 'pickAndPackProgress',
-                url: '/dashboard-ops-lead/pick-pack/progress/' + id
+                url: '/dashboard-ops-lead/pick-pack/progress/' + projectId
             },
             {
                 type: 'waitingDispatch',
-                url: '/dashboard-ops-lead/waiting-dispatch/' + id
+                url: '/dashboard-ops-lead/waiting-dispatch/' + projectId
             },
             {
                 type: 'deliveryTransit',
-                url: '/dashboard-ops-lead/delivery-transit/' + id
+                url: '/dashboard-ops-lead/delivery-transit/' + projectId
             },
             {
                 type: 'deliveryComplete',
-                url: '/dashboard-ops-lead/delivery-complete/' + id
+                url: '/dashboard-ops-lead/delivery-complete/' + projectId
             },
             {
                 type: 'masterLocation',
-                url: '/dashboard-ops-lead/master-location/' + id
+                url: '/dashboard-ops-lead/master-location/' + projectId
             },
             {
                 type: 'manageInventory',
-                url: '/dashboard-ops-lead/manage-inventory/' +
-                    detailWarehouses[0].whId + '/' + detailWarehouses[0].whCode
+                url: `/dashboard-ops-lead/manage-inventory/${whId}/${whCode}`
             }
         ]
 
         let url = navigate.find(e => e.type === type)
         if (url) {
-            nav(url.url)
+            nav(url.url, { replace: true })
         }
     }
 
@@ -204,6 +201,7 @@ function Dashboard() {
             <br />
             {
                 detailWarehouses.length > 0 && detailWarehouses?.map((detailWarehouse) => {
+                    console.log('detailWarehouse : ', detailWarehouse)
                     return (
                         <>
                             <CCard key={detailWarehouse?.whId}>
@@ -217,7 +215,7 @@ function Dashboard() {
                                     </CCol>
                                     <CCol className="d-none d-md-block">
                                         <CButton
-                                            onClick={() => handleNavigator("masterLocation", values?.projectId)}
+                                            onClick={() => handleNavigator("masterLocation", detailWarehouse)}
                                             className="float-end btn colorBtn-white px-1 ms-2">
                                             <CIcon
                                                 icon={cilList}
@@ -226,7 +224,7 @@ function Dashboard() {
                                         </CButton>
                                         <CButton
                                             className="float-end btn colorBtn-white px-1 ms-2"
-                                            onClick={() => handleNavigator("manageInventory", values?.projectId)}>
+                                            onClick={() => handleNavigator("manageInventory", detailWarehouse)}>
                                             <CIcon
                                                 icon={cilList}
                                                 className="me-2 text-warning" />
@@ -274,7 +272,7 @@ function Dashboard() {
                                                                     <CCol className="d-grid gap-2">
                                                                         <CButton
                                                                             className="colorBtn-yellow"
-                                                                            onClick={() => handleNavigator("orderRequest")}
+                                                                            onClick={() => handleNavigator("orderRequest", detailWarehouse)}
                                                                         >
                                                                             DETAIL
                                                                         </CButton>
@@ -296,7 +294,7 @@ function Dashboard() {
                                                                     <CCol className="d-grid gap-2">
                                                                         <CButton
                                                                             className="colorBtn-yellow"
-                                                                            onClick={() => handleNavigator("pickAndPackPending")}
+                                                                            onClick={() => handleNavigator("pickAndPackPending", detailWarehouse)}
                                                                         >
                                                                             DETAIL
                                                                         </CButton>
@@ -318,7 +316,7 @@ function Dashboard() {
                                                                     <CCol className="d-grid gap-2">
                                                                         <CButton
                                                                             className="colorBtn-yellow"
-                                                                            onClick={() => handleNavigator("pickAndPackProgress")}
+                                                                            onClick={() => handleNavigator("pickAndPackProgress", detailWarehouse)}
                                                                         >
                                                                             DETAIL
                                                                         </CButton>
@@ -342,7 +340,7 @@ function Dashboard() {
                                                                     <CCol className="d-grid gap-2">
                                                                         <CButton
                                                                             className="colorBtn-yellow"
-                                                                            onClick={() => handleNavigator("waitingDispatch")}
+                                                                            onClick={() => handleNavigator("waitingDispatch", detailWarehouse)}
                                                                         >
                                                                             DETAIL
                                                                         </CButton>
@@ -364,7 +362,7 @@ function Dashboard() {
                                                                     <CCol className="d-grid gap-2">
                                                                         <CButton
                                                                             className="colorBtn-yellow"
-                                                                            onClick={() => handleNavigator("deliveryTransit")}
+                                                                            onClick={() => handleNavigator("deliveryTransit", detailWarehouse)}
                                                                         >
                                                                             DETAIL
                                                                         </CButton>
@@ -386,7 +384,7 @@ function Dashboard() {
                                                                     <CCol className="d-grid gap-2">
                                                                         <CButton
                                                                             className="colorBtn-yellow"
-                                                                            onClick={() => handleNavigator("deliveryComplete")}
+                                                                            onClick={() => handleNavigator("deliveryComplete", detailWarehouse)}
                                                                         >
                                                                             DETAIL
                                                                         </CButton>
@@ -413,7 +411,7 @@ function Dashboard() {
                                                                     <CCol className="d-grid gap-2">
                                                                         <CButton
                                                                             className="colorBtn-yellow"
-                                                                        // onClick={() => handleNavigator("orderRequest", values?.projectId)}
+                                                                        // onClick={() => handleNavigator("orderRequest", detailWarehouse)}
                                                                         >
                                                                             DETAIL
                                                                         </CButton>
@@ -435,7 +433,7 @@ function Dashboard() {
                                                                     <CCol className="d-grid gap-2">
                                                                         <CButton
                                                                             className="colorBtn-yellow"
-                                                                        // onClick={() => handleNavigator("orderRequest", values?.projectId)}
+                                                                        // onClick={() => handleNavigator("orderRequest", detailWarehouse)}
                                                                         >
                                                                             DETAIL
                                                                         </CButton>
@@ -459,7 +457,7 @@ function Dashboard() {
                                                                     <CCol className="d-grid gap-2">
                                                                         <CButton
                                                                             className="colorBtn-yellow"
-                                                                        // onClick={() => handleNavigator("orderRequest", values?.projectId)}
+                                                                        // onClick={() => handleNavigator("orderRequest", detailWarehouse)}
                                                                         >
                                                                             DETAIL
                                                                         </CButton>
@@ -481,7 +479,7 @@ function Dashboard() {
                                                                     <CCol className="d-grid gap-2">
                                                                         <CButton
                                                                             className="colorBtn-yellow"
-                                                                        // onClick={() => handleNavigator("orderRequest", values?.projectId)}
+                                                                        // onClick={() => handleNavigator("orderRequest", detailWarehouse)}
                                                                         >
                                                                             DETAIL
                                                                         </CButton>
