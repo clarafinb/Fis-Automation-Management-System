@@ -19,7 +19,7 @@ import { useCookies } from "react-cookie";
 import * as actions from '../../config/redux/Dashboard/actions'
 import * as actions_dashOpsLead from '../../config/redux/DashboardOpsLead/actions'
 import CIcon from '@coreui/icons-react'
-import { cilList } from '@coreui/icons'
+import { cilList, cilNotes } from '@coreui/icons'
 import ModalProjectList from 'src/components/dashboardOpsLead/ModalProjectList';
 import ChartDetailWarehouse from 'src/components/dashboardOpsLead/ChartDetailWarehouse';
 
@@ -187,9 +187,9 @@ function Dashboard() {
                         onClick={handleOpenProjectList}
                     >
                         <CIcon
-                            icon={cilList}
+                            icon={cilNotes}
                             className="me-2 text-warning" />
-                        PROJECT
+                        LIST PROJECT
                     </CButton>
                 </CCol>
                 <CCol sm={3}>

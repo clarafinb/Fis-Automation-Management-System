@@ -2,7 +2,6 @@ import React, { useState,useEffect } from 'react'
 import { useRedux } from 'src/utils/hooks'
 import { useNavigate} from 'react-router-dom'
 import {
-  CButton,
   CCard,
   CCardBody,
   CCardGroup,
@@ -48,7 +47,7 @@ const Login = () => {
 
 
   useEffect(() => {
-		if (Global.user.userLogin) {
+		if (Global.user.userLogin && cookies) {
       setCookie('user', Global?.user, { path: '/' })
       dispatch(actionsDashboard.getDashboard(Global?.user?.roleInf?.roleId))
 		}
@@ -78,7 +77,7 @@ const Login = () => {
         <CRow className="justify-content-center">
           <CCol md={4}>
             <div className="text-center">
-              <img src="/logo/white-logo.png" alt="PT Fan Indonesia Sejahtera" width={300}/>
+              <img src="/logo/fams-logo-1.png" alt="PT Fan Indonesia Sejahtera" width={300}/>
             </div>
           </CCol>
         </CRow>
