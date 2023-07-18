@@ -10,7 +10,7 @@ import {
     CRow
 } from '@coreui/react'
 
-import * as actions from '../../config/redux/Dashboard/actions'
+import * as actions from '../../../config/redux/DashboardOpsLead/actions'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faRefresh, faUpload } from '@fortawesome/free-solid-svg-icons'
 import moment from 'moment/moment'
@@ -23,7 +23,7 @@ import ModalUploadFile from 'src/components/custom/modal/ModalUploadFile'
 
 function PickAndPackDetail() {
     const nav = useNavigate();
-    const { dispatch, Global, Dashboard } = useRedux()
+    const { dispatch, Global, DashboardOpsLead } = useRedux()
     const [orderReqDetail, setOrderReqDetail] = useState({})
     const [projectId, setProjectId] = useState("")
     const [orderReqId, setOrderReqId] = useState()
@@ -35,8 +35,8 @@ function PickAndPackDetail() {
 
     useEffect(() => {
         const splitUri = window.location.href.split("/");
-        const wId = splitUri[8]
-        const orderRequestId = splitUri[9]
+        const wId = splitUri[9]
+        const orderRequestId = splitUri[10]
 
         setProjectId(splitUri[6])
         setOrderReqId(orderRequestId)
@@ -45,7 +45,7 @@ function PickAndPackDetail() {
         if (Global?.user?.userID) {
             refreshData(orderRequestId, wId)
         }
-    }, [Global?.user?.userID, Dashboard?.listOrderReqItemWithInventory.length]);
+    }, [Global?.user?.userID, DashboardOpsLead?.listOrderReqItemWithInventory.length]);
 
     const handleBack = () => {
         nav("/dashboard-ops-lead/pick-pack/" + projectId, { replace: true })
@@ -72,18 +72,18 @@ function PickAndPackDetail() {
                 whId,
                 result[0].inboundType
             )).then(() => {
-                if (Dashboard?.listOrderReqItemWithInventory.length > 0) {
-                    const res = Dashboard?.listOrderReqItemWithInventory
+                if (DashboardOpsLead?.listOrderReqItemWithInventory.length > 0) {
+                    const res = DashboardOpsLead?.listOrderReqItemWithInventory
                         .filter(row => row.balanceQTY < 0)
-                    if (res.length > 0 && Dashboard?.listOrderReqItemWithInventory.length === 0) {
+                    if (res.length > 0 && DashboardOpsLead?.listOrderReqItemWithInventory.length === 0) {
                         setConfirmStatus(false)
                     }
 
-                    if (res.length === 0 && Dashboard?.listOrderReqItemWithInventory.length === 0) {
+                    if (res.length === 0 && DashboardOpsLead?.listOrderReqItemWithInventory.length === 0) {
                         setConfirmStatus(false)
                     }
 
-                    if (res.length === 0 && Dashboard?.listOrderReqItemWithInventory.length > 0) {
+                    if (res.length === 0 && DashboardOpsLead?.listOrderReqItemWithInventory.length > 0) {
                         setConfirmStatus(true)
                     }
 
@@ -427,7 +427,7 @@ function PickAndPackDetail() {
                                     </CRow>
                                     <CCol className="d-none d-md-block text-end">
                                         <TableListItemInventory
-                                            data={Dashboard?.listOrderReqItemWithInventory}
+                                            data={DashboardOpsLead?.listOrderReqItemWithInventory}
                                         />
                                     </CCol>
                                     <CRow className='mt-3'>

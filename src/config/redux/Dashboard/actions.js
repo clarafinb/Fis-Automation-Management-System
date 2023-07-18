@@ -1622,39 +1622,6 @@ export const getSelectDestination = (projectId, routeTypeId, whCode) => {
   }
 }
 
-export const getListPickAndPackPending = (projectId, whId, userId) => {
-  return async (dispatch) => {
-    try {
-      const fullParam = `${projectId}/${whId}/${userId}`
-      let list = await actionCrud.actionParamRequest(fullParam, API_GET_PICK_AND_PACK_PENDING, "GET");
-      let listPickAndPackPending = list?.map((item, idx) => {
-        return {
-          no: idx + 1,
-          ...item,
-          extra: {
-            ...{
-              projectId: projectId,
-              whId: whId,
-              userId: whId
-            }
-          }
-        }
-      })
-      dispatch({
-        type: actionType.SET_LIST_PICK_AND_PACK_PENDING,
-        payload: listPickAndPackPending
-      });
-    } catch (error) {
-      Swal.fire({
-        title: 'Error!',
-        text: error.message,
-        icon: 'error',
-        confirmButtonText: 'Close'
-      })
-    }
-  }
-}
-
 export const getOrderRequestItemList = (orderRequestId) => {
   return async (dispatch) => {
     try {
@@ -1671,66 +1638,7 @@ export const getOrderRequestItemList = (orderRequestId) => {
     }
   }
 }
-export const startPickAndPack = (payload, projectId, whId) => {
-  return async (dispatch) => {
-    try {
-      let create = await actionCrud.actionCommonCrud(payload, API_START_PICK_AND_PACK, "PUT");
-      if (create.status === "success") {
-        Swal.fire({
-          position: "center",
-          icon: "success",
-          title: create?.message,
-          showConfirmButton: true
-        });
-        dispatch(getListPickAndPackPending(projectId, whId, payload.LMBY));
-      } else {
-        Swal.fire({
-          title: 'Error!',
-          text: create?.message,
-          icon: 'error',
-          confirmButtonText: 'Close'
-        })
-      }
-    } catch (error) {
-      Swal.fire({
-        title: 'Error!',
-        text: error.message,
-        icon: 'error',
-        confirmButtonText: 'Close'
-      })
-    }
-  }
-}
-export const resetPickAndPack = (orderReqId, projectId, whId, userId) => {
-  return async (dispatch) => {
-    try {
-      let create = await actionCrud.actionCommonSlice(orderReqId, API_RESET_ORDER_REQUEST, "DELETE");
-      if (create.status === "success") {
-        Swal.fire({
-          position: "center",
-          icon: "success",
-          title: create?.message,
-          showConfirmButton: true
-        });
-        dispatch(getListPickAndPackPending(projectId, whId, userId));
-      } else {
-        Swal.fire({
-          title: 'Error!',
-          text: create?.message,
-          icon: 'error',
-          confirmButtonText: 'Close'
-        })
-      }
-    } catch (error) {
-      Swal.fire({
-        title: 'Error!',
-        text: error.message,
-        icon: 'error',
-        confirmButtonText: 'Close'
-      })
-    }
-  }
-}
+
 export const getMassUploadTemplateOrderReqItemBulkUpload = () => {
   return async () => {
     try {
@@ -1745,27 +1653,6 @@ export const getMassUploadTemplateOrderReqItemBulkUpload = () => {
       })
     }
   }
-}
-export const uploadOrderReqItem = (formData, orderReqId, projectId, whId, userId) => {
-  return async (dispatch) => {
-    try {
-      const { value } = await actionCrud.actionCommonSliceParam(orderReqId, API_UPLOAD_CUST_ORDER_REQ_TEIM, "POST", '', formData)
-      dispatch(getListPickAndPackPending(projectId, whId, userId));
-      Swal.fire({
-        title: value.status,
-        text: value.message,
-        icon: "success",
-        confirmButtonText: "Yes",
-      });
-    } catch (error) {
-      Swal.fire({
-        title: 'Error!',
-        text: error.message,
-        icon: 'error',
-        confirmButtonText: 'Close'
-      })
-    }
-  };
 }
 export const getListPickAndPackProgress = (projectId, whId, userId) => {
   return async (dispatch) => {
@@ -2823,29 +2710,3 @@ export const createMasterWarehouseType = (payload, methode) => {
   }
 }
 
-export const getOrderRequestItemListWithInventory = (orderReqId, whId, inboundType) => {
-  return async (dispatch) => {
-    try {
-      const fullParam = `${orderReqId}/${whId}/${inboundType}`
-      let list = await actionCrud.actionCommonSliceParam(fullParam, API_GET_ORDER_REQUEST_ITEM_INVENTORY, "GET");
-      let listOrderReqItemWithInventory = list?.map((item, idx) => {
-        return {
-          no: idx + 1,
-          whTypeDescription: item.typeDescription,
-          ...item,
-        }
-      })
-      dispatch({
-        type: actionType.SET_LIST_ORDER_REQ_ITEM_WITH_IVENTORY,
-        payload: listOrderReqItemWithInventory
-      });
-    } catch (error) {
-      Swal.fire({
-        title: 'Error!',
-        text: error.message,
-        icon: 'error',
-        confirmButtonText: 'Close'
-      })
-    }
-  }
-}

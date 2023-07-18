@@ -19,8 +19,8 @@ const SubDistrictManagement = React.lazy(() => import('./views/dashboard/setting
 const WarehouseType = React.lazy(() => import('./views/dashboard/settingManagement/WarehouseType'))
 //Operation Lead
 const OrderRequest = React.lazy(() => import('./views/dashboardOpsLead/orderRequest/OrderRequest'))
-const PickAndPack = React.lazy(() => import('./views/dashboardOpsLead/PickAndPack'))
-const PickAndPackDetail = React.lazy(() => import('./views/dashboardOpsLead/PickAndPackDetail'))
+const PickAndPack = React.lazy(() => import('./views/dashboardOpsLead/pickAndPackPending/PickAndPack'))
+const PickAndPackDetail = React.lazy(() => import('./views/dashboardOpsLead/pickAndPackPending/PickAndPackDetail'))
 const PickAndPackProgress = React.lazy(() => import('./views/dashboardOpsLead/PickAndPackProgress'))
 const PickAndPackProgressDetail = React.lazy(() => import('./views/dashboardOpsLead/PickAndPackProgressDetail'))
 const WaitingDispatch = React.lazy(() => import('./views/dashboardOpsLead/WaitingDispatch'))
@@ -56,8 +56,8 @@ const routes = [
   { path: '/dashboard/project-member/:id', name: 'PROJECT MEMBER', element: ProjectMember },
   { path: '/dashboard/sku/:id', name: 'PROJECT MASTER SKU', element: Sku },
   { path: '/dashboard-ops-lead/order-request/:projectId/:whId', name: 'ORDER REQUEST', element: OrderRequest },
-  { path: '/dashboard-ops-lead/pick-pack/:projectId', name: 'PICK AND PACK PENDING', element: PickAndPack },
-  { path: '/dashboard-ops-lead/pick-pack/:projectId/detail/:whId/:orderReqId', name: 'PICK AND PACK PENDING DETAIL', element: PickAndPackDetail },
+  { path: '/dashboard-ops-lead/pick-pack/:projectId/:whId', name: 'PICK AND PACK PENDING', element: PickAndPack },
+  { path: '/dashboard-ops-lead/pick-pack/:projectId/:whId/detail/:whId/:orderReqId', name: 'PICK AND PACK PENDING DETAIL', element: PickAndPackDetail },
   { path: '/dashboard-ops-lead/pick-pack/progress/:projectId', name: 'PICK AND PACK PROGRESS', element: PickAndPackProgress },
   { path: '/dashboard-ops-lead/pick-pack/progress/:projectId/detail/:orderReqId', name: 'PICK AND PACK PROGRESS DETAIL', element: PickAndPackProgressDetail },
   { path: '/dashboard-ops-lead/waiting-dispatch/:projectId', name: 'WAITING DELIVERY', element: WaitingDispatch },

@@ -20,27 +20,12 @@ function TableListItemInventory({
     ]
 
     const columns = [
-        { name: 'no', header: 'No', defaultWidth: 80, type: 'number', textAlign: 'center' },
-        { name: 'itemCode', header: 'Item Code', defaultWidth: 200, textAlign: 'center' },
-        { name: 'itemDesc', header: 'Item Desc', defaultWidth: 200, textAlign: 'center' },
-        { name: 'uom', header: 'UOM', defaultWidth: 200, textAlign: 'center' },
-        { name: 'itemQty', header: 'Req QTY', defaultWidth: 200, textAlign: 'center' },
-        {
-            name: 'balanceQTY',
-            header: 'Balance QTY',
-            defaultWidth: 200,
-            textAlign: 'center',
-            render: ({ value }) => {
-                return <CBadge
-                    color={value >= 0
-                        ? "success"
-                        : "danger"
-                    }
-                >
-                    {value}
-                </CBadge>
-            }
-        },
+        { name: 'no', header: 'NO', defaultWidth: 80, type: 'number', textAlign: 'center' },
+        { name: 'itemCode', header: 'ITEM CODE', defaultWidth: 120, textAlign: 'center' },
+        { name: 'itemDesc', header: 'ITEM DESC', defaultFlex: 1, textAlign: 'center' },
+        { name: 'uom', header: 'UOM', defaultWidth: 100, textAlign: 'center' },
+        { name: 'itemQty', header: 'REQ QTY', defaultWidth: 120, textAlign: 'center' },
+        { name: 'balanceQTY', header: 'BALANCE QTY', defaultWidth: 140, textAlign: 'center' }
     ];
 
     return (
@@ -50,7 +35,6 @@ function TableListItemInventory({
                     data={data}
                     columns={columns}
                     filterValue={filterValue}
-                    minHeight={300}
                 />
             </CCol>
         </CRow>

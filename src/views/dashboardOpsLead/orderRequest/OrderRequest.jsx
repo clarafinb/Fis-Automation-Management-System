@@ -16,7 +16,6 @@ import {
     CTabPane
 } from '@coreui/react'
 
-import * as actions_ from '../../../config/redux/Dashboard/actions'
 import * as actions from '../../../config/redux/DashboardOpsLead/actions'
 import CIcon from '@coreui/icons-react'
 import { cilDataTransferUp, cilPlus, cilSpreadsheet } from '@coreui/icons'

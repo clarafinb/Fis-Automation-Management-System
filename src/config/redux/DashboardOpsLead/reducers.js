@@ -7,6 +7,8 @@ let initialState = {
     listInboundFile: [],
     listInboundLog: [],
     listOrdeRequest: [],
+    listPickAndPackPending: [],
+    listOrderReqItemWithInventory: []
 };
 
 const DashboardOpsLead = (state = initialState, { type, payload }) => {
@@ -44,6 +46,18 @@ const DashboardOpsLead = (state = initialState, { type, payload }) => {
             return {
                 ...state,
                 listOrdeRequest: payload
+            }
+
+        case actionType.SET_LIST_PICK_AND_PACK_PENDING:
+            return {
+                ...state,
+                listPickAndPackPending: payload
+            }
+
+        case actionType.SET_LIST_ORDER_REQ_ITEM_WITH_IVENTORY:
+            return {
+                ...state,
+                listOrderReqItemWithInventory: payload
             }
 
         default:

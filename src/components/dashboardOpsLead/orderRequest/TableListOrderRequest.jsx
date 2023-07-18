@@ -43,9 +43,7 @@ function TableListOrderRequest({
                     <>
                         {cellProps.data.detail.visibleCancelledFunction !== 0 ?
 
-                            <CButton
-                                className='colorBtnIcon-black p-1 me-2'
-                            >
+                            <CButton className='colorBtnIcon-black p-1 me-2'>
                                 <CIcon
                                     icon={cilClipboard}
                                     className=""
@@ -57,9 +55,7 @@ function TableListOrderRequest({
                             </CButton>
                             : ''}
 
-                        <CButton
-                            className='colorBtnIcon-red p-1'
-                        >
+                        <CButton className='colorBtnIcon-red p-1'>
                             <CIcon
                                 icon={cilTrash}
                                 className=""
