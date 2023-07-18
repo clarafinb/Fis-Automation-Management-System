@@ -1654,38 +1654,7 @@ export const getMassUploadTemplateOrderReqItemBulkUpload = () => {
     }
   }
 }
-export const getListPickAndPackProgress = (projectId, whId, userId) => {
-  return async (dispatch) => {
-    try {
-      const fullParam = `${projectId}/${whId}/${userId}`
-      let list = await actionCrud.actionParamRequest(fullParam, API_GET_PICK_AND_PACK_PROGRESS, "GET");
-      let listPickAndPackProgress = list?.map((item, idx) => {
-        return {
-          no: idx + 1,
-          ...item,
-          extra: {
-            ...{
-              projectId: projectId,
-              whId: whId,
-              userId: whId
-            }
-          }
-        }
-      })
-      dispatch({
-        type: actionType.SET_LIST_PICK_AND_PACK_PROGRESS,
-        payload: listPickAndPackProgress
-      });
-    } catch (error) {
-      Swal.fire({
-        title: 'Error!',
-        text: error.message,
-        icon: 'error',
-        confirmButtonText: 'Close'
-      })
-    }
-  }
-}
+
 export const getOrderRequestDetail = (orderReqId) => {
   return async () => {
     try {

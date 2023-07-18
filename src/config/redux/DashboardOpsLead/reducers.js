@@ -8,7 +8,8 @@ let initialState = {
     listInboundLog: [],
     listOrdeRequest: [],
     listPickAndPackPending: [],
-    listOrderReqItemWithInventory: []
+    listOrderReqItemWithInventory: [],
+    listPickAndPackProgress: [],
 };
 
 const DashboardOpsLead = (state = initialState, { type, payload }) => {
@@ -58,6 +59,12 @@ const DashboardOpsLead = (state = initialState, { type, payload }) => {
             return {
                 ...state,
                 listOrderReqItemWithInventory: payload
+            }
+
+        case actionType.SET_LIST_PICK_AND_PACK_PROGRESS:
+            return {
+                ...state,
+                listPickAndPackProgress: payload
             }
 
         default:

@@ -6,7 +6,7 @@ import {
 } from '@coreui/react'
 import SmartTable from 'src/components/custom/table/SmartTable'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEye, faPencil, faTable } from '@fortawesome/free-solid-svg-icons';
+import { faEye } from '@fortawesome/free-solid-svg-icons';
 import moment from 'moment';
 import CIcon from '@coreui/icons-react';
 import { cilPencil } from '@coreui/icons';
@@ -103,7 +103,7 @@ function TableListPickAndPackPending({
                 return moment(value).format('DD-MM-YYYY HH:mm:ss')
             }
         },
-    ];
+    ]
 
     return (
         <CRow>

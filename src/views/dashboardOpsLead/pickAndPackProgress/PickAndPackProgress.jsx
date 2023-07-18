@@ -1,5 +1,6 @@
 import React, { useState, useCallback, useEffect } from 'react'
 import { useRedux } from 'src/utils/hooks'
+import { useLocation, useNavigate } from 'react-router-dom'
 
 import {
     CButton,
@@ -9,42 +10,46 @@ import {
     CContainer,
     CRow
 } from '@coreui/react'
-import { useLocation, useNavigate } from 'react-router-dom'
+
 import * as actions from '../../../config/redux/DashboardOpsLead/actions'
 import CIcon from '@coreui/icons-react'
-import { cilSpreadsheet } from '@coreui/icons'
 import ModalListItem from 'src/components/dashboardOpsLead/pickAndPackPending/ModalListItem'
 import TableListPickAndPackPending from 'src/components/dashboardOpsLead/pickAndPackPending/TableListPickAndPackPending'
+import { cilSpreadsheet } from '@coreui/icons'
 
-function PickAndPack() {
+function PickAndPackProgress() {
     const nav = useNavigate();
-    const { dispatch, Global, DashboardOpsLead } = useRedux()
+    const { dispatch, Global, Dashboard, DashboardOpsLead } = useRedux()
     const [detailProject, setDetailProject] = useState({})
     const [projectId, setProjectId] = useState("")
     const [openModal, setOpenModal] = useState(false)
+    const [openModalUpload, setOpenModalUpload] = useState(false)
+    const [orderReqId, setOrderReqId] = useState()
     const [custOrderRequest, setCustOrderRequest] = useState(null)
+    const [itemOrderRequest, setItemOrderRequest] = useState([])
     const [itemOrderRequestData, setItemOrderRequestData] = useState([])
     const { pathname } = useLocation();
-
     useEffect(() => {
-        const pId = pathname.split('/')[3]
-        const wId = pathname.split('/')[4]
+        const pId = pathname.split('/')[4]
+        const wId = pathname.split('/')[5]
+
+        console.log(pId, wId)
         setProjectId(pId)
-        if (Global?.user?.userID && projectId) {
+        if (Global?.user?.userID) {
             dispatch(
                 actions.getActivitySummaryWHProject(Global?.user?.userID, pId)
             ).then(result => {
                 const dtProjectFind = result.find(row => row.whId = wId)
                 setDetailProject(dtProjectFind)
-                dispatch(actions.getListPickAndPackPending(pId, wId, Global?.user?.userID))
+                dispatch(actions.getListPickAndPackProgress(pId, wId, Global?.user?.userID))
             })
         }
-    }, [Global?.user?.userID, projectId]);
+    }, [Global?.user?.userID]);
 
     const handleComponent = useCallback(
         (action, value, data) => {
             if (action === 'detail') {
-                nav(`detail/${detailProject.whId}/${value}`)
+                nav(`detail/${value}`)
             } else {
                 setCustOrderRequest(data?.custOrderRequest)
                 dispatch(actions.getOrderRequestItemList(data?.orderReqId))
@@ -77,6 +82,8 @@ function PickAndPack() {
                         setOpenModal(true)
                     })
             }
+            setOrderReqId(value)
+            nav(`detail/${value}`)
         }
     )
 
@@ -86,7 +93,7 @@ function PickAndPack() {
                 <CRow>
                     <CCol sm={5}>
                         <h4 className="card-title mb-0">
-                            <span className='text-underline'>PI</span>CK & PACK PENDING
+                            <span className='text-underline'>PI</span>CK & PACK PROGRESS
                         </h4>
                     </CCol>
                 </CRow>
@@ -133,4 +140,4 @@ function PickAndPack() {
     )
 }
 
-export default PickAndPack
+export default PickAndPackProgress

@@ -121,7 +121,7 @@ function Dashboard() {
             },
             {
                 type: 'pickAndPackProgress',
-                url: '/dashboard-ops-lead/pick-pack/progress/' + projectId
+                url: `/dashboard-ops-lead/pick-pack/progress/${projectId}/${whId}`
             },
             {
                 type: 'waitingDispatch',

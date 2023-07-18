@@ -30,7 +30,8 @@ import {
     API_GET_ORDER_REQUEST_DETAIL,
     API_GET_ORDER_REQUEST_ITEM_INVENTORY,
     API_GET_TEMPLATE_ORDER_REQUEST_ITEM,
-    API_GET_ORDER_REQUEST_ITEM
+    API_GET_ORDER_REQUEST_ITEM,
+    API_GET_PICK_AND_PACK_PROGRESS
 } from "../../api/index"
 
 /**************************************** DASHBOARD OPS LEAD ****************************************/
@@ -579,20 +580,53 @@ export const uploadOrderReqItemPickAndPackProgress = (formData, orderReqId) => {
 
 export const getOrderRequestItemList = (orderRequestId) => {
     return async (dispatch) => {
-      try {
-        const fullParam = `${orderRequestId}`
-        let list = await actionCrud.actionParamRequest(fullParam, API_GET_ORDER_REQUEST_ITEM, "GET");
-        return Promise.resolve(list)
-      } catch (error) {
-        Swal.fire({
-          title: 'Error!',
-          text: error.message,
-          icon: 'error',
-          confirmButtonText: 'Close'
-        })
-      }
+        try {
+            const fullParam = `${orderRequestId}`
+            let list = await actionCrud.actionParamRequest(fullParam, API_GET_ORDER_REQUEST_ITEM, "GET");
+            return Promise.resolve(list)
+        } catch (error) {
+            Swal.fire({
+                title: 'Error!',
+                text: error.message,
+                icon: 'error',
+                confirmButtonText: 'Close'
+            })
+        }
     }
-  }
+}
+
+export const getListPickAndPackProgress = (projectId, whId, userId) => {
+    return async (dispatch) => {
+        try {
+            const fullParam = `${projectId}/${whId}/${userId}`
+            let list = await actionCrud.actionParamRequest(fullParam, API_GET_PICK_AND_PACK_PROGRESS, "GET");
+            let listPickAndPackProgress = list?.map((item, idx) => {
+                return {
+                    no: idx + 1,
+                    ...item,
+                    extra: {
+                        ...{
+                            projectId: projectId,
+                            whId: whId,
+                            userId: whId
+                        }
+                    }
+                }
+            })
+            dispatch({
+                type: actionType.SET_LIST_PICK_AND_PACK_PROGRESS,
+                payload: listPickAndPackProgress
+            });
+        } catch (error) {
+            Swal.fire({
+                title: 'Error!',
+                text: error.message,
+                icon: 'error',
+                confirmButtonText: 'Close'
+            })
+        }
+    }
+}
 export const getInventoryItem = (whId) => {
     return async (dispatch) => {
         try {
