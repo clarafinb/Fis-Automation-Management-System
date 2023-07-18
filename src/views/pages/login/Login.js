@@ -1,6 +1,6 @@
-import React, { useState,useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useRedux } from 'src/utils/hooks'
-import { useNavigate} from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import {
   CCard,
   CCardBody,
@@ -18,6 +18,7 @@ import { useCookies } from "react-cookie";
 import * as actions from '../../../config/redux/Global/actions'
 import * as actionsDashboard from '../../../config/redux/Dashboard/actions'
 import ButtonSubmit from 'src/components/custom/button/ButtonSubmit';
+import { handleRoleDashboard } from 'src/helper/urlHelper';
 
 const Login = () => {
   const [cookies, setCookie] = useCookies(["user"]);
@@ -30,10 +31,10 @@ const Login = () => {
     let user = event.target
     let username = user.username.value
     let password = user.password.value
-    
-    if(!username || !password){
+
+    if (!username || !password) {
       setVisible(true)
-    }else{
+    } else {
       let payload = {
         username: username,
         password: password
@@ -47,23 +48,25 @@ const Login = () => {
 
 
   useEffect(() => {
-		if (Global.user.userLogin && cookies) {
+    if (Global.user.userLogin && cookies) {
+      console.log(Global?.user)
       setCookie('user', Global?.user, { path: '/' })
       dispatch(actionsDashboard.getDashboard(Global?.user?.roleInf?.roleId))
-		}
-	}, [Global.user, nav, setCookie]);
+    }
+  }, [Global.user, nav, setCookie]);
 
   useEffect(() => {
     if (Global.user.userLogin) {
       setCookie('dashboard', Dashboard?.detailDashboard, { path: '/' })
-      if(Dashboard?.detailDashboard?.dashboardURL){
-        if(Dashboard?.detailDashboard?.dashboardURL === '/usr/dashboardOpsLead'){
-          nav("/dashboard-ops-lead");
-        }else{
-          nav("/dashboard");
-        }
+      if (Dashboard?.detailDashboard?.dashboardURL) {
+        nav(handleRoleDashboard(Dashboard?.detailDashboard?.dashboardURL))
+        // if(Dashboard?.detailDashboard?.dashboardURL === '/usr/dashboardOpsLead'){
+        //   nav("/dashboard-ops-lead");
+        // }else{
+        //   nav("/dashboard");
+        // }
       }
-		}
+    }
   }, [Dashboard?.detailDashboard?.dashboardURL])
 
   return (
@@ -77,7 +80,7 @@ const Login = () => {
         <CRow className="justify-content-center">
           <CCol md={4}>
             <div className="text-center">
-              <img src="/logo/fams-logo-1.png" alt="PT Fan Indonesia Sejahtera" width={300}/>
+              <img src="/logo/fams-logo-1.png" alt="PT Fan Indonesia Sejahtera" width={300} />
             </div>
           </CCol>
         </CRow>
@@ -93,7 +96,7 @@ const Login = () => {
                     <CRow className="mb-3">
                       <CFormLabel>Username</CFormLabel>
                       <CCol>
-                        <CFormInput placeholder="Username" name="username"/>
+                        <CFormInput placeholder="Username" name="username" />
                       </CCol>
                     </CRow>
                     <CRow className="mb-3">
@@ -107,10 +110,10 @@ const Login = () => {
                       </CCol>
                     </CRow>
                     <CRow className="mb-3">
-                      <CCol> 
-                        <CFormCheck id="flexCheckDefault" label="Remember Me"/>
+                      <CCol>
+                        <CFormCheck id="flexCheckDefault" label="Remember Me" />
                       </CCol>
-                      <CCol> 
+                      <CCol>
                         <div className="float-end">
                           <small>Forgot Password</small>
                         </div>
@@ -129,7 +132,7 @@ const Login = () => {
         </CRow>
         <CRow className="justify-content-center mt-2">
           <CCol md={4} className="text-center">
-              <small className="textWhite">COPYRIGHT @ 2023 | FIS AUTOMATION SYSTEM</small>
+            <small className="textWhite">COPYRIGHT @ 2023 | FIS AUTOMATION SYSTEM</small>
           </CCol>
         </CRow>
       </CContainer>

@@ -159,11 +159,11 @@ const Dashboard = () => {
 
   useEffect(() => {
     if (Dashboard?.detailDashboard?.dashboardURL) {
-      if (Dashboard?.detailDashboard?.dashboardURL === '/usr/dashboardOpsLead') {
-        dispatch(actions.getListProjectByUser(Global?.user?.userID))
-      } else {
-        dispatch(actions.getListProject())
-      }
+      // if (Dashboard?.detailDashboard?.dashboardURL === '/usr/dashboardOpsLead') {
+      //   dispatch(actions.getListProjectByUser(Global?.user?.userID))
+      // } else {
+      dispatch(actions.getListProject())
+      // }
     }
   }, [Dashboard?.detailDashboard?.dashboardURL])
 

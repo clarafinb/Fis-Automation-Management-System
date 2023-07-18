@@ -106,7 +106,7 @@ function ModalCreateOrderRequest({ open, setOpen, projectId, detailProject }) {
                     setSelectedOriginPoint(e[0])
                     setValues((prev) => ({
                         ...prev,
-                        originAddress: e[0].address
+                        originAddress: e[0]?.address
                     }))
                 })
         }
@@ -144,8 +144,8 @@ function ModalCreateOrderRequest({ open, setOpen, projectId, detailProject }) {
             orderRequestDesc: values?.orderRequestDesc,
             deliveryReqType: selectedDeliveryType?.label,
             transportReqType: selectedTransportType?.label,
-            routeTypeId: selectedRouteType.value,
-            originPointId: selectedOriginPoint.value,
+            routeTypeId: selectedRouteType?.value,
+            originPointId: selectedOriginPoint?.value,
             destinationSubDistrictId: selectedSubDistrict?.value,
             destinationAddress: values?.destinationAddress,
             siteId: values?.siteId,

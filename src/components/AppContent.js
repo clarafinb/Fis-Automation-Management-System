@@ -2,12 +2,14 @@ import React, { Suspense } from 'react'
 import { useCookies } from 'react-cookie'
 import { Navigate, Route, Routes } from 'react-router-dom'
 import { CContainer, CSpinner } from '@coreui/react'
+import { handleRoleDashboard } from 'src/helper/urlHelper'
 
 // routes config
 import routes from '../routes'
 
 const AppContent = () => {
   const [cookies, setCookie] = useCookies(["dashboard"]);
+
   return (
     <CContainer xxl className='container-dashboard'>
       <Suspense fallback={<CSpinner color="primary" />}>
@@ -25,11 +27,11 @@ const AppContent = () => {
               )
             )
           })}
-          <Route 
-            path="/" 
+          <Route
+            path="/"
             element={
-              <Navigate to={cookies?.dashboard?.dashboardURL === '/usr/dashboardOpsLead' ? "dashboard-ops-lead" : "dashboard"} replace />
-            } 
+              <Navigate to={() => handleRoleDashboard(cookies?.dashboard?.dashboardURL)} replace />
+            }
           />
         </Routes>
       </Suspense>

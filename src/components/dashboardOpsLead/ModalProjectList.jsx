@@ -14,10 +14,10 @@ function ModalProjectList({ open, setOpen, handleProject }) {
     const { dispatch, Global, Dashboard } = useRedux()
 
     useEffect(() => {
-        if (Global?.user?.userID) {
+        if (Global?.user?.userID && open) {
             dispatch(actions.getListProjectByUser(Global?.user?.userID))
         }
-    }, [Global?.user]);
+    }, [Global?.user, open]);
 
     return (
         <CModal
