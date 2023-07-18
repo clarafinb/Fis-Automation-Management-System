@@ -11,10 +11,32 @@ import {
     API_GET_PROJECT,
     API_GET_TEMPLATE_UPLOAD_INBOUND,
     API_UPLOAD_INVENTORY_BOX,
-    API_UPLOAD_INVENTORY_ITEM
+    API_UPLOAD_INVENTORY_ITEM,
+    API_GET_ACTIVITY_SUMMARY_WH_PROJECT
 } from "../../api/index"
 
 /**************************************** DASHBOARD OPS LEAD ****************************************/
+export const getActivitySummaryWHProject = (userId, projectId) => {
+    return async () => {
+        try {
+            let data = await actionCrud.actionCommonSlice(projectId, API_GET_ACTIVITY_SUMMARY_WH_PROJECT, "GET", userId);
+            const result = data?.map(row => {
+                return {
+                    ...row,
+                    projectId: projectId
+                }
+            })
+            return Promise.resolve(result)
+        } catch (error) {
+            Swal.fire({
+                title: 'Error!',
+                text: error.message,
+                icon: 'error',
+                confirmButtonText: 'Close'
+            })
+        }
+    }
+}
 
 export const setProject = (payload) => {
     return async (dispatch) => {

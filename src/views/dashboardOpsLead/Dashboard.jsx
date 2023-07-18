@@ -16,7 +16,6 @@ import {
     CTabPane
 } from '@coreui/react'
 import { useCookies } from "react-cookie";
-import * as actions from '../../config/redux/Dashboard/actions'
 import * as actions_dashOpsLead from '../../config/redux/DashboardOpsLead/actions'
 import CIcon from '@coreui/icons-react'
 import { cilList, cilNotes } from '@coreui/icons'
@@ -36,7 +35,7 @@ function Dashboard() {
 
     const getSummaryProject = (projectId) => {
         dispatch(
-            actions.getActivitySummaryWHProject(Global?.user?.userID, projectId)
+            actions_dashOpsLead.getActivitySummaryWHProject(Global?.user?.userID, projectId)
         ).then(result => {
             setDetailProject(result)
 
@@ -216,14 +215,14 @@ function Dashboard() {
                                     <CCol className="d-none d-md-block">
                                         <CButton
                                             onClick={() => handleNavigator("masterLocation", detailWarehouse)}
-                                            className="float-end btn colorBtn-white px-1 ms-2">
+                                            className="float-end colorBtn-white">
                                             <CIcon
                                                 icon={cilList}
                                                 className="me-2 text-warning" />
                                             Master Location
                                         </CButton>
                                         <CButton
-                                            className="float-end btn colorBtn-white px-1 ms-2"
+                                            className="float-end colorBtn-white me-3"
                                             onClick={() => handleNavigator("manageInventory", detailWarehouse)}>
                                             <CIcon
                                                 icon={cilList}

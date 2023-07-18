@@ -27,7 +27,7 @@ function ModalProjectList({ open, setOpen, handleProject }) {
             alignment="center"
         >
             <CModalHeader>
-                <CModalTitle>PROJECT LIST</CModalTitle>
+                <CModalTitle>LIST PROJECT</CModalTitle>
             </CModalHeader>
             <CModalBody>
                 <TableProjectList

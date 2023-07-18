@@ -1,43 +1,43 @@
 import React from 'react'
-import { useRedux } from 'src/utils/hooks'
 
 import {
+    CButton,
     CCol,
     CRow,
 } from '@coreui/react'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faArrowRight} from '@fortawesome/free-solid-svg-icons'
 import SmartTable from 'src/components/custom/table/SmartTable'
+import CIcon from '@coreui/icons-react'
+import { cilSend } from '@coreui/icons'
 
 function TableProjectList({
-    data, 
-    handleComponent, 
-    handleToogle 
+    data,
+    handleComponent
 }) {
-    const { dispatch, Global } = useRedux()
-
     const filterValue = [
         { name: 'projectName', operator: 'startsWith', type: 'string', value: '' },
     ]
 
     const columns = [
-        { name: 'no', header: 'No', defaultWidth: 80, type: 'number' },
-        { name: 'projectName', header: 'Project Name', defaultWidth: 280},
+        { name: 'no', header: 'NO', defaultWidth: 80, type: 'number', textAlign: 'center' },
+        { name: 'projectName', header: 'PROJECT NAME', defaultWidth: 280,textAlign: 'center' },
         {
             name: 'projectId',
-            header: 'Action',
+            header: 'ACTION',
             textAlign: 'center',
             defaultWidth: 110,
             render: ({ value, data }) => {
                 return (
-                    <>  
-                        <FontAwesomeIcon 
-                            icon={faArrowRight} 
-                            className='textBlue px-2'
-                            size='sm'
-                            title='Pilih Project'
-                            onClick={() => handleComponent('pilih', value, data)}
-                        />
+                    <>
+                        <CButton
+                            className='colorBtnIcon-black px-2 m-2'
+                        >
+                            <CIcon
+                                icon={cilSend}
+                                className="rotate-icon"
+                                // size="sm"
+                                onClick={() => handleComponent('pilih', value, data)}
+                            />
+                        </CButton>
                     </>
                 )
             }
