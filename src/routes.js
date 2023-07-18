@@ -18,7 +18,7 @@ const AccountManagement = React.lazy(() => import('./views/dashboard/settingMana
 const SubDistrictManagement = React.lazy(() => import('./views/dashboard/settingManagement/SubDistrictManagement'))
 const WarehouseType = React.lazy(() => import('./views/dashboard/settingManagement/WarehouseType'))
 //Operation Lead
-const OrderRequest = React.lazy(() => import('./views/dashboardOpsLead/OrderRequest'))
+const OrderRequest = React.lazy(() => import('./views/dashboardOpsLead/orderRequest/OrderRequest'))
 const PickAndPack = React.lazy(() => import('./views/dashboardOpsLead/PickAndPack'))
 const PickAndPackDetail = React.lazy(() => import('./views/dashboardOpsLead/PickAndPackDetail'))
 const PickAndPackProgress = React.lazy(() => import('./views/dashboardOpsLead/PickAndPackProgress'))
@@ -28,7 +28,7 @@ const WaitingDispatchDetail = React.lazy(() => import('./views/dashboardOpsLead/
 const TransportArrangmentDetail = React.lazy(() => import('./views/dashboardOpsLead/TransportArrangmentDetail'))
 const DeliveryTransit = React.lazy(() => import('./views/dashboardOpsLead/DeliveryTransit'))
 const DeliveryTransitDetail = React.lazy(() => import('./views/dashboardOpsLead/DeliveryTransitDetail'))
-const DeliveryComplete = React.lazy(() => import('./views/dashboardOpsLead/DeliveryComplete'))
+const DeliveryComplete = React.lazy(() => import('./views/dashboardOpsLead/deliveryComplete/DeliveryComplete'))
 const DeliveryCompleteDetail = React.lazy(() => import('./views/dashboardOpsLead/DeliveryCompleteDetail'))
 const MasterLocation = React.lazy(() => import('./views/dashboardOpsLead/MasterLocation'))
 const ManageInventory = React.lazy(() => import('./views/dashboardOpsLead/ManageInventory'))

@@ -12,7 +12,7 @@ import {
     CFormTextarea,
     CForm
 } from '@coreui/react'
-import * as actions from '../../../config/redux/Dashboard/actions'
+import * as actions from '../../../config/redux/DashboardOpsLead/actions'
 import ButtonSubmit from 'src/components/custom/button/ButtonSubmit'
 
 function ModalCancelOrderRequest({ open, setOpen, orderReqId, detailProject }) {
@@ -55,7 +55,7 @@ function ModalCancelOrderRequest({ open, setOpen, orderReqId, detailProject }) {
 
     return (
         <CModal
-            size="lg"
+            // size="lg"
             visible={open}
             onClose={() => setOpen(false)}
             alignment='center'
@@ -63,13 +63,13 @@ function ModalCancelOrderRequest({ open, setOpen, orderReqId, detailProject }) {
             keyboard={false}
         >
             <CModalHeader>
-                <CModalTitle>Cancel Order Request</CModalTitle>
+                <CModalTitle>CANCEL ORDER REQUEST</CModalTitle>
             </CModalHeader>
             <CModalBody>
                 <CForm onSubmit={handleCancel}>
                     <CRow className="mb-3">
-                        <CFormLabel className="col-sm-2 col-form-label">Remarks <code>(*)</code></CFormLabel>
-                        <CCol sm={10}>
+                        <CFormLabel className="col-form-label">Remarks <code>*</code></CFormLabel>
+                        <CCol>
                             <CFormTextarea
                                 rows={3}
                                 name="remarks"

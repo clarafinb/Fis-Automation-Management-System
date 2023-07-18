@@ -5,7 +5,8 @@ let initialState = {
     listInventoryItem: [],
     listInventoryBox: [],
     listInboundFile: [],
-    listInboundLog: []
+    listInboundLog: [],
+    listOrdeRequest: [],
 };
 
 const DashboardOpsLead = (state = initialState, { type, payload }) => {
@@ -38,6 +39,12 @@ const DashboardOpsLead = (state = initialState, { type, payload }) => {
                 ...state,
                 listInboundLog: payload
             };
+
+        case actionType.SET_LIST_ORDER_REQUEST:
+            return {
+                ...state,
+                listOrdeRequest: payload
+            }
 
         default:
             return { ...state };

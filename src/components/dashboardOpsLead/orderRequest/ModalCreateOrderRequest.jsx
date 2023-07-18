@@ -2,7 +2,6 @@ import React, { useState, useCallback, useEffect } from 'react'
 import { useRedux } from 'src/utils/hooks'
 
 import {
-    CButton,
     CCol,
     CRow,
     CFormInput,
@@ -11,11 +10,11 @@ import {
     CModalHeader,
     CModalTitle,
     CModalBody,
-    CModalFooter,
     CFormTextarea,
     CForm
 } from '@coreui/react'
-import * as actions from '../../../config/redux/Dashboard/actions'
+import * as actions_dashboard from '../../../config/redux/Dashboard/actions'
+import * as actions from '../../../config/redux/DashboardOpsLead/actions'
 import Select from 'react-select'
 import ButtonSubmit from 'src/components/custom/button/ButtonSubmit'
 
@@ -53,7 +52,7 @@ function ModalCreateOrderRequest({ open, setOpen, projectId, detailProject }) {
                 setTransportType(e)
             })
 
-            dispatch(actions.getSelectWarehouseProvince()).then(e => {
+            dispatch(actions_dashboard.getSelectWarehouseProvince()).then(e => {
                 setProvince(e)
             })
 
@@ -70,7 +69,7 @@ function ModalCreateOrderRequest({ open, setOpen, projectId, detailProject }) {
     const handleOnChangeProvince = (selectedProvince) => {
         setSelectedProvince(selectedProvince);
         if (selectedProvince.value) {
-            dispatch(actions.getSelectSubDistrictBaseOnProvince(selectedProvince.value))
+            dispatch(actions_dashboard.getSelectSubDistrictBaseOnProvince(selectedProvince.value))
                 .then(e => {
                     setSubDistrict(e)
                 })
@@ -187,13 +186,13 @@ function ModalCreateOrderRequest({ open, setOpen, projectId, detailProject }) {
         >
             <CForm onSubmit={handleCreate}>
                 <CModalHeader>
-                    <CModalTitle>Order Request Creation</CModalTitle>
+                    <CModalTitle>ADD ORDER REQUEST</CModalTitle>
                 </CModalHeader>
                 <CModalBody>
                     <CRow>
                         <CCol>
                             <CRow className="mb-3">
-                                <CFormLabel className="col-form-label">Cust Order Req No <code>(*)</code></CFormLabel>
+                                <CFormLabel className="col-form-label">Cust Order Req No <code>*</code></CFormLabel>
                                 <CCol>
                                     <CFormInput
                                         type="text"
@@ -216,7 +215,7 @@ function ModalCreateOrderRequest({ open, setOpen, projectId, detailProject }) {
                                 </CCol>
                             </CRow>
                             <CRow className="mb-3">
-                                <CFormLabel className="col-form-label">Delivery Process Type <code>(*)</code></CFormLabel>
+                                <CFormLabel className="col-form-label">Delivery Process Type <code>*</code></CFormLabel>
                                 <CCol>
                                     <Select
                                         className="input-select"
@@ -229,7 +228,7 @@ function ModalCreateOrderRequest({ open, setOpen, projectId, detailProject }) {
                                 </CCol>
                             </CRow>
                             <CRow className="mb-3">
-                                <CFormLabel className="col-form-label">Route Type <code>(*)</code></CFormLabel>
+                                <CFormLabel className="col-form-label">Route Type <code>*</code></CFormLabel>
                                 <CCol>
                                     <Select
                                         className="input-select"
@@ -242,7 +241,7 @@ function ModalCreateOrderRequest({ open, setOpen, projectId, detailProject }) {
                                 </CCol>
                             </CRow>
                             <CRow className="mb-3">
-                                <CFormLabel className="col-form-label">Requestor Name <code>(*)</code></CFormLabel>
+                                <CFormLabel className="col-form-label">Requestor Name <code>*</code></CFormLabel>
                                 <CCol>
                                     <CFormInput
                                         type="text"
@@ -292,7 +291,7 @@ function ModalCreateOrderRequest({ open, setOpen, projectId, detailProject }) {
                                 </CCol>
                             </CRow>
                             <CRow className="mb-3">
-                                <CFormLabel className="col-form-label">Transport Request Type <code>(*)</code></CFormLabel>
+                                <CFormLabel className="col-form-label">Transport Request Type <code>*</code></CFormLabel>
                                 <CCol>
                                     <Select
                                         className="input-select"
@@ -307,7 +306,7 @@ function ModalCreateOrderRequest({ open, setOpen, projectId, detailProject }) {
                         </CCol>
                         <CCol>
                             <CRow className="mb-3">
-                                <CFormLabel className="col-form-label">Destination Province <code>(*)</code></CFormLabel>
+                                <CFormLabel className="col-form-label">Destination Province <code>*</code></CFormLabel>
                                 <CCol>
                                     <Select
                                         className="input-select"
@@ -320,7 +319,7 @@ function ModalCreateOrderRequest({ open, setOpen, projectId, detailProject }) {
                                 </CCol>
                             </CRow>
                             <CRow className="mb-3">
-                                <CFormLabel className="col-form-label">Destination Sub District <code>(*)</code></CFormLabel>
+                                <CFormLabel className="col-form-label">Destination Sub District <code>*</code></CFormLabel>
                                 <CCol>
                                     <Select
                                         className="input-select"
@@ -333,7 +332,7 @@ function ModalCreateOrderRequest({ open, setOpen, projectId, detailProject }) {
                                 </CCol>
                             </CRow>
                             <CRow className="mb-3">
-                                <CFormLabel className="col-form-label">Destination Address <code>(*)</code></CFormLabel>
+                                <CFormLabel className="col-form-label">Destination Address <code>*</code></CFormLabel>
                                 <CCol>
                                     <CFormTextarea
                                         rows={5}
@@ -380,7 +379,7 @@ function ModalCreateOrderRequest({ open, setOpen, projectId, detailProject }) {
                                 </CCol>
                             </CRow>
                             <CRow className="mb-3">
-                                <CFormLabel className="col-form-label">Recipient Name <code>(*)</code></CFormLabel>
+                                <CFormLabel className="col-form-label">Recipient Name <code>*</code></CFormLabel>
                                 <CCol>
                                     <CFormInput
                                         type="text"
@@ -392,7 +391,7 @@ function ModalCreateOrderRequest({ open, setOpen, projectId, detailProject }) {
                                 </CCol>
                             </CRow>
                             <CRow className="mb-3">
-                                <CFormLabel className="col-form-label">Recipient Company Name <code>(*)</code></CFormLabel>
+                                <CFormLabel className="col-form-label">Recipient Company Name <code>*</code></CFormLabel>
                                 <CCol>
                                     <CFormInput
                                         type="text"
