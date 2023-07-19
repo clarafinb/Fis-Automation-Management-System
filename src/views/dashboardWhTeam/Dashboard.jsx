@@ -122,18 +122,18 @@ function Dashboard() {
                 type: 'pickAndPackProgress',
                 url: '/dashboard-ops-lead/pick-pack/progress/' + projectId
             },
-            {
-                type: 'waitingDispatch',
-                url: '/dashboard-ops-lead/waiting-dispatch/' + projectId
-            },
-            {
-                type: 'deliveryTransit',
-                url: '/dashboard-ops-lead/delivery-transit/' + projectId
-            },
-            {
-                type: 'deliveryComplete',
-                url: '/dashboard-ops-lead/delivery-complete/' + projectId
-            },
+            // {
+            //     type: 'waitingDispatch',
+            //     url: '/dashboard-ops-lead/waiting-dispatch/' + projectId
+            // },
+            // {
+            //     type: 'deliveryTransit',
+            //     url: '/dashboard-ops-lead/delivery-transit/' + projectId
+            // },
+            // {
+            //     type: 'deliveryComplete',
+            //     url: '/dashboard-ops-lead/delivery-complete/' + projectId
+            // },
             {
                 type: 'masterLocation',
                 url: '/dashboard-ops-lead/master-location/' + projectId
@@ -269,6 +269,7 @@ function Dashboard() {
                                                                 <CRow>
                                                                     <CCol className="d-grid gap-2">
                                                                         <CButton
+                                                                            disabled
                                                                             className="colorBtn-yellow"
                                                                             onClick={() => handleNavigator("orderRequest", detailWarehouse)}
                                                                         >
@@ -291,6 +292,7 @@ function Dashboard() {
                                                                 <CRow>
                                                                     <CCol className="d-grid gap-2">
                                                                         <CButton
+                                                                            disabled
                                                                             className="colorBtn-yellow"
                                                                             onClick={() => handleNavigator("pickAndPackPending", detailWarehouse)}
                                                                         >
@@ -313,6 +315,7 @@ function Dashboard() {
                                                                 <CRow>
                                                                     <CCol className="d-grid gap-2">
                                                                         <CButton
+                                                                            disabled
                                                                             className="colorBtn-yellow"
                                                                             onClick={() => handleNavigator("pickAndPackProgress", detailWarehouse)}
                                                                         >
