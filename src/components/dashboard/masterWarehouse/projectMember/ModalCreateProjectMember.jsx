@@ -21,7 +21,7 @@ function ModalCreateProjectMember({ open, setOpen, projectId }) {
 
     useEffect(() => {
         setValues({})
-        if (Global?.user?.token) {
+        if (Global?.user?.token && open) {
             dispatch(actions.getSelectRoleWhGroup()).then(e => {
                 setRole(e)
             })

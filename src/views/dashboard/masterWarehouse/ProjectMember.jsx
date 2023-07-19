@@ -16,13 +16,14 @@ import CIcon from '@coreui/icons-react'
 import * as actions from '../../../config/redux/Dashboard/actions'
 import ModalCreateProjectMember from 'src/components/dashboard/masterWarehouse/projectMember/ModalCreateProjectMember'
 import TableListProjectMember from 'src/components/dashboard/masterWarehouse/projectMember/TableListProjectMember'
+import ModalWarehouseMembership from 'src/components/dashboard/masterWarehouse/projectMember/ModalWarehouseMembership'
 
 function ProjectMember() {
     const { dispatch, Global, Dashboard } = useRedux()
     const [modalCreate, setModalCreate] = useState(false)
-    const [projectId, setProjectId] = useState()
-
-
+    const [modalWhMember, setModalWhMember] = useState(false)
+    const [projectId, setProjectId] = useState('')
+    const [userId, setUserId] = useState('')
 
     useEffect(() => {
         if (Global?.user?.token) {
@@ -40,6 +41,50 @@ function ProjectMember() {
         (val, data) => {
             dispatch(actions.setStatusActiveProjectMember(val, data?.projectUserId, projectId))
         }, [Dashboard.listProjectMember]
+    )
+
+    const handleComponent = useCallback(
+        (action, value, data) => {
+
+            setUserId(value)
+            setModalWhMember(true)
+
+            // console.log(action, value)
+            // if (action === 'detail') {
+            //     nav(`detail/${value}`)
+            // } else {
+            //     setCustOrderRequest(data?.custOrderRequest)
+            //     dispatch(actions.getOrderRequestItemList(data?.orderReqId))
+            //         .then(result => {
+            //             const remapData = [
+            //                 {
+            //                     name: 'no',
+            //                     header: 'No',
+            //                     defaultVisible: true,
+            //                     defaultWidth: 80,
+            //                     type: 'number'
+            //                 }
+            //             ]
+            //             result.map((row, idx) => {
+            //                 if (Object.keys(row)[idx]) {
+            //                     remapData.push({
+            //                         name: Object.keys(row)[idx],
+            //                         header: Object.keys(row)[idx],
+            //                         defaultFlex: 1
+            //                     })
+            //                 }
+            //             })
+            //             const dataSet = result.map((item, index) => {
+            //                 return {
+            //                     no: index + 1,
+            //                     ...item
+            //                 }
+            //             })
+            //             setItemOrderRequestData(dataSet)
+            //             setOpenModal(true)
+            //         })
+            // }
+        }
     )
 
     return (
@@ -73,6 +118,7 @@ function ProjectMember() {
                                 <TableListProjectMember
                                     data={Dashboard?.listProjectMember}
                                     handleToogle={handleToogle}
+                                    handleComponent={handleComponent}
                                 />
                             </CCol>
                         </CCardBody>
@@ -84,6 +130,13 @@ function ProjectMember() {
                 open={modalCreate}
                 setOpen={setModalCreate}
                 projectId={projectId}
+            />
+            {/*  open, setOpen, projectId, userId */}
+            <ModalWarehouseMembership
+                open={modalWhMember}
+                setOpen={setModalWhMember}
+                projectId={projectId}
+                userId={userId}
             />
         </>
     )
