@@ -44,7 +44,7 @@ function PickAndPack() {
     const handleComponent = useCallback(
         (action, value, data) => {
             if (action === 'detail') {
-                nav(`detail/${detailProject.whId}/${value}`)
+                nav(`detail/${value}`)
             } else {
                 setCustOrderRequest(data?.custOrderRequest)
                 dispatch(actions.getOrderRequestItemList(data?.orderReqId))

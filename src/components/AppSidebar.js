@@ -20,7 +20,7 @@ const AppSidebar = () => {
   const { dispatch, Global } = useRedux()
   const [url, setUrl] = useState()
   const [style, setStyle] = useState()
-  const [cookies] = useCookies(["dashboard"]);
+  const [cookies,setCookie] = useCookies(["dashboard"]);
 
   useEffect(() => {
     if (!Global?.sidebarUnfoldable) {

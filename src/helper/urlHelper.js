@@ -13,6 +13,6 @@ export const handleRoleDashboard = (type) => {
             url: '/dashboard-wh'
         }
     ]
-    const { url } = navigate.find(e => e.type === type)
-    return url
+    const nav = navigate.find(e => e.type === type)
+    return nav ? nav.url : '/login'
 };

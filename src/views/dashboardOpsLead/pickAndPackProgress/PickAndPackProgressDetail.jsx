@@ -28,7 +28,7 @@ import { faPlay, faPlus, faRefresh, faSearch, faTrash, faUpload } from '@fortawe
 import moment from 'moment/moment'
 import Select from 'react-select'
 import Swal from 'sweetalert2'
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom'
 import ButtonSubmit from 'src/components/custom/button/ButtonSubmit'
 import ButtonCancel from 'src/components/custom/button/ButtonCancel'
 
@@ -38,8 +38,9 @@ function PickAndPackProgressDetail() {
     const [detailProject, setDetailProject] = useState({})
     const [orderReqDetail, setOrderReqDetail] = useState({})
     const [projectId, setProjectId] = useState("")
+    const [orderReqId, setOrderReqId] = useState("")
+    const [warehouseId, setWarehouseId] = useState("");
     const [openModal, setOpenModal] = useState(false)
-    const [orderReqId, setOrderReqId] = useState()
     const [custOrderRequest, setCustOrderRequest] = useState(null)
     const [itemOrderRequest, setItemOrderRequest] = useState([])
     const [itemOrderRequestData, setItemOrderRequestData] = useState([])
@@ -55,16 +56,20 @@ function PickAndPackProgressDetail() {
     const [serviceChargeData, setServiceChargeData] = useState([])
     const [serviceChargeHeader, setServiceChargeHeader] = useState([])
     const [values, setValues] = useState({})
+    const { pathname } = useLocation();
 
     useEffect(() => {
-        const splitUri = window.location.href.split("/");
-        const orderRequestId = splitUri[9]
-        setProjectId(splitUri[7])
-        setOrderReqId(orderRequestId)
+        const pId = pathname.split('/')[4]
+        const wId = pathname.split('/')[5]
+        const orId = pathname.split('/')[7]
+
+        setOrderReqId(orId)
+        setProjectId(pId)
+        setWarehouseId(wId)
 
         if (Global?.user?.userID) {
             dispatch(
-                actions.getOrderRequestDetail(orderRequestId)
+                actions.getOrderRequestDetail(orId)
             ).then(result => {
                 setOrderReqDetail(result[0])
             })
@@ -75,7 +80,7 @@ function PickAndPackProgressDetail() {
                 setTrasportMode(result)
             })
 
-            dispatch(actions.getOrderRequestServiceCharge(orderRequestId))
+            dispatch(actions.getOrderRequestServiceCharge(orId))
         }
     }, [Global?.user?.userID]);
 
@@ -108,7 +113,7 @@ function PickAndPackProgressDetail() {
     }
 
     const handleBack = () => {
-        nav("/dashboard-ops-lead/pick-pack/progress/" + projectId, { replace: true })
+        nav("/dashboard-ops-lead/pick-pack/progress/" + projectId + "/" + warehouseId, { replace: true })
     }
 
     const handleConfirm = () => {

@@ -14,26 +14,21 @@ import {
 import * as actions from '../../../config/redux/DashboardOpsLead/actions'
 import CIcon from '@coreui/icons-react'
 import ModalListItem from 'src/components/dashboardOpsLead/pickAndPackPending/ModalListItem'
-import TableListPickAndPackPending from 'src/components/dashboardOpsLead/pickAndPackPending/TableListPickAndPackPending'
 import { cilSpreadsheet } from '@coreui/icons'
+import TableListPickAndPackProgress from './TableListPickAndPackProgress'
 
 function PickAndPackProgress() {
     const nav = useNavigate();
     const { dispatch, Global, Dashboard, DashboardOpsLead } = useRedux()
     const [detailProject, setDetailProject] = useState({})
-    const [projectId, setProjectId] = useState("")
     const [openModal, setOpenModal] = useState(false)
-    const [openModalUpload, setOpenModalUpload] = useState(false)
-    const [orderReqId, setOrderReqId] = useState()
     const [custOrderRequest, setCustOrderRequest] = useState(null)
-    const [itemOrderRequest, setItemOrderRequest] = useState([])
     const [itemOrderRequestData, setItemOrderRequestData] = useState([])
     const { pathname } = useLocation();
     useEffect(() => {
         const pId = pathname.split('/')[4]
         const wId = pathname.split('/')[5]
-
-        setProjectId(pId)
+        // setProjectId(pId)
         if (Global?.user?.userID) {
             dispatch(
                 actions.getActivitySummaryWHProject(Global?.user?.userID, pId)
@@ -81,8 +76,6 @@ function PickAndPackProgress() {
                         setOpenModal(true)
                     })
             }
-            setOrderReqId(value)
-            nav(`detail/${value}`)
         }
     )
 
@@ -120,8 +113,8 @@ function PickAndPackProgress() {
                         <br />
                         <CRow>
                             <CCol className="d-none d-md-block text-end">
-                                <TableListPickAndPackPending
-                                    data={DashboardOpsLead?.listPickAndPackPending}
+                                <TableListPickAndPackProgress
+                                    data={DashboardOpsLead?.listPickAndPackProgress}
                                     handleComponent={handleComponent}
                                 />
                             </CCol>

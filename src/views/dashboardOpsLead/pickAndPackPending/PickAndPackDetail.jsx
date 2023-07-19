@@ -15,7 +15,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faRefresh, faUpload } from '@fortawesome/free-solid-svg-icons'
 import moment from 'moment/moment'
 import Swal from 'sweetalert2'
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import TableListItemInventory from 'src/components/dashboardOpsLead/pickAndPackPending/TableListItemInventory'
 import ButtonCancel from 'src/components/custom/button/ButtonCancel'
 import ButtonSubmit from 'src/components/custom/button/ButtonSubmit'
@@ -32,23 +32,25 @@ function PickAndPackDetail() {
     const [templateUrl, setTemplateUrl] = useState("")
     const [whId, setWhId] = useState('')
     const [confirmStatus, setConfirmStatus] = useState(false)
+    const { pathname } = useLocation();
 
     useEffect(() => {
-        const splitUri = window.location.href.split("/");
-        const wId = splitUri[9]
-        const orderRequestId = splitUri[10]
 
-        setProjectId(splitUri[6])
-        setOrderReqId(orderRequestId)
+        const pId = pathname.split('/')[3]
+        const wId = pathname.split('/')[4]
+        const orId = pathname.split('/')[6]
+
+        setOrderReqId(orId)
+        setProjectId(pId)
         setWhId(wId)
 
         if (Global?.user?.userID) {
-            refreshData(orderRequestId, wId)
+            refreshData(orId, wId)
         }
     }, [Global?.user?.userID, DashboardOpsLead?.listOrderReqItemWithInventory.length]);
 
     const handleBack = () => {
-        nav("/dashboard-ops-lead/pick-pack/" + projectId, { replace: true })
+        nav("/dashboard-ops-lead/pick-pack/" + projectId + "/" + whId, { replace: true })
     }
 
     const handleConfirm = () => {

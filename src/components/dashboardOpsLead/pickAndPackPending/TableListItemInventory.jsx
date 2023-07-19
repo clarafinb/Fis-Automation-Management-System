@@ -35,6 +35,7 @@ function TableListItemInventory({
                     data={data}
                     columns={columns}
                     filterValue={filterValue}
+                    minHeight={300}
                 />
             </CCol>
         </CRow>
