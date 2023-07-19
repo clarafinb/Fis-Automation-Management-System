@@ -33,7 +33,6 @@ function PickAndPackProgress() {
         const pId = pathname.split('/')[4]
         const wId = pathname.split('/')[5]
 
-        console.log(pId, wId)
         setProjectId(pId)
         if (Global?.user?.userID) {
             dispatch(

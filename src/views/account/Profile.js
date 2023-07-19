@@ -58,8 +58,6 @@ function Profile() {
         }
     }, [Global?.user?.token, modalPhoto]);
 
-    console.log(Global)
-
     const handleOnChangeRole = (selectedRole) => {
         setSelectedRole(selectedRole);
     }

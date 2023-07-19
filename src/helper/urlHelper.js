@@ -10,7 +10,7 @@ export const handleRoleDashboard = (type) => {
         },
         {
             type: '/usr/dashboardWHTeam',
-            url: '//dashboard-wh'
+            url: '/dashboard-wh'
         }
     ]
     const { url } = navigate.find(e => e.type === type)

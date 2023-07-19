@@ -6,29 +6,29 @@ import {
 } from '@coreui/icons'
 import { CNavItem, CNavTitle } from '@coreui/react'
 
-const _nav = [
-  {
-    component: CNavItem,
-    name: 'Dashboard',
-    to: '/',
-    icon: <img src={'icon/icon_dashboard.png'} className='px-1' />,
-    badge: {
-      color: 'info',
+export const navigation = () => {
+  return [
+    {
+      component: CNavItem,
+      name: 'Dashboard',
+      to: '/',
+      icon: <img src={'icon/icon_dashboard.png'} className='px-1' />,
+      badge: {
+        color: 'info',
+      },
+      className: 'textBlue'
     },
-    className: 'textBlue'
-  },
-  // {
-  //   component: CNavTitle,
-  //   name: 'Theme',
-  //   className: 'textBlack'
-  // },
-  // {
-  //   component: CNavItem,
-  //   name: 'Colors',
-  //   to: '/theme/colors',
-  //   icon: <CIcon icon={cilDrop} customClassName="nav-icon text-white" />,
-  //   className: 'text-white'
-  // },
-]
-
-export default _nav
+    // {
+    //   component: CNavTitle,
+    //   name: 'Theme',
+    //   className: 'textBlack'
+    // },
+    // {
+    //   component: CNavItem,
+    //   name: 'Colors',
+    //   to: '/theme/colors',
+    //   icon: <CIcon icon={cilDrop} customClassName="nav-icon text-white" />,
+    //   className: 'text-white'
+    // },
+  ]
+}

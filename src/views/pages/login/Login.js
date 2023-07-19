@@ -49,7 +49,6 @@ const Login = () => {
 
   useEffect(() => {
     if (Global.user.userLogin && cookies) {
-      console.log(Global?.user)
       setCookie('user', Global?.user, { path: '/' })
       dispatch(actionsDashboard.getDashboard(Global?.user?.roleInf?.roleId))
     }

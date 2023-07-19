@@ -8,7 +8,7 @@ import { handleRoleDashboard } from 'src/helper/urlHelper'
 import routes from '../routes'
 
 const AppContent = () => {
-  const [cookies, setCookie] = useCookies(["dashboard"]);
+  const [cookies] = useCookies(["dashboard"]);
 
   return (
     <CContainer xxl className='container-dashboard'>
