@@ -28,7 +28,6 @@ function PickAndPackProgress() {
     useEffect(() => {
         const pId = pathname.split('/')[4]
         const wId = pathname.split('/')[5]
-        // setProjectId(pId)
         if (Global?.user?.userID) {
             dispatch(
                 actions.getActivitySummaryWHProject(Global?.user?.userID, pId)

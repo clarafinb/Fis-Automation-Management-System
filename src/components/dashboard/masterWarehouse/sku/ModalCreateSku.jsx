@@ -17,6 +17,7 @@ import {
 } from '@coreui/react'
 import * as actions from '../../../../config/redux/Dashboard/actions'
 import ButtonSubmit from 'src/components/custom/button/ButtonSubmit'
+import { separateComma } from 'src/utils/number'
 
 function ModalCreateSku({ open, setOpen, projectId }) {
     const { dispatch, Global } = useRedux()
@@ -24,14 +25,17 @@ function ModalCreateSku({ open, setOpen, projectId }) {
     const [uomList, setUomList] = useState([])
 
     useEffect(() => {
-        if (Global?.user?.token) {
+        if (Global?.user?.token && open) {
+            setValues({})
             dispatch(actions.getSelectActiveUom()).then(e => {
                 setUomList(e)
             })
         }
-    }, [projectId]);
+    }, [projectId, open]);
 
     const handleCreateSku = (event) => {
+        event.preventDefault()
+        event.stopPropagation()
         let payload = {
             mProjectId: projectId,
             materialCode: values.materialCode,
@@ -41,14 +45,13 @@ function ModalCreateSku({ open, setOpen, projectId }) {
             LMBY: Global?.user?.userID
         }
         dispatch(actions.createSku(payload))
-
-        event.preventDefault()
-        event.stopPropagation()
+        setValues({})
     }
 
     const handleOnchange = useCallback(
         (e) => {
-            const { value, name } = e.target;
+            let { value, name } = e.target;
+            if (name === 'totalVolume') value = separateComma(value)
             setValues((prev) => ({
                 ...prev,
                 [name]: value
@@ -107,7 +110,7 @@ function ModalCreateSku({ open, setOpen, projectId }) {
                         <CFormLabel className="col-form-label">Total Volume (CBM)<code>*</code></CFormLabel>
                         <CCol>
                             <CFormInput
-                                type="number"
+                                type="text"
                                 name="totalVolume"
                                 value={values?.totalVolume}
                                 onChange={handleOnchange}

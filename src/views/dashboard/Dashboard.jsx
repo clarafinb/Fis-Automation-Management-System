@@ -71,6 +71,7 @@ const Dashboard = () => {
 
   const handleChecked = useCallback(
     (val, projectId) => {
+      console.log('projectId : ', projectId)
       dispatch(actions.setStatusActiveProject(val, projectId))
     }, [dispatch]
   )
@@ -252,16 +253,23 @@ const Dashboard = () => {
                   <CRow>
                     <CCol sm={5}>
                       <ToggleSwitch
-                        checked={() => val.activeStatus === "active" ? true : false}
+                        checked={val.activeStatus === "active" ? true : false}
                         size="lg"
                         handleChecked={handleChecked}
-                        id={val.projectId}
+                        data={val.projectId}
                       />
                     </CCol>
                     <CCol sm={7} className="d-none d-md-block">
                       <div className='text-end'>
-                        <CIcon icon={cilSettings} className="me-2" size="xl" onClick={() => handleModalMasterWerehouse(val.projectId)} />
-                        <CIcon icon={cilSend} className="me-2 rotate-icon" size="xl" onClick={() => handleSend(val.projectId)} />
+                        {
+                          val.activeStatus === 'active' ?
+                            <CIcon icon={cilSettings} className="me-2" size="xl" onClick={() => handleModalMasterWerehouse(val.projectId)} />
+                            : ''
+                        }
+                        {val.publishStatus !== 'published' && val.activeStatus === 'active' ?
+                          <CIcon icon={cilSend} className="me-2 rotate-icon" size="xl" onClick={() => handleSend(val.projectId)} />
+                          : ''
+                        }
                       </div>
                     </CCol>
                   </CRow>

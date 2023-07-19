@@ -1,5 +1,6 @@
 import React from 'react'
 import {
+    CBadge,
     CCol,
     CRow,
 } from '@coreui/react'
@@ -67,11 +68,29 @@ function TableListInboundFile({
                 return moment(value).format('DD-MM-YYYY HH:mm:ss')
             }
         },
-        { name: 'totalRow', header: 'Total Row', defaultWidth: 230 },
-        { name: 'rowSuccess', header: 'Row Success', defaultWidth: 230 },
-        { name: 'rowError', header: 'Row Error', defaultWidth: 230 },
-        { name: 'errMessage', header: 'Err Message', defaultWidth: 230 },
-        { name: 'executeStatus', header: 'Excecute Status', defaultWidth: 230 },
+        { name: 'totalRow', header: 'Total Row', defaultWidth: 230, textAlign: 'center' },
+        { name: 'rowSuccess', header: 'Row Success', defaultWidth: 230, textAlign: 'center' },
+        { name: 'rowError', header: 'Row Error', defaultWidth: 230, textAlign: 'center' },
+        { name: 'errMessage', header: 'Error Message', defaultWidth: 300 },
+        {
+            name: 'executeStatus',
+            header: 'Excecute Status',
+            defaultWidth: 230,
+            textAlign: 'center',
+            render: ({ value }) => {
+                let badge = "dark"
+                if (value === 'Failed') badge = "danger"
+                if (value === 'Success') badge = "success"
+                return (
+                    <CBadge
+                        color={badge}
+                    >
+                        {value}
+                    </CBadge>
+                )
+            }
+        },
+        // <CBadge
     ];
 
     return (

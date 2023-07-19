@@ -16,8 +16,11 @@ import { cilBell, cilList, cilMenu } from '@coreui/icons'
 import { AppBreadcrumb } from './index'
 import { AppHeaderDropdown } from './header/index'
 import * as actionType from "../config/redux/Global/actionType"
+import { useCookies } from 'react-cookie'
+import { handleRoleDashboard } from 'src/helper/urlHelper'
 
 const AppHeader = () => {
+  const [cookies, setCookie] = useCookies(["dashboard"]);
   const { dispatch, Global } = useRedux();
 
   return (
@@ -28,7 +31,7 @@ const AppHeader = () => {
           onClick={() => {
             dispatch({
               type: actionType.SET_SIDEBAR,
-              payload: {sidebarShow:!Global?.sidebarShow},
+              payload: { sidebarShow: !Global?.sidebarShow },
             })
           }}
         >
@@ -36,7 +39,7 @@ const AppHeader = () => {
         </CHeaderToggler>
         <CHeaderNav className="d-none d-md-flex me-auto">
           <CNavItem>
-            <CNavLink to="/" component={NavLink}>
+            <CNavLink to={handleRoleDashboard(cookies?.dashboard?.dashboardURL)} component={NavLink}>
               Dashboard
             </CNavLink>
           </CNavItem>

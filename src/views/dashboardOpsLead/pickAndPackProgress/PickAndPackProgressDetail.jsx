@@ -90,12 +90,13 @@ function PickAndPackProgressDetail() {
                 actions.getOrderRequestServiceChargeList(projectId, orderReqId)
             ).then(response => {
                 setServiceChargeData(response)
-                setValues({})
+                // setValues({})
             })
         }
     }, [Dashboard?.listOrdeRequestAdditionalService])
 
     const handleOnChangeTransportMode = (selectedTransportMode) => {
+        setSelectedDeliveryRequest({})
         setSelectedTransportMode(selectedTransportMode);
         dispatch(actions.getDeliveryRequestFinal(selectedTransportMode.value, orderReqId))
             .then(resp => {
@@ -116,7 +117,11 @@ function PickAndPackProgressDetail() {
         nav("/dashboard-ops-lead/pick-pack/progress/" + projectId + "/" + warehouseId, { replace: true })
     }
 
-    const handleConfirm = () => {
+    const handleConfirm = (event) => {
+
+        event.preventDefault()
+        event.stopPropagation()
+
         const payload = {
             orderReqId: orderReqId,
             deliveryModeId: selectedDeliveryRequest.value,
@@ -190,8 +195,8 @@ function PickAndPackProgressDetail() {
             actions.getOrderRequestServiceChargeList(projectId, orderReqId)
         ).then(response => {
             setServiceChargeData(response)
-            setValues({})
             setOpenModalAdditionalService(true)
+            // setValues({})
         })
 
     }
@@ -629,32 +634,33 @@ function PickAndPackProgressDetail() {
                                 </CCol>
                             </CRow>
                             <br />
-                            <CRow>
-                                <CCol>
-                                    <CRow className="mb-4">
-                                        <CFormLabel
-                                            className="col-sm-3 col-form-label">Total Item Request
-                                        </CFormLabel>
-                                        <CCol md={2}>
-                                            <CFormInput
-                                                type="text"
-                                                name="totalItem"
-                                                value={orderReqDetail?.totalItem}
-                                                readOnly
-                                                disabled
-                                            />
-                                        </CCol>
-                                        <CCol>
-                                            <FontAwesomeIcon
-                                                icon={faSearch}
-                                                className='textBlue px-2'
-                                                title='Item List'
-                                                size='lg'
-                                                onClick={() =>
-                                                    handleModalDetailItem(orderReqId)
-                                                }
-                                            />
-                                            {/* {
+                            <CForm onSubmit={handleConfirm}>
+                                <CRow>
+                                    <CCol>
+                                        <CRow className="mb-4">
+                                            <CFormLabel
+                                                className="col-sm-3 col-form-label">Total Item Request
+                                            </CFormLabel>
+                                            <CCol md={2}>
+                                                <CFormInput
+                                                    type="text"
+                                                    name="totalItem"
+                                                    value={orderReqDetail?.totalItem}
+                                                    readOnly
+                                                    disabled
+                                                />
+                                            </CCol>
+                                            <CCol>
+                                                <FontAwesomeIcon
+                                                    icon={faSearch}
+                                                    className='textBlue px-2'
+                                                    title='Item List'
+                                                    size='lg'
+                                                    onClick={() =>
+                                                        handleModalDetailItem(orderReqId)
+                                                    }
+                                                />
+                                                {/* {
                                                 orderReqDetail?.totalItem > 0 ?
                                                     <FontAwesomeIcon
                                                         icon={faRefresh}
@@ -676,96 +682,103 @@ function PickAndPackProgressDetail() {
                                                     handleComponent('upload')
                                                 }
                                             /> */}
-                                        </CCol>
-                                    </CRow>
-                                    <CRow className="mb-4">
-                                        <CFormLabel className=" col-form-label">Transport Mode Final</CFormLabel>
-                                        <CCol>
-                                            <Select
-                                                className="input-select"
-                                                options={transportMode}
-                                                isSearchable={true}
-                                                value={selectedTransportMode}
-                                                onChange={handleOnChangeTransportMode}
-                                            />
-                                        </CCol>
-                                    </CRow>
-                                    <CRow className="mb-4">
-                                        <CFormLabel className=" col-form-label">Delivery Request Final</CFormLabel>
-                                        <CCol>
-                                            <Select
-                                                className="input-select"
-                                                options={deliveryRequest}
-                                                isSearchable={true}
-                                                value={selectedDeliveryRequest}
-                                                onChange={handleOnChangeDeliveryRequest}
-                                            />
-                                        </CCol>
-                                    </CRow>
-                                    <CRow className="mb-4">
-                                        <CFormLabel className=" col-form-label">Total Collies</CFormLabel>
-                                        <CCol>
-                                            <CFormInput
-                                                type="number"
-                                                name="totalCollies"
-                                                value={values?.totalCollies}
-                                                onChange={handleOnchange}
-                                            />
-                                        </CCol>
-                                    </CRow>
-                                    <CRow className="mb-4">
-                                        <CFormLabel className=" col-form-label">Total Volume (CBM)</CFormLabel>
-                                        <CCol>
-                                            <CFormInput
-                                                type="number"
-                                                name="totalVolume"
-                                                value={values?.totalVolume}
-                                                onChange={handleOnchange}
-                                            />
-                                        </CCol>
-                                    </CRow>
-                                    <CRow>
-                                        <CCol>
-                                            <h5 className="card-title mb-0">
-                                                Additional Service
-                                            </h5>
-                                        </CCol>
+                                            </CCol>
+                                        </CRow>
+                                        <CRow className="mb-4">
+                                            <CFormLabel className=" col-form-label">Transport Mode Final</CFormLabel>
+                                            <CCol>
+                                                <Select
+                                                    className="input-select"
+                                                    options={transportMode}
+                                                    isSearchable={true}
+                                                    value={selectedTransportMode}
+                                                    onChange={handleOnChangeTransportMode}
+                                                    required
+                                                />
+                                            </CCol>
+                                        </CRow>
+                                        <CRow className="mb-4">
+                                            <CFormLabel className=" col-form-label">Delivery Request Final</CFormLabel>
+                                            <CCol>
+                                                <Select
+                                                    className="input-select"
+                                                    options={deliveryRequest}
+                                                    isSearchable={true}
+                                                    value={selectedDeliveryRequest}
+                                                    onChange={handleOnChangeDeliveryRequest}
+                                                    required
+                                                />
+                                            </CCol>
+                                        </CRow>
+                                        <CRow className="mb-4">
+                                            <CFormLabel className=" col-form-label">Total Collies</CFormLabel>
+                                            <CCol>
+                                                <CFormInput
+                                                    type="number"
+                                                    name="totalCollies"
+                                                    value={values?.totalCollies}
+                                                    onChange={handleOnchange}
+                                                    required
+                                                />
+                                            </CCol>
+                                        </CRow>
+                                        <CRow className="mb-4">
+                                            <CFormLabel className=" col-form-label">Total Volume (CBM)</CFormLabel>
+                                            <CCol>
+                                                <CFormInput
+                                                    type="number"
+                                                    name="totalVolume"
+                                                    value={values?.totalVolume}
+                                                    onChange={handleOnchange}
+                                                    required
+                                                />
+                                            </CCol>
+                                        </CRow>
+                                        <CRow>
+                                            <CCol>
+                                                <h5 className="card-title mb-0">
+                                                    Additional Service
+                                                </h5>
+                                            </CCol>
+                                            <CCol className="d-none d-md-block text-end">
+                                                <CIcon
+                                                    icon={cilPlus}
+                                                    className="me-2 text-default"
+                                                    size="xl"
+                                                    onClick={handleCreateAdditionalService}
+                                                />
+                                            </CCol>
+                                        </CRow>
                                         <CCol className="d-none d-md-block text-end">
-                                            <CIcon
-                                                icon={cilPlus}
-                                                className="me-2 text-default"
-                                                size="xl"
-                                                onClick={handleCreateAdditionalService}
+                                            <SmartTable
+                                                data={Dashboard?.listOrdeRequestAdditionalService}
+                                                // filterValue={filterValue}
+                                                columns={additionalServiceColumn}
+                                                minHeight={200}
                                             />
                                         </CCol>
-                                    </CRow>
-                                    <CCol className="d-none d-md-block text-end">
-                                        <SmartTable
-                                            data={Dashboard?.listOrdeRequestAdditionalService}
-                                            // filterValue={filterValue}
-                                            columns={additionalServiceColumn}
-                                            minHeight={200}
-                                        />
+                                        {
+                                            orderReqDetail?.totalItem > 0 ?
+                                                < CRow className='mt-3'>
+                                                    <CCol className="d-none d-md-block text-end" md={12}>
+                                                        <ButtonSubmit
+                                                            label='CONFIRM'
+                                                            type="submit"
+                                                            // handleButton={handleConfirm}
+                                                            className='me-2'
+                                                        />
+                                                        <ButtonCancel
+                                                            label='CANCEL'
+                                                            handleButton={handleBack}
+                                                        />
+                                                    </CCol>
+                                                </CRow>
+                                                : ''
+                                        }
                                     </CCol>
-                                    {
-                                        orderReqDetail?.totalItem > 0 ?
-                                            < CRow className='mt-3'>
-                                                <CCol className="d-none d-md-block text-end" md={12}>
-                                                    <ButtonSubmit
-                                                        label='CONFIRM'
-                                                        handleButton={handleConfirm}
-                                                        className='me-2'
-                                                    />
-                                                    <ButtonCancel
-                                                        label='CANCEL'
-                                                        handleButton={handleBack}
-                                                    />
-                                                </CCol>
-                                            </CRow>
-                                            : ''
-                                    }
-                                </CCol>
-                            </CRow>
+
+                                </CRow>
+                            </CForm>
                         </CCardBody>
                     </CCard>
                 </CCol >
