@@ -26,6 +26,7 @@ const PickAndPackProgressDetail = React.lazy(() => import('./views/dashboardOpsL
 const WaitingDispatch = React.lazy(() => import('./views/dashboardOpsLead/WaitingDispatch'))
 const WaitingDispatchDetail = React.lazy(() => import('./views/dashboardOpsLead/WaitingDispatchDetail'))
 const TransportArrangmentDetail = React.lazy(() => import('./views/dashboardOpsLead/TransportArrangmentDetail'))
+const TransportHandCarryDetail = React.lazy(() => import('./views/dashboardOpsLead/TransportHandCarryDetail'))
 const DeliveryTransit = React.lazy(() => import('./views/dashboardOpsLead/DeliveryTransit'))
 const DeliveryTransitDetail = React.lazy(() => import('./views/dashboardOpsLead/DeliveryTransitDetail'))
 const DeliveryComplete = React.lazy(() => import('./views/dashboardOpsLead/deliveryComplete/DeliveryComplete'))
@@ -63,6 +64,7 @@ const routes = [
   { path: '/dashboard-ops-lead/waiting-dispatch/:projectId', name: 'WAITING DELIVERY', element: WaitingDispatch },
   { path: '/dashboard-ops-lead/waiting-dispatch/:projectId/detail/:orderReqId', name: 'WAITING DELIVERY DETAIL', element: WaitingDispatchDetail },
   { path: '/dashboard-ops-lead/waiting-dispatch/transport-arrangment/:transportArrangmentId/:transportModeId/:projectId/:orderReqId', name: 'TRANSPORT ARRANGMENT DETAIL', element: TransportArrangmentDetail },
+  { path: '/dashboard-ops-lead/waiting-dispatch/handcarry-arrangment/:transportArrangmentId/:transportModeId/:projectId/:orderReqId', name: 'TRANSPORT ARRANGMENT DETAIL', element: TransportHandCarryDetail },
   { path: '/dashboard-ops-lead/delivery-transit/:projectId', name: 'DELIVERY TRANSIT', element: DeliveryTransit },
   { path: '/dashboard-ops-lead/delivery-transit/:projectId/detail/:orderReqId', name: 'DELIVERY TRANSIT DETAIL', element: DeliveryTransitDetail },
   { path: '/dashboard-ops-lead/delivery-complete/:projectId', name: 'DELIVERY COMPLETE', element: DeliveryComplete },

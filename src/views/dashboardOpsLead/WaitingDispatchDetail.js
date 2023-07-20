@@ -24,7 +24,7 @@ import CIcon from '@coreui/icons-react'
 import { cilCloudUpload, cilFile, cilPlus } from '@coreui/icons'
 import SmartTable from 'src/components/custom/table/SmartTable'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPencil, faPlay, faPlus, faRefresh, faSearch, faUnlink, faUpload } from '@fortawesome/free-solid-svg-icons'
+import { faPen, faPencil, faPlay, faPlus, faRefresh, faSearch, faUnlink, faUpload } from '@fortawesome/free-solid-svg-icons'
 import moment from 'moment/moment'
 import Select from 'react-select'
 import Swal from 'sweetalert2'
@@ -86,9 +86,14 @@ function WaitingDispatchDetail() {
 
     const handleComponent = useCallback(
         (action, id) => {
+            let param = ""
             if (action === 'addTransport') {
-                let param = `${id}/${orderReqDetail.transportModeId}/${projectId}/${orderReqId}`
+                param = `${id}/${orderReqDetail.transportModeId}/${projectId}/${orderReqId}`
                 nav('/dashboard-ops-lead/waiting-dispatch/transport-arrangment/' + param)
+            }
+            if (action === 'addHandCarry') {
+                param = `${id}/${orderReqDetail.transportModeId}/${projectId}/${orderReqId}`
+                nav('/dashboard-ops-lead/waiting-dispatch/handcarry-arrangment/' + param)
             }
         }
     )
@@ -270,11 +275,11 @@ function WaitingDispatchDetail() {
             name: 'transportArrangementOrderReqId',
             header: 'Action',
             defaultFlex: 1,
-            render: ({ value, cellProps }) => {
+            render: ({ value, data }) => {
                 return (
                     <>
                         {
-                            cellProps.data.hasDetachFunction != 'No' ?
+                            data.hasDetachFunction != 'No' ?
                                 <FontAwesomeIcon
                                     icon={faUnlink}
                                     className='textBlue px-2'
@@ -286,15 +291,29 @@ function WaitingDispatchDetail() {
                                 />
                                 : ''
                         }
-                        <FontAwesomeIcon
-                            icon={faPencil}
-                            className='textBlue px-2'
-                            title='Add Arrangement'
-                            size='sm'
-                            onClick={() =>
-                                handleComponent('addTransport', value)
-                            }
-                        />
+                        {
+                            data.transportType === 'handCarry' ?
+                                <FontAwesomeIcon
+                                    icon={faPen}
+                                    className='textBlue px-2'
+                                    title='Add Arrangement Hand Carry'
+                                    size='sm'
+                                    onClick={() =>
+                                        handleComponent('addHandCarry', value)
+                                    }
+                                />
+                                :
+                                <FontAwesomeIcon
+                                    icon={faPencil}
+                                    className='textBlue px-2'
+                                    title='Add Arrangement Transport'
+                                    size='sm'
+                                    onClick={() =>
+                                        handleComponent('addTransport', value)
+                                    }
+                                />
+                        }
+
                     </>
                 )
             }

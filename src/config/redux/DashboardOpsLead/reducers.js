@@ -10,6 +10,7 @@ let initialState = {
     listPickAndPackPending: [],
     listOrderReqItemWithInventory: [],
     listPickAndPackProgress: [],
+    listEvidenceChecklist: []
 };
 
 const DashboardOpsLead = (state = initialState, { type, payload }) => {
@@ -65,6 +66,18 @@ const DashboardOpsLead = (state = initialState, { type, payload }) => {
             return {
                 ...state,
                 listPickAndPackProgress: payload
+            }
+
+        case actionType.SET_LIST_EVIDENCE_CHECKLIST:
+            return {
+                ...state,
+                listEvidenceChecklist: payload
+            }
+
+        case actionType.SET_LIST_REQUEST_TRANSPORT_ARRANGEMENT:
+            return {
+                ...state,
+                listRequestTransportArragement: payload
             }
 
         default:

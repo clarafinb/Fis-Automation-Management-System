@@ -105,33 +105,6 @@ function WaitingDispatch() {
 
     const columns = [
         { name: 'no', header: 'No', defaultVisible: true, defaultWidth: 80, type: 'number' },
-        { name: 'whCode', header: 'WH Code', defaultFlex: 1 },
-        { name: 'custOrderRequest', header: 'Customer Order Request', defaultFlex: 1 },
-        { name: 'orderRequestDesc', header: 'Order Req Desc', defaultFlex: 1 },
-        { name: 'requestorName', header: 'Requestor', defaultFlex: 1 },
-        { name: 'orderRequestDate', header: 'Order Request Date', defaultFlex: 1, textAlign: 'center' },
-        { name: 'deliveryReqType', header: 'Delivery Req Type', defaultFlex: 1 },
-        { name: 'transportReqType', header: 'Transport Req Type', defaultFlex: 1 },
-        { name: 'origin', header: 'Origin', defaultFlex: 1 },
-        { name: 'destination', header: 'Destination', defaultFlex: 1 },
-        {
-            name: 'totalItem',
-            header: 'Total Item Request',
-            defaultFlex: 1,
-            textAlign: 'center',
-            render: ({ value, cellProps }) => {
-                return (
-                    // eslint-disable-next-line jsx-a11y/anchor-is-valid
-                    <a
-                        title='Detail Item List'
-                        onClick={() => handleModalDetailItem(cellProps.data)}>
-                        {value}
-                    </a>
-                )
-            }
-        },
-        { name: 'rfpConfirmBy', header: 'Pick And Pack Done By', defaultFlex: 1 },
-        { name: 'pickandpackcompletedate', header: 'Pick And Pack Complete Date', defaultFlex: 1 },
         {
             name: 'orderReqId',
             header: 'Action',
@@ -159,6 +132,33 @@ function WaitingDispatch() {
                 )
             }
         },
+        { name: 'whCode', header: 'WH Code', defaultWidth: 200 },
+        { name: 'custOrderRequest', header: 'Customer Order Request', defaultWidth: 200 },
+        { name: 'orderRequestDesc', header: 'Order Req Desc', defaultWidth: 200 },
+        { name: 'requestorName', header: 'Requestor', defaultWidth: 200 },
+        { name: 'orderRequestDate', header: 'Order Request Date', defaultWidth: 200, textAlign: 'center' },
+        { name: 'deliveryReqType', header: 'Delivery Req Type', defaultWidth: 200 },
+        { name: 'transportReqType', header: 'Transport Req Type', defaultWidth: 200 },
+        { name: 'origin', header: 'Origin', defaultWidth: 200 },
+        { name: 'destination', header: 'Destination', defaultWidth: 200 },
+        {
+            name: 'totalItem',
+            header: 'Total Item Request',
+            defaultWidth: 200,
+            textAlign: 'center',
+            render: ({ value, cellProps }) => {
+                return (
+                    // eslint-disable-next-line jsx-a11y/anchor-is-valid
+                    <a
+                        title='Detail Item List'
+                        onClick={() => handleModalDetailItem(cellProps.data)}>
+                        {value}
+                    </a>
+                )
+            }
+        },
+        { name: 'rfpConfirmBy', header: 'Pick And Pack Done By', defaultWidth: 200 },
+        { name: 'pickandpackcompletedate', header: 'Pick And Pack Complete Date', defaultWidth: 200 },
     ];
 
     return (

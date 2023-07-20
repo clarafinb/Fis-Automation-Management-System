@@ -122,11 +122,12 @@ export async function actionGeocode(address) {
      }
 }
 
-export async function actionParamRequest(fullParam, url, method = "GET") {
+export async function actionParamRequest(fullParam, url, method = "GET", body) {
      try {
           let objAxios = {
                method: `${method}`,
                url: `${url}/${fullParam}`,
+               data: body
           }
           let { data } = await axios(objAxios);
           return data;

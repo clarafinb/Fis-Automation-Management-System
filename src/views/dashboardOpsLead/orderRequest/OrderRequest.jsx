@@ -22,6 +22,7 @@ import { cilDataTransferUp, cilPlus, cilSpreadsheet } from '@coreui/icons'
 import ModalCreateOrderRequest from 'src/components/dashboardOpsLead/orderRequest/ModalCreateOrderRequest'
 import ModalCancelOrderRequest from 'src/components/dashboardOpsLead/orderRequest/ModalCancelOrderRequest'
 import TableListOrderRequest from 'src/components/dashboardOpsLead/orderRequest/TableListOrderRequest'
+import { downloadFileConfig } from 'src/helper/globalHelper'
 
 function OrderRequest() {
     const { dispatch, Global, Dashboard } = useRedux()
@@ -66,6 +67,21 @@ function OrderRequest() {
         setOpenModalOrderRequest(true)
     }
 
+    const handleExportExcel = () => {
+        const param = {
+            projectId: detailProject?.projectId,
+            whId: detailProject?.whId,
+            userId: Global?.user?.userID,
+            whCode: detailProject?.whCode,
+        }
+
+        dispatch(
+            actions.getOrderRequestWHProjectExportToExcel(param)
+        ).then(resp => {
+            downloadFileConfig(resp, 'order_request_' + Date.now() + 'xlsx')
+        })
+    }
+
     return (
         <>
             <CContainer>
@@ -87,7 +103,7 @@ function OrderRequest() {
                             <CIcon icon={cilDataTransferUp} className="me-2 text-warning" />
                             UPLOAD FILE
                         </CButton>
-                        <CButton className="colorBtn-white">
+                        <CButton className="colorBtn-white" onClick={handleExportExcel}>
                             <CIcon icon={cilSpreadsheet} className="me-2 text-success" />
                             EXPORT TO EXCEL
                         </CButton>
@@ -98,11 +114,11 @@ function OrderRequest() {
                     <CCardBody>
                         <CRow className='mt-3'>
                             <CCol>
-                            <h5>
-                                <img src={'icon/icon_project_grey.png'} alt="icon_project" className='px-2' />{detailProject?.projectName} <span className='px-3'>|</span>
-                                <img src={'icon/icon_warehouse_grey.png'} alt="icon_warehouse" className='px-2' /> {detailProject?.whName} <span className='px-3'>|</span>
-                                <img src={'icon/icon_code_grey.png'} alt="icon_code" className='px-2' /> {detailProject?.whCode}
-                            </h5>
+                                <h5>
+                                    <img src={'icon/icon_project_grey.png'} alt="icon_project" className='px-2' />{detailProject?.projectName} <span className='px-3'>|</span>
+                                    <img src={'icon/icon_warehouse_grey.png'} alt="icon_warehouse" className='px-2' /> {detailProject?.whName} <span className='px-3'>|</span>
+                                    <img src={'icon/icon_code_grey.png'} alt="icon_code" className='px-2' /> {detailProject?.whCode}
+                                </h5>
                             </CCol>
                         </CRow>
                         <CRow className='mt-3'>
@@ -123,14 +139,14 @@ function OrderRequest() {
                                         Order Req Bulk Upload Log
                                     </CNavLink>
                                 </CNavItem>
-                                <CNavItem>
+                                {/* <CNavItem>
                                     <CNavLink
                                         active={activeKey === 3}
                                         onClick={() => setActiveKey(3)}
                                     >
                                         Item Order Req Bulk Upload Log
                                     </CNavLink>
-                                </CNavItem>
+                                </CNavItem> */}
                             </CNav>
                         </CRow>
                         <CRow>

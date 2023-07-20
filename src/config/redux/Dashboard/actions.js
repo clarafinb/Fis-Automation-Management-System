@@ -1602,7 +1602,6 @@ export const getSelectDestination = (projectId, routeTypeId, whCode) => {
     try {
       const fullParam = `${projectId}/${routeTypeId}/${whCode}`
       let list = await actionCrud.actionParamRequest(fullParam, API_GET_DESTINATION_KEY_WH_PROJECT, "GET");
-      console.log('desti', list)
       let data = list?.map((item, idx) => {
         return {
           label: item.point_code,

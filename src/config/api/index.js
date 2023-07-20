@@ -109,6 +109,7 @@ export const API_GET_TYPE_ROUTE = BASE_URL + "masterdata/routeTypeGetAll"
 export const API_GET_ORIGIN_POINT = BASE_URL + "masterdata/getOriginPointList"
 export const API_GET_DESTINATION_KEY_WH_PROJECT = BASE_URL + "masterdata/getDestinationPointList"
 export const API_ADD_ORDER_REQUEST = BASE_URL + "logmanagement/addOrderRequestWHProject"
+export const API_EXPORT_EXCEL_ORDER_REQUEST = BASE_URL + "logmanagement/getOrderRequestWHProjectExportToExcel"
 //PICK AND PACK
 export const API_GET_PICK_AND_PACK_PENDING = BASE_URL + "logmanagement/getPickandPackPendingWHProject";
 export const API_START_PICK_AND_PACK = BASE_URL + "logmanagement/pickandPackStart";
@@ -183,3 +184,9 @@ export const API_GET_TEMPLATE_UPLOAD_INBOUND = BASE_URL + "masterdata/getMassUpl
 export const API_UPLOAD_INVENTORY_ITEM = BASE_URL + "inventory/inboundItemFileUpload"
 export const API_UPLOAD_INVENTORY_BOX = BASE_URL + "inventory/inboundBoxFileUpload"
 export const API_GET_ORDER_REQUEST_ITEM_INVENTORY = BASE_URL + "logmanagement/getOrderRequestItemListWithInventory"
+// HANDCARRY ARRAGMENET
+export const API_ADD_EVIDENCE_CHECKLIST = BASE_URL + "transportarrangement/transportArrangementCreateEvidence"
+export const API_GET_EVIDENCE_CHECKLIST = BASE_URL + "transportarrangement/getTransportArrangementEvidenceCheclist"
+export const API_UPLOAD_EVIDENCE_CHECKLIST = BASE_URL + "transportassignment/transportAssignmentDeliveryEvidenceUpload"
+export const API_DELETE_EVIDENCE_CHECKLIST = BASE_URL + "transportarrangement/transportArrangementTransportTypeDelete"
+export const API_COMPLETE_EVIDENCE_CHECKLIST = BASE_URL + "transportassignment/actDeliveryCompleteWithoutAssignment"

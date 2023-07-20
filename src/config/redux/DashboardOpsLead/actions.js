@@ -31,7 +31,14 @@ import {
     API_GET_ORDER_REQUEST_ITEM_INVENTORY,
     API_GET_TEMPLATE_ORDER_REQUEST_ITEM,
     API_GET_ORDER_REQUEST_ITEM,
-    API_GET_PICK_AND_PACK_PROGRESS
+    API_GET_PICK_AND_PACK_PROGRESS,
+    API_EXPORT_EXCEL_ORDER_REQUEST,
+    API_GET_EVIDENCE_CHECKLIST,
+    API_UPLOAD_EVIDENCE_CHECKLIST,
+    API_COMPLETE_EVIDENCE_CHECKLIST,
+    API_DELETE_EVIDENCE_CHECKLIST,
+    API_GET_ORDER_REQUEST_TRANSPORT_ARRAGMENET,
+    API_ADD_EVIDENCE_CHECKLIST
 } from "../../api/index"
 
 /**************************************** DASHBOARD OPS LEAD ****************************************/
@@ -817,4 +824,191 @@ export const inboundBoxFileUpload = (formData, whId) => {
             })
         }
     };
+}
+export const getOrderRequestTransportArrangment = (transportArrangementId) => {
+    return async (dispatch) => {
+        try {
+            const fullParam = `${transportArrangementId}`
+            let list = await actionCrud.actionParamRequest(fullParam, API_GET_ORDER_REQUEST_TRANSPORT_ARRAGMENET, "GET");
+            let listRequestTransportArragement = list?.map((item, idx) => {
+                return {
+                    no: idx + 1,
+                    ...item,
+                }
+            })
+            dispatch({
+                type: actionType.SET_LIST_REQUEST_TRANSPORT_ARRANGEMENT,
+                payload: listRequestTransportArragement
+            });
+        } catch (error) {
+            Swal.fire({
+                title: 'Error!',
+                text: error.message,
+                icon: 'error',
+                confirmButtonText: 'Close'
+            })
+        }
+    }
+}
+export const getOrderRequestWHProjectExportToExcel = ({ projectId, whId, userId, whCode }) => {
+    return async (dispatch) => {
+        try {
+            const fullParam = `${projectId}/${whId}/${userId}/${whCode}`
+            let data = await actionCrud.actionCommonSliceParamBlob(fullParam, API_EXPORT_EXCEL_ORDER_REQUEST, "GET");
+            return Promise.resolve(data)
+        } catch (error) {
+            Swal.fire({
+                title: 'Error!',
+                text: error.message,
+                icon: 'error',
+                confirmButtonText: 'Close'
+            })
+        }
+    }
+}
+export const getTransportArrangementEvidenceCheclist = (transportArrangementId) => {
+    return async (dispatch) => {
+        try {
+            let list = await actionCrud.actionCommonSlice(transportArrangementId, API_GET_EVIDENCE_CHECKLIST, "GET");
+            let listEvidenceChecklist = list?.map((item, idx) => {
+                return {
+                    no: idx + 1,
+                    ...item,
+                }
+            })
+            dispatch({
+                type: actionType.SET_LIST_EVIDENCE_CHECKLIST,
+                payload: listEvidenceChecklist
+            });
+        } catch (error) {
+            Swal.fire({
+                title: 'Error!',
+                text: error.message,
+                icon: 'error',
+                confirmButtonText: 'Close'
+            })
+        }
+    }
+}
+export const transportAssignmentDeliveryEvidenceUpload = ({ transportArrangementId, assignmentId, deliveryEvidenceChecklistId }, body) => {
+    return async (dispatch) => {
+        try {
+            const fullParam = `${transportArrangementId}/${assignmentId}/${deliveryEvidenceChecklistId}`
+            let response = await actionCrud.actionParamRequest(fullParam, API_UPLOAD_EVIDENCE_CHECKLIST, "POST", body);
+            dispatch(getTransportArrangementEvidenceCheclist(transportArrangementId));
+            if (response.status === "success") {
+                Swal.fire({
+                    position: "center",
+                    icon: "success",
+                    title: response?.message,
+                    showConfirmButton: true
+                });
+            } else {
+                Swal.fire({
+                    title: 'Error!',
+                    text: response?.message,
+                    icon: 'error',
+                    confirmButtonText: 'Close'
+                })
+            }
+        } catch (error) {
+            Swal.fire({
+                title: 'Error!',
+                text: error.message,
+                icon: 'error',
+                confirmButtonText: 'Close'
+            })
+        }
+    }
+}
+
+export const actDeliveryCompleteWithoutAssignment = (payload) => {
+    return async (dispatch) => {
+        try {
+            let create = await actionCrud.actionCommonCrud(payload, API_COMPLETE_EVIDENCE_CHECKLIST, "POST");
+            if (create.status === "success") {
+                Swal.fire({
+                    position: "center",
+                    icon: "success",
+                    title: create?.message,
+                    showConfirmButton: true
+                });
+                dispatch(getTransportArrangementEvidenceCheclist(payload.transportArrangementId));
+            } else {
+                Swal.fire({
+                    title: 'Error!',
+                    text: create?.message,
+                    icon: 'error',
+                    confirmButtonText: 'Close'
+                })
+            }
+        } catch (error) {
+            Swal.fire({
+                title: 'Error!',
+                text: error.message,
+                icon: 'error',
+                confirmButtonText: 'Close'
+            })
+        }
+    }
+}
+export const transportArrangementTransportTypeDelete = (transportArrangementId) => {
+    return async (dispatch) => {
+        try {
+            let response = await actionCrud.actionCommonCrud(transportArrangementId, API_DELETE_EVIDENCE_CHECKLIST, "DELETE");
+            if (response.status === "success") {
+                Swal.fire({
+                    position: "center",
+                    icon: "success",
+                    title: response?.message,
+                    showConfirmButton: true
+                });
+                dispatch(getTransportArrangementEvidenceCheclist(transportArrangementId));
+            } else {
+                Swal.fire({
+                    title: 'Error!',
+                    text: response?.message,
+                    icon: 'error',
+                    confirmButtonText: 'Close'
+                })
+            }
+        } catch (error) {
+            Swal.fire({
+                title: 'Error!',
+                text: error.message,
+                icon: 'error',
+                confirmButtonText: 'Close'
+            })
+        }
+    }
+}
+export const transportArrangementCreateEvidence = (payload) => {
+    return async (dispatch) => {
+        try {
+            let response = await actionCrud.actionCommonCrud(payload, API_ADD_EVIDENCE_CHECKLIST, "POST");
+            if (response.status === "success") {
+                Swal.fire({
+                    position: "center",
+                    icon: "success",
+                    title: response?.message,
+                    showConfirmButton: true
+                });
+                dispatch(getTransportArrangementEvidenceCheclist(payload.transportArrangementId));
+            } else {
+                Swal.fire({
+                    title: 'Error!',
+                    text: response?.message,
+                    icon: 'error',
+                    confirmButtonText: 'Close'
+                })
+            }
+        } catch (error) {
+            Swal.fire({
+                title: 'Error!',
+                text: error.message,
+                icon: 'error',
+                confirmButtonText: 'Close'
+            })
+        }
+    }
 }

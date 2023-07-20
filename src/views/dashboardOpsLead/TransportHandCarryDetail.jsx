@@ -1,0 +1,342 @@
+import React, { useState, useCallback, useEffect } from 'react'
+import { useRedux } from 'src/utils/hooks'
+import { useNavigate } from 'react-router-dom'
+
+import {
+    CCard,
+    CCardBody,
+    CCol,
+    CForm,
+    CFormInput,
+    CFormLabel,
+    CFormTextarea,
+    CRow
+} from '@coreui/react'
+
+import * as actions from '../../config/redux/DashboardOpsLead/actions'
+import CIcon from '@coreui/icons-react'
+import { cilFile, cilPlus } from '@coreui/icons'
+import SmartTable from 'src/components/custom/table/SmartTable'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faArrowRight, faArrowUpFromBracket, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons'
+import ButtonSubmit from 'src/components/custom/button/ButtonSubmit'
+import ButtonCancel from 'src/components/custom/button/ButtonCancel'
+import { useLocation } from 'react-router-dom'
+import ModalUploadFile from 'src/components/custom/modal/ModalUploadFile'
+import Swal from 'sweetalert2'
+
+function TransportHandCarryDetail() {
+    const nav = useNavigate();
+    const { dispatch, Global, DashboardOpsLead } = useRedux()
+    const [openModalUpload, setOpenModalUpload] = useState(false)
+    // const [openModal, setOpenModal] = useState(false)
+    // const [openModalSc, setOpenModalSc] = useState(false)
+    // const [transportType, setTransportType] = useState([])
+    // const [dispatcher, setDispatcher] = useState([])
+    const [values, setValues] = useState({})
+    const [param, setParam] = useState({})
+    const [selectedEvidence, setSelectedEvidence] = useState({})
+    const [myLocation, setMyLocation] = useState({})
+    const { pathname } = useLocation();
+
+    useEffect(() => {
+        // const split = window.location.href.split("/");
+
+        // console.log(pathname.split('/'))
+        // :transportArrangementId/:transportModeId/:projectId/:orderReqId
+
+        const transArrId = pathname.split('/')[4]
+        const transModId = pathname.split('/')[5]
+        const pId = pathname.split('/')[6]
+        const oId = pathname.split('/')[7]
+        // console.log(DashboardOpsLead)
+        getLocation()
+
+        setParam({
+            transportArrangementId: transArrId,
+            transportModeId: transModId,
+            projectId: pId,
+            orderReqId: oId
+        })
+
+        if (transArrId && Global?.user?.userID) {
+            dispatch(actions.getOrderRequestTransportArrangment(transArrId))
+            dispatch(actions.getTransportArrangementEvidenceCheclist(transArrId))
+            // dispatch(actions.getTransportArrangmentServiceChargeList(split[7]))
+        }
+    }, [Global?.user?.userID]);
+
+    const getLocation = () => {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(showPosition);
+        } else {
+            alert("Geolocation is not supported by this browser.");
+        }
+    }
+
+    const showPosition = (position) => {
+        setMyLocation({
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude,
+        })
+    }
+
+    // const handleComponent = useCallback(
+    //     (action, id) => {
+    //         if (action == "delServiceCharge") {
+    //             dispatch(actions.deleteTransportArrangmentServiceCharge(id, Global?.user?.userID))
+    //         } else {
+    //             dispatch(actions.deleteTransportType(id, param?.transportArrangmentId))
+    //         }
+    //     }
+    // )
+
+    const requestTransportArrangmentColumns = [
+        { name: 'no', header: 'No', defaultVisible: true, defaultWidth: 80, type: 'number' },
+        { name: 'transportArrRefId', header: 'Arrangement Ref Id', defaultWidth: 200 },
+        { name: 'deliveryMode', header: 'Delivery Mode', defaultWidth: 200 },
+        { name: 'transportMode', header: 'Transport Mode', defaultWidth: 200 },
+        { name: 'orderReqNo', header: 'Cust Order Req No', defaultWidth: 300 },
+        { name: 'requestorName', header: 'Customer Requestor', defaultWidth: 200 },
+        { name: 'origin', header: 'Origin', defaultWidth: 200 },
+        { name: 'destination', header: 'Destination', defaultWidth: 200 },
+        { name: 'pickandpackCompleteDate', header: 'Pick And Pack Complete Date', defaultWidth: 200 },
+    ]
+
+    const evidenceChecklistColumns = [
+        { name: 'no', header: 'No', defaultVisible: true, defaultWidth: 80, type: 'number' },
+        { name: 'checklistName', header: 'Checklist Name', defaultFlex: 1 },
+        { name: 'checklistType', header: 'Evidence Collection', defaultFlex: 1 },
+        {
+            name: 'transportArrangementId',
+            header: 'Action',
+            textAlign: 'center',
+            defaultWidth: 200,
+            render: ({ data }) => {
+                return (
+                    <>
+                        <FontAwesomeIcon
+                            icon={faArrowUpFromBracket}
+                            className='textBlue px-2'
+                            title='Order Request'
+                            size='xl'
+                            onClick={() =>
+                                handleUpload(data)
+                            }
+                        />
+                    </>
+                )
+            }
+        },
+    ]
+
+    const handleOnchange = useCallback(
+        (e) => {
+            const { value, name } = e.target;
+            setValues((prev) => ({
+                ...prev,
+                [name]: value
+            }));
+
+        }, [setValues]
+    )
+
+    const handleCreateEvidence = () => {
+        const payload = {
+            transportArrangementId: param.transportArrangementId,
+            projectId: param.projectId,
+            LMBY: Global.user.userID
+        }
+        dispatch(actions.transportArrangementCreateEvidence(payload))
+    }
+
+    const handleUpload = (data) => {
+        setSelectedEvidence(data)
+        setOpenModalUpload(true)
+    }
+
+    const handleUploadFile = (formData) => {
+        if (formData) {
+            const params = {
+                transportArrangementId: selectedEvidence.transportArrangementId,
+                assignmentId: selectedEvidence.assignmentId,
+                deliveryEvidenceChecklistId: selectedEvidence.deliveryEvidenceChecklistId
+            }
+
+            dispatch(
+                actions.transportAssignmentDeliveryEvidenceUpload(
+                    params,
+                    formData
+                )
+            )
+        } else {
+            Swal.fire({
+                title: 'Error!',
+                text: 'File Empty !',
+                icon: 'error',
+                confirmButtonText: 'OK'
+            })
+        }
+    }
+
+    const handleCancel = () => {
+        nav("/dashboard-ops-lead/waiting-dispatch/" + param?.projectId + "/detail/" + param?.orderReqId, { replace: true })
+    }
+
+    const handleConfirm = (event) => {
+        event.preventDefault()
+        event.stopPropagation()
+        const payload = {
+            transportArrangmentId: param?.transportArrangementId,
+            LMBY: Global?.user?.userID,
+            actualRecipientName: values?.actualRecipientName,
+            notes: values?.notes,
+            confirmLongitude: myLocation?.longitude,
+            confirmLatitude: myLocation?.latitude
+        }
+        dispatch(
+            actions.actDeliveryCompleteWithoutAssignment(payload)
+        ).then(() => {
+            nav("/dashboard-ops-lead/waiting-dispatch/" + param?.projectId + "/detail/" + param?.orderReqId, { replace: true })
+        })
+    }
+
+
+    return (
+        <>
+            <CCard className="">
+                <CCardBody>
+                    <CRow>
+                        <CCol sm={5}>
+                            <h4 className="card-title mb-0">
+                                Waiting Dispatch Hand Carry Detail
+                            </h4>
+                        </CCol>
+                    </CRow>
+                    <br />
+                    <CRow>
+                        <CCol>
+                            <CRow>
+                                <CCol>
+                                    <h5 className="card-title mb-0">
+                                        Customer Order Request List
+                                    </h5>
+                                </CCol>
+                            </CRow>
+                            <SmartTable
+                                data={DashboardOpsLead?.listRequestTransportArragement}
+                                columns={requestTransportArrangmentColumns}
+                                minHeight={200}
+                            // filterValue={filterValue}
+                            />
+                        </CCol>
+                    </CRow>
+                    <br />
+                    <CRow className='py-2'>
+                        <CCol>
+                            <CRow>
+                                <CCol>
+                                    <h5 className="card-title mb-0">
+                                        HO Evicence
+                                    </h5>
+                                </CCol>
+                                <CCol className="d-none d-md-block text-end">
+                                    {
+                                        !DashboardOpsLead?.listEvidenceChecklist ?
+                                            <CIcon
+                                                icon={cilPlus}
+                                                className="me-2 text-default"
+                                                size="xl"
+                                                onClick={handleCreateEvidence}
+                                            />
+                                            :
+                                            ''
+                                    }
+                                </CCol>
+                            </CRow>
+                            <SmartTable
+                                data={DashboardOpsLead?.listEvidenceChecklist}
+                                columns={evidenceChecklistColumns}
+                                minHeight={200}
+                            // filterValue={filterValue}
+                            />
+                        </CCol>
+                    </CRow>
+                    <br />
+                    <CForm onSubmit={handleConfirm}>
+                        <CRow className='py-2'>
+                            <CCol sm={6}>
+                                <CRow>
+                                    <CCol>
+                                        <h5 className="card-title mb-0">
+                                            Reciepent Info
+                                        </h5>
+                                    </CCol>
+                                </CRow>
+
+                                <CRow>
+                                    <CCol>
+                                        <CRow className="mb-4">
+                                            <CFormLabel
+                                                className="col-form-label">Recipient Name <code>(*)</code>
+                                            </CFormLabel>
+                                            <CCol>
+                                                <CFormInput
+                                                    type="text"
+                                                    name="actualRecipientName"
+                                                    value={values?.actualRecipientName}
+                                                    onChange={handleOnchange}
+                                                    required
+                                                />
+                                            </CCol>
+                                        </CRow>
+                                        <CRow className="mb-4">
+                                            <CFormLabel
+                                                className="col-form-label">Notes <code>(*)</code>
+                                            </CFormLabel>
+                                            <CCol>
+                                                <CFormTextarea
+                                                    rows={3}
+                                                    name="notes"
+                                                    value={values?.notes}
+                                                    onChange={handleOnchange}
+                                                    required
+                                                />
+                                            </CCol>
+                                        </CRow>
+                                    </CCol>
+                                </CRow>
+
+                            </CCol>
+                        </CRow>
+                        <br />
+                        <CRow className='py-2'>
+                            <CCol className='text-end'>
+                                <ButtonSubmit
+                                    label='CONFIRM'
+                                    type='submit'
+                                    // handleButton={() => handleConfirm("confirm")}
+                                    className='me-2'
+                                />
+                                <ButtonCancel
+                                    label='CANCEL'
+                                    handleButton={handleCancel}
+                                />
+                            </CCol>
+                        </CRow>
+                    </CForm>
+                </CCardBody>
+            </CCard>
+            {/* modal */}
+            <ModalUploadFile
+                open={openModalUpload}
+                setOpen={setOpenModalUpload}
+                // handleDownloadTemplate={handleDownloadTemplate}
+                // templateName={templateName}
+                handleUpload={handleUploadFile}
+            />
+        </>
+    )
+}
+
+export default TransportHandCarryDetail

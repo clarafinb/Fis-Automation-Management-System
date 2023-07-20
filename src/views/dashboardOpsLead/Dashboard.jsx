@@ -200,7 +200,6 @@ function Dashboard() {
             <br />
             {
                 detailWarehouses.length > 0 && detailWarehouses?.map((detailWarehouse) => {
-                    console.log('detailWarehouse : ', detailWarehouse)
                     return (
                         <>
                             <CCard key={detailWarehouse?.whId}>
