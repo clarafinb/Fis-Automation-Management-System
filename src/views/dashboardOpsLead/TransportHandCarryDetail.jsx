@@ -18,38 +18,31 @@ import CIcon from '@coreui/icons-react'
 import { cilFile, cilPlus } from '@coreui/icons'
 import SmartTable from 'src/components/custom/table/SmartTable'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faArrowRight, faArrowUpFromBracket, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons'
+import { faArrowRight, faArrowUpFromBracket, faImage, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons'
 import ButtonSubmit from 'src/components/custom/button/ButtonSubmit'
 import ButtonCancel from 'src/components/custom/button/ButtonCancel'
 import { useLocation } from 'react-router-dom'
 import ModalUploadFile from 'src/components/custom/modal/ModalUploadFile'
 import Swal from 'sweetalert2'
+import ModalEvidenceImage from 'src/components/dashboardOpsLead/waitingDispatch/ModalEvidenceImage'
 
 function TransportHandCarryDetail() {
     const nav = useNavigate();
     const { dispatch, Global, DashboardOpsLead } = useRedux()
     const [openModalUpload, setOpenModalUpload] = useState(false)
-    // const [openModal, setOpenModal] = useState(false)
-    // const [openModalSc, setOpenModalSc] = useState(false)
-    // const [transportType, setTransportType] = useState([])
-    // const [dispatcher, setDispatcher] = useState([])
+    const [modalImage, setModalImage] = useState(false)
     const [values, setValues] = useState({})
     const [param, setParam] = useState({})
     const [selectedEvidence, setSelectedEvidence] = useState({})
+    const [selectedEvidenceImage, setSelectedEvidenceImage] = useState([])
     const [myLocation, setMyLocation] = useState({})
     const { pathname } = useLocation();
 
     useEffect(() => {
-        // const split = window.location.href.split("/");
-
-        // console.log(pathname.split('/'))
-        // :transportArrangementId/:transportModeId/:projectId/:orderReqId
-
-        const transArrId = pathname.split('/')[4]
+       const transArrId = pathname.split('/')[4]
         const transModId = pathname.split('/')[5]
         const pId = pathname.split('/')[6]
         const oId = pathname.split('/')[7]
-        // console.log(DashboardOpsLead)
         getLocation()
 
         setParam({
@@ -62,7 +55,6 @@ function TransportHandCarryDetail() {
         if (transArrId && Global?.user?.userID) {
             dispatch(actions.getOrderRequestTransportArrangment(transArrId))
             dispatch(actions.getTransportArrangementEvidenceCheclist(transArrId))
-            // dispatch(actions.getTransportArrangmentServiceChargeList(split[7]))
         }
     }, [Global?.user?.userID]);
 
@@ -91,6 +83,11 @@ function TransportHandCarryDetail() {
     //     }
     // )
 
+    const handleModalImage = (data) => {
+        setSelectedEvidenceImage(data)
+        setModalImage(true)
+    }
+
     const requestTransportArrangmentColumns = [
         { name: 'no', header: 'No', defaultVisible: true, defaultWidth: 80, type: 'number' },
         { name: 'transportArrRefId', header: 'Arrangement Ref Id', defaultWidth: 200 },
@@ -105,8 +102,28 @@ function TransportHandCarryDetail() {
 
     const evidenceChecklistColumns = [
         { name: 'no', header: 'No', defaultVisible: true, defaultWidth: 80, type: 'number' },
-        { name: 'checklistName', header: 'Checklist Name', defaultFlex: 1 },
-        { name: 'checklistType', header: 'Evidence Collection', defaultFlex: 1 },
+        { name: 'checklistName', header: 'Checklist Name', defaultFlex: 2 },
+        {
+            name: 'checklistType',
+            header: 'Evidence Collection',
+            defaultFlex: 1,
+            textAlign: 'center',
+            render: ({ data }) => {
+                return (
+                    <>
+                        <FontAwesomeIcon
+                            icon={faImage}
+                            className='textBlue px-2'
+                            title='Image Evidence'
+                            size='xl'
+                            onClick={() =>
+                                handleModalImage(data.getEvidenceChecklists)
+                            }
+                        />
+                    </>
+                )
+            }
+        },
         {
             name: 'transportArrangementId',
             header: 'Action',
@@ -118,7 +135,7 @@ function TransportHandCarryDetail() {
                         <FontAwesomeIcon
                             icon={faArrowUpFromBracket}
                             className='textBlue px-2'
-                            title='Order Request'
+                            title='Upload Evidence'
                             size='xl'
                             onClick={() =>
                                 handleUpload(data)
@@ -191,8 +208,8 @@ function TransportHandCarryDetail() {
             LMBY: Global?.user?.userID,
             actualRecipientName: values?.actualRecipientName,
             notes: values?.notes,
-            confirmLongitude: myLocation?.longitude,
-            confirmLatitude: myLocation?.latitude
+            confirmLongitude: myLocation?.longitude?.toString(),
+            confirmLatitude: myLocation?.latitude?.toString()
         }
         dispatch(
             actions.actDeliveryCompleteWithoutAssignment(payload)
@@ -334,6 +351,13 @@ function TransportHandCarryDetail() {
                 // handleDownloadTemplate={handleDownloadTemplate}
                 // templateName={templateName}
                 handleUpload={handleUploadFile}
+            />
+
+            {/* MODAL IMAGES */}
+            <ModalEvidenceImage
+                open={modalImage}
+                setOpen={setModalImage}
+                data={selectedEvidenceImage}
             />
         </>
     )

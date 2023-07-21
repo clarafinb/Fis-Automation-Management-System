@@ -933,7 +933,7 @@ export const actDeliveryCompleteWithoutAssignment = (payload) => {
                     title: create?.message,
                     showConfirmButton: true
                 });
-                dispatch(getTransportArrangementEvidenceCheclist(payload.transportArrangementId));
+                dispatch(getTransportArrangementEvidenceCheclist(payload.transportArrangmentId));
             } else {
                 Swal.fire({
                     title: 'Error!',
