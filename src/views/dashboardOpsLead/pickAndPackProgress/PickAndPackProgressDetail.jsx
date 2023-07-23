@@ -31,6 +31,7 @@ import Swal from 'sweetalert2'
 import { useLocation, useNavigate } from 'react-router-dom'
 import ButtonSubmit from 'src/components/custom/button/ButtonSubmit'
 import ButtonCancel from 'src/components/custom/button/ButtonCancel'
+import Alert from 'src/components/custom/toast/Alert'
 
 function PickAndPackProgressDetail() {
     const nav = useNavigate();
@@ -56,6 +57,8 @@ function PickAndPackProgressDetail() {
     const [serviceChargeData, setServiceChargeData] = useState([])
     const [serviceChargeHeader, setServiceChargeHeader] = useState([])
     const [values, setValues] = useState({})
+    const [visible, setVisible] = useState(false)
+    const [errMessage, setErrMessage] = useState(null)
     const { pathname } = useLocation();
 
     useEffect(() => {
@@ -124,28 +127,24 @@ function PickAndPackProgressDetail() {
 
         const payload = {
             orderReqId: orderReqId,
-            deliveryModeId: selectedDeliveryRequest.value,
-            transportModeId: selectedTransportMode.value,
+            deliveryModeId: selectedDeliveryRequest?.value,
+            transportModeId: selectedTransportMode?.value,
             totalCollies: values?.totalCollies,
             totalVolume: values?.totalVolume,
             LMBY: Global?.user?.userID
         }
 
-        for (const key in payload) {
-            if (Object.hasOwnProperty.call(payload, key)) {
-                const element = payload[key];
-                if (element == "" || element == undefined) {
-                    return Swal.fire({
-                        title: 'Error!',
-                        text: 'Field Empty !',
-                        icon: 'error',
-                        confirmButtonText: 'OK'
-                    })
-                }
-            }
+        const err = []
+        if (payload.deliveryModeId === undefined) err.push('Delivery Request Final')
+        if (payload.transportModeId === undefined) err.push('Transport Mode Final')
+
+        if (err.length > 0) {
+            setErrMessage(err.join(' , '))
+            setVisible(true)
+        } else {
+            dispatch(actions.pickandPackComplete(payload))
+            handleBack()
         }
-        dispatch(actions.pickandPackComplete(payload))
-        handleBack()
     }
 
 
@@ -757,6 +756,15 @@ function PickAndPackProgressDetail() {
                                                 minHeight={200}
                                             />
                                         </CCol>
+                                        <CRow>
+                                            <CCol>
+                                                <Alert
+                                                    message={errMessage}
+                                                    visible={visible}
+                                                    setVisible={setVisible}
+                                                />
+                                            </CCol>
+                                        </CRow>
                                         {
                                             orderReqDetail?.totalItem > 0 ?
                                                 < CRow className='mt-3'>

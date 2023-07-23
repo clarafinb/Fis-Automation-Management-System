@@ -4,10 +4,12 @@ import { useLocation } from 'react-router-dom'
 import routes from '../routes'
 
 import { CBreadcrumb, CBreadcrumbItem } from '@coreui/react'
+import { useCookies } from 'react-cookie'
+import { handleRoleDashboard } from 'src/helper/urlHelper'
 
 const AppBreadcrumb = () => {
   const currentLocation = useLocation().pathname
-
+  const [cookies, setCookie] = useCookies(["dashboard"]);
   const getRouteName = (pathname, routes) => {
     const currentRoute = routes.find((route) => route.path === pathname)
     return currentRoute ? currentRoute.name : false
@@ -30,14 +32,16 @@ const AppBreadcrumb = () => {
   }
 
   const breadcrumbs = getBreadcrumbs(currentLocation)
+  const homePage = handleRoleDashboard(cookies?.dashboard?.dashboardURL)
 
   return (
     <CBreadcrumb className="m-0 ms-2">
-      {/* <CBreadcrumbItem href="/" className='text-warning'>HOME</CBreadcrumbItem> */}
+      <CBreadcrumbItem href={'#' + homePage} className='text-warning'>HOME</CBreadcrumbItem>
       {breadcrumbs.map((breadcrumb, index) => {
+        const breadcrumbPath = '#' + breadcrumb.pathname
         return (
           <CBreadcrumbItem
-            // {...(breadcrumb.active ? { active: true } : { href: breadcrumb.pathname })}
+            {...(breadcrumb.active ? { active: true } : { href: breadcrumbPath })}
             active={true}
             key={index}
           >
