@@ -17,6 +17,7 @@ import * as actions_dashboard from '../../../config/redux/Dashboard/actions'
 import * as actions from '../../../config/redux/DashboardOpsLead/actions'
 import Select from 'react-select'
 import ButtonSubmit from 'src/components/custom/button/ButtonSubmit'
+import Alert from 'src/components/custom/toast/Alert'
 
 function ModalCreateOrderRequest({ open, setOpen, projectId, detailProject }) {
     const { dispatch, Global } = useRedux()
@@ -32,11 +33,16 @@ function ModalCreateOrderRequest({ open, setOpen, projectId, detailProject }) {
     const [selectedTransportType, setSelectedTransportType] = useState({});
     const [selectedOriginPoint, setSelectedOriginPoint] = useState({});
     const [province, setProvince] = useState([])
-    const [selectedProvince, setSelectedProvince] = useState(null);
+    const [selectedProvince, setSelectedProvince] = useState({});
     const [subDistrict, setSubDistrict] = useState([]);
-    const [selectedSubDistrict, setSelectedSubDistrict] = useState(null);
+    const [selectedSubDistrict, setSelectedSubDistrict] = useState({});
     const [packageType, setPackageType] = useState([])
-    const [selectedPackageType, setSelectedPackageType] = useState({})
+    const [selectedPackageType, setSelectedPackageType] = useState({});
+    const [destinationMandatory, setDestinationMandatory] = useState(false)
+    const [destination, setDestination] = useState([])
+    const [selectedDestination, setSelectedDestination] = useState({})
+    const [visible, setVisible] = useState(false)
+    const [errMessage, setErrMessage] = useState(null)
 
     useEffect(() => {
         if (Global?.user?.token && open) {
@@ -63,7 +69,21 @@ function ModalCreateOrderRequest({ open, setOpen, projectId, detailProject }) {
     }, [Global?.user, open]);
 
     useEffect(() => {
-        setValues({})
+        if (open) {
+            setVisible(false)
+            setErrMessage(null)
+            setValues({})
+            setSelectedDeliveryProcess({})
+            setSelectedRouteType({})
+            setSelectedDestination({})
+            setDestinationMandatory(false)
+            setSelectedProvince({})
+            setSelectedSubDistrict({})
+            setSelectedPackageType({})
+            setSelectedOriginPoint({})
+            setSelectedTransportType({})
+            setSelectedDeliveryType({})
+        }
     }, [open])
 
     const handleOnChangeProvince = (selectedProvince) => {
@@ -94,12 +114,34 @@ function ModalCreateOrderRequest({ open, setOpen, projectId, detailProject }) {
     const handleOnChangeRouteType = (selectedRouteType) => {
         setSelectedRouteType(selectedRouteType)
 
-        if (projectId && selectedRouteType.value && detailProject.whCode) {
+        const { routeTypeId, destinationTypeCode } = selectedRouteType
+        const { whCode } = detailProject
+
+        if (destinationTypeCode === 'PP' && projectId && routeTypeId && whCode) {
+            setDestinationMandatory(false)
+            setSelectedDestination({})
+        } else {
+            setSelectedProvince({})
+            setSelectedSubDistrict({})
+            setDestinationMandatory(true)
+            dispatch(
+                actions.getDestinationKeyWHProject({
+                    projectId,
+                    routeTypeId,
+                    whCode
+                })
+            ).then(resp => {
+                setDestination(resp)
+            })
+        }
+
+
+        if (projectId && routeTypeId && whCode) {
             dispatch(
                 actions.getSelectOriginPoin(
                     projectId,
-                    selectedRouteType.value,
-                    detailProject.whCode))
+                    routeTypeId,
+                    whCode))
                 .then(e => {
                     setOriginPoint(e)
                     setSelectedOriginPoint(e[0])
@@ -109,6 +151,10 @@ function ModalCreateOrderRequest({ open, setOpen, projectId, detailProject }) {
                     }))
                 })
         }
+    }
+
+    const handleOnChangeDestination = (selectedDestination) => {
+        setSelectedDestination(selectedDestination)
     }
 
     const handleOnChangeDeliveryType = (selectedDeliveryType) => {
@@ -145,7 +191,8 @@ function ModalCreateOrderRequest({ open, setOpen, projectId, detailProject }) {
             transportReqType: selectedTransportType?.label,
             routeTypeId: selectedRouteType?.value,
             originPointId: selectedOriginPoint?.value,
-            destinationSubDistrictId: selectedSubDistrict?.value,
+            destinationPointId: 0,
+            destinationSubDistrictId: 0,
             destinationAddress: values?.destinationAddress,
             siteId: values?.siteId,
             siteName: values?.siteName,
@@ -154,10 +201,26 @@ function ModalCreateOrderRequest({ open, setOpen, projectId, detailProject }) {
             LMBY: Global?.user?.userID
         }
 
-        let methode = "POST"
-        dispatch(actions.createOrderRequest(payload, methode))
-        setValues({})
-        setOpen(false)
+        const err = []
+        if (destinationMandatory) {
+            payload.destinationPointId = selectedDestination?.value
+            if (payload.destinationPointId === undefined) err.push('Destination')
+        } else {
+            payload.destinationSubDistrictId = selectedSubDistrict?.value
+            if (payload.destinationSubDistrictId === undefined) err.push('Sub Disctict')
+        }
+
+        if (payload.routeTypeId === undefined) err.push('Route Type')
+        if (payload.transportReqType === undefined) err.push('Transport Request Type')
+
+        if (err.length > 0) {
+            setErrMessage(err.join(' , '))
+            setVisible(true)
+        } else {
+            dispatch(actions.createOrderRequest(payload, "POST"))
+            setOpen(false)
+        }
+
     }
 
     const handleOnchange = useCallback(
@@ -170,11 +233,6 @@ function ModalCreateOrderRequest({ open, setOpen, projectId, detailProject }) {
 
         }, [setValues]
     )
-
-    const handleClose = () => {
-        setValues({})
-        setOpen(false)
-    }
 
     return (
         <CModal
@@ -306,7 +364,21 @@ function ModalCreateOrderRequest({ open, setOpen, projectId, detailProject }) {
                         </CCol>
                         <CCol>
                             <CRow className="mb-3">
-                                <CFormLabel className="col-form-label">Destination Province <code>*</code></CFormLabel>
+                                <CFormLabel className="col-form-label">Destination {destinationMandatory ? <code>*</code> : ''} </CFormLabel>
+                                <CCol>
+                                    <Select
+                                        className="input-select"
+                                        options={destination}
+                                        isSearchable={true}
+                                        value={selectedDestination}
+                                        onChange={handleOnChangeDestination}
+                                        isDisabled={!destinationMandatory}
+                                        required
+                                    />
+                                </CCol>
+                            </CRow>
+                            <CRow className="mb-3">
+                                <CFormLabel className="col-form-label">Destination Province {!destinationMandatory ? <code>*</code> : ''}</CFormLabel>
                                 <CCol>
                                     <Select
                                         className="input-select"
@@ -314,12 +386,13 @@ function ModalCreateOrderRequest({ open, setOpen, projectId, detailProject }) {
                                         isSearchable={true}
                                         value={selectedProvince}
                                         onChange={handleOnChangeProvince}
+                                        isDisabled={destinationMandatory}
                                         required
                                     />
                                 </CCol>
                             </CRow>
                             <CRow className="mb-3">
-                                <CFormLabel className="col-form-label">Destination Sub District <code>*</code></CFormLabel>
+                                <CFormLabel className="col-form-label">Destination Sub District {!destinationMandatory ? <code>*</code> : ''}</CFormLabel>
                                 <CCol>
                                     <Select
                                         className="input-select"
@@ -327,6 +400,7 @@ function ModalCreateOrderRequest({ open, setOpen, projectId, detailProject }) {
                                         isSearchable={true}
                                         value={selectedSubDistrict}
                                         onChange={handleOnChangeSubDistrict}
+                                        isDisabled={destinationMandatory}
                                         required
                                     />
                                 </CCol>
@@ -402,6 +476,15 @@ function ModalCreateOrderRequest({ open, setOpen, projectId, detailProject }) {
                                     />
                                 </CCol>
                             </CRow>
+                        </CCol>
+                    </CRow>
+                    <CRow>
+                        <CCol>
+                            <Alert
+                                message={errMessage}
+                                visible={visible}
+                                setVisible={setVisible}
+                            />
                         </CCol>
                     </CRow>
                     <CRow className="mb-3">

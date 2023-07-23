@@ -68,6 +68,9 @@ export const API_GET_SKU_ACTIVE = BASE_URL + "logmanagement/masterMaterialGetAll
 export const API_ADD_SKU = BASE_URL + "logmanagement/masterMaterialAdd"
 export const API_SET_SKU_ACTIVE = BASE_URL + "logmanagement/masterMaterialSetStatusIsActive"
 export const API_SET_SKU_INACTIVE = BASE_URL + "logmanagement/masterMaterialSetStatusIsInActive"
+export const API_GET_TEMPLATE_SKU = BASE_URL + "masterdata/getMassUploadSKUTemplate"
+export const API_UPLOAD_SKU = BASE_URL + "logmanagement/masterMaterialBulkUpload"
+export const API_GET_BULK_UPLOAD_SKU = BASE_URL + "logmanagement/getMaterialBulkUploadResult"
 //CUSTOMER
 export const API_GET_CUSTOMER_ADMIN = BASE_URL + "customer/getAllAdminOnly";
 export const API_GET_CUSTOMER_ACTIVE = BASE_URL + "customer/getAllActiveOnly";
@@ -110,6 +113,7 @@ export const API_GET_ORIGIN_POINT = BASE_URL + "masterdata/getOriginPointList"
 export const API_GET_DESTINATION_KEY_WH_PROJECT = BASE_URL + "masterdata/getDestinationPointList"
 export const API_ADD_ORDER_REQUEST = BASE_URL + "logmanagement/addOrderRequestWHProject"
 export const API_EXPORT_EXCEL_ORDER_REQUEST = BASE_URL + "logmanagement/getOrderRequestWHProjectExportToExcel"
+export const API_GET_DESTINATION_ORDER_REQUEST = BASE_URL + "logmanagement/getDestinationKeyWHProject"
 //PICK AND PACK
 export const API_GET_PICK_AND_PACK_PENDING = BASE_URL + "logmanagement/getPickandPackPendingWHProject";
 export const API_START_PICK_AND_PACK = BASE_URL + "logmanagement/pickandPackStart";

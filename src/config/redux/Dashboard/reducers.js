@@ -31,7 +31,8 @@ let initialState = {
     listSubDistrict: [],
     listHoDocument: [],
     listMasterWarehouseType: [],
-    listOrderReqItemWithInventory: []
+    listOrderReqItemWithInventory: [],
+    listBulkUploadSku: []
 };
 
 const Dashboard = (state = initialState, { type, payload }) => {
@@ -221,6 +222,11 @@ const Dashboard = (state = initialState, { type, payload }) => {
             return {
                 ...state,
                 listOrderReqItemWithInventory: payload
+            }
+        case actionType.SET_LIST_BULK_UPLOAD_SKU:
+            return {
+                ...state,
+                listBulkUploadSku: payload
             }
         default:
             return { ...state };

@@ -38,7 +38,9 @@ import {
     API_COMPLETE_EVIDENCE_CHECKLIST,
     API_DELETE_EVIDENCE_CHECKLIST,
     API_GET_ORDER_REQUEST_TRANSPORT_ARRAGMENET,
-    API_ADD_EVIDENCE_CHECKLIST
+    API_ADD_EVIDENCE_CHECKLIST,
+    API_GET_DESTINATION_ORDER_REQUEST,
+    API_GET_DESTINATION_KEY_WH_PROJECT
 } from "../../api/index"
 
 /**************************************** DASHBOARD OPS LEAD ****************************************/
@@ -158,10 +160,11 @@ export const getSelecRouteType = (payload) => {
     return async () => {
         try {
             let list = await actionCrud.actionCommonSlice(payload, API_GET_TYPE_ROUTE, "GET");
-            let data = list?.map((item, idx) => {
+            let data = list?.map((item) => {
                 return {
                     label: item.routeType,
-                    value: item.routeTypeId
+                    value: item.routeTypeId,
+                    ...item
                 }
             })
             return Promise.resolve(data)
@@ -1002,6 +1005,29 @@ export const transportArrangementCreateEvidence = (payload) => {
                     confirmButtonText: 'Close'
                 })
             }
+        } catch (error) {
+            Swal.fire({
+                title: 'Error!',
+                text: error.message,
+                icon: 'error',
+                confirmButtonText: 'Close'
+            })
+        }
+    }
+}
+export const getDestinationKeyWHProject = ({ projectId, routeTypeId, whCode }) => {
+    return async (dispatch) => {
+        try {
+            const fullParam = `${projectId}/${routeTypeId}/${whCode}`
+            let list = await actionCrud.actionCommonSliceParam(fullParam, API_GET_DESTINATION_KEY_WH_PROJECT, "GET");
+            let data = list?.map((item) => {
+                return {
+                    label: item.address,
+                    value: item.point_code_id,
+                    ...item
+                }
+            })
+            return Promise.resolve(data)
         } catch (error) {
             Swal.fire({
                 title: 'Error!',

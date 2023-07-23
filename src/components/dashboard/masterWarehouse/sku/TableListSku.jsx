@@ -67,7 +67,7 @@ function TableListSku({
                     data={data}
                     columns={columns}
                     filterValue={filterValue}
-                    minHeight={300}
+                    minHeight={600}
                 />
             </CCol>
         </CRow>

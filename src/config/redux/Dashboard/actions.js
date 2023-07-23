@@ -126,7 +126,10 @@ import {
   API_UPDATE_MASTER_WAREHOUSE_TYPE,
   API_GET_PACKAGE_TYPE,
   API_GET_WAREHOUSE_ACTIVE,
-  API_GET_ORDER_REQUEST_ITEM_INVENTORY
+  API_GET_ORDER_REQUEST_ITEM_INVENTORY,
+  API_GET_TEMPLATE_SKU,
+  API_UPLOAD_SKU,
+  API_GET_BULK_UPLOAD_SKU
 } from "../../api/index"
 import Swal from "sweetalert2";
 
@@ -2677,4 +2680,72 @@ export const createMasterWarehouseType = (payload, methode) => {
     }
   }
 }
-
+export const getMassUploadSKUTemplate = () => {
+  return async () => {
+    try {
+      let data = await actionCrud.actionParamRequest('', API_GET_TEMPLATE_SKU, "GET");
+      return Promise.resolve(data)
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Close'
+      })
+    }
+  }
+}
+export const masterMaterialBulkUpload = (formData, projectId) => {
+  return async (dispatch) => {
+    try {
+      const { value, status, message } = await actionCrud.actionCommonSliceParam(projectId, API_UPLOAD_SKU, "POST", '', formData)
+      if (status !== 'error') {
+        dispatch(getMaterialBulkUploadResult(projectId));
+        Swal.fire({
+          title: value.status,
+          text: value.message,
+          icon: "success",
+          confirmButtonText: "Yes",
+        });
+      } else {
+        Swal.fire({
+          title: 'Error!',
+          text: message,
+          icon: 'error',
+          confirmButtonText: 'Close'
+        })
+      }
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Close'
+      })
+    }
+  };
+}
+export const getMaterialBulkUploadResult = (projectId) => {
+  return async (dispatch) => {
+    try {
+      let list = await actionCrud.actionCommonSliceParam(projectId, API_GET_BULK_UPLOAD_SKU, "GET");
+      let listBulkUploadSku = list?.map((item, idx) => {
+        return {
+          no: idx + 1,
+          ...item,
+        }
+      })
+      dispatch({
+        type: actionType.SET_LIST_BULK_UPLOAD_SKU,
+        payload: listBulkUploadSku
+      });
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Close'
+      })
+    }
+  }
+}

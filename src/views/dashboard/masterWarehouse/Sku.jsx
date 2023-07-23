@@ -22,27 +22,46 @@ import CIcon from '@coreui/icons-react'
 import * as actions from '../../../config/redux/Dashboard/actions'
 import ModalCreateSku from 'src/components/dashboard/masterWarehouse/sku/ModalCreateSku'
 import TableListSku from 'src/components/dashboard/masterWarehouse/sku/TableListSku'
+import TableListBulkUploadSku from 'src/components/dashboard/masterWarehouse/sku/TableListBulkUploadSku'
+import ModalUploadFile from 'src/components/custom/modal/ModalUploadFile'
+import Swal from 'sweetalert2'
 
 function Sku() {
     const { dispatch, Global, Dashboard } = useRedux()
     const [modalCreate, setModalCreate] = useState(false)
     const [projectId, setProjectId] = useState()
     const [activeKey, setActiveKey] = useState(1)
+    const [openModalUpload, setOpenModalUpload] = useState(false)
+    const [templateName, setTemplateName] = useState("")
+    const [templateUrl, setTemplateUrl] = useState("")
 
     useEffect(() => {
         if (Global?.user?.token) {
             const id = window.location.href.split("/").pop();
             setProjectId(id)
-            dispatch(actions.getListSku(id))
+
+            if (activeKey === 1) {
+                dispatch(actions.getListSku(id))
+            }
+
+            if (activeKey === 2) {
+                dispatch(actions.getMaterialBulkUploadResult(id))
+            }
         }
-    }, [Global?.user]);
+    }, [Global?.user, activeKey]);
 
     const handleCreate = () => {
         setModalCreate(true)
     }
 
     const handleBulkUpload = () => {
-
+        dispatch(
+            actions.getMassUploadSKUTemplate()
+        ).then(resp => {
+            setTemplateUrl(resp.templateURL)
+            setTemplateName(resp.templateName)
+            setOpenModalUpload(true)
+        })
     }
 
     const handleToogle = useCallback(
@@ -53,6 +72,36 @@ function Sku() {
 
         }, [Dashboard.listSku]
     )
+
+    const handleComponent = useCallback(
+        (name, val) => {
+            if (name === 'download') {
+                window.open(val.filePath, '_blank')
+            }
+        }
+    )
+
+    const handleDownloadTemplate = () => {
+        window.open(templateUrl, '_blank')
+    }
+
+    const handleUploadFile = (formData) => {
+        if (formData) {
+            dispatch(
+                actions.masterMaterialBulkUpload(
+                    formData,
+                    projectId
+                )
+            )
+        } else {
+            Swal.fire({
+                title: 'Error!',
+                text: 'File Empty !',
+                icon: 'error',
+                confirmButtonText: 'OK'
+            })
+        }
+    }
 
     return (
         <>
@@ -111,6 +160,12 @@ function Sku() {
                                             handleToogle={handleToogle}
                                         />
                                     </CTabPane>
+                                    <CTabPane role="tabpanel" aria-labelledby="home-tab" visible={activeKey === 2}>
+                                        <TableListBulkUploadSku
+                                            data={Dashboard?.listBulkUploadSku}
+                                            handleComponent={handleComponent}
+                                        />
+                                    </CTabPane>
                                 </CTabContent>
                             </CCol>
                         </CRow>
@@ -122,6 +177,14 @@ function Sku() {
                 open={modalCreate}
                 setOpen={setModalCreate}
                 projectId={projectId}
+            />
+
+            <ModalUploadFile
+                open={openModalUpload}
+                setOpen={setOpenModalUpload}
+                handleDownloadTemplate={handleDownloadTemplate}
+                templateName={templateName}
+                handleUpload={handleUploadFile}
             />
         </>
     )

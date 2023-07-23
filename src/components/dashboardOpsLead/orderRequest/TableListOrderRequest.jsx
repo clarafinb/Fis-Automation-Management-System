@@ -47,7 +47,7 @@ function TableListOrderRequest({
                                 <CIcon
                                     icon={cilClipboard}
                                     className=""
-                                    // size="sm"
+                                    title='Cancel'
                                     onClick={() =>
                                         handleComponent("cancel", value)
                                     }
@@ -59,7 +59,7 @@ function TableListOrderRequest({
                             <CIcon
                                 icon={cilTrash}
                                 className=""
-                                // size="sm"
+                                title='Delete'
                                 onClick={() =>
                                     handleComponent("delete", value)
                                 }
