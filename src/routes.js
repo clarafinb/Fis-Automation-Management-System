@@ -36,10 +36,13 @@ const ManageInventory = React.lazy(() => import('./views/dashboardOpsLead/Manage
 // const Colors = React.lazy(() => import('./views/theme/colors/Colors'))
 // DASHBOARD WH TEAM
 const DashboardWhTeam = React.lazy(() => import('./views/dashboardWhTeam/Dashboard'))
+// TESTING
+const Test = React.lazy(() => import('./views/pages/test/Test'))
 
 
 const routes = [
   // { path: '/', exact: true, name: 'HOME' },
+  { path: '/test', name: 'TEST', element: Test },
   { path: '/profile', name: 'PROFILE', element: Profile },
   { path: '/dashboard', name: 'DASHBOARD', element: Dashboard },
   { path: '/dashboard-ops-lead', name: 'DASHBOARD', element: DashboardOpsLead },

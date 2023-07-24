@@ -1,3 +1,5 @@
+import moment from 'moment';
+
 export const downloadFileConfig = (data, fileName = 'file.xlsx') => {
     // create file link in browser's memory
     const href = URL.createObjectURL(data);
@@ -11,3 +13,7 @@ export const downloadFileConfig = (data, fileName = 'file.xlsx') => {
     document.body.removeChild(link);
     URL.revokeObjectURL(href);
 };
+
+export const formatStandartDate = (date) => {
+    return moment(date).format('DD-MM-YYYY')
+}
