@@ -36,10 +36,13 @@ const ManageInventory = React.lazy(() => import('./views/dashboardOpsLead/Manage
 // const Colors = React.lazy(() => import('./views/theme/colors/Colors'))
 // DASHBOARD WH TEAM
 const DashboardWhTeam = React.lazy(() => import('./views/dashboardWhTeam/Dashboard'))
+// TESTING
+const Test = React.lazy(() => import('./views/pages/test/Test'))
 
 
 const routes = [
   // { path: '/', exact: true, name: 'HOME' },
+  { path: '/test', name: 'TEST', element: Test },
   { path: '/profile', name: 'PROFILE', element: Profile },
   { path: '/dashboard', name: 'DASHBOARD', element: Dashboard },
   { path: '/dashboard-ops-lead', name: 'DASHBOARD', element: DashboardOpsLead },
@@ -55,7 +58,7 @@ const routes = [
   { path: '/dashboard/setting-management/warehouse-type', name: 'WAREHOUSE TYPE', element: WarehouseType },
   { path: '/dashboard/project-service-charge/:id', name: 'PROJECT SERVICE CHARGE', element: ProjectServiceCharge },
   { path: '/dashboard/project-member/:id', name: 'PROJECT MEMBER', element: ProjectMember },
-  { path: '/dashboard/sku/:id', name: 'PROJECT MASTER SKU', element: Sku },
+  { path: '/dashboard/sku/:id/:projectName', name: 'PROJECT MASTER SKU', element: Sku },
   { path: '/dashboard-ops-lead/order-request/:projectId/:whId', name: 'ORDER REQUEST', element: OrderRequest },
   { path: '/dashboard-ops-lead/pick-pack/:projectId/:whId', name: 'PICK AND PACK PENDING', element: PickAndPack },
   { path: '/dashboard-ops-lead/pick-pack/:projectId/:whId/detail/:orderReqId', name: 'PICK AND PACK PENDING DETAIL', element: PickAndPackDetail },

@@ -1,13 +1,14 @@
 import React from 'react'
 
 import {
+    CBadge,
     CCol,
     CRow,
 } from '@coreui/react'
 import SmartTable from 'src/components/custom/table/SmartTable'
 import moment from 'moment'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faFileArrowDown } from '@fortawesome/free-solid-svg-icons'
+import { faFileArrowDown, faFileExcel } from '@fortawesome/free-solid-svg-icons'
 
 function TableListBulkUploadSku({
     data,
@@ -35,7 +36,24 @@ function TableListBulkUploadSku({
                 return moment(value).format('DD-MM-YYYY HH:mm:ss')
             }
         },
-        { name: 'compileStatus', header: 'STATUS', defaultWidth: 200, textAlign: 'center' },
+        {
+            name: 'compileStatus',
+            header: 'STATUS',
+            defaultWidth: 200,
+            textAlign: 'center',
+            render: ({ value }) => {
+                let badge = "dark"
+                if (value === 'Failed') badge = "danger"
+                if (value === 'Success') badge = "success"
+                return (
+                    <CBadge
+                        color={badge}
+                    >
+                        {value}
+                    </CBadge>
+                )
+            }
+        },
         {
             name: 'filePath',
             header: 'Action',
@@ -53,6 +71,18 @@ function TableListBulkUploadSku({
                                 handleComponent('download', data)
                             }
                         />
+                        {data.rowError > 0 ?
+                            <FontAwesomeIcon
+                                icon={faFileExcel}
+                                className='textBlue px-2'
+                                title='Download Error List'
+                                size='xl'
+                                onClick={() =>
+                                    handleComponent('downloadError', data)
+                                }
+                            />
+                            : ''
+                        }
                     </>
                 )
             }

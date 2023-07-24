@@ -129,7 +129,9 @@ import {
   API_GET_ORDER_REQUEST_ITEM_INVENTORY,
   API_GET_TEMPLATE_SKU,
   API_UPLOAD_SKU,
-  API_GET_BULK_UPLOAD_SKU
+  API_GET_BULK_UPLOAD_SKU,
+  API_EXPORT_EXCEL_SKU,
+  API_EXPORT_EXCEL_SKU_ERR
 } from "../../api/index"
 import Swal from "sweetalert2";
 
@@ -2739,6 +2741,38 @@ export const getMaterialBulkUploadResult = (projectId) => {
         type: actionType.SET_LIST_BULK_UPLOAD_SKU,
         payload: listBulkUploadSku
       });
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Close'
+      })
+    }
+  }
+}
+export const getMasterSKUExportToExcel = (projectId, projectName) => {
+  return async (dispatch) => {
+    try {
+      const fullParam = `${projectId}/${projectName}`
+      let data = await actionCrud.actionCommonSliceParamBlob(fullParam, API_EXPORT_EXCEL_SKU, "GET");
+      return Promise.resolve(data)
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Close'
+      })
+    }
+  }
+}
+export const getMasterSKUBulkUploadErrList = (bulkUploadId, fileName) => {
+  return async (dispatch) => {
+    try {
+      const fullParam = `${bulkUploadId}/${fileName}`
+      let data = await actionCrud.actionCommonSliceParamBlob(fullParam, API_EXPORT_EXCEL_SKU_ERR, "GET");
+      return Promise.resolve(data)
     } catch (error) {
       Swal.fire({
         title: 'Error!',

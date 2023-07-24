@@ -11,12 +11,13 @@ import {
     CCardBody
 } from '@coreui/react'
 
-function ModalMasterWerehouse({ 
-    open, 
-    setOpen, 
+function ModalMasterWerehouse({
+    open,
+    setOpen,
     data,
     handleViewModal
 }) {
+    console.log(data)
     return (
         <CModal
             // size="lg"
@@ -30,7 +31,7 @@ function ModalMasterWerehouse({
             <CModalBody>
                 <CRow>
                     <CCol sm={3}>
-                        <CCard className='text-center no-background' onClick={() => { handleViewModal("warehouse",data.projectId) }}>
+                        <CCard className='text-center no-background' onClick={() => { handleViewModal("warehouse", data.projectId) }}>
                             <CCardBody>
                                 <img src={'icon/ACCOUNT-MANAGEMENT-ICON.png'} />
                                 <p>Master Warehouse</p>
@@ -38,7 +39,7 @@ function ModalMasterWerehouse({
                         </CCard>
                     </CCol>
                     <CCol sm={3}>
-                        <CCard className='text-center no-background' onClick={() => { handleViewModal("projectSc",data.projectId) }}>
+                        <CCard className='text-center no-background' onClick={() => { handleViewModal("projectSc", data.projectId) }}>
                             <CCardBody>
                                 <img src={'icon/SERVICE-CHARGE-ICON.png'} />
                                 <p>Service Charge List</p>
@@ -46,7 +47,7 @@ function ModalMasterWerehouse({
                         </CCard>
                     </CCol>
                     <CCol sm={3}>
-                        <CCard className='text-center no-background' onClick={() => { handleViewModal("sku",data.projectId) }}>
+                        <CCard className='text-center no-background' onClick={() => { handleViewModal("sku", data.projectId, data.projectName) }}>
                             <CCardBody>
                                 <img src={'icon/DELIVERY-MODE-ICON.png'} />
                                 <p>Master SKU</p>
@@ -54,7 +55,7 @@ function ModalMasterWerehouse({
                         </CCard>
                     </CCol>
                     <CCol sm={3}>
-                        <CCard className='text-center no-background' onClick={() => { handleViewModal("projectMember",data.projectId) }}>
+                        <CCard className='text-center no-background' onClick={() => { handleViewModal("projectMember", data.projectId) }}>
                             <CCardBody>
                                 <img src={'icon/CUSTOMER-ICON.png'} />
                                 <p>Project Member</p>
