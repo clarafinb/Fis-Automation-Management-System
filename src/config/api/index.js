@@ -71,6 +71,8 @@ export const API_SET_SKU_INACTIVE = BASE_URL + "logmanagement/masterMaterialSetS
 export const API_GET_TEMPLATE_SKU = BASE_URL + "masterdata/getMassUploadSKUTemplate"
 export const API_UPLOAD_SKU = BASE_URL + "logmanagement/masterMaterialBulkUpload"
 export const API_GET_BULK_UPLOAD_SKU = BASE_URL + "logmanagement/getMaterialBulkUploadResult"
+export const API_EXPORT_EXCEL_SKU = BASE_URL + "logmanagement/getMasterSKUExportToExcel"
+export const API_EXPORT_EXCEL_SKU_ERR = BASE_URL + "logmanagement/getMasterSKUBulkUploadErrList"
 //CUSTOMER
 export const API_GET_CUSTOMER_ADMIN = BASE_URL + "customer/getAllAdminOnly";
 export const API_GET_CUSTOMER_ACTIVE = BASE_URL + "customer/getAllActiveOnly";

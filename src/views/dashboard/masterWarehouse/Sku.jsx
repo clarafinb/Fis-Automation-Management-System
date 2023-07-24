@@ -17,6 +17,7 @@ import {
 import {
     cilCloudUpload,
     cilPlus,
+    cilSpreadsheet,
 } from '@coreui/icons'
 import CIcon from '@coreui/icons-react'
 import * as actions from '../../../config/redux/Dashboard/actions'
@@ -25,20 +26,27 @@ import TableListSku from 'src/components/dashboard/masterWarehouse/sku/TableList
 import TableListBulkUploadSku from 'src/components/dashboard/masterWarehouse/sku/TableListBulkUploadSku'
 import ModalUploadFile from 'src/components/custom/modal/ModalUploadFile'
 import Swal from 'sweetalert2'
+import { downloadFileConfig } from 'src/helper/globalHelper'
+import { useLocation } from 'react-router-dom'
 
 function Sku() {
     const { dispatch, Global, Dashboard } = useRedux()
     const [modalCreate, setModalCreate] = useState(false)
-    const [projectId, setProjectId] = useState()
+    const [projectId, setProjectId] = useState("")
+    const [projectName, setProjectName] = useState("")
     const [activeKey, setActiveKey] = useState(1)
     const [openModalUpload, setOpenModalUpload] = useState(false)
     const [templateName, setTemplateName] = useState("")
     const [templateUrl, setTemplateUrl] = useState("")
+    const [detailProject, setDetailProject] = useState({})
+    const { pathname } = useLocation();
 
     useEffect(() => {
         if (Global?.user?.token) {
-            const id = window.location.href.split("/").pop();
+            const id = pathname.split('/')[3]
+            const pName = decodeURI(pathname.split('/')[4])
             setProjectId(id)
+            setProjectName(pName)
 
             if (activeKey === 1) {
                 dispatch(actions.getListSku(id))
@@ -78,6 +86,13 @@ function Sku() {
             if (name === 'download') {
                 window.open(val.filePath, '_blank')
             }
+            if (name === 'downloadError') {
+                dispatch(
+                    actions.getMasterSKUBulkUploadErrList(val.bulkUploadId, val.fileName)
+                ).then(resp => {
+                    downloadFileConfig(resp, 'error_sku_' + projectName + '_' + Date.now() + 'xlsx')
+                })
+            }
         }
     )
 
@@ -103,6 +118,14 @@ function Sku() {
         }
     }
 
+    const handleExportExcel = () => {
+        dispatch(
+            actions.getMasterSKUExportToExcel(projectId, projectName)
+        ).then(resp => {
+            downloadFileConfig(resp, 'sku_' + projectName + '_' + Date.now() + 'xlsx')
+        })
+    }
+
     return (
         <>
             <CContainer>
@@ -123,6 +146,10 @@ function Sku() {
                         <CButton className="colorBtn-white ms-3" onClick={handleBulkUpload}>
                             <CIcon icon={cilCloudUpload} className="me-2 text-warning" />
                             BULK UPLOAD PROJECT MASTER SKU
+                        </CButton>
+                        <CButton className="colorBtn-white ms-3" onClick={handleExportExcel}>
+                            <CIcon icon={cilSpreadsheet} className="me-2 text-success" />
+                            EXPORT TO EXCEL
                         </CButton>
                     </CCol>
                 </CRow>

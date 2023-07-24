@@ -154,6 +154,10 @@ function ModalCreateOrderRequest({ open, setOpen, projectId, detailProject }) {
     }
 
     const handleOnChangeDestination = (selectedDestination) => {
+        setValues((prev) => ({
+            ...prev,
+            destinationAddress: selectedDestination?.address
+        }))
         setSelectedDestination(selectedDestination)
     }
 

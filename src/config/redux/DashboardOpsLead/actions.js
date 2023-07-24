@@ -1022,7 +1022,7 @@ export const getDestinationKeyWHProject = ({ projectId, routeTypeId, whCode }) =
             let list = await actionCrud.actionCommonSliceParam(fullParam, API_GET_DESTINATION_KEY_WH_PROJECT, "GET");
             let data = list?.map((item) => {
                 return {
-                    label: item.address,
+                    label: item.point_code,
                     value: item.point_code_id,
                     ...item
                 }

@@ -54,10 +54,8 @@ const Dashboard = () => {
   }
 
   const handleModalMasterWerehouse = (projectId) => {
-    setMasterWerehouse((prev) => ({
-      ...prev,
-      projectId: projectId
-    }));
+    const result = Dashboard?.listProject?.find(row => row.projectId === projectId)
+    setMasterWerehouse(result)
     setModalMasterWerehouse(true)
   }
 
@@ -88,7 +86,9 @@ const Dashboard = () => {
     searchProject ? 500 : 0
   )
 
-  const handleOpenModal = (type, id) => {
+  const handleOpenModal = (type, id, projectName = "") => {
+
+    console.log(projectName)
 
     const navigate = [
       {
@@ -125,7 +125,7 @@ const Dashboard = () => {
       },
       {
         type: 'sku',
-        url: '/dashboard/sku/' + id
+        url: '/dashboard/sku/' + id + '/' + encodeURIComponent(projectName)
       },
       {
         type: 'projectMember',
@@ -281,7 +281,9 @@ const Dashboard = () => {
       </CContainer>
 
       <ModalCreateProject open={modalCreate} setOpen={setModalCreate} />
-      <ModalMasterWerehouse open={modalMasterWerehouse}
+
+      <ModalMasterWerehouse
+        open={modalMasterWerehouse}
         setOpen={setModalMasterWerehouse}
         data={masterWerehouse}
         handleViewModal={handleOpenModal}

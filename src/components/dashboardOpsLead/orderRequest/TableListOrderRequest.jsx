@@ -122,9 +122,9 @@ function TableListOrderRequest({
         {
             field: 'orderReqId',
             headerName: 'ACTION',
-            defaultWidth: 100,
+            minWidth: 100,
             cellStyle: { textAlign: 'center' },
-            pinned: 'left',
+            pinned: 'right',
             cellRenderer: ({ data }) => {
                 return handleAction(data)
             }
