@@ -158,11 +158,6 @@ const Dashboard = (state = initialState, { type, payload }) => {
                 ...state,
                 listOrdeRequestAdditionalService: payload
             }
-        case actionType.SET_LIST_DELIVERY_PENDING:
-            return {
-                ...state,
-                listDeliveryPending: payload
-            }
         case actionType.SET_LIST_TRANSPORT_ARRAGEMENT:
             return {
                 ...state,
@@ -187,17 +182,6 @@ const Dashboard = (state = initialState, { type, payload }) => {
                 listTransportArragementSc: payload
             }
 
-        case actionType.SET_LIST_DELIVERY_TRANSIT:
-            return {
-                ...state,
-                listDeliveryTransit: payload
-            }
-
-        case actionType.SET_LIST_DELIVERY_COMPLETE:
-            return {
-                ...state,
-                listDeliveryComplete: payload
-            }
         case actionType.SET_LIST_MASTER_LOCATION:
             return {
                 ...state,

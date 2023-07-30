@@ -15,7 +15,7 @@ import {
     CTabPane
 } from '@coreui/react'
 
-import * as actions from '../../config/redux/Dashboard/actions'
+import * as actions from '../../../config/redux/Dashboard/actions'
 import moment from 'moment/moment'
 import { useNavigate } from 'react-router-dom';
 import ButtonCancel from 'src/components/custom/button/ButtonCancel'

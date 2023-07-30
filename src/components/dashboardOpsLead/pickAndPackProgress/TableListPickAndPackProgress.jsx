@@ -4,16 +4,14 @@ import {
     CCol,
     CRow,
 } from '@coreui/react'
-// import SmartTable from 'src/components/custom/table/SmartTable'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye } from '@fortawesome/free-solid-svg-icons';
-// import moment from 'moment';
 import CIcon from '@coreui/icons-react';
 import { cilPencil } from '@coreui/icons';
-import { formatStandartDate } from 'src/helper/globalHelper';
 import DataGrid from 'src/components/custom/table/DataGrid';
+import { formatStandartDate } from 'src/helper/globalHelper';
 
-function TableListPickAndPackPending({
+function TableListPickAndPackProgress({
     data,
     handleComponent,
     handleToogle
@@ -149,4 +147,4 @@ function TableListPickAndPackPending({
     )
 }
 
-export default TableListPickAndPackPending
+export default TableListPickAndPackProgress

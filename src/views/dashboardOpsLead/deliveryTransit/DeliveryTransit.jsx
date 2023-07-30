@@ -10,14 +10,13 @@ import {
     CContainer,
     CRow
 } from '@coreui/react'
-
 import * as actions from '../../../config/redux/DashboardOpsLead/actions'
 import CIcon from '@coreui/icons-react'
 import ModalListItem from 'src/components/dashboardOpsLead/pickAndPackPending/ModalListItem'
-import TableListDeliveryComplete from 'src/components/dashboardOpsLead/deliveryComplete/TableListDeliveryComplete'
+import TableListDeliveryTransit from 'src/components/dashboardOpsLead/deliveryTransit/TableListDeliveryTransit'
 import { cilSpreadsheet } from '@coreui/icons'
 
-function DeliveryComplete() {
+function DeliveryTransit() {
     const nav = useNavigate();
     const { dispatch, Global, DashboardOpsLead } = useRedux()
     const [detailProject, setDetailProject] = useState({})
@@ -31,7 +30,7 @@ function DeliveryComplete() {
                 actions.getActivitySummaryWHProject(Global?.user?.userID, id)
             ).then(result => {
                 setDetailProject(result[0])
-                dispatch(actions.getListDeliveryComplete(id, result[0].whId, Global?.user?.userID))
+                dispatch(actions.getListDeliveryTransit(id, result[0].whId, Global?.user?.userID))
             })
         }
     }, [Global?.user?.userID]);
@@ -81,7 +80,7 @@ function DeliveryComplete() {
                 <CRow>
                     <CCol sm={5}>
                         <h4 className="card-title mb-0">
-                            <span className='text-underline'>DE</span>LIVERY COMPLETE
+                            <span className='text-underline'>DE</span>LIVERY IN TRANSIT
                         </h4>
                     </CCol>
                 </CRow>
@@ -109,8 +108,8 @@ function DeliveryComplete() {
                         <br />
                         <CRow>
                             <CCol className="d-none d-md-block text-end">
-                                <TableListDeliveryComplete
-                                    data={DashboardOpsLead?.listDeliveryComplete}
+                                <TableListDeliveryTransit
+                                    data={DashboardOpsLead?.listDeliveryTransit}
                                     handleComponent={handleComponent}
                                 />
                             </CCol>
@@ -128,4 +127,4 @@ function DeliveryComplete() {
     )
 }
 
-export default DeliveryComplete
+export default DeliveryTransit

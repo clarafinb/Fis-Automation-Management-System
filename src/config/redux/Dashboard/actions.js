@@ -1865,38 +1865,6 @@ export const addOrderRequestServiceCharge = (payload) => {
   }
 }
 
-export const getListDeliveryPending = (projectId, whId, userId) => {
-  return async (dispatch) => {
-    try {
-      const fullParam = `${projectId}/${whId}/${userId}`
-      let list = await actionCrud.actionParamRequest(fullParam, API_GET_DELIVERY_PENDING, "GET");
-      let listDeliveryPending = list?.map((item, idx) => {
-        return {
-          no: idx + 1,
-          ...item,
-          extra: {
-            ...{
-              projectId: projectId,
-              whId: whId,
-              userId: whId
-            }
-          }
-        }
-      })
-      dispatch({
-        type: actionType.SET_LIST_DELIVERY_PENDING,
-        payload: listDeliveryPending
-      });
-    } catch (error) {
-      Swal.fire({
-        title: 'Error!',
-        text: error.message,
-        icon: 'error',
-        confirmButtonText: 'Close'
-      })
-    }
-  }
-}
 export const getTransportArragementOrderReq = (orderReqId) => {
   return async (dispatch) => {
     try {
@@ -2252,72 +2220,6 @@ export const addTransportArrangment = (payload) => {
           confirmButtonText: 'Close'
         })
       }
-    } catch (error) {
-      Swal.fire({
-        title: 'Error!',
-        text: error.message,
-        icon: 'error',
-        confirmButtonText: 'Close'
-      })
-    }
-  }
-}
-
-export const getListDeliveryTransit = (projectId, whId, userId) => {
-  return async (dispatch) => {
-    try {
-      const fullParam = `${projectId}/${whId}/${userId}`
-      let list = await actionCrud.actionParamRequest(fullParam, API_GET_DELIVERY_TRANSIT, "GET");
-      let listDeliveryTransit = list?.map((item, idx) => {
-        return {
-          no: idx + 1,
-          ...item,
-          extra: {
-            ...{
-              projectId: projectId,
-              whId: whId,
-              userId: whId
-            }
-          }
-        }
-      })
-      dispatch({
-        type: actionType.SET_LIST_DELIVERY_TRANSIT,
-        payload: listDeliveryTransit
-      });
-    } catch (error) {
-      Swal.fire({
-        title: 'Error!',
-        text: error.message,
-        icon: 'error',
-        confirmButtonText: 'Close'
-      })
-    }
-  }
-}
-
-export const getListDeliveryComplete = (projectId, whId, userId) => {
-  return async (dispatch) => {
-    try {
-      const fullParam = `${projectId}/${whId}/${userId}`
-      let list = await actionCrud.actionParamRequest(fullParam, API_GET_DELIVERY_COMPLETE, "GET");
-      let listDeliveryComplete = list?.map((item, idx) => {
-        return {
-          no: idx + 1,
-          ...item,
-          extra: {
-            ...{
-              projectId: projectId,
-              whId: whId,
-              userId: whId
-            }
-          }
-        }
-      })
-      dispatch({
-        type: actionType.SET_LIST_DELIVERY_COMPLETE,
-        payload: listDeliveryComplete
-      });
     } catch (error) {
       Swal.fire({
         title: 'Error!',

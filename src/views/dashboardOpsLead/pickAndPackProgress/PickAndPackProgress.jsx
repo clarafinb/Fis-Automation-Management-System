@@ -10,16 +10,15 @@ import {
     CContainer,
     CRow
 } from '@coreui/react'
-
 import * as actions from '../../../config/redux/DashboardOpsLead/actions'
 import CIcon from '@coreui/icons-react'
 import ModalListItem from 'src/components/dashboardOpsLead/pickAndPackPending/ModalListItem'
 import { cilSpreadsheet } from '@coreui/icons'
-import TableListPickAndPackProgress from './TableListPickAndPackProgress'
+import TableListPickAndPackProgress from '../../../components/dashboardOpsLead/pickAndPackProgress/TableListPickAndPackProgress'
 
 function PickAndPackProgress() {
     const nav = useNavigate();
-    const { dispatch, Global, Dashboard, DashboardOpsLead } = useRedux()
+    const { dispatch, Global, DashboardOpsLead } = useRedux()
     const [detailProject, setDetailProject] = useState({})
     const [openModal, setOpenModal] = useState(false)
     const [custOrderRequest, setCustOrderRequest] = useState(null)

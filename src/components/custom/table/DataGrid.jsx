@@ -19,6 +19,7 @@ function DataGrid({
         floatingFilter: true,
         wrapText: true,
         autoHeight: true,
+        cellStyle: { textAlign: 'left' },
     }
 }) {
     const gridRef = useRef();

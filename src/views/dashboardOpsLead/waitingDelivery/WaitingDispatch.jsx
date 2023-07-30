@@ -10,19 +10,19 @@ import {
     CContainer,
     CRow
 } from '@coreui/react'
-
 import * as actions from '../../../config/redux/DashboardOpsLead/actions'
 import CIcon from '@coreui/icons-react'
+import TableListWaitingDelivery from 'src/components/dashboardOpsLead/waitingDispatch/TableListWaitingDelivery'
 import ModalListItem from 'src/components/dashboardOpsLead/pickAndPackPending/ModalListItem'
-import TableListDeliveryComplete from 'src/components/dashboardOpsLead/deliveryComplete/TableListDeliveryComplete'
 import { cilSpreadsheet } from '@coreui/icons'
 
-function DeliveryComplete() {
+function WaitingDispatch() {
     const nav = useNavigate();
     const { dispatch, Global, DashboardOpsLead } = useRedux()
     const [detailProject, setDetailProject] = useState({})
     const [openModal, setOpenModal] = useState(false)
     const [custOrderRequest, setCustOrderRequest] = useState(null)
+    const [itemOrderRequest, setItemOrderRequest] = useState([])
     const [itemOrderRequestData, setItemOrderRequestData] = useState([])
     useEffect(() => {
         const id = window.location.href.split("/").pop();
@@ -31,7 +31,7 @@ function DeliveryComplete() {
                 actions.getActivitySummaryWHProject(Global?.user?.userID, id)
             ).then(result => {
                 setDetailProject(result[0])
-                dispatch(actions.getListDeliveryComplete(id, result[0].whId, Global?.user?.userID))
+                dispatch(actions.getListDeliveryPending(id, result[0].whId, Global?.user?.userID))
             })
         }
     }, [Global?.user?.userID]);
@@ -81,7 +81,7 @@ function DeliveryComplete() {
                 <CRow>
                     <CCol sm={5}>
                         <h4 className="card-title mb-0">
-                            <span className='text-underline'>DE</span>LIVERY COMPLETE
+                            <span className='text-underline'>WA</span>ITING DELIVERY
                         </h4>
                     </CCol>
                 </CRow>
@@ -109,8 +109,8 @@ function DeliveryComplete() {
                         <br />
                         <CRow>
                             <CCol className="d-none d-md-block text-end">
-                                <TableListDeliveryComplete
-                                    data={DashboardOpsLead?.listDeliveryComplete}
+                                <TableListWaitingDelivery
+                                    data={DashboardOpsLead?.listDeliveryPending}
                                     handleComponent={handleComponent}
                                 />
                             </CCol>
@@ -128,4 +128,4 @@ function DeliveryComplete() {
     )
 }
 
-export default DeliveryComplete
+export default WaitingDispatch

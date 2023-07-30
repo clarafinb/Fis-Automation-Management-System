@@ -4,16 +4,14 @@ import {
     CCol,
     CRow,
 } from '@coreui/react'
-// import SmartTable from 'src/components/custom/table/SmartTable'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye } from '@fortawesome/free-solid-svg-icons';
-// import moment from 'moment';
 import CIcon from '@coreui/icons-react';
 import { cilPencil } from '@coreui/icons';
-import { formatStandartDate } from 'src/helper/globalHelper';
 import DataGrid from 'src/components/custom/table/DataGrid';
+import { formatStandartDate } from 'src/helper/globalHelper';
 
-function TableListPickAndPackPending({
+function TableListDeliveryTransit({
     data,
     handleComponent,
     handleToogle
@@ -64,18 +62,14 @@ function TableListPickAndPackPending({
             cellStyle: { textAlign: 'center' },
         },
         {
-            field: 'whName',
-            headerName: 'WH NAME',
-            cellStyle: { textAlign: 'center' },
-        },
-        {
             field: 'custOrderRequest',
-            headerName: 'CUST ORDER REQUEST',
+            headerName: 'CUSTOMER ORDER REQUEST',
             cellStyle: { textAlign: 'center' },
         },
         {
             field: 'orderRequestDesc',
-            headerName: 'ORDER REQ DESC',
+            headerName: 'ORDER REQUEST DESC',
+            cellStyle: { textAlign: 'center' },
         },
         {
             field: 'requestorName',
@@ -114,16 +108,24 @@ function TableListPickAndPackPending({
             }
         },
         {
-            field: 'createBy',
-            headerName: 'CREATE BY',
-        },
-        {
-            field: 'createDate',
-            headerName: 'CREATED DATE',
+            field: 'pickandpackcompletedate',
+            headerName: 'PICK AND PACK COMPLETE DATE',
             cellStyle: { textAlign: 'center' },
             cellRenderer: ({ data }) => {
-                return formatStandartDate(data.createDate)
+                return formatStandartDate(data.pickandpackcompletedate)
             }
+        },
+        {
+            field: 'pickupDate',
+            headerName: 'PICKUP DATE',
+            cellStyle: { textAlign: 'center' },
+            cellRenderer: ({ data }) => {
+                return formatStandartDate(data.pickupDate)
+            }
+        },
+        {
+            field: 'pickupBy',
+            headerName: 'PICKUP BY',
         },
         {
             field: 'orderReqId',
@@ -149,4 +151,4 @@ function TableListPickAndPackPending({
     )
 }
 
-export default TableListPickAndPackPending
+export default TableListDeliveryTransit

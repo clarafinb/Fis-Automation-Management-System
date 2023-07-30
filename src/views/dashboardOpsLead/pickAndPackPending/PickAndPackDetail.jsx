@@ -26,11 +26,11 @@ function PickAndPackDetail() {
     const { dispatch, Global, DashboardOpsLead } = useRedux()
     const [orderReqDetail, setOrderReqDetail] = useState({})
     const [projectId, setProjectId] = useState("")
-    const [orderReqId, setOrderReqId] = useState()
+    const [orderReqId, setOrderReqId] = useState("")
     const [templateName, setTemplateName] = useState("")
     const [openModalUpload, setOpenModalUpload] = useState(false)
     const [templateUrl, setTemplateUrl] = useState("")
-    const [whId, setWhId] = useState('')
+    const [whId, setWhId] = useState("")
     const [confirmStatus, setConfirmStatus] = useState(false)
     const { pathname } = useLocation();
 
