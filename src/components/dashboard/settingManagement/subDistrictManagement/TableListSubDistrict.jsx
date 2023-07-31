@@ -1,92 +1,118 @@
 import React from 'react'
 import {
+    CButton,
     CCol,
     CRow,
 } from '@coreui/react'
 import ToggleSwitch from 'src/components/custom/toggle/ToggleSwitch'
-import { faEdit } from '@fortawesome/free-solid-svg-icons'
-import SmartTable from 'src/components/custom/table/SmartTable'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import moment from 'moment'
+import DataGrid from 'src/components/custom/table/DataGrid'
+import CIcon from '@coreui/icons-react'
+import { cilPencil } from '@coreui/icons'
+import { formatStandartDate } from 'src/helper/globalHelper'
 
 function TableListSubDistrict({
     data,
     handleComponent,
     handleToogle
 }) {
-    const filterValue = [
-        { name: 'subDistrictName', operator: 'startsWith', type: 'string', value: '' },
-        { name: 'provinceName', operator: 'startsWith', type: 'string', value: '' },
-        { name: 'mrsCode', operator: 'startsWith', type: 'string', value: '' },
-        { name: 'postalCode', operator: 'startsWith', type: 'string', value: '' },
-        { name: 'province', operator: 'startsWith', type: 'string', value: '' },
-        { name: 'modifyName', operator: 'startsWith', type: 'string', value: '' },
-        { name: 'modifyDate', operator: 'startsWith', type: 'string', value: '' },
-    ]
+    const handleAction = (value, data) => {
+        return (
+            <>
+                <CButton className='colorBtnIcon-black p-1 me-2'>
+                    <CIcon
+                        icon={cilPencil}
+                        className=""
+                        onClick={() =>
+                            handleComponent("edit", value, data)
+                        }
+                    />
+                </CButton>
+            </>
+        )
+    }
+
+    const toogle = (value, data) => {
+        return (
+            <>
+                <ToggleSwitch
+                    checked={value}
+                    size="lg"
+                    handleChecked={handleToogle}
+                    data={data}
+                    className="d-flex justify-content-center"
+                />
+            </>
+        )
+    }
 
     const columns = [
-        { name: 'no', header: 'No', defaultWidth: 80, type: 'number' },
         {
-            name: 'isActive',
-            header: 'ACTIVE STATUS',
-            textAlign: 'center',
-            defaultWidth: 180,
-            render: ({ value, data }) => {
-                return (
-                    <>
-                        <ToggleSwitch
-                            checked={value}
-                            size="lg"
-                            handleChecked={handleToogle}
-                            data={data}
-                            className="d-flex justify-content-center"
-                        />
-                    </>
-                )
+            field: 'no',
+            headerName: 'NO',
+            cellStyle: { textAlign: 'center' },
+            minWidth: 150,
+        },
+        {
+            field: 'provinceName',
+            headerName: 'PROVINCE NAME',
+            cellStyle: { textAlign: 'center' },
+        },
+        {
+            field: 'subDistrictName',
+            headerName: 'SUB DISTRICT',
+            cellStyle: { textAlign: 'center' },
+        },
+        {
+            field: 'postalCode',
+            headerName: 'POSTAL CODE',
+            cellStyle: { textAlign: 'center' },
+        },
+        {
+            field: 'mrsCode',
+            headerName: 'MRS CODE',
+            cellStyle: { textAlign: 'center' },
+        },
+        {
+            field: 'modifyName',
+            headerName: 'CREATE BY',
+            cellStyle: { textAlign: 'center' },
+        },
+        {
+            field: 'modifyDate',
+            headerName: 'CREATE DATE',
+            cellStyle: { textAlign: 'center' },
+            cellRenderer: ({ data }) => {
+                return formatStandartDate(data.modifyDate)
             }
         },
         {
-            name: 'subDistrictId',
-            header: 'ACTION',
-            textAlign: 'center',
-            defaultWidth: 150,
-            render: ({ value, data }) => {
-                return (
-                    <>
-                        <FontAwesomeIcon
-                            icon={faEdit}
-                            className='textBlue px-2'
-                            size='sm'
-                            title='Edit'
-                            onClick={() => handleComponent('edit', value, data)}
-                        />
-                    </>
-                )
+            field: 'isActive',
+            headerName: 'ACTIVE STATUS',
+            minWidth: 100,
+            cellStyle: { textAlign: 'center' },
+            pinned: 'right',
+            cellRenderer: ({ data }) => {
+                return toogle(data.isActive, data)
             }
         },
-        { name: 'provinceName', header: 'PROVINCE NAME', defaultWidth: 200 },
-        { name: 'subDistrictName', header: 'SUB DISTRICT', defaultWidth: 230, cellProps: { className: 'customTable' } },
-        { name: 'postalCode', header: 'POSTAL CODE', defaultWidth: 200, textAlign: 'center' },
-        { name: 'mrsCode', header: 'MRS CODE', defaultWidth: 230 },
-        { name: 'modifyName', header: 'CREATE BY', defaultWidth: 250 },
         {
-            name: 'modifyDate',
-            header: 'CREATE DATE',
-            defaultWidth: 250,
-            textAlign: 'center',
-            render: ({ value }) => {
-                return moment(value).format('DD-MM-YYYY HH:mm:ss')
+            field: 'subDistrictId',
+            headerName: 'ACTION',
+            minWidth: 100,
+            cellStyle: { textAlign: 'center' },
+            pinned: 'right',
+            cellRenderer: ({ data }) => {
+                return handleAction(data.subDistrictId, data)
             }
-        }
+        },
     ];
 
     return (
         <CRow>
             <CCol className="d-none d-md-block text-end">
-                <SmartTable
+                <DataGrid
                     data={data}
                     columns={columns}
-                    filterValue={filterValue}
                 />
             </CCol>
         </CRow>

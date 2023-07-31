@@ -1,82 +1,98 @@
-import React, { useState, useCallback, useEffect } from 'react'
-import { useRedux } from 'src/utils/hooks'
-
+import React from 'react'
 import {
+    CButton,
     CCol,
     CRow,
 } from '@coreui/react'
 import ToggleSwitch from 'src/components/custom/toggle/ToggleSwitch'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faEdit, faLocationDot } from '@fortawesome/free-solid-svg-icons'
-import SmartTable from 'src/components/custom/table/SmartTable'
-import moment from 'moment'
+import DataGrid from 'src/components/custom/table/DataGrid'
+import CIcon from '@coreui/icons-react'
+import { cilPencil } from '@coreui/icons'
+import { formatStandartDate } from 'src/helper/globalHelper'
 
 function TableListWarehouseType({
     data,
     handleComponent,
     handleToogle
 }) {
-    const { dispatch, Global } = useRedux()
+    const handleAction = (value, data) => {
+        return (
+            <>
+                <CButton className='colorBtnIcon-black p-1 me-2'>
+                    <CIcon
+                        icon={cilPencil}
+                        className=""
+                        onClick={() =>
+                            handleComponent("edit", value, data)
+                        }
+                    />
+                </CButton>
+            </>
+        )
+    }
 
-    useEffect(() => {
-
-    }, [Global?.user]);
-
-    const filterValue = [
-        { name: 'whType', operator: 'startsWith', type: 'string' },
-        { name: 'typeDescription', operator: 'startsWith', type: 'string' },
-        { name: 'modifyBy', operator: 'startsWith', type: 'string' },
-        { name: 'modifyDate', operator: 'startsWith', type: 'string' },
-    ]
+    const toogle = (value, data) => {
+        return (
+            <>
+                <ToggleSwitch
+                    checked={value}
+                    size="lg"
+                    handleChecked={handleToogle}
+                    data={data}
+                    className="d-flex justify-content-center"
+                />
+            </>
+        )
+    }
 
     const columns = [
-        { name: 'no', header: 'No', defaultVisible: true, defaultWidth: 80 },
-        { name: 'whType', header: 'WAREHOUSE TYPE', defaultFlex: 1},
-        { name: 'typeDescription', header: 'DESCRIPTION', defaultFlex: 1, textAlign: 'center' },
-        { name: 'modifyBy', header: 'MODIFIED BY', defaultWidth: 200, textAlign: 'center' },
         {
-            name: 'modifiedDate',
-            header: 'MODIFIED DATE',
-            textAlign: 'center',
-            defaultWidth: 200,
-            render: ({ value }) => {
-                return moment(value).format('DD-MM-YYYY HH:mm:ss')
+            field: 'no',
+            headerName: 'NO',
+            cellStyle: { textAlign: 'center' },
+            minWidth: 150,
+        },
+        {
+            field: 'whType',
+            headerName: 'WAREHOUSE TYPE',
+            cellStyle: { textAlign: 'center' },
+        },
+        {
+            field: 'typeDescription',
+            headerName: 'DESCRIPTION',
+            cellStyle: { textAlign: 'center' },
+        },
+        {
+            field: 'modifyBy',
+            headerName: 'MODIFIED BY',
+            cellStyle: { textAlign: 'center' },
+        },
+        {
+            field: 'modifyDate',
+            headerName: 'MODIFIED DATE',
+            cellStyle: { textAlign: 'center' },
+            cellRenderer: ({ data }) => {
+                return formatStandartDate(data.modifyDate)
             }
         },
         {
-            name: 'isActve',
-            header: 'ACTIVE STATUS',
-            defaultWidth: 180,
-            textAlign: 'center',
-            render: ({ value, data }) => {
-                return (
-                    < ToggleSwitch
-                        checked={value}
-                        size="lg"
-                        handleChecked={handleToogle}
-                        data={data}
-                        className="d-flex justify-content-center"
-                    />
-                )
+            field: 'isActve',
+            headerName: 'ACTIVE STATUS',
+            minWidth: 100,
+            cellStyle: { textAlign: 'center' },
+            pinned: 'right',
+            cellRenderer: ({ data }) => {
+                return toogle(data.isActve, data)
             }
         },
         {
-            name: 'whTypeId',
-            header: 'ACTION',
-            textAlign: 'center',
-            defaultWidth: 100,
-            render: ({ value, data }) => {
-                return (
-                    <>
-                        <FontAwesomeIcon
-                            icon={faEdit}
-                            className='textBlue px-2'
-                            size='sm'
-                            title='Edit'
-                            onClick={() => handleComponent('edit', value, data)}
-                        />
-                    </>
-                )
+            field: 'whTypeId',
+            headerName: 'ACTION',
+            minWidth: 100,
+            cellStyle: { textAlign: 'center' },
+            pinned: 'right',
+            cellRenderer: ({ data }) => {
+                return handleAction(data.whTypeId, data)
             }
         },
     ];
@@ -84,10 +100,9 @@ function TableListWarehouseType({
     return (
         <CRow>
             <CCol className="d-none d-md-block text-end">
-                <SmartTable
+                <DataGrid
                     data={data}
                     columns={columns}
-                    filterValue={filterValue}
                 />
             </CCol>
         </CRow>

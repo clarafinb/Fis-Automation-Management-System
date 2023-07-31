@@ -462,10 +462,7 @@ export const getListTransport = (payload) => {
       let listTransport = list?.map((item, idx) => {
         return {
           no: idx + 1,
-          transportMode: item.transportMode,
-          transportModeAlias: item.transportModeAlias,
-          status: item.isActive,
-          detail: item
+          ...item
         }
       })
 

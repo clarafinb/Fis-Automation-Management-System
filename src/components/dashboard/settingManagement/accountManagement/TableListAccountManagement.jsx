@@ -1,85 +1,111 @@
 import React from 'react'
 import {
+    CButton,
     CCol,
     CRow,
 } from '@coreui/react'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faEdit} from '@fortawesome/free-solid-svg-icons'
-import SmartTable from 'src/components/custom/table/SmartTable'
-import moment from 'moment'
+import DataGrid from 'src/components/custom/table/DataGrid'
+import { formatStandartDate } from 'src/helper/globalHelper'
+import CIcon from '@coreui/icons-react'
+import { cilPencil } from '@coreui/icons'
 
 function TableListAccountManagement({
-    data, 
-    handleComponent, 
-    handleToogle 
+    data,
+    handleComponent,
+    handleToogle
 }) {
-    const filterValue = [
-        { name: 'fullname', operator: 'startsWith', type: 'string', value: '' },
-        { name: 'roleName', operator: 'startsWith', type: 'string', value: '' },
-        { name: 'email', operator: 'startsWith', type: 'string', value: '' },
-        { name: 'phoneNo', operator: 'startsWith', type: 'string', value: '' },
-        { name: 'userTitle', operator: 'startsWith', type: 'string', value: '' },
-        { name: 'employeeId', operator: 'startsWith', type: 'string', value: '' },
-        { name: 'accountStatus', operator: 'startsWith', type: 'string', value: '' },
-        { name: 'createDate', operator: 'startsWith', type: 'string', value: '' },
-        { name: 'modifiedDate', operator: 'startsWith', type: 'string', value: '' },
-        { name: 'modifiedBy', operator: 'startsWith', type: 'string', value: '' },
-    ]
+    const handleAction = (value, data) => {
+        return (
+            <>
+                <CButton className='colorBtnIcon-black p-1 me-2'>
+                    <CIcon
+                        icon={cilPencil}
+                        className=""
+                        onClick={() =>
+                            handleComponent("edit", value, data)
+                        }
+                    />
+                </CButton>
+            </>
+        )
+    }
 
     const columns = [
         {
-            name: 'userId',
-            header: 'ACTION',
-            textAlign: 'center',
-            defaultWidth: 150,
-            render: ({ value, data }) => {
-                return (
-                    <>  
-                        <FontAwesomeIcon 
-                            icon={faEdit} 
-                            className='textBlue px-2'
-                            size='sm'
-                            title='Edit'
-                            onClick={() => handleComponent('edit', value, data)}
-                        />
-                    </>
-                )
-            }
-        },
-        { name: 'no', header: 'NO', defaultWidth: 80, type: 'number' },
-        { name: 'fullname', header: 'FULL NAME', defaultWidth: 280},
-        { name: 'roleName', header: 'ROLE', defaultWidth: 200},
-        { name: 'email', header: 'EMAIL', defaultWidth: 280},
-        { name: 'phoneNo', header: 'PHONE NO', defaultWidth: 200},
-        { name: 'userTitle', header: 'USER TITLE', defaultWidth: 200},
-        { name: 'employeeId', header: 'EMPLOYEE ID', defaultWidth: 200},
-        { name: 'accountStatus', header: 'ACCOUNT STATUS', defaultWidth: 150},
-        {
-            name: 'createDate',
-            header: 'CREATE DATE',
-            defaultWidth: 200,
-            render: ({ value }) => {
-                return moment(value).format('DD-MM-YYYY HH:mm:ss')
-            }
+            field: 'no',
+            headerName: 'NO',
+            cellStyle: { textAlign: 'center' },
+            minWidth: 150,
         },
         {
-            name: 'modifiedDate',
-            header: 'MODIFIED DATE',
-            defaultWidth: 200,
-            render: ({ value }) => {
-                return moment(value).format('DD-MM-YYYY HH:mm:ss')
+            field: 'fullname',
+            headerName: 'FULL NAME',
+            cellStyle: { textAlign: 'center' },
+        },
+        {
+            field: 'roleName',
+            headerName: 'ROLE',
+            cellStyle: { textAlign: 'center' },
+        },
+        {
+            field: 'email',
+            headerName: 'EMAIL',
+            cellStyle: { textAlign: 'center' },
+        },
+        {
+            field: 'phoneNo',
+            headerName: 'PHONE NO',
+        },
+        {
+            field: 'userTitle',
+            headerName: 'USER TITLE',
+        },
+        {
+            field: 'employeeId',
+            headerName: 'EMPLOYEE ID',
+        },
+        {
+            field: 'accountStatus',
+            headerName: 'ACCOUNT STATUS',
+        },
+        {
+            field: 'createDate',
+            headerName: 'CREATE DATE',
+            cellStyle: { textAlign: 'center' },
+            cellRenderer: ({ data }) => {
+                return formatStandartDate(data.createDate)
             }
         },
-        { name: 'modifiedBy', header: 'MODIFIED BY', defaultWidth: 200},
+        {
+            field: 'modifiedDate',
+            headerName: 'DESTINATION',
+            cellStyle: { textAlign: 'center' },
+            cellRenderer: ({ data }) => {
+                return formatStandartDate(data.modifiedDate)
+            }
+        },
+        {
+            field: 'modifiedBy',
+            headerName: 'MODIFIED BY',
+        },
+        {
+            field: 'userId',
+            headerName: 'ACTION',
+            minWidth: 100,
+            cellStyle: { textAlign: 'center' },
+            pinned: 'right',
+            cellRenderer: ({ data }) => {
+                return handleAction(data.userId, data)
+            }
+        },
     ];
 
     return (
         <CRow>
             <CCol className="d-none d-md-block text-end">
-                <SmartTable
+                <DataGrid
                     data={data}
                     columns={columns}
-                    filterValue={filterValue}
                 />
             </CCol>
         </CRow>

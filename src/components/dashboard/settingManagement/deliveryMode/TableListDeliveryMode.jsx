@@ -3,40 +3,54 @@ import {
     CCol,
     CRow,
 } from '@coreui/react'
-import SmartTable from 'src/components/custom/table/SmartTable'
 import ToggleSwitch from 'src/components/custom/toggle/ToggleSwitch'
+import DataGrid from 'src/components/custom/table/DataGrid'
 
 function TableListDeliveryMode({
-    data, 
-    handleComponent, 
-    handleToogle 
+    data,
+    handleComponent,
+    handleToogle
 }) {
-    const filterValue = [
-        { name: 'deliveryMode', operator: 'startsWith', type: 'string', value: '' },
-        { name: 'deliveryCode', operator: 'startsWith', type: 'string', value: '' },
-    ]
+
+    const toogle = (value, data) => {
+        return (
+            <>
+                <ToggleSwitch
+                    checked={value}
+                    size="lg"
+                    handleChecked={handleToogle}
+                    data={data}
+                    className="d-flex justify-content-center"
+                />
+            </>
+        )
+    }
 
     const columns = [
-        { name: 'no', header: 'No', defaultWidth: 80, type: 'number', textAlign: 'center', },
-        { name: 'deliveryMode', header: 'DELIVERY MODE', textAlign: 'center', defaultFlex: 1},
-        { name: 'deliveryCode', header: 'DELIVERY CODE', textAlign: 'center',defaultFlex: 1},
         {
-            name: 'isActive',
-            header: 'ACTIVE STATUS',
-            textAlign: 'center',
-            defaultWidth: 180,
-            render: ({ value, data }) => {
-                return (
-                    <>  
-                        <ToggleSwitch 
-                            checked={value} 
-                            size="lg" 
-                            handleChecked = {handleToogle} 
-                            data={data}
-                            className= "d-flex justify-content-center"  
-                        />
-                    </>
-                )
+            field: 'no',
+            headerName: 'NO',
+            cellStyle: { textAlign: 'center' },
+            minWidth: 150,
+        },
+        {
+            field: 'deliveryMode',
+            headerName: 'DELIVERY MODE',
+            cellStyle: { textAlign: 'center' },
+        },
+        {
+            field: 'deliveryCode',
+            headerName: 'DELIVERY CODE',
+            cellStyle: { textAlign: 'center' },
+        },
+        {
+            field: 'isActive',
+            headerName: 'ACTIVE STATUS',
+            minWidth: 100,
+            cellStyle: { textAlign: 'center' },
+            pinned: 'right',
+            cellRenderer: ({ data }) => {
+                return toogle(data.isActive, data)
             }
         },
     ];
@@ -44,10 +58,9 @@ function TableListDeliveryMode({
     return (
         <CRow>
             <CCol className="d-none d-md-block text-end">
-                <SmartTable
+                <DataGrid
                     data={data}
                     columns={columns}
-                    filterValue={filterValue}
                 />
             </CCol>
         </CRow>

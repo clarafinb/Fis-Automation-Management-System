@@ -3,39 +3,53 @@ import {
     CCol,
     CRow,
 } from '@coreui/react'
-import SmartTable from 'src/components/custom/table/SmartTable'
 import ToggleSwitch from 'src/components/custom/toggle/ToggleSwitch'
+import DataGrid from 'src/components/custom/table/DataGrid'
 
 function TableListTransportMode({
-    data, 
-    handleComponent, 
-    handleToogle 
+    data,
+    handleComponent,
+    handleToogle
 }) {
-    const filterValue = [
-        { name: 'transportMode', operator: 'startsWith', type: 'string', value: '' },
-        { name: 'transportModeAlias', operator: 'startsWith', type: 'string', value: '' },
-    ]
+    const toogle = (value, data) => {
+        return (
+            <>
+                <ToggleSwitch
+                    checked={value}
+                    size="lg"
+                    handleChecked={handleToogle}
+                    data={data}
+                    className="d-flex justify-content-center"
+                />
+            </>
+        )
+    }
 
     const columns = [
-        { name: 'no', header: 'No', defaultWidth: 80, type: 'number', textAlign: 'center', },
-        { name: 'transportMode', header: 'TRANSPORT MODE', textAlign: 'center', defaultFlex: 1},
-        { name: 'transportModeAlias', header: 'TRANSPORT ALIAS', textAlign: 'center',defaultFlex: 1},
         {
-            name: 'isActive',
-            header: 'ACTIVE STATUS',
-            textAlign: 'center',
-            render: ({ value, data }) => {
-                return (
-                    <>  
-                        <ToggleSwitch 
-                            checked={value} 
-                            size="lg" 
-                            handleChecked = {handleToogle} 
-                            data={data}
-                            className= "d-flex justify-content-center"  
-                        />
-                    </>
-                )
+            field: 'no',
+            headerName: 'NO',
+            cellStyle: { textAlign: 'center' },
+            minWidth: 150,
+        },
+        {
+            field: 'transportMode',
+            headerName: 'TRANSPORT MODE',
+            cellStyle: { textAlign: 'center' },
+        },
+        {
+            field: 'transportModeAlias',
+            headerName: 'TRANSPORT ALIAS',
+            cellStyle: { textAlign: 'center' },
+        },
+        {
+            field: 'isActive',
+            headerName: 'ACTIVE STATUS',
+            minWidth: 100,
+            cellStyle: { textAlign: 'center' },
+            pinned: 'right',
+            cellRenderer: ({ data }) => {
+                return toogle(data.isActive, data)
             }
         },
     ];
@@ -43,10 +57,9 @@ function TableListTransportMode({
     return (
         <CRow>
             <CCol className="d-none d-md-block text-end">
-                <SmartTable
+                <DataGrid
                     data={data}
                     columns={columns}
-                    filterValue={filterValue}
                 />
             </CCol>
         </CRow>
