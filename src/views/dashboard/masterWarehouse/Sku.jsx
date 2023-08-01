@@ -15,9 +15,9 @@ import {
     CTabPane
 } from '@coreui/react'
 import {
+    cilArrowThickToBottom,
     cilCloudUpload,
     cilPlus,
-    cilSpreadsheet,
 } from '@coreui/icons'
 import CIcon from '@coreui/icons-react'
 import * as actions from '../../../config/redux/Dashboard/actions'
@@ -148,8 +148,8 @@ function Sku() {
                             BULK UPLOAD PROJECT MASTER SKU
                         </CButton>
                         <CButton className="colorBtn-white ms-3" onClick={handleExportExcel}>
-                            <CIcon icon={cilSpreadsheet} className="me-2 text-success" />
-                            EXPORT TO EXCEL
+                            <CIcon icon={cilArrowThickToBottom} className="me-2 text-success" />
+                            DOWNLOAD MASTER SKU
                         </CButton>
                     </CCol>
                 </CRow>

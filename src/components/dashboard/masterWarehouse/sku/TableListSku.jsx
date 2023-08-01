@@ -5,8 +5,8 @@ import {
     CRow,
 } from '@coreui/react'
 import ToggleSwitch from 'src/components/custom/toggle/ToggleSwitch'
-import SmartTable from 'src/components/custom/table/SmartTable'
-import moment from 'moment'
+import DataGrid from 'src/components/custom/table/DataGrid'
+import { formatStandartDate } from 'src/helper/globalHelper'
 
 function TableListSku({
     data,
@@ -14,60 +14,82 @@ function TableListSku({
     handleToogle
 }) {
 
-    const filterValue = [
-        { name: 'materialCode', operator: 'startsWith', type: 'string', value: '' },
-        { name: 'materialDesc', operator: 'startsWith', type: 'string', value: '' },
-        { name: 'totalVolume', operator: 'startsWith', type: 'string', value: '' },
-        { name: 'uom', operator: 'startsWith', type: 'string', value: '' },
-        { name: 'modifiedDate', operator: 'startsWith', type: 'string', value: '' },
-        { name: 'modifiedBy', operator: 'startsWith', type: 'string', value: '' },
-    ]
+    const toogle = (value, data) => {
+        return (
+            <>
+                <ToggleSwitch
+                    checked={value}
+                    size="lg"
+                    handleChecked={handleToogle}
+                    data={data}
+                    className="d-flex justify-content-center"
+                />
+            </>
+        )
+    }
 
     const columns = [
-        { name: 'no', header: 'No', defaultWidth: 80, type: 'number', textAlign: 'center' },
-        { name: 'materialCode', header: 'MATERIAL CODE', defaultWidth: 230,textAlign: 'center', cellProps: { className: 'customTable' } },
-        { name: 'materialDesc', header: 'MATERIAL DESC', defaultWidth: 230, textAlign: 'center' },
-        { name: 'totalVolume', header: 'TOTAL VOLUME', defaultWidth: 200, textAlign: 'center' },
-        { name: 'uom', header: 'UOM', defaultWidth: 200, textAlign: 'center' },
-        { name: 'modifiedBy', header: 'LAST MODIFIED BY', defaultWidth: 250, textAlign: 'center' },
         {
-            name: 'modifiedDate',
-            header: 'LAST MODIFIED DATE	',
-            defaultWidth: 200,
-            textAlign: 'center',
-            render: ({ value }) => {
-                return moment(value).format('DD-MM-YYYY HH:mm:ss')
+            field: 'no',
+            headerName: 'NO',
+            cellStyle: { textAlign: 'center' },
+            minWidth: 150
+        },
+        {
+            field: 'materialCode',
+            headerName: 'MATERIAL CODE',
+            cellStyle: { textAlign: 'center' },
+        },
+        {
+            field: 'materialDesc',
+            headerName: 'MATERIAL DESC',
+            cellStyle: { textAlign: 'center' },
+        },
+        {
+            field: 'totalVolume',
+            headerName: 'TOTAL VOLUME',
+            cellStyle: { textAlign: 'center' },
+        },
+        {
+            field: 'uom',
+            headerName: 'UOM',
+            cellStyle: { textAlign: 'center' },
+            cellRenderer: ({ data }) => {
+                return formatStandartDate(data.createDate)
             }
         },
         {
-            name: 'isActive',
-            header: 'ACTIVE STATUS',
-            textAlign: 'center',
-            defaultWidth: 250,
-            render: ({ value, data }) => {
-                return (
-                    <>
-                        <ToggleSwitch
-                            checked={value}
-                            size="lg"
-                            handleChecked={handleToogle}
-                            data={data}
-                            className="d-flex justify-content-center"
-                        />
-                    </>
-                )
+            field: 'modifiedBy',
+            headerName: 'LAST MODIFIED BY',
+            cellStyle: { textAlign: 'center' },
+        },
+        {
+            field: 'modifiedDate',
+            headerName: 'LAST MODIFIED DATE',
+            cellStyle: { textAlign: 'center' },
+            cellRenderer: ({ data }) => {
+                return formatStandartDate(data.modifiedDate)
+            }
+        },
+        {
+            field: 'isActive',
+            headerName: 'ACTIVE STATUS',
+            minWidth: 100,
+            cellStyle: { textAlign: 'center' },
+            pinned: 'right',
+            cellRenderer: ({ data }) => {
+                return toogle(data.isActive, data)
             }
         },
     ];
 
+
     return (
         <CRow>
             <CCol className="d-none d-md-block text-end">
-                <SmartTable
+                <DataGrid
                     data={data}
                     columns={columns}
-                    filterValue={filterValue}
-                    minHeight={600}
                 />
             </CCol>
         </CRow>
