@@ -39,6 +39,7 @@ function ProjectMember() {
 
     const handleToogle = useCallback(
         (val, data) => {
+            console.log("data", data)
             dispatch(actions.setStatusActiveProjectMember(val, data?.projectUserId, projectId))
         }, [Dashboard.listProjectMember]
     )
@@ -48,42 +49,6 @@ function ProjectMember() {
 
             setUserId(value)
             setModalWhMember(true)
-
-            // console.log(action, value)
-            // if (action === 'detail') {
-            //     nav(`detail/${value}`)
-            // } else {
-            //     setCustOrderRequest(data?.custOrderRequest)
-            //     dispatch(actions.getOrderRequestItemList(data?.orderReqId))
-            //         .then(result => {
-            //             const remapData = [
-            //                 {
-            //                     name: 'no',
-            //                     header: 'No',
-            //                     defaultVisible: true,
-            //                     defaultWidth: 80,
-            //                     type: 'number'
-            //                 }
-            //             ]
-            //             result.map((row, idx) => {
-            //                 if (Object.keys(row)[idx]) {
-            //                     remapData.push({
-            //                         name: Object.keys(row)[idx],
-            //                         header: Object.keys(row)[idx],
-            //                         defaultFlex: 1
-            //                     })
-            //                 }
-            //             })
-            //             const dataSet = result.map((item, index) => {
-            //                 return {
-            //                     no: index + 1,
-            //                     ...item
-            //                 }
-            //             })
-            //             setItemOrderRequestData(dataSet)
-            //             setOpenModal(true)
-            //         })
-            // }
         }
     )
 

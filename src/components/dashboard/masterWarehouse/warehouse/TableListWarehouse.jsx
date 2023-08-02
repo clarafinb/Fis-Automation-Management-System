@@ -1,91 +1,115 @@
 import React from 'react'
 
 import {
+    CButton,
     CCol,
     CRow,
 } from '@coreui/react'
 import ToggleSwitch from 'src/components/custom/toggle/ToggleSwitch'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faEdit, faLocationDot } from '@fortawesome/free-solid-svg-icons'
-import SmartTable from 'src/components/custom/table/SmartTable'
+import DataGrid from 'src/components/custom/table/DataGrid'
+import CIcon from '@coreui/icons-react'
+import { cilLocationPin, cilPencil } from '@coreui/icons'
+import { faLocationDot } from '@fortawesome/free-solid-svg-icons'
 
 function TableListWarehouse({
-    data, 
-    handleComponent, 
-    handleToogle 
+    data,
+    handleComponent,
+    handleToogle
 }) {
-    const filterValue = [
-        { name: 'whName', operator: 'startsWith', type: 'string', value: '' },
-        { name: 'whCode', operator: 'startsWith', type: 'string', value: '' },
-        { name: 'isMainWH', operator: 'startsWith', type: 'string', value: '' },
-        { name: 'whType', operator: 'startsWith', type: 'string', value: '' },
-        { name: 'whSpace', operator: 'startsWith', type: 'string', value: '' },
-        { name: 'whAddress', operator: 'startsWith', type: 'string', value: '' },
-    ]
+
+    const handleAction = (type, value, data) => {
+        return (
+            <>
+                <CButton className='colorBtnIcon-black p-1 me-2'>
+                    <CIcon
+                        icon={type === "map" ? cilLocationPin : cilPencil}
+                        className=""
+                        onClick={() =>
+                            handleComponent(type, value, data)
+                        }
+                    />
+                </CButton>
+            </>
+        )
+    }
+
+    const toogle = (value, data) => {
+        return (
+            <>
+                <ToggleSwitch
+                    checked={value}
+                    size="lg"
+                    handleChecked={handleToogle}
+                    data={data}
+                    className="d-flex justify-content-center"
+                />
+            </>
+        )
+    }
 
     const columns = [
-        { name: 'no', header: 'NO', defaultWidth: 80, type: 'number' },
-        { name: 'whName', header: 'WAREHOUSE NAME', defaultWidth: 230, cellProps: { className: 'customTable' } },
-        { name: 'whCode', header: 'WAREHOUSE CODE', defaultWidth: 230 },
-        { name: 'isMainWH', header: 'MAIN CWH', defaultWidth: 130 },
-        { name: 'whType', header: 'WAREHOUSE TYPE', defaultWidth: 180 },
-        { name: 'whSpace', header: 'WAREHOUSE SPACE', defaultWidth: 180, textAlign: 'center' },
-        { name: 'whAddress', header: 'ADDRESS', defaultWidth: 300 },
         {
-            name: 'whId',
-            header: 'MAP',
-            textAlign: 'center',
-            defaultWidth: 110,
-            render: ({ value, data }) => {
-                return (
-                    <>  
-                        <FontAwesomeIcon 
-                            icon={faLocationDot} 
-                            className='textBlue px-2'
-                            size='sm'
-                            title='Map'
-                            onClick={() => handleComponent('map', value, data)}
-                        />
-                    </>
-                )
+            field: 'no',
+            headerName: 'NO',
+            cellStyle: { textAlign: 'center' },
+            minWidth: 150,
+        },
+        {
+            field: 'whName',
+            headerName: 'WAREHOUSE NAME',
+            cellStyle: { textAlign: 'center' },
+        },
+        {
+            field: 'whCode',
+            headerName: 'WAREHOUSE CODE',
+            cellStyle: { textAlign: 'center' },
+        },
+        {
+            field: 'isMainWH',
+            headerName: 'MAIN CWH',
+            cellStyle: { textAlign: 'center' },
+        },
+        {
+            field: 'whType',
+            headerName: 'WAREHOUSE TYPE',
+        },
+        {
+            field: 'whSpace',
+            headerName: 'WAREHOUSE SPACE',
+        },
+        {
+            field: 'whAddress',
+            headerName: 'ADDRESS',
+        },
+        {
+            field: 'whId',
+            headerName: 'MAP',
+            minWidth: 80,
+            cellStyle: { textAlign: 'center' },
+            pinned: 'right',
+            cellRenderer: ({ data }) => {
+                return handleAction("map", data.userId, data)
             }
         },
         {
-            name: 'isActive',
-            header: 'ACTIVE STATUS',
-            textAlign: 'center',
-            defaultWidth: 180,
-            render: ({ value, data }) => {
-                return (
-                    <>  
-                        <ToggleSwitch 
-                            checked={value} 
-                            size="lg" 
-                            handleChecked = {handleToogle} 
-                            data={data}
-                            className= "d-flex justify-content-center"  
-                        />
-                    </>
-                )
+            field: 'isActive',
+            headerName: 'ACTIVE STATUS',
+            minWidth: 80,
+            cellStyle: { textAlign: 'center' },
+            pinned: 'right',
+            cellRenderer: ({ data }) => {
+                return toogle(data.isActive, data)
             }
         },
         {
-            name: 'whId',
-            header: 'ACTION',
-            textAlign: 'center',
-            defaultWidth: 110,
-            render: ({ value, data }) => {
-                return (
-                    <>  
-                        <FontAwesomeIcon 
-                            icon={faEdit} 
-                            className='textBlue px-2'
-                            size='sm'
-                            title='Edit'
-                            onClick={() => handleComponent('edit', value, data)}
-                        />
-                    </>
-                )
+            field: 'whId',
+            headerName: 'ACTION',
+            minWidth: 80,
+            cellStyle: { textAlign: 'center' },
+            pinned: 'right',
+            cellRenderer: ({ data }) => {
+                return handleAction("edit", data.whId, data)
             }
         },
     ];
@@ -93,10 +117,9 @@ function TableListWarehouse({
     return (
         <CRow>
             <CCol className="d-none d-md-block text-end">
-                <SmartTable
+                <DataGrid
                     data={data}
                     columns={columns}
-                    filterValue={filterValue}
                 />
             </CCol>
         </CRow>

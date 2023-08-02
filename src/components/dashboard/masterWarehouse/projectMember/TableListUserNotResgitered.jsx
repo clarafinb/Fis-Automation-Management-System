@@ -2,68 +2,87 @@ import React from 'react'
 
 import {
     CBadge,
+    CButton,
     CCol,
     CRow,
 } from '@coreui/react'
-import SmartTable from 'src/components/custom/table/SmartTable'
-import moment from 'moment'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPlus } from '@fortawesome/free-solid-svg-icons'
+import DataGrid from 'src/components/custom/table/DataGrid'
+import CIcon from '@coreui/icons-react'
+import { cilPlus } from '@coreui/icons'
 
 function TableListUserNotResgitered({
     data,
     handleComponent,
     handleToogle
 }) {
+    const badge = (value) => {
+        return (
+            <CBadge
+                className={value === "Active"
+                    ? "badge-info"
+                    : "badge-secondary"
+                }
+            >
+                {value === "Active"
+                    ? "ACTIVE"
+                    : "DEACTIVE"
+                }
+            </CBadge>
+        )
+    }
 
-    const filterValue = [
-        { name: 'name', operator: 'startsWith', type: 'string' },
-        { name: 'email', operator: 'startsWith', type: 'string' },
-        { name: 'phoneNo', operator: 'startsWith', type: 'string' },
-        { name: 'accountStatus', operator: 'startsWith', type: 'string' },
-    ]
-
-    const columns = [
-        { name: 'no', header: 'NO', defaultVisible: true, defaultWidth: 80 },
-        { name: 'name', header: 'NAME', defaultFlex: 1 },
-        { name: 'email', header: 'EMAIL', defaultFlex: 1 },
-        { name: 'phoneNo', header: 'PHONE NO', defaultFlex: 1 },
-        {
-            name: 'accountStatus',
-            header: 'USER STATUS',
-            defaultFlex: 1,
-            textAlign: 'center',
-            render: ({ value }) => {
-                return (
-                    <CBadge
-                        className={value === "Active"
-                            ? "badge-info"
-                            : "badge-secondary"
-                        }
-                    >
-                        {value === "Active"
-                            ? "ACTIVE"
-                            : "DEACTIVE"
-                        }
-                    </CBadge>
-                )
-            }
-        },
-        {
-            name: 'userId',
-            header: 'ACTION',
-            defaultFlex: 1,
-            textAlign: 'center',
-            render: ({ value }) => {
-                return (
-                    <FontAwesomeIcon
-                        icon={faPlus}
-                        className='textBlue'
+    const handleAction = (value) => {
+        return (
+            <>
+                <CButton className='colorBtnIcon-black p-1 me-2'>
+                    <CIcon
+                        icon={cilPlus}
+                        className=""
                         onClick={() =>
                             handleComponent("userId", value)
                         }
                     />
-                )
+                </CButton>
+            </>
+        )
+    }
+
+    const columns = [
+        {
+            field: 'no',
+            headerName: 'NO',
+            cellStyle: { textAlign: 'center' },
+            minWidth: 150,
+        },
+        {
+            field: 'name',
+            headerName: 'NAME',
+        },
+        {
+            field: 'email',
+            headerName: 'EMAIL',
+        },
+        {
+            field: 'phoneNo',
+            headerName: 'PHONE NO',
+        },
+        {
+            field: 'accountstatus',
+            headerName: 'USER STATUS',
+            minWidth: 150,
+            cellStyle: { textAlign: 'center' },
+            cellRenderer: ({ data }) => {
+                return badge(data.accountstatus)
+            }
+        },
+        {
+            field: 'userId',
+            headerName: 'ACTION',
+            minWidth: 80,
+            cellStyle: { textAlign: 'center' },
+            pinned: 'right',
+            cellRenderer: ({ data }) => {
+                return handleAction(data.userId)
             }
         },
     ];
@@ -71,11 +90,9 @@ function TableListUserNotResgitered({
     return (
         <CRow>
             <CCol className="d-none d-md-block text-end">
-                <SmartTable
+                <DataGrid
                     data={data}
                     columns={columns}
-                    filterValue={filterValue}
-                    minHeight={300}
                 />
             </CCol>
         </CRow>

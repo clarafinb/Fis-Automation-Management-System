@@ -1,57 +1,75 @@
 import React from 'react'
 
 import {
+    CButton,
     CCol,
     CRow,
 } from '@coreui/react'
-import SmartTable from 'src/components/custom/table/SmartTable'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCheck, faXmark } from '@fortawesome/free-solid-svg-icons'
+import DataGrid from 'src/components/custom/table/DataGrid'
+import { cilCheckAlt, cilX } from '@coreui/icons'
+import CIcon from '@coreui/icons-react'
 
 function TableListWarehouseMembership({
     data,
     handleComponent,
     handleToogle
 }) {
-
-    const filterValue = [
-        { name: 'whName', operator: 'startsWith', type: 'string', value: '' },
-        { name: 'whCode', operator: 'startsWith', type: 'string', value: '' },
-        { name: 'isMainWH', operator: 'startsWith', type: 'string', value: '' }
-    ];
+    const handleAction = (value, data) => {
+        return (
+            <>
+                <CButton className='colorBtnIcon-black p-1 me-2'>
+                    <CIcon
+                        icon={value === "notmember" ? cilCheckAlt : cilX}
+                        className=""
+                        onClick={() =>
+                            handleComponent(value, data?.whId)
+                        }
+                    />
+                </CButton>
+            </>
+        )
+    }
 
     const columns = [
-        { name: 'no', header: 'No', defaultVisible: true, defaultWidth: 80, type: 'number' },
-        { name: 'whName', header: 'Warehouse', defaultFlex: 1 },
-        { name: 'whCode', header: 'Warehouse Code', defaultFlex: 1 },
-        { name: 'isMainWH', header: 'Main WH', defaultFlex: 1, textAlign: 'center' },
         {
-            name: 'whMemberStatus',
-            header: 'Action',
-            defaultFlex: 1,
-            textAlign: 'center',
-            render: ({ value, cellProps }) => value === "notmember"
-                ? <FontAwesomeIcon
-                    icon={faCheck}
-                    className='textBlue'
-                    onClick={() =>
-                        handleComponent(value, cellProps.data.detail.whId)} />
-                : <FontAwesomeIcon
-                    icon={faXmark}
-                    className='textBlue'
-                    onClick={() =>
-                        handleComponent(value, cellProps.data.detail.whId)} />
+            field: 'no',
+            headerName: 'NO',
+            cellStyle: { textAlign: 'center' },
+            minWidth: 150,
+        },
+        {
+            field: 'whName',
+            headerName: 'WAREHOUSE NAME',
+            cellStyle: { textAlign: 'center' },
+        },
+        {
+            field: 'whCode',
+            headerName: 'WAREHOUSE CODE',
+            cellStyle: { textAlign: 'center' },
+        },
+        {
+            field: 'isMainWH',
+            headerName: 'MAIN CWH',
+            cellStyle: { textAlign: 'center' },
+        },
+        {
+            field: 'whMemberStatus',
+            headerName: 'ACTION',
+            minWidth: 80,
+            cellStyle: { textAlign: 'center' },
+            pinned: 'right',
+            cellRenderer: ({ data }) => {
+                return handleAction(data.whMemberStatus, data)
+            }
         }
     ];
 
     return (
         <CRow>
             <CCol className="d-none d-md-block text-end">
-                <SmartTable
+                <DataGrid
                     data={data}
                     columns={columns}
-                    filterValue={filterValue}
-                    minHeight={600}
                 />
             </CCol>
         </CRow>

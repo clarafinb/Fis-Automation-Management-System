@@ -15,6 +15,7 @@ import CIcon from '@coreui/icons-react'
 import * as actions from '../../../config/redux/Dashboard/actions'
 import ModalCreateProjectServiceCharge from 'src/components/dashboard/masterWarehouse/projectServiceChargeList/ModalCreateProjectServiceCharge'
 import TableServiceChargeList from 'src/components/dashboard/settingManagement/serviceChargeList/TableServiceChargeList'
+import TableProjectServiceChargeList from 'src/components/dashboard/masterWarehouse/projectServiceChargeList/TableProjectServiceChargeList'
 
 function ProjectServiceCharge() {
     const { dispatch, Global, Dashboard } = useRedux()
@@ -67,7 +68,7 @@ function ProjectServiceCharge() {
                 <CCard>
                     <CCardBody>
                         <CCol>
-                            <TableServiceChargeList
+                            <TableProjectServiceChargeList
                                 data={Dashboard?.listProjectServiceCharge}
                                 handleToogle={handleToogle}
                             />

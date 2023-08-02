@@ -5,61 +5,81 @@ import {
     CRow,
 } from '@coreui/react'
 import ToggleSwitch from 'src/components/custom/toggle/ToggleSwitch'
-import SmartTable from 'src/components/custom/table/SmartTable'
+import DataGrid from 'src/components/custom/table/DataGrid'
+import { formatStandartDate } from 'src/helper/globalHelper'
+import { separateComma } from 'src/utils/number'
 
 function TableProjectServiceChargeList({
-    data, 
-    handleComponent, 
-    handleToogle 
+    data,
+    handleComponent,
+    handleToogle
 }) {
-    const filterValue = [
-        { name: 'serviceCharge', operator: 'startsWith', type: 'string' },
-        { name: 'serviceChargeCode', operator: 'startsWith', type: 'string' },
-        { name: 'chargeFee', operator: 'startsWith', type: 'string' },
-        { name: 'currencyName', operator: 'startsWith', type: 'string' },
-        { name: 'modifiedBy', operator: 'startsWith', type: 'string' },
-        { name: 'modifiedDate', operator: 'startsWith', type: 'string' },
-    ]
+    const toogle = (value, data) => {
+        return (
+            <>
+                <ToggleSwitch
+                    checked={value}
+                    size="lg"
+                    handleChecked={handleToogle}
+                    data={data}
+                    className="d-flex justify-content-center"
+                />
+            </>
+        )
+    }
 
     const columns = [
-        { name: 'no', header: 'NO', defaultVisible: true, defaultWidth: 80 },
-        { name: 'serviceCharge', header: 'SERVICE CHARGE', defaultWidth: 200 },
-        { name: 'serviceChargeCode', header: 'SERVICE CHARGE CODE', defaultWidth: 200, textAlign: 'center' },
         {
-            name: 'chargeFee',
-            header: 'Charge Fee',
-            defaultWidth: 200,
-            textAlign: 'end',
-            render: ({ value }) => {
-                return (separateComma(value ? value.toString() : 0))
-            }
-        },
-        { name: 'currencyName', header: 'CURRENCY', defaultWidth: 200, textAlign: 'center' },
-        { name: 'modifiedBy', header: 'LAST MODIFIED BY', defaultWidth: 200 },
-        {
-            name: 'modifiedDate',
-            header: 'LAST MODIFIED DATE	',
-            defaultWidth: 200,
-            textAlign: 'center',
-            render: ({ value }) => {
-                return moment(value).format('DD-MM-YYYY HH:mm:ss')
-            }
+            field: 'no',
+            headerName: 'NO',
+            cellStyle: { textAlign: 'center' },
+            minWidth: 150,
         },
         {
-            name: 'status',
-            header: 'ACTIVE STATUS',
-            defaultWidth: 200,
-            textAlign: 'center',
-            render: ({ value, data }) => {
-                return (
-                    <ToggleSwitch 
-                            checked={value} 
-                            size="lg" 
-                            handleChecked = {handleToogle} 
-                            data={data}
-                            className= "d-flex justify-content-center"  
-                        />
-                )
+            field: 'serviceCharge',
+            headerName: 'SERVICE CHARGE',
+            cellStyle: { textAlign: 'center' },
+        },
+        {
+            field: 'serviceChargeCode',
+            headerName: 'SERVICE CHARGE CODE',
+            cellStyle: { textAlign: 'center' },  
+        },
+        {
+            field: 'chargeFee',
+            headerName: 'CHARGE FEE',
+            cellStyle: { textAlign: 'center' },
+            cellRenderer: ({ data }) => {
+                return (separateComma(data.chargeFee ? data.chargeFee.toString() : 0))
+            }
+        },
+        {
+            field: 'currencyName',
+            cellStyle: { textAlign: 'center' },
+            headerName: 'CURRENCY',
+        },
+        {
+            field: 'modifiedBy',
+            headerName: 'modifiedBy',
+            cellStyle: { textAlign: 'center' },
+        },
+        {
+            field: 'modifiedDate',
+            headerName: 'LAST MODIFIED DATE',
+            minWidth: 150,
+            cellStyle: { textAlign: 'center' },
+            cellRenderer: ({ data }) => {
+                return formatStandartDate(data.modifiedDate)
+            }
+        },
+        {
+            field: 'isActive',
+            headerName: 'ACTIVE STATUS',
+            minWidth: 80,
+            cellStyle: { textAlign: 'center' },
+            pinned: 'right',
+            cellRenderer: ({ data }) => {
+                return toogle(data.isActive, data)
             }
         },
     ];
@@ -67,10 +87,9 @@ function TableProjectServiceChargeList({
     return (
         <CRow>
             <CCol className="d-none d-md-block text-end">
-                <SmartTable
+                <DataGrid
                     data={data}
                     columns={columns}
-                    filterValue={filterValue}
                 />
             </CCol>
         </CRow>
