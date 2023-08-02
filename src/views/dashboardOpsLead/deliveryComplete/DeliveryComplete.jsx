@@ -1,7 +1,6 @@
 import React, { useState, useCallback, useEffect } from 'react'
 import { useRedux } from 'src/utils/hooks'
 import { useNavigate } from 'react-router-dom'
-
 import {
     CButton,
     CCard,
@@ -10,7 +9,6 @@ import {
     CContainer,
     CRow
 } from '@coreui/react'
-
 import * as actions from '../../../config/redux/DashboardOpsLead/actions'
 import CIcon from '@coreui/icons-react'
 import ModalListItem from 'src/components/dashboardOpsLead/pickAndPackPending/ModalListItem'

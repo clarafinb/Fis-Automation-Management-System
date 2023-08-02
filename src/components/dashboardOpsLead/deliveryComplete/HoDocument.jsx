@@ -4,13 +4,13 @@ import {
     CCol,
     CRow
 } from '@coreui/react'
-import * as actions from '../../../config/redux/Dashboard/actions'
+import * as actions from '../../../config/redux/DashboardOpsLead/actions'
 import ModalOpenMap from 'src/components/dashboard/masterWarehouse/warehouse/ModalOpenMap'
 import TableListHoDocument from 'src/components/dashboardOpsLead/deliveryComplete/TableListHoDocument'
 import ModalImageHo from 'src/components/dashboardOpsLead/deliveryComplete/ModalImageHo'
 
 const HoDocument = ({ orderReqId, visible }) => {
-    const { dispatch, Global, Dashboard } = useRedux()
+    const { dispatch, Global, DashboardOpsLead } = useRedux()
     const [mapKey, setMapKey] = useState(Date.now())
     const [selectedData, setSelectedData] = useState({})
     const [modalImage, setModalImage] = useState(false)
@@ -45,7 +45,7 @@ const HoDocument = ({ orderReqId, visible }) => {
             </CRow>
             <CCol className="d-none d-md-block">
                 <TableListHoDocument
-                    data={Dashboard?.listHoDocument}
+                    data={DashboardOpsLead?.listHoDocument}
                     handleComponent={handleComponent}
                 />
             </CCol>

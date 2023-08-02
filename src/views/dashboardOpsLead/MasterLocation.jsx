@@ -1,7 +1,5 @@
 import React, { useState, useCallback, useEffect } from 'react'
 import { useRedux } from 'src/utils/hooks'
-import { useNavigate } from 'react-router-dom'
-
 import {
     CButton,
     CCard,
@@ -18,24 +16,17 @@ import {
     CModalTitle,
     CRow
 } from '@coreui/react'
-
-import * as actions from '../../config/redux/Dashboard/actions'
+import * as actions from '../../config/redux/DashboardOpsLead/actions'
 import CIcon from '@coreui/icons-react'
 import { cilMedicalCross } from '@coreui/icons'
-import SmartTable from 'src/components/custom/table/SmartTable'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faTrash } from '@fortawesome/free-solid-svg-icons'
-import Select from 'react-select'
+import TableListMasterLocation from 'src/components/dashboardOpsLead/masterLocation/TableListMasterLocation'
+
 
 function MasterLocation() {
-    const nav = useNavigate();
-    const { dispatch, Global, Dashboard } = useRedux()
+    const { dispatch, Global, DashboardOpsLead } = useRedux()
     const [values, setValues] = useState({})
     const [detailProject, setDetailProject] = useState({})
     const [openModal, setOpenModal] = useState(false)
-    const [custOrderRequest, setCustOrderRequest] = useState(null)
-    const [itemOrderRequest, setItemOrderRequest] = useState([])
-    const [itemOrderRequestData, setItemOrderRequestData] = useState([])
     const [routeCategoryList, setRouteCategoryList] = useState([])
     const [selectedRouteCategory, setSelectedRouteCategory] = useState(null)
     const [projectId, setProjectId] = useState(null)
@@ -89,48 +80,6 @@ function MasterLocation() {
         dispatch(actions.createMasterLocation(payload))
     }
 
-    const filterValue = [
-        { name: 'pointCode', operator: 'startsWith', type: 'string', value: '' },
-        { name: 'address', operator: 'startsWith', type: 'string', value: '' },
-        { name: 'longitude', operator: 'startsWith', type: 'string', value: '' },
-        { name: 'latitude', operator: 'startsWith', type: 'string', value: '' },
-        { name: 'routeTypeCode', operator: 'startsWith', type: 'string', value: '' },
-        { name: 'defineBy', operator: 'startsWith', type: 'string', value: '' },
-        { name: 'defineDate', operator: 'startsWith', type: 'string', value: '' }
-    ]
-
-    const columns = [
-        { name: 'no', header: 'No', defaultVisible: true, defaultWidth: 80, type: 'number' },
-        { name: 'pointCode', header: 'Point Code', defaultWidth: 200 },
-        { name: 'address', header: 'Address', defaultWidth: 550 },
-        { name: 'longitude', header: 'Longitude', defaultWidth: 200 },
-        { name: 'latitude', header: 'Latitude', defaultWidth: 200 },
-        { name: 'routeTypeCode', header: 'Route Type', defaultWidth: 200, textAlign: 'center' },
-        { name: 'defineBy', header: 'Define By', defaultWidth: 200 },
-        { name: 'defineDate', header: 'Define Date', defaultWidth: 200 },
-        {
-            name: 'pointCodeId',
-            header: 'Action',
-            textAlign: 'center',
-            defaultWidth: 110,
-            render: ({ value }) => {
-                return (
-                    <>
-
-                        <FontAwesomeIcon
-                            icon={faTrash}
-                            title='Delete Master Location'
-                            size='sm'
-                            onClick={() =>
-                                handleComponent('delete', value)
-                            }
-                        />
-                    </>
-                )
-            }
-        },
-    ];
-
     const handleOnchange = useCallback(
         (e) => {
             const { value, name } = e.target;
@@ -175,11 +124,9 @@ function MasterLocation() {
                     </CRow>
                     <CRow>
                         <CCol className="d-none d-md-block text-end">
-                            <SmartTable
-                                data={Dashboard?.listMasterLocation}
-                                filterValue={filterValue}
-                                columns={columns}
-                                minHeight={400}
+                            <TableListMasterLocation
+                            data={DashboardOpsLead?.listMasterLocation}
+                            handleComponent={handleComponent}
                             />
                         </CCol>
                     </CRow>

@@ -22,7 +22,6 @@ function WaitingDispatch() {
     const [detailProject, setDetailProject] = useState({})
     const [openModal, setOpenModal] = useState(false)
     const [custOrderRequest, setCustOrderRequest] = useState(null)
-    const [itemOrderRequest, setItemOrderRequest] = useState([])
     const [itemOrderRequestData, setItemOrderRequestData] = useState([])
     useEffect(() => {
         const id = window.location.href.split("/").pop();

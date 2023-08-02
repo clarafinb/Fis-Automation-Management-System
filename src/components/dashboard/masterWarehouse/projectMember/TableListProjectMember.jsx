@@ -115,7 +115,7 @@ function TableListProjectMember({
             cellStyle: { textAlign: 'center' },
             pinned: 'right',
             cellRenderer: ({ data }) => {
-                return toogle(data.isActive, data)
+                return toogle(data.isActive)
             }
         },
     ];

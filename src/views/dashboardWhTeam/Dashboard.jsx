@@ -16,7 +16,7 @@ import {
     CTabPane
 } from '@coreui/react'
 import { useCookies } from "react-cookie";
-import * as actions_dashOpsLead from '../../config/redux/DashboardOpsLead/actions'
+import * as actions from '../../config/redux/DashboardOpsLead/actions'
 import CIcon from '@coreui/icons-react'
 import { cilList, cilNotes } from '@coreui/icons'
 import ModalProjectList from 'src/components/dashboardOpsLead/ModalProjectList';
@@ -40,7 +40,7 @@ function Dashboard() {
                 whId: values?.whId
             }
             setCookie('dashboardOpsLead', param, { path: '/' })
-            dispatch(actions_dashOpsLead.setProject(param))
+            dispatch(actions.setProject(param))
 
             if (values?.whId != 'All') {
                 let arr = []
@@ -63,7 +63,7 @@ function Dashboard() {
                 whId: cookies?.dashboardOpsLead?.whId || 0
             }
 
-            dispatch(actions_dashOpsLead.setProject(param))
+            dispatch(actions.setProject(param))
 
             getSummaryProject(cookies?.dashboardOpsLead?.projectId)
         }
@@ -79,7 +79,7 @@ function Dashboard() {
 
     const getSummaryProject = (projectId) => {
         dispatch(
-            actions_dashOpsLead.getActivitySummaryWHProject(Global?.user?.userID, projectId)
+            actions.getActivitySummaryWHProject(Global?.user?.userID, projectId)
         ).then(result => {
             setDetailProject(result)
 
@@ -101,7 +101,7 @@ function Dashboard() {
             if (type == 'pilih') {
                 setValues({})
                 setCookie('dashboardOpsLead', { projectId: val }, { path: '/' })
-                dispatch(actions_dashOpsLead.setProject({ projectId: val })) //set redux
+                dispatch(actions.setProject({ projectId: val })) //set redux
                 getSummaryProject(val) //val: projectId
                 setModalProjectList(false)
             }

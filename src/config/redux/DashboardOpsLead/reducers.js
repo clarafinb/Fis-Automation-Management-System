@@ -12,7 +12,13 @@ let initialState = {
     listPickAndPackProgress: [],
     listEvidenceChecklist: [],
     listDeliveryPending: [],
-    listDeliveryTransit: []
+    listDeliveryTransit: [],
+    listMasterLocation: [],
+    listHoDocument: [],
+    listRequestTransportArragement: [],
+    listTransportArragementSc: [],
+    listOrdeRequestAdditionalService: [],
+    listTransportArragement: []
 };
 
 const DashboardOpsLead = (state = initialState, { type, payload }) => {
@@ -98,6 +104,37 @@ const DashboardOpsLead = (state = initialState, { type, payload }) => {
             return {
                 ...state,
                 listDeliveryComplete: payload
+            }
+
+        case actionType.SET_LIST_MASTER_LOCATION:
+            return {
+                ...state,
+                listMasterLocation: payload
+            }
+
+        case actionType.SET_LIST_HO_DOCUMENT:
+            return {
+                ...state,
+                listHoDocument: payload
+            }
+
+        case actionType.SET_LIST_TRANSPORT_ARRANGEMENT_SC:
+            return {
+                ...state,
+                listTransportArragementSc: payload
+            }
+
+        case actionType.SET_LIST_ORDER_REQUEST_ADDITIONAL_SERVICE:
+            return {
+                ...state,
+                listOrdeRequestAdditionalService: payload
+            }
+
+
+        case actionType.SET_LIST_TRANSPORT_ARRAGEMENT:
+            return {
+                ...state,
+                listTransportArragement: payload
             }
 
         default:

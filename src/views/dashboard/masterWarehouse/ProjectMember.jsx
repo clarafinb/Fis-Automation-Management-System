@@ -39,7 +39,6 @@ function ProjectMember() {
 
     const handleToogle = useCallback(
         (val, data) => {
-            console.log("data", data)
             dispatch(actions.setStatusActiveProjectMember(val, data?.projectUserId, projectId))
         }, [Dashboard.listProjectMember]
     )

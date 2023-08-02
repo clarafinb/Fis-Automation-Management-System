@@ -18,7 +18,7 @@ import {
     CRow
 } from '@coreui/react'
 
-import * as actions from '../../config/redux/Dashboard/actions'
+import * as actions from '../../config/redux/DashboardOpsLead/actions'
 import CIcon from '@coreui/icons-react'
 import { cilFile, cilPlus } from '@coreui/icons'
 import SmartTable from 'src/components/custom/table/SmartTable'
@@ -29,7 +29,7 @@ import ButtonCancel from 'src/components/custom/button/ButtonCancel'
 
 function TransportArragmentDetail() {
     const nav = useNavigate();
-    const { dispatch, Global, Dashboard } = useRedux()
+    const { dispatch, Global, DashboardOpsLead } = useRedux()
     const [openModal, setOpenModal] = useState(false)
     const [openModalSc, setOpenModalSc] = useState(false)
     const [transportType, setTransportType] = useState([])
@@ -306,7 +306,7 @@ function TransportArragmentDetail() {
                                 </CCol>
                             </CRow>
                             <SmartTable
-                                data={Dashboard?.listRequestTransportArragement}
+                                data={DashboardOpsLead?.listRequestTransportArragement}
                                 columns={requestTransportArrangmentColumns}
                                 minHeight={200}
                             // filterValue={filterValue}
@@ -332,7 +332,7 @@ function TransportArragmentDetail() {
                                 </CCol>
                             </CRow>
                             <SmartTable
-                                data={Dashboard?.listTransportArragementType}
+                                data={DashboardOpsLead?.listTransportArragementType}
                                 columns={transportTypeAndDispatcherColumns}
                                 minHeight={200}
                             // filterValue={filterValue}
@@ -359,7 +359,7 @@ function TransportArragmentDetail() {
                                 </CCol>
                             </CRow>
                             <SmartTable
-                                data={Dashboard?.listTransportArragementSc}
+                                data={DashboardOpsLead?.listTransportArragementSc}
                                 columns={serviceChargeColumns}
                                 minHeight={200}
                             // filterValue={filterValue}
@@ -435,7 +435,7 @@ function TransportArragmentDetail() {
                     <CRow>
                         <CCol className="d-none d-md-block text-end">
                             <SmartTable
-                                data={Dashboard?.listOrdeRequestAdditionalService}
+                                data={DashboardOpsLead?.listOrdeRequestAdditionalService}
                                 columns={additionalServiceChargeColumn}
                                 minHeight={200}
                             />

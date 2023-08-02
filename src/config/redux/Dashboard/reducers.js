@@ -16,22 +16,8 @@ let initialState = {
     listUserNotRegisteredByRolePm: [],
     listAccountManagement: [],
     listWarehouseMembership: [],
-    listOrdeRequest: [],
-    listPickAndPackPending: [],
-    listPickAndPackProgress: [],
-    listOrdeRequestAdditionalService: [],
-    listDeliveryPending: [],
-    listTransportArragement: [],
-    listRequestTransportArragement: [],
-    listTransportArragementType: [],
-    listTransportArragementSc: [],
-    listDeliveryTransit: [],
-    listDeliveryComplete: [],
-    listMasterLocation: [],
     listSubDistrict: [],
-    listHoDocument: [],
     listMasterWarehouseType: [],
-    listOrderReqItemWithInventory: [],
     listBulkUploadSku: []
 };
 
@@ -136,77 +122,19 @@ const Dashboard = (state = initialState, { type, payload }) => {
                 ...state,
                 listWarehouseMembership: payload
             }
-        case actionType.SET_LIST_ORDER_REQUEST:
-            return {
-                ...state,
-                listOrdeRequest: payload
-            }
 
-        case actionType.SET_LIST_PICK_AND_PACK_PENDING:
-            return {
-                ...state,
-                listPickAndPackPending: payload
-            }
-
-        case actionType.SET_LIST_PICK_AND_PACK_PROGRESS:
-            return {
-                ...state,
-                listPickAndPackProgress: payload
-            }
-        case actionType.SET_LIST_ORDER_REQUEST_ADDITIONAL_SERVICE:
-            return {
-                ...state,
-                listOrdeRequestAdditionalService: payload
-            }
-        case actionType.SET_LIST_TRANSPORT_ARRAGEMENT:
-            return {
-                ...state,
-                listTransportArragement: payload
-            }
-
-        case actionType.SET_LIST_REQUEST_TRANSPORT_ARRANGEMENT:
-            return {
-                ...state,
-                listRequestTransportArragement: payload
-            }
-
-        case actionType.SET_LIST_TRANSPORT_ARRANGEMENT_TYPE:
-            return {
-                ...state,
-                listTransportArragementType: payload
-            }
-
-        case actionType.SET_LIST_TRANSPORT_ARRANGEMENT_SC:
-            return {
-                ...state,
-                listTransportArragementSc: payload
-            }
-
-        case actionType.SET_LIST_MASTER_LOCATION:
-            return {
-                ...state,
-                listMasterLocation: payload
-            }
         case actionType.SET_LIST_SUB_DISTRICT:
             return {
                 ...state,
                 listSubDistrict: payload
             }
-        case actionType.SET_LIST_HO_DOCUMENT:
-            return {
-                ...state,
-                listHoDocument: payload
-            }
+
         case actionType.SET_LIST_MASTER_WAREHOUSE_TYPE:
             return {
                 ...state,
                 listMasterWarehouseType: payload
             }
-        case actionType.SET_LIST_ORDER_REQ_ITEM_WITH_IVENTORY:
-            return {
-                ...state,
-                listOrderReqItemWithInventory: payload
-            }
+        
         case actionType.SET_LIST_BULK_UPLOAD_SKU:
             return {
                 ...state,

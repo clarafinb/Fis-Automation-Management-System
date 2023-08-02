@@ -19,12 +19,13 @@ import {
     CRow
 } from '@coreui/react'
 
-import * as actions from '../../../config/redux/Dashboard/actions'
+import * as actions_dashboard from '../../../config/redux/Dashboard/actions'
+import * as actions from '../../../config/redux/DashboardOpsLead/actions'
 import CIcon from '@coreui/icons-react'
-import { cilCloudUpload, cilFile, cilPlus } from '@coreui/icons'
+import { cilPlus } from '@coreui/icons'
 import SmartTable from 'src/components/custom/table/SmartTable'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPlay, faPlus, faRefresh, faSearch, faTrash, faUpload } from '@fortawesome/free-solid-svg-icons'
+import { faPlus, faSearch, faTrash, faUpload } from '@fortawesome/free-solid-svg-icons'
 import moment from 'moment/moment'
 import Select from 'react-select'
 import Swal from 'sweetalert2'
@@ -55,7 +56,6 @@ function PickAndPackProgressDetail() {
     const [fileUpload, setFileUpload] = useState(null);
     const [templateUrl, setTemplateUrl] = useState("")
     const [serviceChargeData, setServiceChargeData] = useState([])
-    const [serviceChargeHeader, setServiceChargeHeader] = useState([])
     const [values, setValues] = useState({})
     const [visible, setVisible] = useState(false)
     const [errMessage, setErrMessage] = useState(null)
@@ -78,7 +78,7 @@ function PickAndPackProgressDetail() {
             })
 
             dispatch(
-                actions.getSelectActiveTransport()
+                actions_dashboard.getSelectActiveTransport()
             ).then(result => {
                 setTrasportMode(result)
             })

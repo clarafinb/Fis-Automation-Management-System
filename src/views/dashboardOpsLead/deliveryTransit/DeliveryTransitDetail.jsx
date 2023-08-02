@@ -17,23 +17,20 @@ import {
     CModalTitle,
     CRow
 } from '@coreui/react'
-
-import * as actions from '../../../config/redux/Dashboard/actions'
-import CIcon from '@coreui/icons-react'
-import { cilCloudUpload, cilFile, cilPlus } from '@coreui/icons'
+import * as actions_dashboard from '../../../config/redux/Dashboard/actions'
+import * as actions from '../../../config/redux/DashboardOpsLead/actions'
 import SmartTable from 'src/components/custom/table/SmartTable'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faMap, faPlay, faPlus, faRefresh, faSearch, faUpload } from '@fortawesome/free-solid-svg-icons'
+import { faMap, faPlus, faUpload } from '@fortawesome/free-solid-svg-icons'
 import moment from 'moment/moment'
-import Select from 'react-select'
 import Swal from 'sweetalert2'
 import ModalOpenMap from 'src/components/dashboard/masterWarehouse/warehouse/ModalOpenMap'
-import {Route, Link, Routes, useNavigate} from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 
 
 function DeliveryTransitDetail() {
     const nav = useNavigate();
-    const { dispatch, Global, Dashboard } = useRedux()
+    const { dispatch, Global, DashboardOpsLead, Dashboard } = useRedux()
     const [detailProject, setDetailProject] = useState({})
     const [orderReqDetail, setOrderReqDetail] = useState({})
     const [projectId, setProjectId] = useState("")
@@ -72,7 +69,7 @@ function DeliveryTransitDetail() {
             })
 
             dispatch(
-                actions.getSelectActiveTransport()
+                actions_dashboard.getSelectActiveTransport()
             ).then(result => {
                 setTrasportMode(result)
             })

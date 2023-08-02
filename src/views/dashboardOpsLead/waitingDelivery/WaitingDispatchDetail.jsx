@@ -19,21 +19,19 @@ import {
     CRow
 } from '@coreui/react'
 
-import * as actions from '../../../config/redux/Dashboard/actions'
+import * as actions from '../../../config/redux/DashboardOpsLead/actions'
 import CIcon from '@coreui/icons-react'
-import { cilCloudUpload, cilFile, cilPlus } from '@coreui/icons'
+import { cilPlus } from '@coreui/icons'
 import SmartTable from 'src/components/custom/table/SmartTable'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPen, faPencil, faPlay, faPlus, faRefresh, faSearch, faUnlink, faUpload } from '@fortawesome/free-solid-svg-icons'
+import { faPen, faPencil, faPlus, faUnlink, faUpload } from '@fortawesome/free-solid-svg-icons'
 import moment from 'moment/moment'
-import Select from 'react-select'
 import Swal from 'sweetalert2'
 import ButtonCancel from 'src/components/custom/button/ButtonCancel'
 
 function WaitingDispatchDetail() {
-    const { dispatch, Global, Dashboard } = useRedux()
+    const { dispatch, Global, DashboardOpsLead } = useRedux()
     const nav = useNavigate()
-    const [detailProject, setDetailProject] = useState({})
     const [orderReqDetail, setOrderReqDetail] = useState({})
     const [projectId, setProjectId] = useState("")
     const [openModal, setOpenModal] = useState(false)
@@ -42,16 +40,11 @@ function WaitingDispatchDetail() {
     const [itemOrderRequest, setItemOrderRequest] = useState([])
     const [itemOrderRequestData, setItemOrderRequestData] = useState([])
     const [transportMode, setTrasportMode] = useState([])
-    const [deliveryRequest, setDeliveryRequest] = useState([])
-    const [selectedTransportMode, setSelectedTransportMode] = useState({});
-    const [selectedDeliveryRequest, setSelectedDeliveryRequest] = useState({});
     const [templateName, setTemplateName] = useState("")
     const [openModalUpload, setOpenModalUpload] = useState(false)
     const [openModalDeliveryArrangment, setOpenModalDeliveryArrangment] = useState(false)
     const [fileUpload, setFileUpload] = useState(null);
     const [templateUrl, setTemplateUrl] = useState("")
-    const [serviceChargeData, setServiceChargeData] = useState([])
-    const [serviceChargeHeader, setServiceChargeHeader] = useState([])
     const [values, setValues] = useState({})
 
     useEffect(() => {
@@ -614,7 +607,7 @@ function WaitingDispatchDetail() {
                                             </h5>
                                         </CCol>
                                         {
-                                            (Dashboard?.listTransportArragement.length == 0 && orderReqDetail?.hasGroup == 'No') ||
+                                            (DashboardOpsLead?.listTransportArragement.length == 0 && orderReqDetail?.hasGroup == 'No') ||
                                                 (orderReqDetail?.hasGroup == 'Yes') ?
                                                 <CCol className="d-none d-md-block text-end">
                                                     <CIcon
@@ -630,7 +623,7 @@ function WaitingDispatchDetail() {
                                     </CRow>
                                     <CCol className="d-none d-md-block text-end">
                                         <SmartTable
-                                            data={Dashboard?.listTransportArragement}
+                                            data={DashboardOpsLead?.listTransportArragement}
                                             // filterValue={filterValue}
                                             columns={transportArragementColumn}
                                             minHeight={200}
