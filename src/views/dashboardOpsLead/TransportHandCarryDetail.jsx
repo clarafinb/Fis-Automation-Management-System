@@ -259,7 +259,7 @@ function TransportHandCarryDetail() {
                                 </CCol>
                                 <CCol className="d-none d-md-block text-end">
                                     {
-                                        !DashboardOpsLead?.listEvidenceChecklist ?
+                                        DashboardOpsLead.listEvidenceChecklist == 0 ?
                                             <CIcon
                                                 icon={cilPlus}
                                                 className="me-2 text-default"

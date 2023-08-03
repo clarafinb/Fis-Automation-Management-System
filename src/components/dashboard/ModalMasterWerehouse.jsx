@@ -26,7 +26,7 @@ function ModalMasterWerehouse({
             alignment='center'
         >
             <CModalHeader>
-                <CModalTitle>MASTER WAREHOUSE</CModalTitle>
+                <CModalTitle>PROJECT CONFIGURATION</CModalTitle>
             </CModalHeader>
             <CModalBody>
                 <CRow>
