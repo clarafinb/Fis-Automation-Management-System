@@ -36,7 +36,7 @@ import Alert from 'src/components/custom/toast/Alert'
 
 function PickAndPackProgressDetail() {
     const nav = useNavigate();
-    const { dispatch, Global, Dashboard } = useRedux()
+    const { dispatch, Global, DashboardOpsLead } = useRedux()
     const [detailProject, setDetailProject] = useState({})
     const [orderReqDetail, setOrderReqDetail] = useState({})
     const [projectId, setProjectId] = useState("")
@@ -96,7 +96,7 @@ function PickAndPackProgressDetail() {
                 // setValues({})
             })
         }
-    }, [Dashboard?.listOrdeRequestAdditionalService])
+    }, [DashboardOpsLead?.listOrdeRequestAdditionalService])
 
     const handleOnChangeTransportMode = (selectedTransportMode) => {
         setSelectedDeliveryRequest({})
@@ -750,7 +750,7 @@ function PickAndPackProgressDetail() {
                                         </CRow>
                                         <CCol className="d-none d-md-block text-end">
                                             <SmartTable
-                                                data={Dashboard?.listOrdeRequestAdditionalService}
+                                                data={DashboardOpsLead?.listOrdeRequestAdditionalService}
                                                 // filterValue={filterValue}
                                                 columns={additionalServiceColumn}
                                                 minHeight={200}
