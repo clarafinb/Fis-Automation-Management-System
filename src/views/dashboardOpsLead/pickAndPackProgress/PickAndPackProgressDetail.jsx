@@ -713,6 +713,7 @@ function PickAndPackProgressDetail() {
                                             <CFormLabel className=" col-form-label">Total Collies</CFormLabel>
                                             <CCol>
                                                 <CFormInput
+                                                    step="0.01"
                                                     type="number"
                                                     name="totalCollies"
                                                     value={values?.totalCollies}
@@ -725,6 +726,7 @@ function PickAndPackProgressDetail() {
                                             <CFormLabel className=" col-form-label">Total Volume (CBM)</CFormLabel>
                                             <CCol>
                                                 <CFormInput
+                                                    step="0.01"
                                                     type="number"
                                                     name="totalVolume"
                                                     value={values?.totalVolume}
