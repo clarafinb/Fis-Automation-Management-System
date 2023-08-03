@@ -70,6 +70,26 @@ function TableListBulkUploadSku({
             cellStyle: { textAlign: 'left' },
         },
         {
+            field: 'totalRow',
+            headerName: 'TOTAL ROW',
+            cellStyle: { textAlign: 'center' },
+        },
+        {
+            field: 'rowSuccess',
+            headerName: 'ROW SUCCESS',
+            cellStyle: { textAlign: 'center' },
+        },
+        {
+            field: 'rowError',
+            headerName: 'ROW ERROR',
+            cellStyle: { textAlign: 'center' },
+        },
+        {
+            field: 'errMessage',
+            headerName: 'ERR MESAGGE',
+            cellStyle: { textAlign: 'center' },
+        },
+        {
             field: 'modifiedUser',
             headerName: 'UPLOAD BY',
             cellStyle: { textAlign: 'center' },
