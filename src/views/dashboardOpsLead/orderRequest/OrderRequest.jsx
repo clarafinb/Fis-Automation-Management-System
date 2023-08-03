@@ -25,7 +25,7 @@ import TableListOrderRequest from 'src/components/dashboardOpsLead/orderRequest/
 import { downloadFileConfig } from 'src/helper/globalHelper'
 
 function OrderRequest() {
-    const { dispatch, Global, Dashboard } = useRedux()
+    const { dispatch, Global, DashboardOpsLead } = useRedux()
     const [detailProject, setDetailProject] = useState({})
     const [openModal, setOpenModal] = useState(false)
     const [orderReqId, setOrderReqId] = useState()
@@ -154,7 +154,7 @@ function OrderRequest() {
                                 <CTabContent>
                                     <CTabPane role="tabpanel" aria-labelledby="home-tab" visible={activeKey === 1}>
                                         <TableListOrderRequest
-                                            data={Dashboard?.listOrdeRequest}
+                                            data={DashboardOpsLead?.listOrdeRequest}
                                             handleComponent={handleComponent}
                                         />
                                     </CTabPane>
