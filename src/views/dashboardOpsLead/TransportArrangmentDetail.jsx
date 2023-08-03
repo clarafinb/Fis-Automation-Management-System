@@ -37,6 +37,8 @@ function TransportArragmentDetail() {
     const [values, setValues] = useState({})
     const [param, setParam] = useState({})
 
+    console.log(DashboardOpsLead)
+
     useEffect(() => {
         const split = window.location.href.split("/");
 
@@ -332,7 +334,7 @@ function TransportArragmentDetail() {
                                 </CCol>
                             </CRow>
                             <SmartTable
-                                data={DashboardOpsLead?.listTransportArragementType}
+                                data={DashboardOpsLead?.listTransportArrangmentType}
                                 columns={transportTypeAndDispatcherColumns}
                                 minHeight={200}
                             // filterValue={filterValue}

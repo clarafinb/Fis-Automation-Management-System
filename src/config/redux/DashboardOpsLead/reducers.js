@@ -18,7 +18,8 @@ let initialState = {
     listRequestTransportArragement: [],
     listTransportArragementSc: [],
     listOrdeRequestAdditionalService: [],
-    listTransportArragement: []
+    listTransportArragement: [],
+    listTransportArrangmentType:[]
 };
 
 const DashboardOpsLead = (state = initialState, { type, payload }) => {
@@ -135,6 +136,12 @@ const DashboardOpsLead = (state = initialState, { type, payload }) => {
             return {
                 ...state,
                 listTransportArragement: payload
+            }
+
+        case actionType.SET_LIST_TRANSPORT_ARRANGEMENT_TYPE:
+            return {
+                ...state,
+                listTransportArrangmentType: payload
             }
 
         default:
