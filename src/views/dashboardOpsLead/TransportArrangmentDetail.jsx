@@ -37,8 +37,6 @@ function TransportArragmentDetail() {
     const [values, setValues] = useState({})
     const [param, setParam] = useState({})
 
-    console.log(DashboardOpsLead)
-
     useEffect(() => {
         const split = window.location.href.split("/");
 

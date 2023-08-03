@@ -292,7 +292,7 @@ function WaitingDispatchDetail() {
                                     title='Add Arrangement Hand Carry'
                                     size='sm'
                                     onClick={() =>
-                                        handleComponent('addHandCarry', value)
+                                        handleComponent('addHandCarry', data?.transportArrangementId)
                                     }
                                 />
                                 :
@@ -302,7 +302,7 @@ function WaitingDispatchDetail() {
                                     title='Add Arrangement Transport'
                                     size='sm'
                                     onClick={() =>
-                                        handleComponent('addTransport', value)
+                                        handleComponent('addTransport', data?.transportArrangementId)
                                     }
                                 />
                         }
