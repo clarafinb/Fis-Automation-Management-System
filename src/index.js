@@ -8,17 +8,9 @@ import { Provider } from 'react-redux'
 import store from './config/redux/store'
 
 createRoot(document.getElementById('root')).render(
-  <Suspense
-    fallback={
-      <div className='flex w-full h-screen justify-center items-center'>
-        <img src="/gif/Floading.gif" alt="" />
-      </div>
-    }
-  >
-    <Provider store={store}>
+  <Provider store={store}>
       <App />
-    </Provider>,
-  </Suspense>
+    </Provider>
 
 )
 

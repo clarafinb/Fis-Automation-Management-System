@@ -1,13 +1,7 @@
 import React, { Component, Suspense } from 'react'
 import { HashRouter, Route, Routes } from 'react-router-dom'
 import './scss/style.scss'
-
-const loading = (
-  <div className="pt-3 text-center">
-    <div className="sk-spinner sk-spinner-pulse"></div>
-  </div>
-)
-
+import LoadingGif from './components/custom/loading/LoadingGif'
 // Containers
 const DefaultLayout = React.lazy(() => import('./layout/DefaultLayout'))
 
@@ -18,7 +12,9 @@ class App extends Component {
   render() {
     return (
       <HashRouter>
-        <Suspense fallback={loading}>
+        <Suspense fallback={
+          <LoadingGif />
+        }>
           <Routes>
             <Route path="/login" name="Login Page" element={<Login />} />
             <Route path="*" name="Home" element={<DefaultLayout />} />
