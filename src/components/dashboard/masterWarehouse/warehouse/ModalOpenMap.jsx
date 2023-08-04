@@ -22,7 +22,7 @@ function ModalOpenMap({ open, setOpen, data, key = Date.now(),title }) {
             onClose={() => setOpen}
         >
             <CModalHeader>
-                <CModalTitle>Map - {data?.whName} {title}</CModalTitle>
+                <CModalTitle>Current Location - {data?.whName} {title}</CModalTitle>
             </CModalHeader>
             <CModalBody>
                 <MapComponent latlong={mapCenter} id={key} />
