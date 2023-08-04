@@ -1,19 +1,13 @@
 import React from 'react';
 import { MapContainer, TileLayer, Marker } from 'react-leaflet';
-import L from 'leaflet';
+import { divIcon } from 'leaflet';
+import { renderToStaticMarkup } from 'react-dom/server';
 
 const MapComponent = ({ latlong, id }) => {
 
-  const iconPerson = new L.Icon({
-    iconUrl: 'icon/maps-icon-2.svg',
-    iconRetinaUrl: 'icon/maps-icon-2.svg',
-    iconAnchor: null,
-    popupAnchor: null,
-    shadowUrl: null,
-    shadowSize: null,
-    shadowAnchor: null,
-    iconSize: new L.Point(40, 40),
-    className: 'leaflet-div-icon'
+  const iconMarkup = renderToStaticMarkup(<i className=" fa fa-truck fa-3x" />);
+  const customMarkerIcon = divIcon({
+    html: iconMarkup,
   });
 
   return (
@@ -29,7 +23,7 @@ const MapComponent = ({ latlong, id }) => {
       />
       <Marker
         position={latlong}
-        icon={iconPerson} />
+        icon={customMarkerIcon} />
     </MapContainer>
   )
 };
