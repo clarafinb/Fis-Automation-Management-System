@@ -893,6 +893,7 @@ function DeliveryTransitDetail() {
                 setOpen={setModalMap}
                 data={transportArragmentData}
                 key={mapKey}
+                title={orderReqDetail.custOrderRequest}
             />
         </>
     )

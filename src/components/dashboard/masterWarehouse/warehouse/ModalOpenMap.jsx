@@ -11,8 +11,8 @@ import {
 import MapComponent from '../../../custom/map/MapLeaflef'
 import ButtonCancel from 'src/components/custom/button/ButtonCancel';
 
-function ModalOpenMap({ open, setOpen, data, key = Date.now() }) {
-
+function ModalOpenMap({ open, setOpen, data, key = Date.now(),title }) {
+    
     const mapCenter = [data?.latitude, data?.longitude]
 
     return (
@@ -22,7 +22,7 @@ function ModalOpenMap({ open, setOpen, data, key = Date.now() }) {
             onClose={() => setOpen}
         >
             <CModalHeader>
-                <CModalTitle>Map {data?.whName}</CModalTitle>
+                <CModalTitle>Map - {data?.whName} {title}</CModalTitle>
             </CModalHeader>
             <CModalBody>
                 <MapComponent latlong={mapCenter} id={key} />

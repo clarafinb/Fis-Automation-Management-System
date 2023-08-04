@@ -44,8 +44,10 @@ const Login = () => {
         password: password
       }
       dispatch(actions.actionLogin(payload))
+      .then((result) => {
+        setLoading(false)
+      })
     }
-
     event.preventDefault()
     event.stopPropagation()
   }
