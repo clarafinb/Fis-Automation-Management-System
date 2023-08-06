@@ -164,7 +164,11 @@ export async function actionUpdateWithBody(url, body, method = "PUT") {
 
 export async function actionCommonSliceParamBlob(param1, url, method = "GET", param2 = "", body) {
      try {
-          let param = param2 ? `${url}/${param1}/${param2}` : `${url}/${param1}`
+
+          let param = url
+          if (param1) {
+               param = param2 ? `${url}/${param1}/${param2}` : `${url}/${param1}`
+          }
 
           let objAxios = {
                method: `${method}`,

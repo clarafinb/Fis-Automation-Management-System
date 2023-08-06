@@ -12,11 +12,13 @@ import {
 import {
     cilFile,
     cilPlus,
+    cilSpreadsheet,
 } from '@coreui/icons'
 import CIcon from '@coreui/icons-react'
 import * as actions from '../../../config/redux/Dashboard/actions'
 import ModalCreateSubDistrict from 'src/components/dashboard/settingManagement/subDistrictManagement/ModalCreateSubDistrict'
 import TableListSubDistrict from 'src/components/dashboard/settingManagement/subDistrictManagement/TableListSubDistrict'
+import { downloadFileConfig } from 'src/helper/globalHelper'
 
 function SubDistrictManagement() {
     const { dispatch, Global, Dashboard } = useRedux()
@@ -36,7 +38,11 @@ function SubDistrictManagement() {
     }
 
     const handleExportExcel = () => {
-
+        dispatch(
+            actions.subDistrictExportToExcel()
+        ).then(resp => {
+            downloadFileConfig(resp, 'sub_district_' + Date.now() + 'xlsx')
+        })
     }
 
     const handleToogle = useCallback(
@@ -79,13 +85,11 @@ function SubDistrictManagement() {
                 <CCard className="">
                     <CCardBody>
                         <CRow className=''>
-                            <CCol className="d-none d-md-block text-end">
-                                <CIcon
-                                    icon={cilFile}
-                                    className="me-2 text-success"
-                                    size="xl"
-                                    onClick={handleExportExcel}
-                                />
+                            <CCol className="d-none d-md-block text-end mb-2">
+                                <CButton className="colorBtn-white" onClick={handleExportExcel}>
+                                    <CIcon icon={cilSpreadsheet} className="me-2 text-success" />
+                                    EXPORT TO EXCEL
+                                </CButton>
                             </CCol>
                         </CRow>
                         <CRow>

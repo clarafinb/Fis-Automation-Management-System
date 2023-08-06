@@ -18,7 +18,9 @@ let initialState = {
     listWarehouseMembership: [],
     listSubDistrict: [],
     listMasterWarehouseType: [],
-    listBulkUploadSku: []
+    listBulkUploadSku: [],
+    listEvidenceChecklist: [],
+    listEvidenceChecklistProject: [],
 };
 
 const Dashboard = (state = initialState, { type, payload }) => {
@@ -134,11 +136,21 @@ const Dashboard = (state = initialState, { type, payload }) => {
                 ...state,
                 listMasterWarehouseType: payload
             }
-        
+
         case actionType.SET_LIST_BULK_UPLOAD_SKU:
             return {
                 ...state,
                 listBulkUploadSku: payload
+            }
+        case actionType.SET_LIST_EVIDENCE_CHECKLIST:
+            return {
+                ...state,
+                listEvidenceChecklist: payload
+            }
+        case actionType.SET_LIST_EVIDENCE_CHECKLIST_PROJECT:
+            return {
+                ...state,
+                listEvidenceChecklistProject: payload
             }
         default:
             return { ...state };

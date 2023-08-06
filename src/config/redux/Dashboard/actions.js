@@ -86,7 +86,18 @@ import {
   API_UPLOAD_SKU,
   API_GET_BULK_UPLOAD_SKU,
   API_EXPORT_EXCEL_SKU,
-  API_EXPORT_EXCEL_SKU_ERR
+  API_EXPORT_EXCEL_SKU_ERR,
+  API_ADD_EVIDENCE_CHECKLIST_TYPE,
+  API_GET_EVIDENCE_CHECKLIST_TYPE_LIST,
+  API_SET_ACTIVE_EVIDENCE_CHECKLIST_TYPE,
+  API_SET_INACTIVE_EVIDENCE_CHECKLIST_TYPE,
+  API_GET_EVIDENCE_CHECKLIST_TYPE,
+  API_GET_EVIDENCE_CHECKLIST_PROJECT,
+  API_ADD_EVIDENCE_CHECKLIST_PROJECT,
+  API_SET_INACTIVE_EVIDENCE_CHECKLIST_PROJECT,
+  API_SET_ACTIVE_EVIDENCE_CHECKLIST_PROJECT,
+  API_GET_EVIDENCE_CHECKLIST_PROJECT_NOT_REGISTERED,
+  API_EXPORT_EXCEL_SUB_DISTRICT
 } from "../../api/index"
 import Swal from "sweetalert2";
 
@@ -1916,6 +1927,222 @@ export const getMasterSKUBulkUploadErrList = (bulkUploadId, fileName) => {
     try {
       const fullParam = `${bulkUploadId}/${fileName}`
       let data = await actionCrud.actionCommonSliceParamBlob(fullParam, API_EXPORT_EXCEL_SKU_ERR, "GET");
+      return Promise.resolve(data)
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Close'
+      })
+    }
+  }
+}
+export const getSelectEvidenceChecklistType = (payload) => {
+  return async () => {
+    try {
+      let list = await actionCrud.actionCommonCrud(payload, API_GET_EVIDENCE_CHECKLIST_TYPE, "GET");
+      let response = list?.map((item, idx) => {
+        return {
+          label: item.checklistTypeName,
+          value: item.checklistTypeId
+        }
+      })
+      return Promise.resolve(response)
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Close'
+      })
+    }
+  }
+}
+
+export const getListEvidenceChecklist = () => {
+  return async (dispatch) => {
+    try {
+      let list = await actionCrud.actionCommonCrud(null, API_GET_EVIDENCE_CHECKLIST_TYPE_LIST, "GET");
+      let listEvidenceChecklist = list?.map((item, idx) => {
+        return {
+          no: idx + 1,
+          ...item,
+        }
+      })
+      dispatch({
+        type: actionType.SET_LIST_EVIDENCE_CHECKLIST,
+        payload: listEvidenceChecklist
+      });
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Close'
+      })
+    }
+  }
+}
+
+export const createEvidenceChecklist = (payload, methode = 'POST') => {
+  return async (dispatch) => {
+    try {
+      let create = await actionCrud.actionCommonCrud(payload, API_ADD_EVIDENCE_CHECKLIST_TYPE, methode);
+      if (create.status === "success") {
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: create?.message,
+          showConfirmButton: true
+        });
+        dispatch(getListEvidenceChecklist());
+      } else {
+        Swal.fire({
+          title: 'Error!',
+          text: create?.message,
+          icon: 'error',
+          confirmButtonText: 'Close'
+        })
+      }
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Close'
+      })
+    }
+  }
+}
+
+export const setStatusEvidenceChecklist = (val, evidenceChecklistId) => {
+  return async (dispatch) => {
+    try {
+
+      let url = API_SET_INACTIVE_EVIDENCE_CHECKLIST_TYPE
+      if (val) {
+        url = API_SET_ACTIVE_EVIDENCE_CHECKLIST_TYPE
+      }
+
+      let response = await actionCrud.actionCommonSlice(evidenceChecklistId, url, "PUT");
+      if (response.status === "success") {
+        dispatch(getListEvidenceChecklist());
+      }
+
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Close'
+      })
+    }
+  }
+}
+export const getListEvidenceChecklistProject = (projectId) => {
+  return async (dispatch) => {
+    try {
+      let list = await actionCrud.actionCommonSlice(projectId, API_GET_EVIDENCE_CHECKLIST_PROJECT, "GET");
+      let listEvidenceChecklistProject = list?.map((item, idx) => {
+        return {
+          no: idx + 1,
+          ...item,
+        }
+      })
+      dispatch({
+        type: actionType.SET_LIST_EVIDENCE_CHECKLIST_PROJECT,
+        payload: listEvidenceChecklistProject
+      });
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Close'
+      })
+    }
+  }
+}
+export const createEvidenceChecklistProject = (payload, methode = 'POST') => {
+  return async (dispatch) => {
+    try {
+      let create = await actionCrud.actionCommonCrud(payload, API_ADD_EVIDENCE_CHECKLIST_PROJECT, methode);
+      if (create.status === "success") {
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: create?.message,
+          showConfirmButton: true
+        });
+        dispatch(getListEvidenceChecklistProject(payload?.projectId));
+      } else {
+        Swal.fire({
+          title: 'Error!',
+          text: create?.message,
+          icon: 'error',
+          confirmButtonText: 'Close'
+        })
+      }
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Close'
+      })
+    }
+  }
+}
+export const setStatusEvidenceChecklistProject = (val, evidenceChecklistProjectId, projectId) => {
+  return async (dispatch) => {
+    try {
+
+      let url = API_SET_INACTIVE_EVIDENCE_CHECKLIST_PROJECT
+      if (val) {
+        url = API_SET_ACTIVE_EVIDENCE_CHECKLIST_PROJECT
+      }
+
+      let response = await actionCrud.actionCommonSlice(evidenceChecklistProjectId, url, "PUT");
+      if (response.status === "success") {
+        dispatch(getListEvidenceChecklistProject(projectId));
+      }
+
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Close'
+      })
+    }
+  }
+}
+export const getProjectEvidenceChecklistNotRegisteredYet = (payload) => {
+  return async () => {
+    try {
+      let list = await actionCrud.actionCommonSlice(payload, API_GET_EVIDENCE_CHECKLIST_PROJECT_NOT_REGISTERED, "GET");
+      let response = list?.map((item, idx) => {
+        return {
+          label: item.checklistName,
+          value: item.evidenceChecklistId
+        }
+      })
+      return Promise.resolve(response)
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Close'
+      })
+    }
+  }
+}
+export const subDistrictExportToExcel = () => {
+  return async (dispatch) => {
+    try {
+      let data = await actionCrud.actionCommonSliceParamBlob('', API_EXPORT_EXCEL_SUB_DISTRICT, "GET");
       return Promise.resolve(data)
     } catch (error) {
       Swal.fire({

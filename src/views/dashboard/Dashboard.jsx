@@ -88,8 +88,6 @@ const Dashboard = () => {
 
   const handleOpenModal = (type, id, projectName = "") => {
 
-    console.log(projectName)
-
     const navigate = [
       {
         type: 'sc',
@@ -124,6 +122,10 @@ const Dashboard = () => {
         url: '/dashboard/project-service-charge/' + id
       },
       {
+        type: 'evidenceChecklistProject',
+        url: '/setting-project/evidence-checklist-project/' + id
+      },
+      {
         type: 'sku',
         url: '/dashboard/sku/' + id + '/' + encodeURIComponent(projectName)
       },
@@ -143,6 +145,10 @@ const Dashboard = () => {
         type: 'warehouseType',
         url: '/dashboard/setting-management/warehouse-type'
       },
+      {
+        type: 'evidenceChecklist',
+        url: '/setting-management/evidence-checklist'
+      },
     ]
 
     let url = navigate.find(e => e.type === type)
@@ -160,11 +166,7 @@ const Dashboard = () => {
 
   useEffect(() => {
     if (Dashboard?.detailDashboard?.dashboardURL) {
-      // if (Dashboard?.detailDashboard?.dashboardURL === '/usr/dashboardOpsLead') {
-      //   dispatch(actions.getListProjectByUser(Global?.user?.userID))
-      // } else {
       dispatch(actions.getListProject())
-      // }
     }
   }, [Dashboard?.detailDashboard?.dashboardURL])
 

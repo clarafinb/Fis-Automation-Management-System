@@ -168,6 +168,7 @@ export const API_SET_SUB_DISTRICT_INACTIVE = BASE_URL + "masterdata/subDistrictS
 export const API_ADD_SUB_DISTRICT = BASE_URL + "masterdata/addMasterSubDistrict"
 export const API_UPDATE_SUB_DISTRICT = BASE_URL + "masterdata/updateMasterSubDistrict"
 export const API_GET_SUB_DISTRICT_BASE_ON_PROVINCE = BASE_URL + "masterdata/getSubDistrictBasedOnProvince"
+export const API_EXPORT_EXCEL_SUB_DISTRICT = BASE_URL + "masterdata/getSubDistrictExportToExcel"
 // HO DOCUMENT
 export const API_GET_HO_DOCUMENT = BASE_URL + "transportarrangement/getTransportArrangementHOEvidence"
 // MASTER WAREHOUSE TYPE
@@ -196,3 +197,15 @@ export const API_GET_EVIDENCE_CHECKLIST = BASE_URL + "transportarrangement/getTr
 export const API_UPLOAD_EVIDENCE_CHECKLIST = BASE_URL + "transportassignment/transportAssignmentDeliveryEvidenceUpload"
 export const API_DELETE_EVIDENCE_CHECKLIST = BASE_URL + "transportarrangement/transportArrangementTransportTypeDelete"
 export const API_COMPLETE_EVIDENCE_CHECKLIST = BASE_URL + "transportassignment/actDeliveryCompleteWithoutAssignment"
+// EVIDENCE CHECKLIST
+export const API_GET_EVIDENCE_CHECKLIST_TYPE_LIST = BASE_URL + "masterdata/getEvidenceChecklist"
+export const API_GET_EVIDENCE_CHECKLIST_TYPE = BASE_URL + "masterdata/getEvidenceChecklistType"
+export const API_ADD_EVIDENCE_CHECKLIST_TYPE = BASE_URL + "masterdata/addEvidenceChecklist"
+export const API_SET_ACTIVE_EVIDENCE_CHECKLIST_TYPE = BASE_URL + "masterdata/evidenceChecklistSetIsActive"
+export const API_SET_INACTIVE_EVIDENCE_CHECKLIST_TYPE = BASE_URL + "masterdata/evidenceChecklistSetIsInActive"
+// PROJECT EVIDENCE CHECKLIST
+export const API_GET_EVIDENCE_CHECKLIST_PROJECT = BASE_URL + "masterdata/getProjectEvidenceChecklist"
+export const API_GET_EVIDENCE_CHECKLIST_PROJECT_NOT_REGISTERED = BASE_URL + "masterdata/getProjectEvidenceChecklistNotRegisteredYet"
+export const API_ADD_EVIDENCE_CHECKLIST_PROJECT = BASE_URL + "masterdata/addProjectEvidenceChecklist"
+export const API_SET_ACTIVE_EVIDENCE_CHECKLIST_PROJECT = BASE_URL + "masterdata/projectEvidenceChecklistSetIsActive"
+export const API_SET_INACTIVE_EVIDENCE_CHECKLIST_PROJECT = BASE_URL + "masterdata/projectEvidenceChecklistSetIsInActive"
