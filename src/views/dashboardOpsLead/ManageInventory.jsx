@@ -2,6 +2,7 @@ import React, { useState, useCallback, useEffect } from 'react'
 import { useRedux } from 'src/utils/hooks'
 
 import {
+    CButton,
     CCard,
     CCardBody,
     CCol,
@@ -16,12 +17,14 @@ import {
 
 import * as actions from '../../config/redux/DashboardOpsLead/actions'
 import CIcon from '@coreui/icons-react'
-import { cilCloudUpload, cilFile } from '@coreui/icons'
+import { cilCloudUpload, cilFile, cilSpreadsheet } from '@coreui/icons'
 import TableListInventoryItem from 'src/components/dashboardOpsLead/manageInventory/TableListInventoryItem'
 import TableListInventoryBox from 'src/components/dashboardOpsLead/manageInventory/TableListInventoryBox'
-import ModalUploadItemList from 'src/components/dashboardOpsLead/manageInventory/ModalUploadItemList'
 import TableListInboundFile from 'src/components/dashboardOpsLead/manageInventory/TableListInboundFile'
 import TableListInboundLog from 'src/components/dashboardOpsLead/manageInventory/TableListInboundLog'
+import ModalUploadFile from 'src/components/custom/modal/ModalUploadFile'
+import Swal from 'sweetalert2'
+import { downloadFileConfig } from 'src/helper/globalHelper'
 
 function ManageInventory() {
     const { dispatch, Global, Dashboard, DashboardOpsLead } = useRedux()
@@ -30,6 +33,8 @@ function ManageInventory() {
     const [activeKey, setActiveKey] = useState(1)
     const [modalUpload, setModalUpload] = useState(false)
     const [inventoryType, setInventoryType] = useState('')
+    const [templateUrl, setTemplateUrl] = useState("")
+    const [templateName, setTemplateName] = useState("")
 
     useEffect(() => {
         const uriSegment = window.location.href.split("/");
@@ -54,26 +59,6 @@ function ManageInventory() {
         }
     }, [Global?.user, activeKey]);
 
-    const handleToogle = useCallback(
-        (val, { subDistrictId }) => {
-            // dispatch(actions.setStatusActiveSubDistrict(val, subDistrictId))
-        }, [DashboardOpsLead.listInventoryItem]
-    )
-
-    const downloadFileConfig = (data, fileName = 'file.xlsx') => {
-        // create file link in browser's memory
-        const href = URL.createObjectURL(data);
-        // create "a" HTML element with href to file & click
-        const link = document.createElement('a');
-        link.href = href;
-        link.setAttribute('download', fileName); //or any other extension
-        document.body.appendChild(link);
-        link.click();
-        // clean up "a" element & remove ObjectURL
-        document.body.removeChild(link);
-        URL.revokeObjectURL(href);
-    }
-
     const handleComponent = useCallback(
         (type, val, data) => {
             if (type === 'downloadFile') {
@@ -91,8 +76,14 @@ function ManageInventory() {
     )
 
     const handleOpenModalUpload = (type) => {
-        setInventoryType(type)
-        setModalUpload(true)
+        dispatch(
+            actions.getMassUploadInboundTemplate()
+        ).then(reps => {
+            setTemplateName(reps.templateName)
+            setTemplateUrl(reps.templateURL)
+            setInventoryType(type)
+            setModalUpload(true)
+        })
     }
 
     const handleExportExcelInboundLog = () => {
@@ -101,6 +92,33 @@ function ManageInventory() {
         ).then(resp => {
             downloadFileConfig(resp, 'inbound_success_log.xlsx')
         })
+    }
+
+    const handleDownloadTemplate = () => {
+        window.open(templateUrl, '_blank')
+    }
+
+    const handleUploadFile = (formData) => {
+        if (formData) {
+            if (inventoryType === 'item') {
+                dispatch(actions.inboundItemFileUpload(
+                    formData,
+                    whId
+                ))
+            } else {
+                dispatch(actions.inboundBoxFileUpload(
+                    formData,
+                    whId
+                ))
+            }
+        } else {
+            Swal.fire({
+                title: 'Error!',
+                text: 'File Empty !',
+                icon: 'error',
+                confirmButtonText: 'OK'
+            })
+        }
     }
 
     return (
@@ -147,12 +165,15 @@ function ManageInventory() {
                             <CTabPane role="tabpanel" aria-labelledby="home-tab" visible={activeKey === 1}>
                                 <CRow className=''>
                                     <CCol className="d-none d-md-block text-end">
-                                        <CIcon
-                                            icon={cilCloudUpload}
-                                            className="me-2 text-secondary"
-                                            size="xl"
+                                        <CButton
+                                            className="colorBtn-white me-3"
                                             onClick={() => handleOpenModalUpload('item')}
-                                        />
+                                        >
+                                            <CIcon
+                                                icon={cilCloudUpload}
+                                                className="me-2 text-warning" />
+                                            UPLOAD EXCEL INBOUND ITEM
+                                        </CButton>
                                     </CCol>
                                 </CRow>
                                 <CRow>
@@ -166,19 +187,21 @@ function ManageInventory() {
                                     <CCol className="d-none d-md-block text-end">
                                         <TableListInventoryItem
                                             data={DashboardOpsLead?.listInventoryItem}
-                                            handleToogle={handleToogle}
                                             handleComponent={handleComponent}
                                         />
                                     </CCol>
                                 </CRow>
                                 <CRow className=''>
                                     <CCol className="d-none d-md-block text-end">
-                                        <CIcon
-                                            icon={cilCloudUpload}
-                                            className="me-2 text-secondary"
-                                            size="xl"
+                                        <CButton
+                                            className="colorBtn-white me-3"
                                             onClick={() => handleOpenModalUpload('box')}
-                                        />
+                                        >
+                                            <CIcon
+                                                icon={cilCloudUpload}
+                                                className="me-2 text-warning" />
+                                            UPLOAD EXCEL INBOUND BOX
+                                        </CButton>
                                     </CCol>
                                 </CRow>
                                 <CRow>
@@ -192,7 +215,6 @@ function ManageInventory() {
                                     <CCol className="d-none d-md-block text-end">
                                         <TableListInventoryBox
                                             data={DashboardOpsLead?.listInventoryBox}
-                                            handleToogle={handleToogle}
                                             handleComponent={handleComponent}
                                         />
                                     </CCol>
@@ -212,7 +234,6 @@ function ManageInventory() {
                                     <CCol className="d-none d-md-block text-end">
                                         <TableListInboundFile
                                             data={DashboardOpsLead?.listInboundFile}
-                                            handleToogle={handleToogle}
                                             handleComponent={handleComponent}
                                         />
                                     </CCol>
@@ -229,21 +250,17 @@ function ManageInventory() {
                                     </CCol>
                                 </CRow>
                                 <CRow className=''>
-                                    <CCol className="d-none d-md-block text-end">
-                                        <CIcon
-                                            icon={cilFile}
-                                            title='Export Excel'
-                                            className="me-2 text-success"
-                                            size="xl"
-                                            onClick={handleExportExcelInboundLog}
-                                        />
+                                    <CCol className="d-none d-md-block text-end me-2 mb-2">
+                                        <CButton className="colorBtn-white" onClick={handleExportExcelInboundLog}>
+                                            <CIcon icon={cilSpreadsheet} className="me-2 text-success" />
+                                            EXPORT TO EXCEL
+                                        </CButton>
                                     </CCol>
                                 </CRow>
                                 <CRow>
                                     <CCol className="d-none d-md-block text-end">
                                         <TableListInboundLog
                                             data={DashboardOpsLead?.listInboundLog}
-                                            handleToogle={handleToogle}
                                             handleComponent={handleComponent}
                                         />
                                     </CCol>
@@ -254,11 +271,12 @@ function ManageInventory() {
                 </CCard>
             </CContainer >
 
-            <ModalUploadItemList
+            <ModalUploadFile
                 open={modalUpload}
                 setOpen={setModalUpload}
-                whId={whId}
-                type={inventoryType}
+                handleDownloadTemplate={handleDownloadTemplate}
+                templateName={templateName}
+                handleUpload={handleUploadFile}
             />
         </>
     )

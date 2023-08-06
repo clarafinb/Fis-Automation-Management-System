@@ -20,7 +20,7 @@ function ModalUploadFile({
     setOpen,
     handleDownloadTemplate,
     templateName,
-    handleUpload
+    handleUpload,
 }) {
     const {
         acceptedFiles,

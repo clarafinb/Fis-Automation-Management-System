@@ -51,8 +51,7 @@ function Warehouse() {
 
     const handleComponent = useCallback(
         (type, val, data) => {
-            let temp = Dashboard?.listWarehouse.find(e => e.whId === val)
-            setWhSelected(temp)
+            setWhSelected(data)
 
             if (type === "map") {
                 setModalMap(true)

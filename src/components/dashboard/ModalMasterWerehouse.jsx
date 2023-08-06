@@ -17,7 +17,6 @@ function ModalMasterWerehouse({
     data,
     handleViewModal
 }) {
-    console.log(data)
     return (
         <CModal
             // size="lg"
@@ -33,7 +32,7 @@ function ModalMasterWerehouse({
                     <CCol sm={3}>
                         <CCard className='text-center no-background' onClick={() => { handleViewModal("warehouse", data.projectId) }}>
                             <CCardBody>
-                                <img src={'icon/ACCOUNT-MANAGEMENT-ICON.png'} />
+                                <img src={'icon/MASTER-WAREHOUSE-ICON.svg'} />
                                 <p>Master Warehouse</p>
                             </CCardBody>
                         </CCard>

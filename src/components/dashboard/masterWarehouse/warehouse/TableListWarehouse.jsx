@@ -54,6 +54,7 @@ function TableListWarehouse({
             headerName: 'NO',
             cellStyle: { textAlign: 'center' },
             minWidth: 150,
+            filter: false,
         },
         {
             field: 'whName',
@@ -88,6 +89,7 @@ function TableListWarehouse({
             minWidth: 80,
             cellStyle: { textAlign: 'center' },
             pinned: 'right',
+            filter: false,
             cellRenderer: ({ data }) => {
                 return handleAction("map", data.userId, data)
             }
@@ -98,6 +100,7 @@ function TableListWarehouse({
             minWidth: 80,
             cellStyle: { textAlign: 'center' },
             pinned: 'right',
+            filter: false,
             cellRenderer: ({ data }) => {
                 return toogle(data.isActive, data)
             }
@@ -108,6 +111,7 @@ function TableListWarehouse({
             minWidth: 80,
             cellStyle: { textAlign: 'center' },
             pinned: 'right',
+            filter: false,
             cellRenderer: ({ data }) => {
                 return handleAction("edit", data.whId, data)
             }
