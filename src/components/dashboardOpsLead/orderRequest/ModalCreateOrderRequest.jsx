@@ -34,8 +34,11 @@ function ModalCreateOrderRequest({ open, setOpen, projectId, detailProject }) {
     const [selectedOriginPoint, setSelectedOriginPoint] = useState({});
     const [province, setProvince] = useState([])
     const [selectedProvince, setSelectedProvince] = useState({});
+    const [selectedProvinceOrigin, setSelectedProvinceOrigin] = useState({});
     const [subDistrict, setSubDistrict] = useState([]);
+    const [subDistrictOrigin, setSubDistrictOrigin] = useState([]);
     const [selectedSubDistrict, setSelectedSubDistrict] = useState({});
+    const [selectedSubDistrictOrigin, setSelectedSubDistrictOrigin] = useState({});
     const [packageType, setPackageType] = useState([])
     const [selectedPackageType, setSelectedPackageType] = useState({});
     const [destinationMandatory, setDestinationMandatory] = useState(false)
@@ -93,6 +96,7 @@ function ModalCreateOrderRequest({ open, setOpen, projectId, detailProject }) {
 
     const handleOnChangeProvince = (selectedProvince) => {
         setSelectedProvince(selectedProvince);
+        setSelectedSubDistrict({})
         if (selectedProvince.value) {
             dispatch(actions_dashboard.getSelectSubDistrictBaseOnProvince(selectedProvince.value))
                 .then(e => {
@@ -101,8 +105,23 @@ function ModalCreateOrderRequest({ open, setOpen, projectId, detailProject }) {
         }
     }
 
+    const handleOnChangeProvinceOrigin = (selectedProvinceOrigin) => {
+        setSelectedProvinceOrigin(selectedProvinceOrigin);
+        setSelectedSubDistrictOrigin({})
+        if (selectedProvinceOrigin.value) {
+            dispatch(actions_dashboard.getSelectSubDistrictBaseOnProvince(selectedProvinceOrigin.value))
+                .then(e => {
+                    setSubDistrictOrigin(e)
+                })
+        }
+    }
+
     const handleOnChangeSubDistrict = (selectedSubDistrict) => {
         setSelectedSubDistrict(selectedSubDistrict);
+    }
+
+    const handleOnChangeSubDistrictOrigin = (selectedSubDistrictOrigin) => {
+        setSelectedSubDistrictOrigin(selectedSubDistrictOrigin);
     }
 
     const handleOnChangePackageType = (selectedPackageType) => {
@@ -372,8 +391,8 @@ function ModalCreateOrderRequest({ open, setOpen, projectId, detailProject }) {
                                         className="input-select"
                                         options={province}
                                         isSearchable={true}
-                                        value={selectedProvince}
-                                        onChange={handleOnChangeProvince}
+                                        value={selectedProvinceOrigin}
+                                        onChange={handleOnChangeProvinceOrigin}
                                         isDisabled={destinationMandatory}
                                         required
                                     />
@@ -384,23 +403,24 @@ function ModalCreateOrderRequest({ open, setOpen, projectId, detailProject }) {
                                 <CCol>
                                     <Select
                                         className="input-select"
-                                        options={subDistrict}
+                                        options={subDistrictOrigin}
                                         isSearchable={true}
-                                        value={selectedSubDistrict}
-                                        onChange={handleOnChangeSubDistrict}
+                                        value={selectedSubDistrictOrigin}
+                                        onChange={handleOnChangeSubDistrictOrigin}
                                         isDisabled={destinationMandatory}
                                         required
                                     />
                                 </CCol>
                             </CRow>
                             <CRow className="mb-3">
-                                <CFormLabel className="col-form-label">Origin Address</CFormLabel>
+                                <CFormLabel className="col-form-label">Origin Address {!destinationMandatory ? <code>*</code> : ''}</CFormLabel>
                                 <CCol>
                                     <CFormTextarea
                                         rows={5}
                                         name="originAddress"
                                         value={values?.originAddress}
                                         onChange={handleOnchange}
+                                        disabled={destinationMandatory}
                                         required
                                     >
                                     </CFormTextarea>
