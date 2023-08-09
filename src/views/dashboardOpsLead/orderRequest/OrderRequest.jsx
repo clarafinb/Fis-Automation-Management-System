@@ -95,10 +95,10 @@ function OrderRequest() {
                 <br />
                 <CRow>
                     <CCol className="d-none d-md-block">
-                        <CButton className="colorBtn-white me-3" onClick={handleCreate}>
+                        {/* <CButton className="colorBtn-white me-3" onClick={handleCreate}>
                             <CIcon icon={cilPlus} className="me-2 text-warning" />
                             ADD ORDER REQUEST
-                        </CButton>
+                        </CButton> */}
                         <CButton className="colorBtn-white me-3">
                             <CIcon icon={cilDataTransferUp} className="me-2 text-warning" />
                             UPLOAD FILE

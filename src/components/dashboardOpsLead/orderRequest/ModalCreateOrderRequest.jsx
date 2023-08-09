@@ -39,8 +39,10 @@ function ModalCreateOrderRequest({ open, setOpen, projectId, detailProject }) {
     const [packageType, setPackageType] = useState([])
     const [selectedPackageType, setSelectedPackageType] = useState({});
     const [destinationMandatory, setDestinationMandatory] = useState(false)
+    const [originMandatory, setOriginMandatory] = useState(false)
     const [destination, setDestination] = useState([])
     const [selectedDestination, setSelectedDestination] = useState({})
+    const [selectedOrigin, setSelectedOrigin] = useState({})
     const [visible, setVisible] = useState(false)
     const [errMessage, setErrMessage] = useState(null)
 
@@ -74,13 +76,16 @@ function ModalCreateOrderRequest({ open, setOpen, projectId, detailProject }) {
             setErrMessage(null)
             setValues({})
             setSelectedDeliveryProcess({})
+            setRouteType([])
             setSelectedRouteType({})
             setSelectedDestination({})
             setDestinationMandatory(false)
+            setOriginMandatory(false)
             setSelectedProvince({})
             setSelectedSubDistrict({})
             setSelectedPackageType({})
             setSelectedOriginPoint({})
+            setOriginPoint([])
             setSelectedTransportType({})
             setSelectedDeliveryType({})
         }
@@ -106,6 +111,22 @@ function ModalCreateOrderRequest({ open, setOpen, projectId, detailProject }) {
 
     const handleOnChangeDeliveryProcess = (selectedDeliveryProcess) => {
         setSelectedDeliveryProcess(selectedDeliveryProcess);
+
+        setRouteType([])
+        setSelectedRouteType({})
+
+        setOriginPoint([])
+        setSelectedOriginPoint({})
+
+        setDestination([])
+        setSelectedDestination({})
+        
+        setValues((prev) => ({
+            ...prev,
+            originAddress: '',
+            destinationAddress:''
+        }))
+
         dispatch(actions.getSelecRouteType(selectedDeliveryProcess.value)).then(e => {
             setRouteType(e)
         })
@@ -120,6 +141,10 @@ function ModalCreateOrderRequest({ open, setOpen, projectId, detailProject }) {
         if (destinationTypeCode === 'PP' && projectId && routeTypeId && whCode) {
             setDestinationMandatory(false)
             setSelectedDestination({})
+
+            setOriginMandatory(false)
+            setSelectedOrigin({})
+
         } else {
             setSelectedProvince({})
             setSelectedSubDistrict({})
@@ -327,7 +352,7 @@ function ModalCreateOrderRequest({ open, setOpen, projectId, detailProject }) {
                                 </CCol>
                             </CRow>
                             <CRow className="mb-3">
-                                <CFormLabel className="col-form-label">Origin</CFormLabel>
+                                <CFormLabel className="col-form-label">Origin {destinationMandatory ? <code>*</code> : ''}</CFormLabel>
                                 <CCol>
                                     <Select
                                         className="input-select"
@@ -335,21 +360,58 @@ function ModalCreateOrderRequest({ open, setOpen, projectId, detailProject }) {
                                         isSearchable={true}
                                         value={selectedOriginPoint}
                                         onChange={handleOnChangeOriginPoint}
-                                        readOnly
+                                        isDisabled={!destinationMandatory}
+                                        required
+                                    />
+                                </CCol>
+                            </CRow>
+                            <CRow className="mb-3">
+                                <CFormLabel className="col-form-label">Origin Province {!destinationMandatory ? <code>*</code> : ''}</CFormLabel>
+                                <CCol>
+                                    <Select
+                                        className="input-select"
+                                        options={province}
+                                        isSearchable={true}
+                                        value={selectedProvince}
+                                        onChange={handleOnChangeProvince}
+                                        isDisabled={destinationMandatory}
+                                        required
+                                    />
+                                </CCol>
+                            </CRow>
+                            <CRow className="mb-3">
+                                <CFormLabel className="col-form-label">Origin Sub District {!destinationMandatory ? <code>*</code> : ''}</CFormLabel>
+                                <CCol>
+                                    <Select
+                                        className="input-select"
+                                        options={subDistrict}
+                                        isSearchable={true}
+                                        value={selectedSubDistrict}
+                                        onChange={handleOnChangeSubDistrict}
+                                        isDisabled={destinationMandatory}
+                                        required
                                     />
                                 </CCol>
                             </CRow>
                             <CRow className="mb-3">
                                 <CFormLabel className="col-form-label">Origin Address</CFormLabel>
                                 <CCol>
-                                    <CFormInput
+                                    {/* <CFormInput
                                         type="text"
                                         name="originAddress"
                                         value={values?.originAddress}
                                         onChange={handleOnchange}
                                         readOnly
                                         disabled
-                                    />
+                                    /> */}
+                                    <CFormTextarea
+                                        rows={5}
+                                        name="originAddress"
+                                        value={values?.originAddress}
+                                        onChange={handleOnchange}
+                                        required
+                                    >
+                                    </CFormTextarea>
                                 </CCol>
                             </CRow>
                             <CRow className="mb-3">

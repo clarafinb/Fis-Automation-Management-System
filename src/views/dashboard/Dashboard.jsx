@@ -43,11 +43,11 @@ const Dashboard = () => {
   const [searchProject, setSearchProject] = useState("")
   const [filteredListProject, setFilteredProject] = useState([])
 
-  useEffect(() => {
-    if (Global?.user?.token) {
-      dispatch(actions.getListProject())
-    }
-  }, [Global?.user]);
+  // useEffect(() => {
+  //   if (Global?.user?.token) {
+  //     dispatch(actions.getListProject())
+  //   }
+  // }, [Global?.user]);
 
   const handleModalCreate = () => {
     setModalCreate(true)
@@ -249,7 +249,8 @@ const Dashboard = () => {
                   </CCardTitle>
                   <hr />
                   <CCardText className='px-3'>
-                    {val?.projectDesc}
+                    <p>Process Group : {val?.logProcessName}</p>
+                    <p>Description : {val?.projectDesc}</p>
                   </CCardText>
                   <hr />
                   <CRow>
@@ -282,7 +283,10 @@ const Dashboard = () => {
         </CRow>
       </CContainer>
 
-      <ModalCreateProject open={modalCreate} setOpen={setModalCreate} />
+      <ModalCreateProject
+        open={modalCreate}
+        setOpen={setModalCreate}
+      />
 
       <ModalMasterWerehouse
         open={modalMasterWerehouse}
