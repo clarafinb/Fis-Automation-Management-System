@@ -120,11 +120,11 @@ function ModalCreateOrderRequest({ open, setOpen, projectId, detailProject }) {
 
         setDestination([])
         setSelectedDestination({})
-        
+
         setValues((prev) => ({
             ...prev,
             originAddress: '',
-            destinationAddress:''
+            destinationAddress: ''
         }))
 
         dispatch(actions.getSelecRouteType(selectedDeliveryProcess.value)).then(e => {
@@ -169,11 +169,11 @@ function ModalCreateOrderRequest({ open, setOpen, projectId, detailProject }) {
                     whCode))
                 .then(e => {
                     setOriginPoint(e)
-                    setSelectedOriginPoint(e[0])
-                    setValues((prev) => ({
-                        ...prev,
-                        originAddress: e[0]?.address
-                    }))
+                    // setSelectedOriginPoint(e[0])
+                    // setValues((prev) => ({
+                    //     ...prev,
+                    //     originAddress: e[0]?.address
+                    // }))
                 })
         }
     }
@@ -396,14 +396,6 @@ function ModalCreateOrderRequest({ open, setOpen, projectId, detailProject }) {
                             <CRow className="mb-3">
                                 <CFormLabel className="col-form-label">Origin Address</CFormLabel>
                                 <CCol>
-                                    {/* <CFormInput
-                                        type="text"
-                                        name="originAddress"
-                                        value={values?.originAddress}
-                                        onChange={handleOnchange}
-                                        readOnly
-                                        disabled
-                                    /> */}
                                     <CFormTextarea
                                         rows={5}
                                         name="originAddress"
@@ -414,6 +406,8 @@ function ModalCreateOrderRequest({ open, setOpen, projectId, detailProject }) {
                                     </CFormTextarea>
                                 </CCol>
                             </CRow>
+                        </CCol>
+                        <CCol>
                             <CRow className="mb-3">
                                 <CFormLabel className="col-form-label">Transport Request Type <code>*</code></CFormLabel>
                                 <CCol>
@@ -425,63 +419,6 @@ function ModalCreateOrderRequest({ open, setOpen, projectId, detailProject }) {
                                         onChange={handleOnChangetransportType}
                                         required
                                     />
-                                </CCol>
-                            </CRow>
-                        </CCol>
-                        <CCol>
-                            <CRow className="mb-3">
-                                <CFormLabel className="col-form-label">Destination {destinationMandatory ? <code>*</code> : ''} </CFormLabel>
-                                <CCol>
-                                    <Select
-                                        className="input-select"
-                                        options={destination}
-                                        isSearchable={true}
-                                        value={selectedDestination}
-                                        onChange={handleOnChangeDestination}
-                                        isDisabled={!destinationMandatory}
-                                        required
-                                    />
-                                </CCol>
-                            </CRow>
-                            <CRow className="mb-3">
-                                <CFormLabel className="col-form-label">Destination Province {!destinationMandatory ? <code>*</code> : ''}</CFormLabel>
-                                <CCol>
-                                    <Select
-                                        className="input-select"
-                                        options={province}
-                                        isSearchable={true}
-                                        value={selectedProvince}
-                                        onChange={handleOnChangeProvince}
-                                        isDisabled={destinationMandatory}
-                                        required
-                                    />
-                                </CCol>
-                            </CRow>
-                            <CRow className="mb-3">
-                                <CFormLabel className="col-form-label">Destination Sub District {!destinationMandatory ? <code>*</code> : ''}</CFormLabel>
-                                <CCol>
-                                    <Select
-                                        className="input-select"
-                                        options={subDistrict}
-                                        isSearchable={true}
-                                        value={selectedSubDistrict}
-                                        onChange={handleOnChangeSubDistrict}
-                                        isDisabled={destinationMandatory}
-                                        required
-                                    />
-                                </CCol>
-                            </CRow>
-                            <CRow className="mb-3">
-                                <CFormLabel className="col-form-label">Destination Address <code>*</code></CFormLabel>
-                                <CCol>
-                                    <CFormTextarea
-                                        rows={5}
-                                        name="destinationAddress"
-                                        value={values?.destinationAddress}
-                                        onChange={handleOnchange}
-                                        required
-                                    >
-                                    </CFormTextarea>
                                 </CCol>
                             </CRow>
                             <CRow className="mb-3">
@@ -540,6 +477,61 @@ function ModalCreateOrderRequest({ open, setOpen, projectId, detailProject }) {
                                         onChange={handleOnchange}
                                         required
                                     />
+                                </CCol>
+                            </CRow>
+                            <CRow className="mb-3">
+                                <CFormLabel className="col-form-label">Destination {destinationMandatory ? <code>*</code> : ''} </CFormLabel>
+                                <CCol>
+                                    <Select
+                                        className="input-select"
+                                        options={destination}
+                                        isSearchable={true}
+                                        value={selectedDestination}
+                                        onChange={handleOnChangeDestination}
+                                        isDisabled={!destinationMandatory}
+                                        required
+                                    />
+                                </CCol>
+                            </CRow>
+                            <CRow className="mb-3">
+                                <CFormLabel className="col-form-label">Destination Province {!destinationMandatory ? <code>*</code> : ''}</CFormLabel>
+                                <CCol>
+                                    <Select
+                                        className="input-select"
+                                        options={province}
+                                        isSearchable={true}
+                                        value={selectedProvince}
+                                        onChange={handleOnChangeProvince}
+                                        isDisabled={destinationMandatory}
+                                        required
+                                    />
+                                </CCol>
+                            </CRow>
+                            <CRow className="mb-3">
+                                <CFormLabel className="col-form-label">Destination Sub District {!destinationMandatory ? <code>*</code> : ''}</CFormLabel>
+                                <CCol>
+                                    <Select
+                                        className="input-select"
+                                        options={subDistrict}
+                                        isSearchable={true}
+                                        value={selectedSubDistrict}
+                                        onChange={handleOnChangeSubDistrict}
+                                        isDisabled={destinationMandatory}
+                                        required
+                                    />
+                                </CCol>
+                            </CRow>
+                            <CRow className="mb-3">
+                                <CFormLabel className="col-form-label">Destination Address <code>*</code></CFormLabel>
+                                <CCol>
+                                    <CFormTextarea
+                                        rows={5}
+                                        name="destinationAddress"
+                                        value={values?.destinationAddress}
+                                        onChange={handleOnchange}
+                                        required
+                                    >
+                                    </CFormTextarea>
                                 </CCol>
                             </CRow>
                         </CCol>
