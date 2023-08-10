@@ -108,7 +108,7 @@ function ModalSettingManagement({
                     <CCol sm={3}>
                         <CCard className='text-center no-background' onClick={() => { handleViewModal("evidenceChecklist") }}>
                             <CCardBody>
-                                <img src={'icon/SERVICE-CHARGE-ICON.png'} />
+                                <img src={'icon/EVIDENCE-SERVICE-ICON.svg'} />
                                 <p>Evidence Checklist</p>
                             </CCardBody>
                         </CCard>

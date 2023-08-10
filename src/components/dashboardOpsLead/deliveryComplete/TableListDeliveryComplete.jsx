@@ -54,22 +54,20 @@ function TableListDeliveryComplete({
             field: 'no',
             headerName: 'NO',
             cellStyle: { textAlign: 'center' },
-            minWidth: 150,
+            minWidth: 80,
+            filter: false
         },
         {
             field: 'whCode',
             headerName: 'WH CODE',
-            cellStyle: { textAlign: 'center' },
         },
         {
             field: 'custOrderRequest',
             headerName: 'CUSTOMER ORDER REQUEST',
-            cellStyle: { textAlign: 'center' },
         },
         {
             field: 'orderRequestDesc',
             headerName: 'ORDER REQUEST DESC',
-            cellStyle: { textAlign: 'center' },
         },
         {
             field: 'requestorName',
@@ -137,6 +135,7 @@ function TableListDeliveryComplete({
             minWidth: 100,
             cellStyle: { textAlign: 'center' },
             pinned: 'right',
+            filter: false,
             cellRenderer: ({ data }) => {
                 return handleAction(data.orderReqId, data)
             }

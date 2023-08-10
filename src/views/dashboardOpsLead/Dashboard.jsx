@@ -18,9 +18,10 @@ import {
 import { useCookies } from "react-cookie";
 import * as actions from '../../config/redux/DashboardOpsLead/actions'
 import CIcon from '@coreui/icons-react'
-import { cilList, cilNotes } from '@coreui/icons'
+import { cilList, cilNotes, cilPlus } from '@coreui/icons'
 import ModalProjectList from 'src/components/dashboardOpsLead/ModalProjectList';
 import ChartDetailWarehouse from 'src/components/dashboardOpsLead/ChartDetailWarehouse';
+import ModalCreateOrderRequest from 'src/components/dashboardOpsLead/orderRequest/ModalCreateOrderRequest';
 
 function Dashboard() {
     const [cookies, setCookie] = useCookies(["dashboardOpsLead"]);
@@ -31,6 +32,8 @@ function Dashboard() {
     const [values, setValues] = useState({})
     const [activeKey, setActiveKey] = useState(1)
     const [modalProjectList, setModalProjectList] = useState(false)
+    const [openModalOrderRequest, setOpenModalOrderRequest] = useState(false)
+    const [selectedDetailWarehouse, setSelectedDetailWarehouse] = useState({})
     const nav = useNavigate()
 
     const getSummaryProject = (projectId) => {
@@ -166,6 +169,11 @@ function Dashboard() {
         setModalProjectList(true)
     }
 
+    const handleCreateOrderRequest = (detailWarehouse) => {
+        setSelectedDetailWarehouse(detailWarehouse)
+        setOpenModalOrderRequest(true)
+    }
+
     return (
         <>
             <CRow>
@@ -204,29 +212,35 @@ function Dashboard() {
                         <>
                             <CCard key={detailWarehouse?.whId}>
                                 <CRow className='m-3'>
-                                    <CCol sm={8}>
+                                    <CCol sm={6}>
                                         <h5>
                                             <img src={'icon/icon_project.png'} alt="icon_project" className='px-2' />{detailWarehouse?.projectName} <span className='px-3'>|</span>
                                             <img src={'icon/icon_warehouse.png'} alt="icon_warehouse" className='px-2' /> {detailWarehouse?.whName} <span className='px-3'>|</span>
                                             <img src={'icon/icon_code.png'} alt="icon_code" className='px-2' /> {detailWarehouse?.whCode}
                                         </h5>
                                     </CCol>
-                                    <CCol className="d-none d-md-block">
+                                    <CCol className="d-none d-md-block" sm={6}>
                                         <CButton
                                             onClick={() => handleNavigator("masterLocation", detailWarehouse)}
-                                            className="float-end colorBtn-white">
+                                            className="float-end colorBtn-white me-2">
                                             <CIcon
                                                 icon={cilList}
                                                 className="me-2 text-warning" />
                                             Master Location
                                         </CButton>
                                         <CButton
-                                            className="float-end colorBtn-white me-3"
+                                            className="float-end colorBtn-white me-2"
                                             onClick={() => handleNavigator("manageInventory", detailWarehouse)}>
                                             <CIcon
                                                 icon={cilList}
                                                 className="me-2 text-warning" />
                                             Manage Inventory
+                                        </CButton>
+                                        <CButton
+                                            onClick={() => handleCreateOrderRequest(detailWarehouse)}
+                                            className="float-end colorBtn-white me-2">
+                                            <CIcon icon={cilPlus} className="me-2 text-warning" />
+                                            ADD ORDER REQUEST
                                         </CButton>
                                     </CCol>
                                 </CRow>
@@ -509,6 +523,12 @@ function Dashboard() {
                 open={modalProjectList}
                 setOpen={setModalProjectList}
                 handleProject={handleComponent}
+            />
+            <ModalCreateOrderRequest
+                open={openModalOrderRequest}
+                setOpen={setOpenModalOrderRequest}
+                projectId={selectedDetailWarehouse.projectId}
+                detailProject={selectedDetailWarehouse}
             />
         </>
     )

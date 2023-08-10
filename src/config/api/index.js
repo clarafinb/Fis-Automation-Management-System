@@ -16,6 +16,7 @@ export const API_SET_ACTIVE_PROJECT = BASE_URL + "mproject/setActivate"
 export const API_SET_PUBLISH_PROJECT = BASE_URL + "mproject/setPublished"
 export const API_GET_PROJECT_BY_USERID = BASE_URL + "logmanagement/projectGetAllBasedOnUser"
 export const API_GET_ACTIVITY_SUMMARY_WH_PROJECT = BASE_URL + "logmanagement/getActivitySummaryWHProject"
+export const API_GET_MASTER_LOGISTIC_PROCESS_ACTIVE = BASE_URL + "masterdata/getMasterLogisticProcessActiveOnly"
 // Service Charge
 export const API_GET_SC_ADMIN = BASE_URL + "serviceCharge/getAllAdminOnly"
 export const API_ADD_SC = BASE_URL + "serviceCharge"

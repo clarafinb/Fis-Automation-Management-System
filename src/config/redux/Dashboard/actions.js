@@ -97,7 +97,8 @@ import {
   API_SET_INACTIVE_EVIDENCE_CHECKLIST_PROJECT,
   API_SET_ACTIVE_EVIDENCE_CHECKLIST_PROJECT,
   API_GET_EVIDENCE_CHECKLIST_PROJECT_NOT_REGISTERED,
-  API_EXPORT_EXCEL_SUB_DISTRICT
+  API_EXPORT_EXCEL_SUB_DISTRICT,
+  API_GET_MASTER_LOGISTIC_PROCESS_ACTIVE
 } from "../../api/index"
 import Swal from "sweetalert2";
 
@@ -1120,6 +1121,28 @@ export const getSelectActiveCustomer = (payload) => {
         }
       })
       return Promise.resolve(['Please Select..', ...listCustomer])
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Close'
+      })
+    }
+  }
+}
+
+export const getMasterLogisticProcessActiveOnly = (payload) => {
+  return async () => {
+    try {
+      let list = await actionCrud.actionCommonCrud(payload, API_GET_MASTER_LOGISTIC_PROCESS_ACTIVE, "GET");
+      let data = list?.map((item, idx) => {
+        return {
+          label: item.processName,
+          value: item.processId
+        }
+      })
+      return Promise.resolve(['Please Select..', ...data])
     } catch (error) {
       Swal.fire({
         title: 'Error!',

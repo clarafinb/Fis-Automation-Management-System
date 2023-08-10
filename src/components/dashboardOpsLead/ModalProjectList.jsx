@@ -21,7 +21,7 @@ function ModalProjectList({ open, setOpen, handleProject }) {
 
     return (
         <CModal
-            // size="lg"
+            size="xl"
             visible={open}
             onClose={() => setOpen(false)}
             alignment="center"
