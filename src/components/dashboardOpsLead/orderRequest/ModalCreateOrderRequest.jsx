@@ -188,11 +188,11 @@ function ModalCreateOrderRequest({ open, setOpen, projectId, detailProject }) {
                     whCode))
                 .then(e => {
                     setOriginPoint(e)
-                    // setSelectedOriginPoint(e[0])
-                    // setValues((prev) => ({
-                    //     ...prev,
-                    //     originAddress: e[0]?.address
-                    // }))
+                    setSelectedOriginPoint(e[0])
+                    setValues((prev) => ({
+                        ...prev,
+                        originAddress: e[0]?.address
+                    }))
                 })
         }
     }
@@ -238,7 +238,9 @@ function ModalCreateOrderRequest({ open, setOpen, projectId, detailProject }) {
             deliveryReqType: selectedDeliveryType?.label,
             transportReqType: selectedTransportType?.label,
             routeTypeId: selectedRouteType?.value,
-            originPointId: selectedOriginPoint?.value,
+            originPointId: 0,
+            originSubDistrictId: 0,
+            originAddress: values?.originAddress,
             destinationPointId: 0,
             destinationSubDistrictId: 0,
             destinationAddress: values?.destinationAddress,
@@ -253,9 +255,15 @@ function ModalCreateOrderRequest({ open, setOpen, projectId, detailProject }) {
         if (destinationMandatory) {
             payload.destinationPointId = selectedDestination?.value
             if (payload.destinationPointId === undefined) err.push('Destination')
+
+            payload.originPointId = selectedOriginPoint?.value
+            if (payload.originPointId === undefined) err.push('Origin')
         } else {
             payload.destinationSubDistrictId = selectedSubDistrict?.value
-            if (payload.destinationSubDistrictId === undefined) err.push('Sub Disctict')
+            if (payload.destinationSubDistrictId === undefined) err.push('Destination Sub Disctict')
+
+            payload.originSubDistrictId = selectedSubDistrictOrigin?.value
+            if (payload.originSubDistrictId === undefined) err.push('Origin Sub Disctict')
         }
 
         if (payload.routeTypeId === undefined) err.push('Route Type')
@@ -267,6 +275,9 @@ function ModalCreateOrderRequest({ open, setOpen, projectId, detailProject }) {
         } else {
             dispatch(actions.createOrderRequest(payload, "POST"))
             setOpen(false)
+            setTimeout(function () {
+                window.location.reload();
+            }, 500);
         }
 
     }

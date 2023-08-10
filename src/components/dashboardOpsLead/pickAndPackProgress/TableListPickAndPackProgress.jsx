@@ -54,22 +54,20 @@ function TableListPickAndPackProgress({
             field: 'no',
             headerName: 'NO',
             cellStyle: { textAlign: 'center' },
-            minWidth: 150,
+            minWidth: 80,
+            filter: false
         },
         {
             field: 'whCode',
             headerName: 'WH CODE',
-            cellStyle: { textAlign: 'center' },
         },
         {
             field: 'whName',
             headerName: 'WH NAME',
-            cellStyle: { textAlign: 'center' },
         },
         {
             field: 'custOrderRequest',
             headerName: 'CUST ORDER REQUEST',
-            cellStyle: { textAlign: 'center' },
         },
         {
             field: 'orderRequestDesc',
@@ -129,6 +127,7 @@ function TableListPickAndPackProgress({
             minWidth: 100,
             cellStyle: { textAlign: 'center' },
             pinned: 'right',
+            filter: false,
             cellRenderer: ({ data }) => {
                 return handleAction(data.orderReqId, data)
             }

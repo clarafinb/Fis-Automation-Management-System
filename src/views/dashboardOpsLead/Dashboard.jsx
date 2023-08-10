@@ -33,7 +33,7 @@ function Dashboard() {
     const [activeKey, setActiveKey] = useState(1)
     const [modalProjectList, setModalProjectList] = useState(false)
     const [openModalOrderRequest, setOpenModalOrderRequest] = useState(false)
-    const [selectedDetailWarehouse,setSelectedDetailWarehouse] = useState({})
+    const [selectedDetailWarehouse, setSelectedDetailWarehouse] = useState({})
     const nav = useNavigate()
 
     const getSummaryProject = (projectId) => {

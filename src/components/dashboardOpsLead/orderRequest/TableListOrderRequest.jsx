@@ -53,7 +53,8 @@ function TableListOrderRequest({
             headerName: 'NO',
             headerStyle: { textAlign: 'center' },
             cellStyle: { textAlign: 'center' },
-            minWidth: 150,
+            filter: false,
+            minWidth: 80,
         },
         {
             field: 'whCode',
@@ -125,6 +126,7 @@ function TableListOrderRequest({
             minWidth: 100,
             cellStyle: { textAlign: 'center' },
             pinned: 'right',
+            filter: false,
             cellRenderer: ({ data }) => {
                 return handleAction(data)
             }
