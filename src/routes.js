@@ -78,7 +78,7 @@ const routes = [
   { path: '/dashboard-ops-lead/delivery-complete/:projectId', name: 'DELIVERY COMPLETE', element: DeliveryComplete },
   { path: '/dashboard-ops-lead/delivery-complete/:projectId/detail/:orderReqId', name: 'DELIVERY COMPLETE DETAIL', element: DeliveryCompleteDetail },
   { path: '/dashboard-ops-lead/master-location/:projectId', name: 'MASTER LOCAITON', element: MasterLocation },
-  { path: '/dashboard-ops-lead/manage-inventory/:whId/:whCode', name: 'MANAGE INVENTORY', element: ManageInventory },
+  { path: '/dashboard-ops-lead/manage-inventory/:whId/:whCode/:whName', name: 'MANAGE INVENTORY', element: ManageInventory },
   // DASHBOARD WH TEAM
   { path: '/dashboard-wh', name: 'DASHBOARD', element: DashboardWhTeam },
 

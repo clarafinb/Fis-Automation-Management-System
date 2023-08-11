@@ -112,7 +112,7 @@ function Dashboard() {
         }
     }, [values?.whId, detailProject]);
 
-    const handleNavigator = (type, { projectId, whId, whCode }) => {
+    const handleNavigator = (type, { projectId, whId, whCode, whName }) => {
         const navigate = [
             {
                 type: 'orderRequest',
@@ -144,7 +144,7 @@ function Dashboard() {
             },
             {
                 type: 'manageInventory',
-                url: `/dashboard-ops-lead/manage-inventory/${whId}/${whCode}`
+                url: `/dashboard-ops-lead/manage-inventory/${whId}/${whCode}/${whName}`
             }
         ]
 
@@ -220,14 +220,14 @@ function Dashboard() {
                                         </h5>
                                     </CCol>
                                     <CCol className="d-none d-md-block" sm={6}>
-                                        <CButton
+                                        {/* <CButton
                                             onClick={() => handleNavigator("masterLocation", detailWarehouse)}
                                             className="float-end colorBtn-white me-2">
                                             <CIcon
                                                 icon={cilList}
                                                 className="me-2 text-warning" />
                                             Master Location
-                                        </CButton>
+                                        </CButton> */}
                                         <CButton
                                             className="float-end colorBtn-white me-2"
                                             onClick={() => handleNavigator("manageInventory", detailWarehouse)}>

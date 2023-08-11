@@ -30,6 +30,7 @@ function ManageInventory() {
     const { dispatch, Global, Dashboard, DashboardOpsLead } = useRedux()
     const [whId, setWhId] = useState('')
     const [whCode, setWhCode] = useState('')
+    const [whName, setWhName] = useState('')
     const [activeKey, setActiveKey] = useState(1)
     const [modalUpload, setModalUpload] = useState(false)
     const [inventoryType, setInventoryType] = useState('')
@@ -39,9 +40,11 @@ function ManageInventory() {
     useEffect(() => {
         const uriSegment = window.location.href.split("/");
         const wId = uriSegment[6];
-        const wCode = uriSegment[7]
+        const wCode = uriSegment[7];
+        const wName = decodeURI(uriSegment[8]);
         setWhId(wId)
         setWhCode(wCode)
+        setWhName(wName)
         if (Global?.user?.token) {
             if (activeKey === 1) {
                 dispatch(actions.getInventoryItem(wId))
@@ -126,8 +129,11 @@ function ManageInventory() {
             <CContainer>
                 <CRow>
                     <CCol sm={5} className='mb-4'>
-                        <h4 className="card-title mb-0">
+                        <h4 className="card-title mb-2">
                             <span className='text-underline'>MA</span>NAGE INVENTORY
+                        </h4>
+                        <h4 className="card-title mb-0">
+                        <span className='text-underline'>{whCode}</span> | {whName}
                         </h4>
                     </CCol>
                 </CRow>

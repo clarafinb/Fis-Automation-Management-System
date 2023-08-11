@@ -39,7 +39,7 @@ function OrderRequest() {
             dispatch(
                 actions.getActivitySummaryWHProject(Global?.user?.userID, pId)
             ).then(result => {
-                const dtProjectFind = result.find(row => row.whId = wId)
+                const dtProjectFind = result.find(row => row.whId == wId)
                 setDetailProject(dtProjectFind)
                 dispatch(actions.getListOrderRequest(pId, wId, Global?.user?.userID))
             })

@@ -32,16 +32,16 @@ function TableProjectList({
     }
 
     const columns = [
-        { field: 'no', headerName: 'NO', minWidth: 80, filter: false },
-        { field: 'projectName', headerName: 'PROJECT NAME' },
-        { field: 'processGroup', headerName: 'PROCESS GROUP' },
-        { field: 'customerName', headerName: 'CUSTOMER' },
+        { field: 'no', headerName: 'NO', minWidth: 100, filter: false },
+        { field: 'projectName', headerName: 'PROJECT NAME',},
+        { field: 'processGroup', headerName: 'PROCESS GROUP'},
+        { field: 'customerName', headerName: 'CUSTOMER'},
         {
             field: 'projectId',
             headerName: 'ACTION',
             cellStyle: { textAlign: 'center' },
-            minWidth: 100,
-            pinned: 'right',
+            minWidth: 80,
+            // pinned: 'right',
             filter: false,
             cellRenderer: ({ data }) => {
                 return handleAction('pilih', data)
