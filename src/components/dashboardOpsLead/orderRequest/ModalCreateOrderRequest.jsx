@@ -136,6 +136,9 @@ function ModalCreateOrderRequest({ open, setOpen, projectId, detailProject }) {
         setDestination([])
         setSelectedDestination({})
 
+        setDeliveryType([])
+        setSelectedDeliveryType({})
+
         setDestinationMandatory(false)
         setOriginMandatory(false)
 
