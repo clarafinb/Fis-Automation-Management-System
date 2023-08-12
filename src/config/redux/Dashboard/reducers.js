@@ -31,6 +31,12 @@ const Dashboard = (state = initialState, { type, payload }) => {
                 detailDashboard: payload
             };
 
+        case actionType.RESET_DETAIL_DASHBOARD:
+            return {
+                ...state,
+                detailDashboard: {}
+            };
+
         case actionType.SET_DASHBOARD:
             return {
                 ...state,

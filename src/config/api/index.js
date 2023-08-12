@@ -26,6 +26,7 @@ export const API_GET_ACTIVE_SC = BASE_URL + "servicecharge/getAllActiveOnly"
 // Delivery Mode
 export const API_GET_DEL_ADMIN = BASE_URL + "logmanagement/deliveryModeGetAllAdminOnly"
 export const API_GET_ACTIVE_DEL = BASE_URL + "logmanagement/deliveryModeGetAllActiveOnly"
+export const API_GET_DEL_BASE_ROUTE_TYPE = BASE_URL + "logmanagement/deliveryModeBasedOnRouteType"
 export const API_SET_ACTIVE_DEL = BASE_URL + "logmanagement/deliveryModeSetStatusIsActive"
 export const API_SET_INACTIVE_DEL = BASE_URL + "logmanagement/deliveryModeSetStatusIsInActive"
 // Transport Mode

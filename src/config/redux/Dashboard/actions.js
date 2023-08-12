@@ -123,6 +123,23 @@ export const getDashboard = (roleId) => {
   }
 }
 
+export const resetDetailDashboard = () => {
+  return async (dispatch) => {
+    try {
+      dispatch({
+        type: actionType.RESET_DETAIL_DASHBOARD
+      });
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Close'
+      })
+    }
+  }
+}
+
 export const setDashboard = (payload) => {
   return async (dispatch) => {
     try {

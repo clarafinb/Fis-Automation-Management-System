@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useRedux } from '../../utils/hooks'
 import { useNavigate } from 'react-router-dom'
 import { useCookies } from 'react-cookie'
@@ -19,6 +19,7 @@ import CIcon from '@coreui/icons-react'
 
 import avatar8 from '../../assets/images/avatars/8.jpg'
 import * as actions from '../../config/redux/Global/actions'
+import * as actions_dashboard from '../../config/redux/Dashboard/actions'
 
 const AppHeaderDropdown = () => {
   const { dispatch, Global } = useRedux();
@@ -28,15 +29,19 @@ const AppHeaderDropdown = () => {
   const handleLogOut = (event) => {
 
     dispatch(actions.actionResetUser());
+    dispatch(actions_dashboard.resetDetailDashboard())
     removeCookie('user');
     removeCookie('dashboardOpsLead');
 
-    nav("/login");
-
     event.preventDefault()
-    event.stopPropagation()
 
   }
+
+  useEffect(() => {
+    if(!cookies?.user){
+      nav("/login")
+    }
+}, [cookies?.user]);
 
   const handleDetailProfile = () => {
     nav("/profile");

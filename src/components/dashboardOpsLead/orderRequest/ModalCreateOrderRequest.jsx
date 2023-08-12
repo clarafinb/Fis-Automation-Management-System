@@ -55,10 +55,6 @@ function ModalCreateOrderRequest({ open, setOpen, projectId, detailProject }) {
                 setDeliveryProcess(e)
             })
 
-            dispatch(actions.getSelectDeliveryType()).then(e => {
-                setDeliveryType(e)
-            })
-
             dispatch(actions.getSelecTransportType()).then(e => {
                 setTransportType(e)
             })
@@ -140,6 +136,9 @@ function ModalCreateOrderRequest({ open, setOpen, projectId, detailProject }) {
         setDestination([])
         setSelectedDestination({})
 
+        setDestinationMandatory(false)
+        setOriginMandatory(false)
+
         setValues((prev) => ({
             ...prev,
             originAddress: '',
@@ -154,16 +153,16 @@ function ModalCreateOrderRequest({ open, setOpen, projectId, detailProject }) {
     const handleOnChangeRouteType = (selectedRouteType) => {
         setSelectedRouteType(selectedRouteType)
 
-        const { routeTypeId, destinationTypeCode } = selectedRouteType
+        const { routeTypeId, destinationTypeCode, originTypeCode } = selectedRouteType
         const { whCode } = detailProject
+
+        dispatch(actions.getSelectDeliveryType(routeTypeId)).then(e => {
+            setDeliveryType(e)
+        })
 
         if (destinationTypeCode === 'PP' && projectId && routeTypeId && whCode) {
             setDestinationMandatory(false)
             setSelectedDestination({})
-
-            setOriginMandatory(false)
-            setSelectedOrigin({})
-
         } else {
             setSelectedProvince({})
             setSelectedSubDistrict({})
@@ -179,13 +178,20 @@ function ModalCreateOrderRequest({ open, setOpen, projectId, detailProject }) {
             })
         }
 
+        if (originTypeCode === 'PP' && projectId && routeTypeId && whCode) {
+            setOriginMandatory(false)
+            setSelectedOrigin({})
 
-        if (projectId && routeTypeId && whCode) {
+        } else {
+            setSelectedProvinceOrigin({})
+            setSelectedSubDistrictOrigin({})
+            setOriginMandatory(true)
             dispatch(
                 actions.getSelectOriginPoin(
                     projectId,
                     routeTypeId,
-                    whCode))
+                    whCode
+                ))
                 .then(e => {
                     setOriginPoint(e)
                     setSelectedOriginPoint(e[0])
@@ -256,12 +262,15 @@ function ModalCreateOrderRequest({ open, setOpen, projectId, detailProject }) {
             payload.destinationPointId = selectedDestination?.value
             if (payload.destinationPointId === undefined) err.push('Destination')
 
-            payload.originPointId = selectedOriginPoint?.value
-            if (payload.originPointId === undefined) err.push('Origin')
         } else {
             payload.destinationSubDistrictId = selectedSubDistrict?.value
             if (payload.destinationSubDistrictId === undefined) err.push('Destination Sub Disctict')
+        }
 
+        if (originMandatory) {
+            payload.originPointId = selectedOriginPoint?.value
+            if (payload.originPointId === undefined) err.push('Origin')
+        } else {
             payload.originSubDistrictId = selectedSubDistrictOrigin?.value
             if (payload.originSubDistrictId === undefined) err.push('Origin Sub Disctict')
         }
@@ -274,10 +283,14 @@ function ModalCreateOrderRequest({ open, setOpen, projectId, detailProject }) {
             setVisible(true)
         } else {
             dispatch(actions.createOrderRequest(payload, "POST"))
-            setOpen(false)
-            setTimeout(function () {
-                window.location.reload();
-            }, 500);
+                .then(resp => {
+                    if (resp === "success") {
+                        setOpen(false)
+                        setTimeout(function () {
+                            window.location.reload();
+                        }, 1000);
+                    }
+                })
         }
 
     }
@@ -390,7 +403,7 @@ function ModalCreateOrderRequest({ open, setOpen, projectId, detailProject }) {
                                         isSearchable={true}
                                         value={selectedOriginPoint}
                                         onChange={handleOnChangeOriginPoint}
-                                        isDisabled={!destinationMandatory}
+                                        isDisabled={!originMandatory}
                                         required
                                     />
                                 </CCol>
@@ -404,7 +417,7 @@ function ModalCreateOrderRequest({ open, setOpen, projectId, detailProject }) {
                                         isSearchable={true}
                                         value={selectedProvinceOrigin}
                                         onChange={handleOnChangeProvinceOrigin}
-                                        isDisabled={destinationMandatory}
+                                        isDisabled={originMandatory}
                                         required
                                     />
                                 </CCol>
@@ -418,7 +431,7 @@ function ModalCreateOrderRequest({ open, setOpen, projectId, detailProject }) {
                                         isSearchable={true}
                                         value={selectedSubDistrictOrigin}
                                         onChange={handleOnChangeSubDistrictOrigin}
-                                        isDisabled={destinationMandatory}
+                                        isDisabled={originMandatory}
                                         required
                                     />
                                 </CCol>
@@ -431,7 +444,7 @@ function ModalCreateOrderRequest({ open, setOpen, projectId, detailProject }) {
                                         name="originAddress"
                                         value={values?.originAddress}
                                         onChange={handleOnchange}
-                                        disabled={destinationMandatory}
+                                        disabled={originMandatory}
                                         required
                                     >
                                     </CFormTextarea>
@@ -560,6 +573,7 @@ function ModalCreateOrderRequest({ open, setOpen, projectId, detailProject }) {
                                         name="destinationAddress"
                                         value={values?.destinationAddress}
                                         onChange={handleOnchange}
+                                        disabled={destinationMandatory}
                                         required
                                     >
                                     </CFormTextarea>

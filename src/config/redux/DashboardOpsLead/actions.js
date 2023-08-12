@@ -65,7 +65,8 @@ import {
     API_DELETE_ADDITIONAL_SERVICE_PICK_AND_PACK,
     API_GET_TRANSPORT_ARRAGEMENT_DELIVERY,
     API_GET_TRANSPORT_ARRAGEMENT_ORDER_REQ,
-    API_ADD_TRANSPORT_ARRAGEMENT
+    API_ADD_TRANSPORT_ARRAGEMENT,
+    API_GET_DEL_BASE_ROUTE_TYPE
 } from "../../api/index"
 
 /**************************************** DASHBOARD OPS LEAD ****************************************/
@@ -217,6 +218,7 @@ export const createOrderRequest = (payload) => {
                     showConfirmButton: true
                 });
                 dispatch(getListOrderRequest(payload.projectId, payload.whId, payload.LMBY));
+                return Promise.resolve(create.status)
             } else {
                 Swal.fire({
                     title: 'Error!',
@@ -324,7 +326,7 @@ export const getSelectDeliveryProcess = (payload) => {
 export const getSelectDeliveryType = (payload) => {
     return async () => {
         try {
-            let list = await actionCrud.actionCommonCrud(payload, API_GET_ACTIVE_DEL, "GET");
+            let list = await actionCrud.actionCommonSlice(payload, API_GET_DEL_BASE_ROUTE_TYPE, "GET");
             let data = list?.map((item, idx) => {
                 return {
                     label: item.deliveryMode,
