@@ -12,6 +12,7 @@ import {
     CCarouselItem,
     CImage,
     CCardBody,
+    CCarouselCaption,
 } from '@coreui/react'
 import ButtonCancel from 'src/components/custom/button/ButtonCancel';
 
@@ -38,7 +39,7 @@ function ModalEvidenceImage({ open, setOpen, data }) {
                         <CCol>
                             <CCard>
                                 <CCardBody>
-                                    <CCarousel controls indicators>
+                                    <CCarousel controls indicators dark>
                                         {data.length > 0 && data.map((row1, index1) => (
                                             <CCarouselItem key={index1}>
                                                 <CImage

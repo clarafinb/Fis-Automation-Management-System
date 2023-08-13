@@ -903,6 +903,7 @@ export const getTransportArrangementEvidenceCheclist = (transportArrangementId) 
             let listEvidenceChecklist = list?.map((item, idx) => {
                 return {
                     no: idx + 1,
+                    uploadStatus: item.getEvidenceChecklists.length > 0 ? true : false,
                     ...item,
                 }
             })

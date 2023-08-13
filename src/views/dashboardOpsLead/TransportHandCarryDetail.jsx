@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useEffect } from 'react'
 import { useRedux } from 'src/utils/hooks'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 
 import {
     CCard,
@@ -15,16 +15,17 @@ import {
 
 import * as actions from '../../config/redux/DashboardOpsLead/actions'
 import CIcon from '@coreui/icons-react'
-import { cilFile, cilPlus } from '@coreui/icons'
+import { cilPlus } from '@coreui/icons'
 import SmartTable from 'src/components/custom/table/SmartTable'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faArrowRight, faArrowUpFromBracket, faImage, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons'
+import { faArrowUpFromBracket, faImage } from '@fortawesome/free-solid-svg-icons'
 import ButtonSubmit from 'src/components/custom/button/ButtonSubmit'
 import ButtonCancel from 'src/components/custom/button/ButtonCancel'
-import { useLocation } from 'react-router-dom'
 import ModalUploadFile from 'src/components/custom/modal/ModalUploadFile'
 import Swal from 'sweetalert2'
 import ModalEvidenceImage from 'src/components/dashboardOpsLead/waitingDispatch/ModalEvidenceImage'
+import TableListCustomerOrderRequest from 'src/components/dashboardOpsLead/waitingDispatch/TableListCustomerOrderRequest'
+import TableListHoEvidence from 'src/components/dashboardOpsLead/waitingDispatch/TableListHoEvidence'
 
 function TransportHandCarryDetail() {
     const nav = useNavigate();
@@ -39,7 +40,7 @@ function TransportHandCarryDetail() {
     const { pathname } = useLocation();
 
     useEffect(() => {
-       const transArrId = pathname.split('/')[4]
+        const transArrId = pathname.split('/')[4]
         const transModId = pathname.split('/')[5]
         const pId = pathname.split('/')[6]
         const oId = pathname.split('/')[7]
@@ -73,32 +74,10 @@ function TransportHandCarryDetail() {
         })
     }
 
-    // const handleComponent = useCallback(
-    //     (action, id) => {
-    //         if (action == "delServiceCharge") {
-    //             dispatch(actions.deleteTransportArrangmentServiceCharge(id, Global?.user?.userID))
-    //         } else {
-    //             dispatch(actions.deleteTransportType(id, param?.transportArrangmentId))
-    //         }
-    //     }
-    // )
-
     const handleModalImage = (data) => {
         setSelectedEvidenceImage(data)
         setModalImage(true)
     }
-
-    const requestTransportArrangmentColumns = [
-        { name: 'no', header: 'No', defaultVisible: true, defaultWidth: 80, type: 'number' },
-        { name: 'transportArrRefId', header: 'Arrangement Ref Id', defaultWidth: 200 },
-        { name: 'deliveryMode', header: 'Delivery Mode', defaultWidth: 200 },
-        { name: 'transportMode', header: 'Transport Mode', defaultWidth: 200 },
-        { name: 'orderReqNo', header: 'Cust Order Req No', defaultWidth: 300 },
-        { name: 'requestorName', header: 'Customer Requestor', defaultWidth: 200 },
-        { name: 'origin', header: 'Origin', defaultWidth: 200 },
-        { name: 'destination', header: 'Destination', defaultWidth: 200 },
-        { name: 'pickandpackCompleteDate', header: 'Pick And Pack Complete Date', defaultWidth: 200 },
-    ]
 
     const evidenceChecklistColumns = [
         { name: 'no', header: 'No', defaultVisible: true, defaultWidth: 80, type: 'number' },
@@ -240,11 +219,8 @@ function TransportHandCarryDetail() {
                                     </h5>
                                 </CCol>
                             </CRow>
-                            <SmartTable
+                            <TableListCustomerOrderRequest
                                 data={DashboardOpsLead?.listRequestTransportArragement}
-                                columns={requestTransportArrangmentColumns}
-                                minHeight={200}
-                            // filterValue={filterValue}
                             />
                         </CCol>
                     </CRow>
@@ -271,12 +247,18 @@ function TransportHandCarryDetail() {
                                     }
                                 </CCol>
                             </CRow>
-                            <SmartTable
-                                data={DashboardOpsLead?.listEvidenceChecklist}
-                                columns={evidenceChecklistColumns}
-                                minHeight={200}
-                            // filterValue={filterValue}
-                            />
+                            <CCol>
+                                {/* <SmartTable
+                                    data={DashboardOpsLead?.listEvidenceChecklist}
+                                    columns={evidenceChecklistColumns}
+                                    minHeight={200}
+                                /> */}
+                                <TableListHoEvidence
+                                    data={DashboardOpsLead?.listEvidenceChecklist}
+                                    handleUpload={handleUpload}
+                                    handleModalImage={handleModalImage}
+                                />
+                            </CCol>
                         </CCol>
                     </CRow>
                     <br />
