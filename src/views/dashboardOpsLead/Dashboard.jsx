@@ -128,19 +128,19 @@ function Dashboard() {
             },
             {
                 type: 'waitingDispatch',
-                url: '/dashboard-ops-lead/waiting-dispatch/' + projectId
+                url: `/dashboard-ops-lead/waiting-dispatch/${projectId}/${whId}`
             },
             {
                 type: 'deliveryTransit',
-                url: '/dashboard-ops-lead/delivery-transit/' + projectId
+                url: `/dashboard-ops-lead/delivery-transit/${projectId}/${whId}`
             },
             {
                 type: 'deliveryComplete',
-                url: '/dashboard-ops-lead/delivery-complete/' + projectId
+                url: `/dashboard-ops-lead/delivery-complete/${projectId}/${whId}`
             },
             {
                 type: 'masterLocation',
-                url: '/dashboard-ops-lead/master-location/' + projectId
+                url: `/dashboard-ops-lead/master-location/${projectId}/${whId}`
             },
             {
                 type: 'manageInventory',

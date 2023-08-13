@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useEffect } from 'react'
 import { useRedux } from 'src/utils/hooks'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 
 import {
     CButton,
@@ -23,14 +23,17 @@ function DeliveryTransit() {
     const [openModal, setOpenModal] = useState(false)
     const [custOrderRequest, setCustOrderRequest] = useState(null)
     const [itemOrderRequestData, setItemOrderRequestData] = useState([])
+    const { pathname } = useLocation();
     useEffect(() => {
-        const id = window.location.href.split("/").pop();
+        const pId = pathname.split('/')[3]
+        const wId = pathname.split('/')[4]
         if (Global?.user?.userID) {
             dispatch(
-                actions.getActivitySummaryWHProject(Global?.user?.userID, id)
+                actions.getActivitySummaryWHProject(Global?.user?.userID, pId)
             ).then(result => {
-                setDetailProject(result[0])
-                dispatch(actions.getListDeliveryTransit(id, result[0].whId, Global?.user?.userID))
+                const dtProjectFind = result.find(row => row.whId == wId)
+                setDetailProject(dtProjectFind)
+                dispatch(actions.getListDeliveryTransit(pId, wId, Global?.user?.userID))
             })
         }
     }, [Global?.user?.userID]);

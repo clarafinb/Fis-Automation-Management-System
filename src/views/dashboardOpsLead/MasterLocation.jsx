@@ -1,5 +1,6 @@
 import React, { useState, useCallback, useEffect } from 'react'
 import { useRedux } from 'src/utils/hooks'
+import { useLocation } from 'react-router-dom'
 import {
     CButton,
     CCard,
@@ -21,16 +22,19 @@ function MasterLocation() {
     const [openModal, setOpenModal] = useState(false)
     const [routeCategoryList, setRouteCategoryList] = useState([])
     const [projectId, setProjectId] = useState(null)
+    const { pathname } = useLocation();
 
     useEffect(() => {
-        const id = window.location.href.split("/").pop();
-        setProjectId(id)
+        const pId = pathname.split('/')[3]
+        const wId = pathname.split('/')[4]
+        setProjectId(pId)
         if (Global?.user?.userID) {
             dispatch(
-                actions.getActivitySummaryWHProject(Global?.user?.userID, id)
+                actions.getActivitySummaryWHProject(Global?.user?.userID, pId)
             ).then(result => {
-                setDetailProject(result[0])
-                dispatch(actions.getListMasterLocation(id))
+                const dtProjectFind = result.find(row => row.whId == wId)
+                setDetailProject(dtProjectFind)
+                dispatch(actions.getListMasterLocation(pId))
                 dispatch(actions.getSelecRouteCategory()).
                     then(resp => {
                         setRouteCategoryList(resp)
