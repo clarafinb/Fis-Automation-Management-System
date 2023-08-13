@@ -19,7 +19,9 @@ let initialState = {
     listTransportArragementSc: [],
     listOrdeRequestAdditionalService: [],
     listTransportArragement: [],
-    listTransportArrangmentType:[]
+    listTransportArrangmentType: [],
+    listOrdeRequestPickup: [],
+    listPickupPreparation: []
 };
 
 const DashboardOpsLead = (state = initialState, { type, payload }) => {
@@ -142,6 +144,18 @@ const DashboardOpsLead = (state = initialState, { type, payload }) => {
             return {
                 ...state,
                 listTransportArrangmentType: payload
+            }
+
+        case actionType.SET_LIST_ORDER_REQUEST_PICKUP:
+            return {
+                ...state,
+                listOrdeRequestPickup: payload
+            }
+
+        case actionType.SET_LIST_PICKUP_PREPARATION:
+            return {
+                ...state,
+                listPickupPreparation: payload
             }
 
         default:

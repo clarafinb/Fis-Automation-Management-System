@@ -26,13 +26,15 @@ function DeliveryCompleteDetail() {
     const { dispatch, Global } = useRedux()
     const [orderReqDetail, setOrderReqDetail] = useState({})
     const [projectId, setProjectId] = useState("")
+    const [whId, setWhId] = useState("")
     const [orderReqId, setOrderReqId] = useState()
     const [activeKey, setActiveKey] = useState(1)
 
     useEffect(() => {
         const splitUri = window.location.href.split("/");
-        const orderRequestId = splitUri[8]
+        const orderRequestId = splitUri[9]
         setProjectId(splitUri[6])
+        setWhId(splitUri[7])
         setOrderReqId(orderRequestId)
 
         if (Global?.user?.userID) {
@@ -45,7 +47,7 @@ function DeliveryCompleteDetail() {
     }, [Global?.user?.userID]);
 
     const handleBack = () => {
-        nav('/dashboard-ops-lead/delivery-complete/' + projectId);
+        nav('/dashboard-ops-lead/delivery-complete/' + projectId + "/" + whId);
     }
 
     return (

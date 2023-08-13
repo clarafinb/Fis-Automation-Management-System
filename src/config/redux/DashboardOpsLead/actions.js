@@ -66,7 +66,12 @@ import {
     API_GET_TRANSPORT_ARRAGEMENT_DELIVERY,
     API_GET_TRANSPORT_ARRAGEMENT_ORDER_REQ,
     API_ADD_TRANSPORT_ARRAGEMENT,
-    API_GET_DEL_BASE_ROUTE_TYPE
+    API_GET_DEL_BASE_ROUTE_TYPE,
+    API_GET_ORDER_REQUEST_PICKUP,
+    API_DELETE_ORDER_REQUEST_PICKUP,
+    API_EXPORT_EXCEL_ORDER_REQUEST_PICKUP,
+    API_CANCEL_ORDER_REQUEST_PICKUP,
+    API_GET_ORDER_REQUEST_PICKUP_PREPARATION
 } from "../../api/index"
 
 /**************************************** DASHBOARD OPS LEAD ****************************************/
@@ -1815,6 +1820,153 @@ export const addTransportArrangment = (payload) => {
                     confirmButtonText: 'Close'
                 })
             }
+        } catch (error) {
+            Swal.fire({
+                title: 'Error!',
+                text: error.message,
+                icon: 'error',
+                confirmButtonText: 'Close'
+            })
+        }
+    }
+}
+
+export const getListOrderRequestPickup = (projectId, whId, userId) => {
+    return async (dispatch) => {
+        try {
+            const fullParam = `${projectId}/${whId}/${userId}`
+            let list = await actionCrud.actionParamRequest(fullParam, API_GET_ORDER_REQUEST_PICKUP, "GET");
+            let listOrdeRequestPickup = list?.map((item, idx) => {
+                return {
+                    no: idx + 1,
+                    ...item,
+                    detail: {
+                        ...item,
+                        ...{
+                            projectId: projectId,
+                            whId: whId,
+                            userId: whId
+                        }
+                    }
+                }
+            })
+            dispatch({
+                type: actionType.SET_LIST_ORDER_REQUEST_PICKUP,
+                payload: listOrdeRequestPickup
+            });
+        } catch (error) {
+            Swal.fire({
+                title: 'Error!',
+                text: error.message,
+                icon: 'error',
+                confirmButtonText: 'Close'
+            })
+        }
+    }
+}
+
+export const deleteOrderRequestPickup = (payload, projectId, whId) => {
+    return async (dispatch) => {
+        try {
+            let create = await actionCrud.actionCommonCrud(payload, API_DELETE_ORDER_REQUEST_PICKUP, "PUT");
+            if (create.status === "success") {
+                Swal.fire({
+                    position: "center",
+                    icon: "success",
+                    title: create?.message,
+                    showConfirmButton: true
+                });
+                dispatch(getListOrderRequestPickup(projectId, whId, payload.LMBY));
+            } else {
+                Swal.fire({
+                    title: 'Error!',
+                    text: create?.message,
+                    icon: 'error',
+                    confirmButtonText: 'Close'
+                })
+            }
+        } catch (error) {
+            Swal.fire({
+                title: 'Error!',
+                text: error.message,
+                icon: 'error',
+                confirmButtonText: 'Close'
+            })
+        }
+    }
+}
+
+export const getOrderRequestPickupWHProjectExportToExcel = ({ projectId, whId, userId, whCode }) => {
+    return async (dispatch) => {
+        try {
+            const fullParam = `${projectId}/${whId}/${userId}/${whCode}`
+            let data = await actionCrud.actionCommonSliceParamBlob(fullParam, API_EXPORT_EXCEL_ORDER_REQUEST_PICKUP, "GET");
+            return Promise.resolve(data)
+        } catch (error) {
+            Swal.fire({
+                title: 'Error!',
+                text: error.message,
+                icon: 'error',
+                confirmButtonText: 'Close'
+            })
+        }
+    }
+}
+
+export const cancelOrderRequestPickup = (payload, projectId, whId) => {
+    return async (dispatch) => {
+        try {
+            let create = await actionCrud.actionCommonCrud(payload, API_CANCEL_ORDER_REQUEST_PICKUP, "PUT");
+            if (create.status === "success") {
+                Swal.fire({
+                    position: "center",
+                    icon: "success",
+                    title: create?.message,
+                    showConfirmButton: true
+                });
+                dispatch(getListOrderRequestPickup(projectId, whId, payload.LMBY));
+            } else {
+                Swal.fire({
+                    title: 'Error!',
+                    text: create?.message,
+                    icon: 'error',
+                    confirmButtonText: 'Close'
+                })
+            }
+        } catch (error) {
+            Swal.fire({
+                title: 'Error!',
+                text: error.message,
+                icon: 'error',
+                confirmButtonText: 'Close'
+            })
+        }
+    }
+}
+
+export const getListPickupPreparation = (projectId, whId, userId) => {
+    return async (dispatch) => {
+        try {
+            const fullParam = `${projectId}/${whId}/${userId}`
+            let list = await actionCrud.actionParamRequest(fullParam, API_GET_ORDER_REQUEST_PICKUP_PREPARATION, "GET");
+            let listOrdeRequestPickup = list?.map((item, idx) => {
+                return {
+                    no: idx + 1,
+                    ...item,
+                    detail: {
+                        ...item,
+                        ...{
+                            projectId: projectId,
+                            whId: whId,
+                            userId: whId
+                        }
+                    }
+                }
+            })
+            dispatch({
+                type: actionType.SET_LIST_PICKUP_PREPARATION,
+                payload: listOrdeRequestPickup
+            });
         } catch (error) {
             Swal.fire({
                 title: 'Error!',

@@ -44,7 +44,8 @@ function TransportArragmentDetail() {
             transportArrangmentId: split[7],
             transportModeId: split[8],
             projectId: split[9],
-            orderReqId: split[10]
+            orderReqId: split[10],
+            whId: split[11]
         })
 
         if (split[7] && Global?.user?.userID) {
@@ -277,9 +278,9 @@ function TransportArragmentDetail() {
     const handleConfirm = (type) => {
         if (type == "confirm") {
             dispatch(actions.completeTransportArrangement(param?.transportArrangmentId, Global?.user?.userID))
-            nav("/dashboard-ops-lead/waiting-dispatch/" + param?.projectId, { replace: true })
+            nav("/dashboard-ops-lead/waiting-dispatch/" + param?.projectId + "/" + param?.whId, { replace: true })
         } else {
-            nav("/dashboard-ops-lead/waiting-dispatch/" + param?.projectId + "/detail/" + param?.orderReqId, { replace: true })
+            nav("/dashboard-ops-lead/waiting-dispatch/" + param?.projectId + "/" + param?.whId + "/detail/" + param?.orderReqId, { replace: true })
         }
     }
 

@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useEffect } from 'react'
 import { useRedux } from 'src/utils/hooks'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 import {
     CButton,
     CCard,
@@ -34,6 +34,7 @@ function WaitingDispatchDetail() {
     const nav = useNavigate()
     const [orderReqDetail, setOrderReqDetail] = useState({})
     const [projectId, setProjectId] = useState("")
+    const [whId, setWhId] = useState("")
     const [openModal, setOpenModal] = useState(false)
     const [orderReqId, setOrderReqId] = useState()
     const [custOrderRequest, setCustOrderRequest] = useState(null)
@@ -46,16 +47,20 @@ function WaitingDispatchDetail() {
     const [fileUpload, setFileUpload] = useState(null);
     const [templateUrl, setTemplateUrl] = useState("")
     const [values, setValues] = useState({})
+    const { pathname } = useLocation();
 
     useEffect(() => {
-        const splitUri = window.location.href.split("/");
-        const orderRequestId = splitUri[8]
-        setProjectId(splitUri[6])
-        setOrderReqId(orderRequestId)
+        const pId = pathname.split('/')[3]
+        const wId = pathname.split('/')[4]
+        const orId = pathname.split('/')[6]
+
+        setProjectId(pId)
+        setOrderReqId(orId)
+        setWhId(wId)
 
         if (Global?.user?.userID) {
             dispatch(
-                actions.getOrderRequestDetail(orderRequestId)
+                actions.getOrderRequestDetail(orId)
             ).then(result => {
                 setOrderReqDetail(result[0])
             })
@@ -66,7 +71,7 @@ function WaitingDispatchDetail() {
                 setTrasportMode(result)
             })
 
-            dispatch(actions.getTransportArragementOrderReq(orderRequestId))
+            dispatch(actions.getTransportArragementOrderReq(orId))
             // dispatch(actions.getOrderRequestServiceCharge(orderRequestId))
         }
     }, [Global?.user?.userID]);
@@ -81,11 +86,11 @@ function WaitingDispatchDetail() {
         (action, id) => {
             let param = ""
             if (action === 'addTransport') {
-                param = `${id}/${orderReqDetail.transportModeId}/${projectId}/${orderReqId}`
+                param = `${id}/${orderReqDetail.transportModeId}/${projectId}/${orderReqId}/${whId}`
                 nav('/dashboard-ops-lead/waiting-dispatch/transport-arrangment/' + param)
             }
             if (action === 'addHandCarry') {
-                param = `${id}/${orderReqDetail.transportModeId}/${projectId}/${orderReqId}`
+                param = `${id}/${orderReqDetail.transportModeId}/${projectId}/${orderReqId}/${whId}`
                 nav('/dashboard-ops-lead/waiting-dispatch/handcarry-arrangment/' + param)
             }
         }
@@ -182,14 +187,6 @@ function WaitingDispatchDetail() {
         }, [setValues]
     )
 
-    const additionalServiceColumn = [
-        { name: 'no', header: 'No', defaultVisible: true, defaultWidth: 80, type: 'number' },
-        { name: 'serviceChargeCode', header: 'SVC Code', defaultFlex: 1 },
-        { name: 'serviceCharge', header: 'SVC Desc', defaultFlex: 1 },
-        { name: 'uom', header: 'UOM', defaultFlex: 1 },
-        { name: 'serviceQty', header: 'QTY', defaultFlex: 1 },
-    ]
-
     const handleComponentQty = useCallback(
         (projectServiceChargeId) => {
             if (values[projectServiceChargeId]) {
@@ -208,54 +205,8 @@ function WaitingDispatchDetail() {
     )
 
     const handleBack = () => {
-        nav("/dashboard-ops-lead/waiting-dispatch/" + projectId, { replace: true })
+        nav("/dashboard-ops-lead/waiting-dispatch/" + projectId + "/" + whId, { replace: true })
     }
-
-    const additionalServiceChargeColumn = [
-        { name: 'no', header: 'No', defaultVisible: true, defaultWidth: 80, type: 'number' },
-        { name: 'serviceChargeCode', header: 'SVC Code', defaultFlex: 1 },
-        { name: 'serviceCharge', header: 'SVC Desc', defaultFlex: 1 },
-        { name: 'uom', header: 'UOM', defaultFlex: 1 },
-        {
-            name: 'serviceQty',
-            header: 'QTY',
-            defaultFlex: 1,
-            defaultWidth: 80,
-            render: ({ value, cellProps }) => {
-                return (
-                    <>
-                        <CFormInput
-                            className='form-control'
-                            type="text"
-                            name="qty"
-                            onChange={(e) => handleChangeQty(e, cellProps?.data)}
-                        />
-                    </>
-                )
-            }
-        }, {
-            name: 'projectServiceChargeId',
-            header: 'Action',
-            // defaultFlex: 1,
-            textAlign: 'center',
-            defaultWidth: 110,
-            render: ({ value, cellProps }) => {
-                return (
-                    <>
-                        <FontAwesomeIcon
-                            icon={faPlus}
-                            className='textBlue px-2'
-                            title='Order Request'
-                            size='sm'
-                            onClick={() =>
-                                handleComponentQty(value)
-                            }
-                        />
-                    </>
-                )
-            }
-        },
-    ]
 
     const transportArragementColumn = [
         { name: 'no', header: 'No', defaultVisible: true, defaultWidth: 80, type: 'number' },

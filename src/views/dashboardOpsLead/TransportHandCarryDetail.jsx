@@ -44,13 +44,15 @@ function TransportHandCarryDetail() {
         const transModId = pathname.split('/')[5]
         const pId = pathname.split('/')[6]
         const oId = pathname.split('/')[7]
+        const wId = pathname.split('/')[8]
         getLocation()
 
         setParam({
             transportArrangementId: transArrId,
             transportModeId: transModId,
             projectId: pId,
-            orderReqId: oId
+            orderReqId: oId,
+            whId: wId,
         })
 
         if (transArrId && Global?.user?.userID) {
@@ -176,7 +178,7 @@ function TransportHandCarryDetail() {
     }
 
     const handleCancel = () => {
-        nav("/dashboard-ops-lead/waiting-dispatch/" + param?.projectId + "/detail/" + param?.orderReqId, { replace: true })
+        nav("/dashboard-ops-lead/waiting-dispatch/" + param?.projectId + "/" + param?.whId + "/detail/" + param?.orderReqId, { replace: true })
     }
 
     const handleConfirm = (event) => {
@@ -193,7 +195,7 @@ function TransportHandCarryDetail() {
         dispatch(
             actions.actDeliveryCompleteWithoutAssignment(payload)
         ).then(() => {
-            nav("/dashboard-ops-lead/waiting-dispatch/" + param?.projectId + "/detail/" + param?.orderReqId, { replace: true })
+            nav("/dashboard-ops-lead/waiting-dispatch/" + param?.projectId + "/" + param?.whId + "/detail/" + param?.orderReqId, { replace: true })
         })
     }
 

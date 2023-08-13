@@ -211,3 +211,11 @@ export const API_GET_EVIDENCE_CHECKLIST_PROJECT_NOT_REGISTERED = BASE_URL + "mas
 export const API_ADD_EVIDENCE_CHECKLIST_PROJECT = BASE_URL + "masterdata/addProjectEvidenceChecklist"
 export const API_SET_ACTIVE_EVIDENCE_CHECKLIST_PROJECT = BASE_URL + "masterdata/projectEvidenceChecklistSetIsActive"
 export const API_SET_INACTIVE_EVIDENCE_CHECKLIST_PROJECT = BASE_URL + "masterdata/projectEvidenceChecklistSetIsInActive"
+//ORDER REQUEST PICKUP
+export const API_GET_ORDER_REQUEST_PICKUP = BASE_URL + "logmanagement/getOrderRequestPickupWHProject"
+export const API_CANCEL_ORDER_REQUEST_PICKUP = BASE_URL + "logmanagement/cancelOrderRequestWHProject"
+export const API_DELETE_ORDER_REQUEST_PICKUP = BASE_URL + "logmanagement/deleteOrderRequestWHProject"
+export const API_EXPORT_EXCEL_ORDER_REQUEST_PICKUP = BASE_URL + "logmanagement/getOrderRequestPickupWHProjectExportToExcel"
+// PICKUP PREPARATION
+export const API_GET_ORDER_REQUEST_PICKUP_PREPARATION = BASE_URL + "logmanagement/getOrderRequestPickupPreparationWHProject"
+export const API_COMPLETE_PICKUP_PREPARATION = BASE_URL + "logmanagement/pickupPreparationComplete"

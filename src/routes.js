@@ -36,6 +36,8 @@ const DeliveryComplete = React.lazy(() => import('./views/dashboardOpsLead/deliv
 const DeliveryCompleteDetail = React.lazy(() => import('./views/dashboardOpsLead/deliveryComplete/DeliveryCompleteDetail'))
 const MasterLocation = React.lazy(() => import('./views/dashboardOpsLead/MasterLocation'))
 const ManageInventory = React.lazy(() => import('./views/dashboardOpsLead/ManageInventory'))
+const OrderRequestPickup = React.lazy(() => import('./views/dashboardOpsLead/orderRequestPickup/OrderRequestPickup'))
+const PickupPreparation = React.lazy(() => import('./views/dashboardOpsLead/pickupPreparation/PickupPreparation'))
 // const Colors = React.lazy(() => import('./views/theme/colors/Colors'))
 // DASHBOARD WH TEAM
 const DashboardWhTeam = React.lazy(() => import('./views/dashboardWhTeam/Dashboard'))
@@ -70,15 +72,17 @@ const routes = [
   { path: '/dashboard-ops-lead/pick-pack/progress/:projectId/:whId', name: 'PICK AND PACK PROGRESS', element: PickAndPackProgress },
   { path: '/dashboard-ops-lead/pick-pack/progress/:projectId/:whId/detail/:orderReqId', name: 'PICK AND PACK PROGRESS DETAIL', element: PickAndPackProgressDetail },
   { path: '/dashboard-ops-lead/waiting-dispatch/:projectId/:whId', name: 'WAITING DELIVERY', element: WaitingDispatch },
-  { path: '/dashboard-ops-lead/waiting-dispatch/:projectId/detail/:orderReqId', name: 'WAITING DELIVERY DETAIL', element: WaitingDispatchDetail },
-  { path: '/dashboard-ops-lead/waiting-dispatch/transport-arrangment/:transportArrangmentId/:transportModeId/:projectId/:orderReqId', name: 'TRANSPORT ARRANGMENT DETAIL', element: TransportArrangmentDetail },
-  { path: '/dashboard-ops-lead/waiting-dispatch/handcarry-arrangment/:transportArrangmentId/:transportModeId/:projectId/:orderReqId', name: 'TRANSPORT ARRANGMENT DETAIL', element: TransportHandCarryDetail },
+  { path: '/dashboard-ops-lead/waiting-dispatch/:projectId/:whId/detail/:orderReqId', name: 'WAITING DELIVERY DETAIL', element: WaitingDispatchDetail },
+  { path: '/dashboard-ops-lead/waiting-dispatch/transport-arrangment/:transportArrangmentId/:transportModeId/:projectId/:orderReqId/:whId', name: 'TRANSPORT ARRANGMENT DETAIL', element: TransportArrangmentDetail },
+  { path: '/dashboard-ops-lead/waiting-dispatch/handcarry-arrangment/:transportArrangmentId/:transportModeId/:projectId/:orderReqId/:whId', name: 'TRANSPORT ARRANGMENT DETAIL', element: TransportHandCarryDetail },
   { path: '/dashboard-ops-lead/delivery-transit/:projectId/:whId', name: 'DELIVERY TRANSIT', element: DeliveryTransit },
-  { path: '/dashboard-ops-lead/delivery-transit/:projectId/detail/:orderReqId', name: 'DELIVERY TRANSIT DETAIL', element: DeliveryTransitDetail },
+  { path: '/dashboard-ops-lead/delivery-transit/:projectId/:whId/detail/:orderReqId', name: 'DELIVERY TRANSIT DETAIL', element: DeliveryTransitDetail },
   { path: '/dashboard-ops-lead/delivery-complete/:projectId/:whId', name: 'DELIVERY COMPLETE', element: DeliveryComplete },
-  { path: '/dashboard-ops-lead/delivery-complete/:projectId/detail/:orderReqId', name: 'DELIVERY COMPLETE DETAIL', element: DeliveryCompleteDetail },
+  { path: '/dashboard-ops-lead/delivery-complete/:projectId/:whId/detail/:orderReqId', name: 'DELIVERY COMPLETE DETAIL', element: DeliveryCompleteDetail },
   { path: '/dashboard-ops-lead/master-location/:projectId/:whId', name: 'MASTER LOCAITON', element: MasterLocation },
   { path: '/dashboard-ops-lead/manage-inventory/:whId/:whCode/:whName', name: 'MANAGE INVENTORY', element: ManageInventory },
+  { path: '/order-request-pickup/:projectId/:whId', name: 'ORDER REQUEST PICKUP', element: OrderRequestPickup },
+  { path: '/pickup-preparation/:projectId/:whId', name: 'PICKUP PREPARATION', element: PickupPreparation },
   // DASHBOARD WH TEAM
   { path: '/dashboard-wh', name: 'DASHBOARD', element: DashboardWhTeam },
 

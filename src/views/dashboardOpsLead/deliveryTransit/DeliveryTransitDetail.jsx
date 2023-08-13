@@ -25,7 +25,7 @@ import { faMap, faPlus, faUpload } from '@fortawesome/free-solid-svg-icons'
 import moment from 'moment/moment'
 import Swal from 'sweetalert2'
 import ModalOpenMap from 'src/components/dashboard/masterWarehouse/warehouse/ModalOpenMap'
-import {useNavigate} from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 
 function DeliveryTransitDetail() {
@@ -34,6 +34,7 @@ function DeliveryTransitDetail() {
     const [detailProject, setDetailProject] = useState({})
     const [orderReqDetail, setOrderReqDetail] = useState({})
     const [projectId, setProjectId] = useState("")
+    const [whId, setWhId] = useState("")
     const [openModal, setOpenModal] = useState(false)
     const [orderReqId, setOrderReqId] = useState()
     const [custOrderRequest, setCustOrderRequest] = useState(null)
@@ -57,8 +58,9 @@ function DeliveryTransitDetail() {
 
     useEffect(() => {
         const splitUri = window.location.href.split("/");
-        const orderRequestId = splitUri[8]
+        const orderRequestId = splitUri[9]
         setProjectId(splitUri[6])
+        setWhId(splitUri[7])
         setOrderReqId(orderRequestId)
 
         if (Global?.user?.userID) {

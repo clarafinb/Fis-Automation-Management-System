@@ -145,6 +145,14 @@ function Dashboard() {
             {
                 type: 'manageInventory',
                 url: `/dashboard-ops-lead/manage-inventory/${whId}/${whCode}/${whName}`
+            },
+            {
+                type: 'orderRequestPickup',
+                url: `/order-request-pickup/${projectId}/${whId}`
+            },
+            {
+                type: 'pickupPreparation',
+                url: `/pickup-preparation/${projectId}/${whId}`
             }
         ]
 
@@ -423,7 +431,7 @@ function Dashboard() {
                                                                     <CCol className="d-grid gap-2">
                                                                         <CButton
                                                                             className="colorBtn-yellow"
-                                                                        // onClick={() => handleNavigator("orderRequest", detailWarehouse)}
+                                                                            onClick={() => handleNavigator("orderRequestPickup", detailWarehouse)}
                                                                         >
                                                                             DETAIL
                                                                         </CButton>
@@ -437,7 +445,7 @@ function Dashboard() {
                                                         <CCard className='mb-3' >
                                                             <CCardBody>
                                                                 <CCardText className='px-3 text-center'>
-                                                                    <p>WAITING PICKUP</p>
+                                                                    <p>PICKUP PREPARATION</p>
                                                                     <hr />
                                                                     <h3>{detailWarehouse?.waitingPickupCount}</h3>
                                                                 </CCardText>
@@ -445,7 +453,7 @@ function Dashboard() {
                                                                     <CCol className="d-grid gap-2">
                                                                         <CButton
                                                                             className="colorBtn-yellow"
-                                                                        // onClick={() => handleNavigator("orderRequest", detailWarehouse)}
+                                                                            onClick={() => handleNavigator("pickupPreparation", detailWarehouse)}
                                                                         >
                                                                             DETAIL
                                                                         </CButton>
