@@ -121,22 +121,16 @@ function PickupPreparationDetail() {
             orderReqId: orderReqId,
             deliveryModeId: selectedDeliveryRequest?.value,
             transportModeId: selectedTransportMode?.value,
-            totalCollies: values?.totalCollies,
-            totalVolume: values?.totalVolume,
             LMBY: Global?.user?.userID
         }
 
-        const err = []
-        if (payload.deliveryModeId === undefined) err.push('Delivery Request Final')
-        if (payload.transportModeId === undefined) err.push('Transport Mode Final')
+        dispatch(actions.pickupPreparationComplete(payload))
+            .then(resp => {
+                if (resp === "success") {
+                    handleBack()
+                }
+            })
 
-        if (err.length > 0) {
-            setErrMessage(err.join(' , '))
-            setVisible(true)
-        } else {
-            dispatch(actions.pickandPackComplete(payload))
-            handleBack()
-        }
     }
 
     const handleComponentQty = useCallback(
