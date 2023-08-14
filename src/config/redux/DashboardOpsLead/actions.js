@@ -71,7 +71,8 @@ import {
     API_DELETE_ORDER_REQUEST_PICKUP,
     API_EXPORT_EXCEL_ORDER_REQUEST_PICKUP,
     API_CANCEL_ORDER_REQUEST_PICKUP,
-    API_GET_ORDER_REQUEST_PICKUP_PREPARATION
+    API_GET_ORDER_REQUEST_PICKUP_PREPARATION,
+    API_COMPLETE_PICKUP_PREPARATION
 } from "../../api/index"
 
 /**************************************** DASHBOARD OPS LEAD ****************************************/
@@ -1967,6 +1968,37 @@ export const getListPickupPreparation = (projectId, whId, userId) => {
                 type: actionType.SET_LIST_PICKUP_PREPARATION,
                 payload: listOrdeRequestPickup
             });
+        } catch (error) {
+            Swal.fire({
+                title: 'Error!',
+                text: error.message,
+                icon: 'error',
+                confirmButtonText: 'Close'
+            })
+        }
+    }
+}
+
+export const pickupPreparationComplete = (payload) => {
+    return async (dispatch) => {
+        try {
+            let create = await actionCrud.actionCommonCrud(payload, API_COMPLETE_PICKUP_PREPARATION, "PUT");
+            if (create.status === "success") {
+                Swal.fire({
+                    position: "center",
+                    icon: "success",
+                    title: create?.message,
+                    showConfirmButton: true
+                });
+            } else {
+                Swal.fire({
+                    title: 'Error!',
+                    text: create?.message,
+                    icon: 'error',
+                    confirmButtonText: 'Close'
+                })
+            }
+            return Promise.resolve(create.status)
         } catch (error) {
             Swal.fire({
                 title: 'Error!',

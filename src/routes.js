@@ -38,6 +38,7 @@ const MasterLocation = React.lazy(() => import('./views/dashboardOpsLead/MasterL
 const ManageInventory = React.lazy(() => import('./views/dashboardOpsLead/ManageInventory'))
 const OrderRequestPickup = React.lazy(() => import('./views/dashboardOpsLead/orderRequestPickup/OrderRequestPickup'))
 const PickupPreparation = React.lazy(() => import('./views/dashboardOpsLead/pickupPreparation/PickupPreparation'))
+const PickupPreparationDetail = React.lazy(() => import('./views/dashboardOpsLead/pickupPreparation/PickupPreparationDetail'))
 // const Colors = React.lazy(() => import('./views/theme/colors/Colors'))
 // DASHBOARD WH TEAM
 const DashboardWhTeam = React.lazy(() => import('./views/dashboardWhTeam/Dashboard'))
@@ -83,6 +84,7 @@ const routes = [
   { path: '/dashboard-ops-lead/manage-inventory/:whId/:whCode/:whName', name: 'MANAGE INVENTORY', element: ManageInventory },
   { path: '/order-request-pickup/:projectId/:whId', name: 'ORDER REQUEST PICKUP', element: OrderRequestPickup },
   { path: '/pickup-preparation/:projectId/:whId', name: 'PICKUP PREPARATION', element: PickupPreparation },
+  { path: '/pickup-preparation/:projectId/:whId/detail/:orderReqId', name: 'PICKUP PREPARATION DETAIL', element: PickupPreparationDetail },
   // DASHBOARD WH TEAM
   { path: '/dashboard-wh', name: 'DASHBOARD', element: DashboardWhTeam },
 
