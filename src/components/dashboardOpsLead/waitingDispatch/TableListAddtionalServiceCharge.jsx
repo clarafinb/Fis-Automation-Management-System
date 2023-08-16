@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useCallback, useState } from 'react'
 import {
     CButton,
     CCol,
@@ -8,12 +8,46 @@ import {
 import CIcon from '@coreui/icons-react'
 import { cilPlus } from '@coreui/icons'
 import DataGrid from 'src/components/custom/table/DataGrid'
+import * as actions from '../../../config/redux/DashboardOpsLead/actions'
+import { useRedux } from 'src/utils/hooks'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faPlus } from '@fortawesome/free-solid-svg-icons'
+import SmartTable from 'src/components/custom/table/SmartTable'
 
 function TableListAddtionalServiceCharge({
     data,
-    handleChangeQty,
-    handleComponentQty
+    transportArrangmentId
 }) {
+    const { dispatch, Global } = useRedux()
+    const [values, setValues] = useState({})
+
+    const handleComponentQty = useCallback(
+        (projectServiceChargeId) => {
+            if (values[projectServiceChargeId]) {
+                let payload = {
+                    transportArrangmentId: transportArrangmentId,
+                    projectServiceChargeId: projectServiceChargeId,
+                    serviceQty: values[projectServiceChargeId],
+                    LMBY: Global?.user?.userID
+                }
+
+                dispatch(actions.addTransportArrangmentServiceCharge(payload))
+            } else {
+                alert("Qty is Empty !")
+            }
+        }
+    )
+
+    const handleChangeQty = useCallback(
+        (e, data) => {
+            const { value } = e.target;
+            setValues((prev) => ({
+                ...prev,
+                [data?.projectServiceChargeId]: value
+            }));
+
+        }, [setValues]
+    )
 
     const handleAction = (projectServiceChargeId) => {
         return (
@@ -41,6 +75,7 @@ function TableListAddtionalServiceCharge({
                     name="qty"
                     onChange={(e) => handleChangeQty(e, selectedData)}
                 />
+
             </>
         )
     }
@@ -55,6 +90,7 @@ function TableListAddtionalServiceCharge({
             headerName: 'QTY',
             cellStyle: { textAlign: 'center' },
             filter: false,
+            editable: true,
             cellRenderer: ({ data }) => {
                 return handleInputQty(data)
             }
@@ -71,13 +107,42 @@ function TableListAddtionalServiceCharge({
         },
     ];
 
+    const additionalServiceChargeColumn = [
+        { name: 'no', header: 'No', defaultVisible: true, defaultWidth: 80, type: 'number' },
+        { name: 'serviceChargeCode', header: 'SVC Code', defaultFlex: 1 },
+        { name: 'serviceCharge', header: 'SVC Desc', defaultFlex: 1 },
+        { name: 'uom', header: 'UOM', defaultFlex: 1 },
+        {
+            name: 'serviceQty',
+            header: 'QTY',
+            defaultFlex: 1,
+            defaultWidth: 80,
+            render: ({ data }) => {
+                return handleInputQty(data)
+            }
+        }, {
+            name: 'projectServiceChargeId',
+            header: 'Action',
+            textAlign: 'center',
+            defaultWidth: 110,
+            render: ({ value }) => {
+                return handleAction(value)
+            }
+        },
+    ]
+
     return (
         <CRow>
             <CCol className="d-none d-md-block text-end">
-                <DataGrid
+                {/* <DataGrid
                     data={data}
                     columns={columns}
                     minHeight={400}
+                /> */}
+                <SmartTable
+                    data={data}
+                    columns={additionalServiceChargeColumn}
+                    minHeight={200}
                 />
             </CCol>
         </CRow>

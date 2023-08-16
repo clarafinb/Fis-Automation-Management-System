@@ -90,11 +90,11 @@ function WaitingDispatchDetail() {
             let param = ""
             if (action === 'addTransport') {
                 param = `${id}/${orderReqDetail.transportModeId}/${projectId}/${orderReqId}/${whId}`
-                nav('/waiting-dispatch/transport-arrangment/' + param)
+                nav('/waiting-dispatch/transport-arrangment/' + param, { replace: true })
             }
             if (action === 'addHandCarry') {
                 param = `${id}/${orderReqDetail.transportModeId}/${projectId}/${orderReqId}/${whId}`
-                nav('/waiting-dispatch/handcarry-arrangment/' + param)
+                nav('/waiting-dispatch/handcarry-arrangment/' + param, { replace: true })
             }
         }
     )

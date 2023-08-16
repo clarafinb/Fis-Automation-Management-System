@@ -231,6 +231,20 @@ function PickAndPackDetail() {
                                     </CRow>
                                     <CRow className="mb-4">
                                         <CFormLabel
+                                            className="col-form-label">Stock Inbound Type
+                                        </CFormLabel>
+                                        <CCol>
+                                            <CFormInput
+                                                type="text"
+                                                name="inboundType"
+                                                value={orderReqDetail?.inboundType}
+                                                readOnly
+                                                disabled
+                                            />
+                                        </CCol>
+                                    </CRow>
+                                    <CRow className="mb-4">
+                                        <CFormLabel
                                             className="col-form-label">Route Type
                                         </CFormLabel>
                                         <CCol>

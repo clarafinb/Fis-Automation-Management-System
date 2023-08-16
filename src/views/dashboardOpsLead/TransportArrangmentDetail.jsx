@@ -66,40 +66,6 @@ function TransportArragmentDetail() {
         }
     )
 
-    const handleComponentQty = useCallback(
-        (projectServiceChargeId) => {
-            if (values[projectServiceChargeId]) {
-                let payload = {
-                    transportArrangmentId: param.transportArrangmentId,
-                    projectServiceChargeId: projectServiceChargeId,
-                    serviceQty: values[projectServiceChargeId],
-                    LMBY: Global?.user?.userID
-                }
-
-                dispatch(actions.addTransportArrangmentServiceCharge(payload))
-            } else {
-                alert("Qty is Empty !")
-            }
-        }
-    )
-
-    const handleChangeQty = useCallback(
-        (e, data) => {
-
-            console.log(e)
-
-            const { value } = e.target;
-
-            setValues((prev) => ({
-                ...prev,
-                [data?.projectServiceChargeId]: value
-            }));
-
-        }, [setValues]
-    )
-
-
-
     const handleCreateTransportArrangmentType = async () => {
 
         let listTransportType = await dispatch(actions.getTransportTypeList(param?.transportModeId))
@@ -286,8 +252,6 @@ function TransportArragmentDetail() {
                 open={openModalSc}
                 setOpen={setOpenModalSc}
                 data={param}
-                handleChangeQty={handleChangeQty}
-                handleComponentQty={handleComponentQty}
             />
         </>
     )

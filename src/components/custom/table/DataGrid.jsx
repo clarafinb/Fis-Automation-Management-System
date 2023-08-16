@@ -45,6 +45,7 @@ function DataGrid({
                         defaultColDef={defaultColDef}
                         animateRows={true}
                         rowSelection={'multiple'}
+                        enableCellTextSelection={true}
                         pagination={true}
                         paginationPageSize={50}
                     />

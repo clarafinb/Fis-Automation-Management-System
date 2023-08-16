@@ -16,8 +16,6 @@ function ModalAdditionalServiceCharge({
     open,
     setOpen,
     data,
-    handleChangeQty,
-    handleComponentQty
 }) {
     const { dispatch, Global, DashboardOpsLead } = useRedux()
 
@@ -41,8 +39,7 @@ function ModalAdditionalServiceCharge({
                     <CCol className="d-none d-md-block text-end">
                         <TableListAddtionalServiceCharge
                             data={DashboardOpsLead?.listOrdeRequestAdditionalService}
-                            handleChangeQty={handleChangeQty}
-                            handleComponentQty={handleComponentQty}
+                            transportArrangmentId={data?.transportArrangmentId}
                         />
                     </CCol>
                 </CRow>
