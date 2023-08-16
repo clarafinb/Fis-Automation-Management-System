@@ -7,7 +7,6 @@ import {
     CCard,
     CCardBody,
     CCol,
-    CFormInput,
     CFormLabel,
     CFormSelect,
     CModal,
@@ -20,12 +19,13 @@ import {
 
 import * as actions from '../../config/redux/DashboardOpsLead/actions'
 import CIcon from '@coreui/icons-react'
-import { cilFile, cilPlus } from '@coreui/icons'
-import SmartTable from 'src/components/custom/table/SmartTable'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faArrowRight, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons'
+import { cilPlus } from '@coreui/icons'
 import ButtonSubmit from 'src/components/custom/button/ButtonSubmit'
 import ButtonCancel from 'src/components/custom/button/ButtonCancel'
+import TableListCustomerOrderRequestList from 'src/components/dashboardOpsLead/waitingDispatch/TableListCustomerOrderRequestList'
+import TableListTransportTypeAndDispatcher from 'src/components/dashboardOpsLead/waitingDispatch/TableListTransportTypeAndDispatcher'
+import TableListServiceCharge from 'src/components/dashboardOpsLead/waitingDispatch/TableListServiceCharge'
+import ModalAdditionalServiceCharge from 'src/components/dashboardOpsLead/waitingDispatch/ModalAdditionalServiceCharge'
 
 function TransportArragmentDetail() {
     const nav = useNavigate();
@@ -41,17 +41,17 @@ function TransportArragmentDetail() {
         const split = window.location.href.split("/");
 
         setParam({
-            transportArrangmentId: split[7],
-            transportModeId: split[8],
-            projectId: split[9],
-            orderReqId: split[10],
-            whId: split[11]
+            transportArrangmentId: split[6],
+            transportModeId: split[7],
+            projectId: split[8],
+            orderReqId: split[9],
+            whId: split[10]
         })
 
-        if (split[7] && Global?.user?.userID) {
-            dispatch(actions.getOrderRequestTransportArrangment(split[7]))
-            dispatch(actions.getTransportTypeArranged(split[7]))
-            dispatch(actions.getTransportArrangmentServiceChargeList(split[7]))
+        if (split[6] && Global?.user?.userID) {
+            dispatch(actions.getOrderRequestTransportArrangment(split[6]))
+            dispatch(actions.getTransportTypeArranged(split[6]))
+            dispatch(actions.getTransportArrangmentServiceChargeList(split[6]))
         }
     }, [Global?.user?.userID]);
 
@@ -86,6 +86,8 @@ function TransportArragmentDetail() {
     const handleChangeQty = useCallback(
         (e, data) => {
 
+            console.log(e)
+
             const { value } = e.target;
 
             setValues((prev) => ({
@@ -96,139 +98,7 @@ function TransportArragmentDetail() {
         }, [setValues]
     )
 
-    const filterValue = [
-        { name: 'no', operator: 'startsWith', type: 'string', value: '' },
-        { name: 'transportArrRefId', operator: 'startsWith', type: 'string', value: '' },
-        { name: 'deliveryMode', operator: 'startsWith', type: 'string', value: '' },
-        { name: 'transportMode', operator: 'startsWith', type: 'string', value: '' },
-        { name: 'orderReqNo', operator: 'startsWith', type: 'string', value: '' },
-        { name: 'requestorName', operator: 'startsWith', type: 'string', value: '' },
-        { name: 'transportReqType', operator: 'startsWith', type: 'string', value: '' },
-        { name: 'origin', operator: 'startsWith', type: 'string', value: '' },
-        { name: 'destination', operator: 'startsWith', type: 'string', value: '' },
-        { name: 'pickandpackcompletedate', operator: 'startsWith', type: 'string', value: '' },
-        { name: 'mainDispatcherName', operator: 'startsWith', type: 'string', value: '' },
-        { name: 'transportName', operator: 'startsWith', type: 'string', value: '' },
-        { name: 'serviceChargeCode', operator: 'startsWith', type: 'string', value: '' },
-        { name: 'serviceCharge', operator: 'startsWith', type: 'string', value: '' },
-        { name: 'uom', operator: 'startsWith', type: 'string', value: '' },
-        { name: 'serviceQty', operator: 'startsWith', type: 'string', value: '' }
-    ]
 
-    const requestTransportArrangmentColumns = [
-        { name: 'no', header: 'No', defaultVisible: true, defaultWidth: 80, type: 'number' },
-        { name: 'transportArrRefId', header: 'Arrangement Ref Id', defaultFlex: 1 },
-        { name: 'deliveryMode', header: 'Delivery Mode', defaultFlex: 1 },
-        { name: 'transportMode', header: 'Transport Mode', defaultFlex: 1 },
-        { name: 'orderReqNo', header: 'Cust Order Req No', defaultFlex: 1 },
-        { name: 'requestorName', header: 'Customer Requestor', defaultFlex: 1 },
-        { name: 'origin', header: 'Origin', defaultFlex: 1 },
-        { name: 'destination', header: 'Destination', defaultFlex: 1 },
-        { name: 'pickandpackCompleteDate', header: 'Pick And Pack Complete Date', defaultFlex: 1 },
-    ]
-
-    const transportTypeAndDispatcherColumns = [
-        { name: 'no', header: 'No', defaultVisible: true, defaultWidth: 80, type: 'number' },
-        { name: 'transportName', header: 'Transport Type', defaultFlex: 1 },
-        { name: 'mainDispatcherName', header: 'Dispatcher', defaultFlex: 1 },
-        { name: 'pickandpackCompleteDate', header: 'Create Date', defaultFlex: 1 },
-        {
-            name: 'transportTypeArrangementId',
-            header: 'Action',
-            defaultFlex: 1,
-            defaultWidth: 80,
-            render: ({ value, cellProps }) => {
-                return (
-                    <>
-                        <FontAwesomeIcon
-                            icon={faTrash}
-                            className='textBlue px-2'
-                            title='Order Request'
-                            size='sm'
-                            onClick={() =>
-                                handleComponent("delTransportType", value)
-                            }
-                        />
-                    </>
-                )
-            }
-        }
-    ]
-
-    const serviceChargeColumns = [
-        { name: 'no', header: 'No', defaultVisible: true, defaultWidth: 80, type: 'number' },
-        { name: 'serviceChargeCode', header: 'SVC Code', defaultFlex: 1 },
-        { name: 'serviceCharge', header: 'SVC Desc', defaultFlex: 1 },
-        { name: 'uom', header: 'UOM', defaultFlex: 1 },
-        { name: 'serviceQty', header: 'QTY', defaultFlex: 1 },
-        {
-            name: 'transportArrangementServiceId',
-            header: 'Action',
-            defaultFlex: 1,
-            defaultWidth: 80,
-            render: ({ value, cellProps }) => {
-                return (
-                    <>
-                        <FontAwesomeIcon
-                            icon={faTrash}
-                            className='textBlue px-2'
-                            title='Order Request'
-                            size='sm'
-                            onClick={() =>
-                                handleComponent("delServiceCharge", value)
-                            }
-                        />
-                    </>
-                )
-            }
-        }
-    ]
-
-    const additionalServiceChargeColumn = [
-        { name: 'no', header: 'No', defaultVisible: true, defaultWidth: 80, type: 'number' },
-        { name: 'serviceChargeCode', header: 'SVC Code', defaultFlex: 1 },
-        { name: 'serviceCharge', header: 'SVC Desc', defaultFlex: 1 },
-        { name: 'uom', header: 'UOM', defaultFlex: 1 },
-        {
-            name: 'serviceQty',
-            header: 'QTY',
-            defaultFlex: 1,
-            defaultWidth: 80,
-            render: ({ value, cellProps }) => {
-                return (
-                    <>
-                        <CFormInput
-                            className='form-control'
-                            type="text"
-                            name="qty"
-                            onChange={(e) => handleChangeQty(e, cellProps?.data)}
-                        />
-                    </>
-                )
-            }
-        }, {
-            name: 'projectServiceChargeId',
-            header: 'Action',
-            // defaultFlex: 1,
-            textAlign: 'center',
-            defaultWidth: 110,
-            render: ({ value, cellProps }) => {
-                return (
-                    <>
-                        <FontAwesomeIcon
-                            icon={faPlus}
-                            className='textBlue px-2'
-                            title='Order Request'
-                            size='sm'
-                            onClick={() =>
-                                handleComponentQty(value)
-                            }
-                        />
-                    </>
-                )
-            }
-        },
-    ]
 
     const handleCreateTransportArrangmentType = async () => {
 
@@ -243,8 +113,6 @@ function TransportArragmentDetail() {
 
     const handleCreateServiceCharge = async () => {
         setOpenModalSc(true)
-
-        dispatch(actions.getServiceChargeList(param?.transportArrangmentId, param?.projectId))
     }
 
     const handleAddTransportType = () => {
@@ -278,9 +146,9 @@ function TransportArragmentDetail() {
     const handleConfirm = (type) => {
         if (type == "confirm") {
             dispatch(actions.completeTransportArrangement(param?.transportArrangmentId, Global?.user?.userID))
-            nav("/dashboard-ops-lead/waiting-dispatch/" + param?.projectId + "/" + param?.whId, { replace: true })
+            nav("/waiting-dispatch/" + param?.projectId + "/" + param?.whId, { replace: true })
         } else {
-            nav("/dashboard-ops-lead/waiting-dispatch/" + param?.projectId + "/" + param?.whId + "/detail/" + param?.orderReqId, { replace: true })
+            nav("/waiting-dispatch/" + param?.projectId + "/" + param?.whId + "/detail/" + param?.orderReqId, { replace: true })
         }
     }
 
@@ -292,7 +160,7 @@ function TransportArragmentDetail() {
                     <CRow>
                         <CCol sm={5}>
                             <h4 className="card-title mb-0">
-                                Waiting Delivery
+                                <span className='text-underline'>WAITING DELIVERY</span>
                             </h4>
                         </CCol>
                     </CRow>
@@ -301,16 +169,13 @@ function TransportArragmentDetail() {
                         <CCol>
                             <CRow>
                                 <CCol>
-                                    <h5 className="card-title mb-0">
-                                        Customer Order Request List
+                                    <h5 className="card-title mb-2">
+                                        CUSTOMER ORDER REQUEST LIST
                                     </h5>
                                 </CCol>
                             </CRow>
-                            <SmartTable
+                            <TableListCustomerOrderRequestList
                                 data={DashboardOpsLead?.listRequestTransportArragement}
-                                columns={requestTransportArrangmentColumns}
-                                minHeight={200}
-                            // filterValue={filterValue}
                             />
                         </CCol>
                     </CRow>
@@ -320,58 +185,51 @@ function TransportArragmentDetail() {
                             <CRow>
                                 <CCol>
                                     <h5 className="card-title mb-0">
-                                        Transport Type And Dispatcher
+                                        TRANSPORT TYPE AND DISPATCHER
                                     </h5>
                                 </CCol>
                                 <CCol className="d-none d-md-block text-end">
-                                    <CIcon
-                                        icon={cilPlus}
-                                        className="me-2 text-default"
-                                        size="xl"
-                                        onClick={handleCreateTransportArrangmentType}
-                                    />
+                                    <CButton
+                                        className="colorBtn-white mb-2"
+                                        onClick={handleCreateTransportArrangmentType}>
+                                        <CIcon icon={cilPlus} className="me-2 text-warning" />
+                                        ADD TRANSPORT TYPE AND DISPATCHER
+                                    </CButton>
                                 </CCol>
                             </CRow>
-                            <SmartTable
+                            <TableListTransportTypeAndDispatcher
                                 data={DashboardOpsLead?.listTransportArrangmentType}
-                                columns={transportTypeAndDispatcherColumns}
-                                minHeight={200}
-                            // filterValue={filterValue}
+                                handleComponent={handleComponent}
                             />
                         </CCol>
                     </CRow>
-                    <br />
                     <br />
                     <CRow className='py-2'>
                         <CCol>
                             <CRow>
                                 <CCol>
                                     <h5 className="card-title mb-0">
-                                        Service Charge
+                                        SERVICE CHARGE
                                     </h5>
                                 </CCol>
                                 <CCol className="d-none d-md-block text-end">
-                                    <CIcon
-                                        icon={cilPlus}
-                                        className="me-2 text-default"
-                                        size="xl"
-                                        onClick={handleCreateServiceCharge}
-                                    />
+                                    <CButton
+                                        className="colorBtn-white mb-2"
+                                        onClick={handleCreateServiceCharge}>
+                                        <CIcon icon={cilPlus} className="me-2 text-warning" />
+                                        ADD SERVICE CHARGE
+                                    </CButton>
                                 </CCol>
                             </CRow>
-                            <SmartTable
+                            <TableListServiceCharge
                                 data={DashboardOpsLead?.listTransportArragementSc}
-                                columns={serviceChargeColumns}
-                                minHeight={200}
-                            // filterValue={filterValue}
+                                handleComponent={handleComponent}
                             />
                         </CCol>
                     </CRow>
                     <br />
                     <CRow className='py-2'>
                         <CCol className='text-end'>
-                            {/* <CButton onClick={() => handleConfirm("confirm")} color="success">Confirm</CButton>
-                            <CButton onClick={() => handleConfirm("cancel")} color="secondary">Cancel</CButton> */}
                             <ButtonSubmit
                                 label='CONFIRM'
                                 handleButton={() => handleConfirm("confirm")}
@@ -423,30 +281,14 @@ function TransportArragmentDetail() {
                     />
                 </CModalFooter>
             </CModal>
-            <CModal
-                size="lg"
-                visible={openModalSc}
-                onClose={() => setOpenModalSc(false)}
-                alignment='center'
-            >
-                <CModalHeader>
-                    <CModalTitle>Additonal Service Charge</CModalTitle>
-                </CModalHeader>
-                <CModalBody>
-                    <CRow>
-                        <CCol className="d-none d-md-block text-end">
-                            <SmartTable
-                                data={DashboardOpsLead?.listOrdeRequestAdditionalService}
-                                columns={additionalServiceChargeColumn}
-                                minHeight={200}
-                            />
-                        </CCol>
-                    </CRow>
-                </CModalBody>
-                <CModalFooter>
-                    {/* <CButton onClick={handleClose} color="secondary">Close</CButton> */}
-                </CModalFooter>
-            </CModal>
+
+            <ModalAdditionalServiceCharge
+                open={openModalSc}
+                setOpen={setOpenModalSc}
+                data={param}
+                handleChangeQty={handleChangeQty}
+                handleComponentQty={handleComponentQty}
+            />
         </>
     )
 }

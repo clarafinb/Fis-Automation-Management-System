@@ -36,9 +36,9 @@ function PickAndPackDetail() {
 
     useEffect(() => {
 
-        const pId = pathname.split('/')[3]
-        const wId = pathname.split('/')[4]
-        const orId = pathname.split('/')[6]
+        const pId = pathname.split('/')[2]
+        const wId = pathname.split('/')[3]
+        const orId = pathname.split('/')[5]
 
         setOrderReqId(orId)
         setProjectId(pId)
@@ -50,7 +50,7 @@ function PickAndPackDetail() {
     }, [Global?.user?.userID, DashboardOpsLead?.listOrderReqItemWithInventory.length]);
 
     const handleBack = () => {
-        nav("/dashboard-ops-lead/pick-pack/" + projectId + "/" + whId, { replace: true })
+        nav("/pick-pack-pending/" + projectId + "/" + whId, { replace: true })
     }
 
     const handleConfirm = () => {
@@ -72,7 +72,7 @@ function PickAndPackDetail() {
             dispatch(actions.getOrderRequestItemListWithInventory(
                 orderReqId,
                 whId,
-                result[0].inboundType
+                result[0]?.inboundType
             )).then(() => {
                 if (DashboardOpsLead?.listOrderReqItemWithInventory.length > 0) {
                     const res = DashboardOpsLead?.listOrderReqItemWithInventory

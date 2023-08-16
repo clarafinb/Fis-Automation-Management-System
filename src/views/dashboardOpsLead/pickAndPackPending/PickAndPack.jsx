@@ -27,8 +27,8 @@ function PickAndPack() {
     const { pathname } = useLocation();
 
     useEffect(() => {
-        const pId = pathname.split('/')[3]
-        const wId = pathname.split('/')[4]
+        const pId = pathname.split('/')[2]
+        const wId = pathname.split('/')[3]
         setProjectId(pId)
         if (Global?.user?.userID && projectId) {
             dispatch(

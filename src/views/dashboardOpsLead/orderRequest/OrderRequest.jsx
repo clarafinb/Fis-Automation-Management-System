@@ -18,7 +18,7 @@ import {
 
 import * as actions from '../../../config/redux/DashboardOpsLead/actions'
 import CIcon from '@coreui/icons-react'
-import { cilDataTransferUp, cilPlus, cilSpreadsheet } from '@coreui/icons'
+import { cilDataTransferUp, cilSpreadsheet } from '@coreui/icons'
 import ModalCreateOrderRequest from 'src/components/dashboardOpsLead/orderRequest/ModalCreateOrderRequest'
 import ModalCancelOrderRequest from 'src/components/dashboardOpsLead/orderRequest/ModalCancelOrderRequest'
 import TableListOrderRequest from 'src/components/dashboardOpsLead/orderRequest/TableListOrderRequest'
@@ -33,8 +33,8 @@ function OrderRequest() {
     const [activeKey, setActiveKey] = useState(1)
     const { pathname } = useLocation();
     useEffect(() => {
-        const pId = pathname.split('/')[3]
-        const wId = pathname.split('/')[4]
+        const pId = pathname.split('/')[2]
+        const wId = pathname.split('/')[3]
         if (Global?.user?.userID) {
             dispatch(
                 actions.getActivitySummaryWHProject(Global?.user?.userID, pId)

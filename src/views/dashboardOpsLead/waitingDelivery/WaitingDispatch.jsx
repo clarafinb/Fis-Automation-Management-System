@@ -25,8 +25,8 @@ function WaitingDispatch() {
     const [itemOrderRequestData, setItemOrderRequestData] = useState([])
     const { pathname } = useLocation();
     useEffect(() => {
-        const pId = pathname.split('/')[3]
-        const wId = pathname.split('/')[4]
+        const pId = pathname.split('/')[2]
+        const wId = pathname.split('/')[3]
         if (Global?.user?.userID) {
             dispatch(
                 actions.getActivitySummaryWHProject(Global?.user?.userID, pId)
