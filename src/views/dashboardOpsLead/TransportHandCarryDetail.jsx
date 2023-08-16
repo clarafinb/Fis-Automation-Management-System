@@ -3,6 +3,7 @@ import { useRedux } from 'src/utils/hooks'
 import { useNavigate, useLocation } from 'react-router-dom'
 
 import {
+    CButton,
     CCard,
     CCardBody,
     CCol,
@@ -178,7 +179,7 @@ function TransportHandCarryDetail() {
     }
 
     const handleCancel = () => {
-        nav("/dashboard-ops-lead/waiting-dispatch/" + param?.projectId + "/" + param?.whId + "/detail/" + param?.orderReqId, { replace: true })
+        nav("/waiting-dispatch/" + param?.projectId + "/" + param?.whId + "/detail/" + param?.orderReqId, { replace: true })
     }
 
     const handleConfirm = (event) => {
@@ -195,7 +196,7 @@ function TransportHandCarryDetail() {
         dispatch(
             actions.actDeliveryCompleteWithoutAssignment(payload)
         ).then(() => {
-            nav("/dashboard-ops-lead/waiting-dispatch/" + param?.projectId + "/" + param?.whId + "/detail/" + param?.orderReqId, { replace: true })
+            nav("/waiting-dispatch/" + param?.projectId + "/" + param?.whId + "/detail/" + param?.orderReqId, { replace: true })
         })
     }
 
@@ -216,8 +217,8 @@ function TransportHandCarryDetail() {
                         <CCol>
                             <CRow>
                                 <CCol>
-                                    <h5 className="card-title mb-0">
-                                        Customer Order Request List
+                                    <h5 className="card-title mb-2">
+                                        CUSTOMER ORDER REQUEST LIST
                                     </h5>
                                 </CCol>
                             </CRow>
@@ -232,18 +233,18 @@ function TransportHandCarryDetail() {
                             <CRow>
                                 <CCol>
                                     <h5 className="card-title mb-0">
-                                        HO Evicence
+                                        HO EVIDENCE
                                     </h5>
                                 </CCol>
                                 <CCol className="d-none d-md-block text-end">
                                     {
                                         DashboardOpsLead.listEvidenceChecklist == 0 ?
-                                            <CIcon
-                                                icon={cilPlus}
-                                                className="me-2 text-default"
-                                                size="xl"
-                                                onClick={handleCreateEvidence}
-                                            />
+                                            <CButton
+                                                className="colorBtn-white mb-2"
+                                                onClick={handleCreateEvidence}>
+                                                <CIcon icon={cilPlus} className="me-2 text-warning" />
+                                                ADD HO EVIDENCE
+                                            </CButton>
                                             :
                                             ''
                                     }

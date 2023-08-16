@@ -62,9 +62,9 @@ function PickAndPackProgressDetail() {
     const { pathname } = useLocation();
 
     useEffect(() => {
-        const pId = pathname.split('/')[4]
-        const wId = pathname.split('/')[5]
-        const orId = pathname.split('/')[7]
+        const pId = pathname.split('/')[2]
+        const wId = pathname.split('/')[3]
+        const orId = pathname.split('/')[5]
 
         setOrderReqId(orId)
         setProjectId(pId)
@@ -93,7 +93,6 @@ function PickAndPackProgressDetail() {
                 actions.getOrderRequestServiceChargeList(projectId, orderReqId)
             ).then(response => {
                 setServiceChargeData(response)
-                // setValues({})
             })
         }
     }, [DashboardOpsLead?.listOrdeRequestAdditionalService])
@@ -117,7 +116,7 @@ function PickAndPackProgressDetail() {
     }
 
     const handleBack = () => {
-        nav("/dashboard-ops-lead/pick-pack/progress/" + projectId + "/" + warehouseId, { replace: true })
+        nav("/pick-pack-progress/" + projectId + "/" + warehouseId, { replace: true })
     }
 
     const handleConfirm = (event) => {
@@ -774,7 +773,6 @@ function PickAndPackProgressDetail() {
                                                         <ButtonSubmit
                                                             label='CONFIRM'
                                                             type="submit"
-                                                            // handleButton={handleConfirm}
                                                             className='me-2'
                                                         />
                                                         <ButtonCancel

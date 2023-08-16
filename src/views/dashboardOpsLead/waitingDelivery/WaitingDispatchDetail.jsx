@@ -50,9 +50,9 @@ function WaitingDispatchDetail() {
     const { pathname } = useLocation();
 
     useEffect(() => {
-        const pId = pathname.split('/')[3]
-        const wId = pathname.split('/')[4]
-        const orId = pathname.split('/')[6]
+        const pId = pathname.split('/')[2]
+        const wId = pathname.split('/')[3]
+        const orId = pathname.split('/')[5]
 
         setProjectId(pId)
         setOrderReqId(orId)
@@ -81,17 +81,20 @@ function WaitingDispatchDetail() {
         setFileUpload(null)
     }
 
+    const handleBack = () => {
+        nav("/waiting-dispatch/" + projectId + "/" + whId, { replace: true })
+    }
 
     const handleComponent = useCallback(
         (action, id) => {
             let param = ""
             if (action === 'addTransport') {
                 param = `${id}/${orderReqDetail.transportModeId}/${projectId}/${orderReqId}/${whId}`
-                nav('/dashboard-ops-lead/waiting-dispatch/transport-arrangment/' + param)
+                nav('/waiting-dispatch/transport-arrangment/' + param, { replace: true })
             }
             if (action === 'addHandCarry') {
                 param = `${id}/${orderReqDetail.transportModeId}/${projectId}/${orderReqId}/${whId}`
-                nav('/dashboard-ops-lead/waiting-dispatch/handcarry-arrangment/' + param)
+                nav('/waiting-dispatch/handcarry-arrangment/' + param, { replace: true })
             }
         }
     )
@@ -203,10 +206,6 @@ function WaitingDispatchDetail() {
             }
         }
     )
-
-    const handleBack = () => {
-        nav("/dashboard-ops-lead/waiting-dispatch/" + projectId + "/" + whId, { replace: true })
-    }
 
     const transportArragementColumn = [
         { name: 'no', header: 'No', defaultVisible: true, defaultWidth: 80, type: 'number' },

@@ -116,19 +116,19 @@ function Dashboard() {
         const navigate = [
             {
                 type: 'orderRequest',
-                url: `/dashboard-ops-lead/order-request/${projectId}/${whId}`
+                url: `/order-request/${projectId}/${whId}`
             },
             {
                 type: 'pickAndPackPending',
-                url: `/dashboard-ops-lead/pick-pack/${projectId}/${whId}`
+                url: `/pick-pack-pending/${projectId}/${whId}`
             },
             {
                 type: 'pickAndPackProgress',
-                url: `/dashboard-ops-lead/pick-pack/progress/${projectId}/${whId}`
+                url: `/pick-pack-progress/${projectId}/${whId}`
             },
             {
                 type: 'waitingDispatch',
-                url: `/dashboard-ops-lead/waiting-dispatch/${projectId}/${whId}`
+                url: `/waiting-dispatch/${projectId}/${whId}`
             },
             {
                 type: 'deliveryTransit',

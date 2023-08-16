@@ -67,15 +67,20 @@ const routes = [
   { path: '/dashboard/project-service-charge/:id', name: 'PROJECT SERVICE CHARGE', element: ProjectServiceCharge },
   { path: '/dashboard/project-member/:id', name: 'PROJECT MEMBER', element: ProjectMember },
   { path: '/dashboard/sku/:id/:projectName', name: 'PROJECT MASTER SKU', element: Sku },
-  { path: '/dashboard-ops-lead/order-request/:projectId/:whId', name: 'ORDER REQUEST', element: OrderRequest },
-  { path: '/dashboard-ops-lead/pick-pack/:projectId/:whId', name: 'PICK AND PACK PENDING', element: PickAndPack },
-  { path: '/dashboard-ops-lead/pick-pack/:projectId/:whId/detail/:orderReqId', name: 'PICK AND PACK PENDING DETAIL', element: PickAndPackDetail },
-  { path: '/dashboard-ops-lead/pick-pack/progress/:projectId/:whId', name: 'PICK AND PACK PROGRESS', element: PickAndPackProgress },
-  { path: '/dashboard-ops-lead/pick-pack/progress/:projectId/:whId/detail/:orderReqId', name: 'PICK AND PACK PROGRESS DETAIL', element: PickAndPackProgressDetail },
-  { path: '/dashboard-ops-lead/waiting-dispatch/:projectId/:whId', name: 'WAITING DELIVERY', element: WaitingDispatch },
-  { path: '/dashboard-ops-lead/waiting-dispatch/:projectId/:whId/detail/:orderReqId', name: 'WAITING DELIVERY DETAIL', element: WaitingDispatchDetail },
-  { path: '/dashboard-ops-lead/waiting-dispatch/transport-arrangment/:transportArrangmentId/:transportModeId/:projectId/:orderReqId/:whId', name: 'TRANSPORT ARRANGMENT DETAIL', element: TransportArrangmentDetail },
-  { path: '/dashboard-ops-lead/waiting-dispatch/handcarry-arrangment/:transportArrangmentId/:transportModeId/:projectId/:orderReqId/:whId', name: 'TRANSPORT ARRANGMENT DETAIL', element: TransportHandCarryDetail },
+  // ORDER REQUEST
+  { path: '/order-request/:projectId/:whId', name: 'ORDER REQUEST', element: OrderRequest },
+  // PICK AND PACK PENDING
+  { path: '/pick-pack-pending/:projectId/:whId', name: 'PICK AND PACK PENDING', element: PickAndPack },
+  { path: '/pick-pack-pending/:projectId/:whId/detail/:orderReqId', name: 'PICK AND PACK PENDING DETAIL', element: PickAndPackDetail },
+  //PICK AND PACK PROGRESS
+  { path: '/pick-pack-progress/:projectId/:whId', name: 'PICK AND PACK PROGRESS', element: PickAndPackProgress },
+  { path: '/pick-pack-progress/:projectId/:whId/detail/:orderReqId', name: 'PICK AND PACK PROGRESS DETAIL', element: PickAndPackProgressDetail },
+  // WAITING DISPATCH
+  { path: '/waiting-dispatch/:projectId/:whId', name: 'WAITING DELIVERY', element: WaitingDispatch },
+  { path: '/waiting-dispatch/:projectId/:whId/detail/:orderReqId', name: 'WAITING DELIVERY DETAIL', element: WaitingDispatchDetail },
+  { path: '/waiting-dispatch/transport-arrangment/:transportArrangmentId/:transportModeId/:projectId/:orderReqId/:whId', name: 'TRANSPORT ARRANGMENT DETAIL', element: TransportArrangmentDetail },
+  { path: '/waiting-dispatch/handcarry-arrangment/:transportArrangmentId/:transportModeId/:projectId/:orderReqId/:whId', name: 'TRANSPORT ARRANGMENT DETAIL', element: TransportHandCarryDetail },
+  // DELIVERY TRANSIT
   { path: '/dashboard-ops-lead/delivery-transit/:projectId/:whId', name: 'DELIVERY TRANSIT', element: DeliveryTransit },
   { path: '/dashboard-ops-lead/delivery-transit/:projectId/:whId/detail/:orderReqId', name: 'DELIVERY TRANSIT DETAIL', element: DeliveryTransitDetail },
   { path: '/dashboard-ops-lead/delivery-complete/:projectId/:whId', name: 'DELIVERY COMPLETE', element: DeliveryComplete },
