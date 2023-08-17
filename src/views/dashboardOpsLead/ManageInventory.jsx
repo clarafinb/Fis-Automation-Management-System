@@ -17,7 +17,7 @@ import {
 
 import * as actions from '../../config/redux/DashboardOpsLead/actions'
 import CIcon from '@coreui/icons-react'
-import { cilCloudUpload, cilFile, cilSpreadsheet } from '@coreui/icons'
+import { cilCloudUpload, cilSpreadsheet } from '@coreui/icons'
 import TableListInventoryItem from 'src/components/dashboardOpsLead/manageInventory/TableListInventoryItem'
 import TableListInventoryBox from 'src/components/dashboardOpsLead/manageInventory/TableListInventoryBox'
 import TableListInboundFile from 'src/components/dashboardOpsLead/manageInventory/TableListInboundFile'
@@ -25,6 +25,7 @@ import TableListInboundLog from 'src/components/dashboardOpsLead/manageInventory
 import ModalUploadFile from 'src/components/custom/modal/ModalUploadFile'
 import Swal from 'sweetalert2'
 import { downloadFileConfig } from 'src/helper/globalHelper'
+import { useLocation } from 'react-router-dom'
 
 function ManageInventory() {
     const { dispatch, Global, Dashboard, DashboardOpsLead } = useRedux()
@@ -36,15 +37,18 @@ function ManageInventory() {
     const [inventoryType, setInventoryType] = useState('')
     const [templateUrl, setTemplateUrl] = useState("")
     const [templateName, setTemplateName] = useState("")
+    const { pathname } = useLocation();
+
 
     useEffect(() => {
-        const uriSegment = window.location.href.split("/");
-        const wId = uriSegment[6];
-        const wCode = uriSegment[7];
-        const wName = decodeURI(uriSegment[8]);
+        const wId = pathname.split('/')[2];
+        const wCode = pathname.split('/')[3]
+        const wName = decodeURI(pathname.split('/')[4]);
+
         setWhId(wId)
         setWhCode(wCode)
         setWhName(wName)
+
         if (Global?.user?.token) {
             if (activeKey === 1) {
                 dispatch(actions.getInventoryItem(wId))
@@ -133,7 +137,7 @@ function ManageInventory() {
                             <span className='text-underline'>MA</span>NAGE INVENTORY
                         </h4>
                         <h4 className="card-title mb-0">
-                        <span className='text-underline'>{whCode}</span> | {whName}
+                            <span className='text-underline'>{whCode}</span> | {whName}
                         </h4>
                     </CCol>
                 </CRow>

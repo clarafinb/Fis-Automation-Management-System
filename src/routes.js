@@ -81,13 +81,18 @@ const routes = [
   { path: '/waiting-dispatch/transport-arrangment/:transportArrangmentId/:transportModeId/:projectId/:orderReqId/:whId', name: 'TRANSPORT ARRANGMENT DETAIL', element: TransportArrangmentDetail },
   { path: '/waiting-dispatch/handcarry-arrangment/:transportArrangmentId/:transportModeId/:projectId/:orderReqId/:whId', name: 'TRANSPORT ARRANGMENT DETAIL', element: TransportHandCarryDetail },
   // DELIVERY TRANSIT
-  { path: '/dashboard-ops-lead/delivery-transit/:projectId/:whId', name: 'DELIVERY TRANSIT', element: DeliveryTransit },
-  { path: '/dashboard-ops-lead/delivery-transit/:projectId/:whId/detail/:orderReqId', name: 'DELIVERY TRANSIT DETAIL', element: DeliveryTransitDetail },
-  { path: '/dashboard-ops-lead/delivery-complete/:projectId/:whId', name: 'DELIVERY COMPLETE', element: DeliveryComplete },
-  { path: '/dashboard-ops-lead/delivery-complete/:projectId/:whId/detail/:orderReqId', name: 'DELIVERY COMPLETE DETAIL', element: DeliveryCompleteDetail },
-  { path: '/dashboard-ops-lead/master-location/:projectId/:whId', name: 'MASTER LOCAITON', element: MasterLocation },
-  { path: '/dashboard-ops-lead/manage-inventory/:whId/:whCode/:whName', name: 'MANAGE INVENTORY', element: ManageInventory },
+  { path: '/delivery-transit/:projectId/:whId', name: 'DELIVERY TRANSIT', element: DeliveryTransit },
+  { path: '/delivery-transit/:projectId/:whId/detail/:orderReqId', name: 'DELIVERY TRANSIT DETAIL', element: DeliveryTransitDetail },
+  // DELIVERY COMPLETE
+  { path: '/delivery-complete/:projectId/:whId', name: 'DELIVERY COMPLETE', element: DeliveryComplete },
+  { path: '/delivery-complete/:projectId/:whId/detail/:orderReqId', name: 'DELIVERY COMPLETE DETAIL', element: DeliveryCompleteDetail },
+  // MASTER LOCATION
+  { path: '/master-location/:projectId/:whId', name: 'MASTER LOCAITON', element: MasterLocation },
+  // MANAGE INVENTORY
+  { path: '/manage-inventory/:whId/:whCode/:whName', name: 'MANAGE INVENTORY', element: ManageInventory },
+  // ORDER REQUEST PICKUP
   { path: '/order-request-pickup/:projectId/:whId', name: 'ORDER REQUEST PICKUP', element: OrderRequestPickup },
+  // PICKUP PREPARATION
   { path: '/pickup-preparation/:projectId/:whId', name: 'PICKUP PREPARATION', element: PickupPreparation },
   { path: '/pickup-preparation/:projectId/:whId/detail/:orderReqId', name: 'PICKUP PREPARATION DETAIL', element: PickupPreparationDetail },
   // DASHBOARD WH TEAM
