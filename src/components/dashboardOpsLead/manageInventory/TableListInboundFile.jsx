@@ -4,103 +4,126 @@ import {
     CCol,
     CRow,
 } from '@coreui/react'
-import SmartTable from 'src/components/custom/table/SmartTable'
-import moment from 'moment'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faDownload, faFile } from '@fortawesome/free-solid-svg-icons'
+import DataGrid from 'src/components/custom/table/DataGrid'
+import { formatStandartDate } from 'src/helper/globalHelper'
 
 function TableListInboundFile({
     data,
     handleComponent,
-    handleToogle
 }) {
-    const filterValue = [
-        { name: 'fileName', operator: 'startsWith', type: 'string', value: '' },
-        { name: 'inboundType', operator: 'startsWith', type: 'string', value: '' },
-        { name: 'createBy', operator: 'startsWith', type: 'string', value: '' },
-        { name: 'createDate', operator: 'startsWith', type: 'string', value: '' },
-        { name: 'totalRow', operator: 'startsWith', type: 'string', value: '' },
-        { name: 'rowSuccess', operator: 'startsWith', type: 'string', value: '' },
-        { name: 'rowError', operator: 'startsWith', type: 'string', value: '' },
-        { name: 'errMessage', operator: 'startsWith', type: 'string', value: '' },
-        { name: 'executeStatus', operator: 'startsWith', type: 'string', value: '' }
-    ]
+
+    const handleAction = (value, data) => {
+        return (
+            <>
+                <FontAwesomeIcon
+                    icon={faDownload}
+                    className='textBlue px-2'
+                    size='lg'
+                    title='Download File'
+                    onClick={() => handleComponent('downloadFile', value, data)}
+                />
+                {(value === 'yes') ?
+                    <FontAwesomeIcon
+                        icon={faFile}
+                        className='textBlue px-2'
+                        size='lg'
+                        title='Download Row Error Log'
+                        onClick={() => handleComponent('downloadErr', value, data)}
+                    />
+                    : ''}
+            </>
+        )
+    }
+
+    const handleBadge = (value) => {
+        let badge = "dark"
+        if (value === 'Failed') badge = "danger"
+        if (value === 'Success') badge = "success"
+        return (
+            <CBadge
+                color={badge}
+            >
+                {value}
+            </CBadge>
+        )
+    }
 
     const columns = [
-        { name: 'no', header: 'No', defaultWidth: 80, type: 'number' },
         {
-            name: 'openErrLog',
-            header: 'Action',
-            textAlign: 'center',
-            defaultWidth: 110,
-            render: ({ value, data }) => {
-                return (
-                    <>
-                        <FontAwesomeIcon
-                            icon={faDownload}
-                            className='textBlue px-2'
-                            size='lg'
-                            title='Download File'
-                            onClick={() => handleComponent('downloadFile', value, data)}
-                        />
-                        {(value === 'yes') ?
-                            <FontAwesomeIcon
-                                icon={faFile}
-                                className='textBlue px-2'
-                                size='lg'
-                                title='Download Row Error Log'
-                                onClick={() => handleComponent('downloadErr', value, data)}
-                            />
-                            : ''}
-                    </>
-                )
+            field: 'no',
+            headerName: 'NO',
+            headerStyle: { textAlign: 'center' },
+            cellStyle: { textAlign: 'center' },
+            filter: false,
+            minWidth: 80,
+        },
+        {
+            field: 'openErrLog',
+            headerName: 'Action',
+            minWidth: 100,
+            cellStyle: { textAlign: 'center' },
+            pinned: 'right',
+            filter: false,
+            cellRenderer: ({ data }) => {
+                return handleAction(data.openErrLog, data)
             }
         },
-        { name: 'fileName', header: 'Filename', defaultWidth: 230 },
-        { name: 'inboundType', header: 'Inbound Type', defaultWidth: 230 },
-        { name: 'createBy', header: 'Create By', defaultWidth: 250 },
         {
-            name: 'createDate',
-            header: 'Create Date',
-            defaultWidth: 300,
-            textAlign: 'center',
-            render: ({ value }) => {
-                return moment(value).format('DD-MM-YYYY HH:mm:ss')
+            field: 'fileName',
+            headerName: 'Filename',
+        },
+        {
+            field: 'inboundType',
+            headerName: 'Inbound Type', minWidth: 200,
+        },
+        {
+            field: 'createBy',
+            headerName: 'Create By', minWidth: 200,
+        },
+        {
+            field: 'createDate',
+            headerName: 'Create Date',
+            cellStyle: { textAlign: 'center' },
+            cellRenderer: ({ data }) => {
+                return formatStandartDate(data.createDate)
             }
         },
-        { name: 'totalRow', header: 'Total Row', defaultWidth: 230, textAlign: 'center' },
-        { name: 'rowSuccess', header: 'Row Success', defaultWidth: 230, textAlign: 'center' },
-        { name: 'rowError', header: 'Row Error', defaultWidth: 230, textAlign: 'center' },
-        { name: 'errMessage', header: 'Error Message', defaultWidth: 300 },
         {
-            name: 'executeStatus',
-            header: 'Excecute Status',
-            defaultWidth: 230,
-            textAlign: 'center',
-            render: ({ value }) => {
-                let badge = "dark"
-                if (value === 'Failed') badge = "danger"
-                if (value === 'Success') badge = "success"
-                return (
-                    <CBadge
-                        color={badge}
-                    >
-                        {value}
-                    </CBadge>
-                )
+            field: 'totalRow',
+            headerName: 'Total Row', minWidth: 150,
+        },
+        {
+            field: 'rowSuccess',
+            headerName: 'Row Success', minWidth: 150,
+        },
+        {
+            field: 'rowError',
+            headerName: 'Row Error', minWidth: 150,
+        },
+        {
+            field: 'errMessage',
+            headerName: 'Error Message', minWidth: 200,
+        },
+        {
+            field: 'executeStatus',
+            headerName: 'Excecute Status',
+            minWidth: 200,
+            cellStyle: { textAlign: 'center' },
+            cellRenderer: ({ data }) => {
+                return handleBadge(data.executeStatus)
             }
         },
-        // <CBadge
     ];
 
     return (
         <CRow>
             <CCol className="d-none d-md-block text-end">
-                <SmartTable
+                <DataGrid
                     data={data}
                     columns={columns}
-                    filterValue={filterValue}
-                    minHeight={300}
+                    minHeight={600}
                 />
             </CCol>
         </CRow>

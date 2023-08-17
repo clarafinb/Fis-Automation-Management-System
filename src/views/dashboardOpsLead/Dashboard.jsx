@@ -132,19 +132,19 @@ function Dashboard() {
             },
             {
                 type: 'deliveryTransit',
-                url: `/dashboard-ops-lead/delivery-transit/${projectId}/${whId}`
+                url: `/delivery-transit/${projectId}/${whId}`
             },
             {
                 type: 'deliveryComplete',
-                url: `/dashboard-ops-lead/delivery-complete/${projectId}/${whId}`
+                url: `/delivery-complete/${projectId}/${whId}`
             },
             {
                 type: 'masterLocation',
-                url: `/dashboard-ops-lead/master-location/${projectId}/${whId}`
+                url: `/master-location/${projectId}/${whId}`
             },
             {
                 type: 'manageInventory',
-                url: `/dashboard-ops-lead/manage-inventory/${whId}/${whCode}/${whName}`
+                url: `/manage-inventory/${whId}/${whCode}/${whName}`
             },
             {
                 type: 'orderRequestPickup',

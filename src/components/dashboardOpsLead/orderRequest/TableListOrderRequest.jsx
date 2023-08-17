@@ -4,8 +4,6 @@ import {
     CCol,
     CRow,
 } from '@coreui/react'
-import SmartTable from 'src/components/custom/table/SmartTable'
-import moment from 'moment';
 import CIcon from '@coreui/icons-react';
 import { cilClipboard, cilTrash } from '@coreui/icons';
 import DataGrid from 'src/components/custom/table/DataGrid';
@@ -14,7 +12,6 @@ import { formatStandartDate } from 'src/helper/globalHelper';
 function TableListOrderRequest({
     data,
     handleComponent,
-    handleToogle
 }) {
 
     const handleAction = (data) => {
