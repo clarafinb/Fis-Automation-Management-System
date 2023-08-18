@@ -902,10 +902,11 @@ export const getOrderRequestWHProjectExportToExcel = ({ projectId, whId, userId,
         }
     }
 }
-export const getTransportArrangementEvidenceCheclist = (transportArrangementId) => {
+export const getTransportArrangementEvidenceCheclist = (transportArrangementId, orderRequestId) => {
     return async (dispatch) => {
         try {
-            let list = await actionCrud.actionCommonSlice(transportArrangementId, API_GET_EVIDENCE_CHECKLIST, "GET");
+            const fullParam = `${transportArrangementId}/${orderRequestId}`
+            let list = await actionCrud.actionParamRequest(fullParam, API_GET_EVIDENCE_CHECKLIST, "GET");
             let listEvidenceChecklist = list?.map((item, idx) => {
                 return {
                     no: idx + 1,
@@ -927,12 +928,12 @@ export const getTransportArrangementEvidenceCheclist = (transportArrangementId) 
         }
     }
 }
-export const transportAssignmentDeliveryEvidenceUpload = ({ transportArrangementId, assignmentId, deliveryEvidenceChecklistId }, body) => {
+export const transportAssignmentDeliveryEvidenceUpload = ({ transportArrangementId, assignmentId, deliveryEvidenceChecklistId, orderReqId }, body) => {
     return async (dispatch) => {
         try {
-            const fullParam = `${transportArrangementId}/${assignmentId}/${deliveryEvidenceChecklistId}`
+            const fullParam = `${transportArrangementId}/${assignmentId}/${deliveryEvidenceChecklistId}/${orderReqId}`
             let response = await actionCrud.actionParamRequest(fullParam, API_UPLOAD_EVIDENCE_CHECKLIST, "POST", body);
-            dispatch(getTransportArrangementEvidenceCheclist(transportArrangementId));
+            dispatch(getTransportArrangementEvidenceCheclist(transportArrangementId, orderReqId));
             if (response.status === "success") {
                 Swal.fire({
                     position: "center",
@@ -959,7 +960,7 @@ export const transportAssignmentDeliveryEvidenceUpload = ({ transportArrangement
     }
 }
 
-export const actDeliveryCompleteWithoutAssignment = (payload) => {
+export const actDeliveryCompleteWithoutAssignment = (payload, orderReqId) => {
     return async (dispatch) => {
         try {
             let create = await actionCrud.actionCommonCrud(payload, API_COMPLETE_EVIDENCE_CHECKLIST, "POST");
@@ -970,7 +971,7 @@ export const actDeliveryCompleteWithoutAssignment = (payload) => {
                     title: create?.message,
                     showConfirmButton: true
                 });
-                dispatch(getTransportArrangementEvidenceCheclist(payload.transportArrangmentId));
+                dispatch(getTransportArrangementEvidenceCheclist(payload.transportArrangmentId, orderReqId));
             } else {
                 Swal.fire({
                     title: 'Error!',
@@ -1030,7 +1031,7 @@ export const transportArrangementCreateEvidence = (payload) => {
                     title: response?.message,
                     showConfirmButton: true
                 });
-                dispatch(getTransportArrangementEvidenceCheclist(payload.transportArrangementId));
+                dispatch(getTransportArrangementEvidenceCheclist(payload.transportArrangementId, payload.orderReqId));
             } else {
                 Swal.fire({
                     title: 'Error!',

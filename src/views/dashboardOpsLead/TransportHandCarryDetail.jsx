@@ -41,11 +41,11 @@ function TransportHandCarryDetail() {
     const { pathname } = useLocation();
 
     useEffect(() => {
-        const transArrId = pathname.split('/')[4]
-        const transModId = pathname.split('/')[5]
-        const pId = pathname.split('/')[6]
-        const oId = pathname.split('/')[7]
-        const wId = pathname.split('/')[8]
+        const transArrId = pathname.split('/')[3]
+        const transModId = pathname.split('/')[4]
+        const pId = pathname.split('/')[5]
+        const oId = pathname.split('/')[6]
+        const wId = pathname.split('/')[7]
         getLocation()
 
         setParam({
@@ -58,7 +58,7 @@ function TransportHandCarryDetail() {
 
         if (transArrId && Global?.user?.userID) {
             dispatch(actions.getOrderRequestTransportArrangment(transArrId))
-            dispatch(actions.getTransportArrangementEvidenceCheclist(transArrId))
+            dispatch(actions.getTransportArrangementEvidenceCheclist(transArrId, oId))
         }
     }, [Global?.user?.userID]);
 
@@ -143,7 +143,8 @@ function TransportHandCarryDetail() {
     const handleCreateEvidence = () => {
         const payload = {
             transportArrangementId: param.transportArrangementId,
-            projectId: param.projectId,
+            projectId: param?.projectId,
+            orderReqId: param?.orderReqId,
             LMBY: Global.user.userID
         }
         dispatch(actions.transportArrangementCreateEvidence(payload))
@@ -159,7 +160,8 @@ function TransportHandCarryDetail() {
             const params = {
                 transportArrangementId: selectedEvidence.transportArrangementId,
                 assignmentId: selectedEvidence.assignmentId,
-                deliveryEvidenceChecklistId: selectedEvidence.deliveryEvidenceChecklistId
+                deliveryEvidenceChecklistId: selectedEvidence.deliveryEvidenceChecklistId,
+                orderReqId: param?.orderReqId
             }
 
             dispatch(
@@ -194,7 +196,7 @@ function TransportHandCarryDetail() {
             confirmLatitude: myLocation?.latitude?.toString()
         }
         dispatch(
-            actions.actDeliveryCompleteWithoutAssignment(payload)
+            actions.actDeliveryCompleteWithoutAssignment(payload, param?.orderReqId)
         ).then(() => {
             nav("/waiting-dispatch/" + param?.projectId + "/" + param?.whId + "/detail/" + param?.orderReqId, { replace: true })
         })
