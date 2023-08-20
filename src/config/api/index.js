@@ -155,6 +155,12 @@ export const API_TRANSPORT_ARRANGEMENT_COMPELETE = BASE_URL + "transportarrangem
 // DELIVERY TRANSIT
 export const API_GET_DELIVERY_TRANSIT = BASE_URL + "logmanagement/getDeliveryInTransitWHProject"
 export const API_GET_TRANSPORT_ARRAGEMENT_DELIVERY = BASE_URL + "transportarrangement/getTransportArrangementAndShareLatestLocationBasedOnOrderRequest"
+// DELIVERY ONSITE
+export const API_GET_DELIVERY_ONSITE = BASE_URL + "logmanagement/getDeliveryOnSiteWHProject"
+export const API_CONFIRM_DELIVERY_ONSITE = BASE_URL + "logmanagement/orderRequestReturnWHConfirm"
+export const API_GET_EVIDENCE_DELIVERY_ONSITE = BASE_URL + "logmanagement/custOrderRequestReturnWHGetAttachmentEvidences"
+export const API_UPLOAD_EVIDENCE_DELIVERY_ONSITE = BASE_URL + "logmanagement/custOrderRequestReturnWHEvidenceAdd"
+export const API_DELETE_EVIDENCE_DELIVERY_ONSITE = BASE_URL + "logmanagement/custOrderRequestReturnWHEvidenceDelete"
 // DELIVERY COMPLETE
 export const API_GET_DELIVERY_COMPLETE = BASE_URL + "logmanagement/getDeliveryCompletedWHProject"
 // MASTER LOCATION

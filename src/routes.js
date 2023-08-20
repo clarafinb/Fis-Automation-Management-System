@@ -34,6 +34,8 @@ const DeliveryTransit = React.lazy(() => import('./views/dashboardOpsLead/delive
 const DeliveryTransitDetail = React.lazy(() => import('./views/dashboardOpsLead/deliveryTransit/DeliveryTransitDetail'))
 const DeliveryComplete = React.lazy(() => import('./views/dashboardOpsLead/deliveryComplete/DeliveryComplete'))
 const DeliveryCompleteDetail = React.lazy(() => import('./views/dashboardOpsLead/deliveryComplete/DeliveryCompleteDetail'))
+const DeliveryOnSite = React.lazy(() => import('./views/dashboardOpsLead/deliveryOnSite/DeliveryOnSite'))
+const DeliveryOnSiteDetail = React.lazy(() => import('./views/dashboardOpsLead/deliveryOnSite/DeliveryOnSiteDetail'))
 const MasterLocation = React.lazy(() => import('./views/dashboardOpsLead/MasterLocation'))
 const ManageInventory = React.lazy(() => import('./views/dashboardOpsLead/ManageInventory'))
 const OrderRequestPickup = React.lazy(() => import('./views/dashboardOpsLead/orderRequestPickup/OrderRequestPickup'))
@@ -83,6 +85,9 @@ const routes = [
   // DELIVERY TRANSIT
   { path: '/delivery-transit/:projectId/:whId', name: 'DELIVERY TRANSIT', element: DeliveryTransit },
   { path: '/delivery-transit/:projectId/:whId/detail/:orderReqId', name: 'DELIVERY TRANSIT DETAIL', element: DeliveryTransitDetail },
+  // DELIVERY ONSITE
+  { path: '/delivery-onsite/:projectId/:whId', name: 'DELIVERY ONSITE', element: DeliveryOnSite },
+  { path: '/delivery-onsite/:projectId/:whId/detail/:orderReqId', name: 'DELIVERY ONSITE', element: DeliveryOnSiteDetail },
   // DELIVERY COMPLETE
   { path: '/delivery-complete/:projectId/:whId', name: 'DELIVERY COMPLETE', element: DeliveryComplete },
   { path: '/delivery-complete/:projectId/:whId/detail/:orderReqId', name: 'DELIVERY COMPLETE DETAIL', element: DeliveryCompleteDetail },

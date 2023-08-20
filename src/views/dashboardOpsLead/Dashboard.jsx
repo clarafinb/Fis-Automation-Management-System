@@ -135,6 +135,10 @@ function Dashboard() {
                 url: `/delivery-transit/${projectId}/${whId}`
             },
             {
+                type: 'deliveryOnSite',
+                url: `/delivery-onsite/${projectId}/${whId}`
+            },
+            {
                 type: 'deliveryComplete',
                 url: `/delivery-complete/${projectId}/${whId}`
             },
@@ -383,6 +387,28 @@ function Dashboard() {
                                                                         <CButton
                                                                             className="colorBtn-yellow"
                                                                             onClick={() => handleNavigator("deliveryTransit", detailWarehouse)}
+                                                                        >
+                                                                            DETAIL
+                                                                        </CButton>
+
+                                                                    </CCol>
+                                                                </CRow>
+                                                            </CCardBody>
+                                                        </CCard>
+                                                    </CCol>
+                                                    <CCol sm={4}>
+                                                        <CCard className='mb-3' >
+                                                            <CCardBody>
+                                                                <CCardText className='px-3 text-center'>
+                                                                    <p>DELIVERY ON SITE</p>
+                                                                    <hr />
+                                                                    <h3>{detailWarehouse?.deliveryOnsiteCount}</h3>
+                                                                </CCardText>
+                                                                <CRow>
+                                                                    <CCol className="d-grid gap-2">
+                                                                        <CButton
+                                                                            className="colorBtn-yellow"
+                                                                            onClick={() => handleNavigator("deliveryOnSite", detailWarehouse)}
                                                                         >
                                                                             DETAIL
                                                                         </CButton>

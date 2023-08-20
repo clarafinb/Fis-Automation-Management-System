@@ -223,13 +223,13 @@ function OrderRequestDetailDeliveryTransit({
                         </CRow>
                         <CRow className="mb-4">
                             <CFormLabel
-                                className="col-sm-3 col-form-label">Pick and Pack Complete Date
+                                className="col-sm-3 col-form-label">Create By / Create Date
                             </CFormLabel>
                             <CCol>
                                 <CFormInput
                                     type="text"
                                     name="recipientCompanyName"
-                                    value={data?.pickandpackCompleteDate}
+                                    value={`${data?.createBy} / ${formatStandartDate(data?.createDate)}`}
                                     readOnly
                                     disabled
                                 />

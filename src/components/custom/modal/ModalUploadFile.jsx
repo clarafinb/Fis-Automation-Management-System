@@ -21,6 +21,7 @@ function ModalUploadFile({
     handleDownloadTemplate,
     templateName,
     handleUpload,
+    useTemplate = true
 }) {
     const {
         acceptedFiles,
@@ -60,16 +61,19 @@ function ModalUploadFile({
                 </CModalHeader>
                 <CModalBody>
                     <CRow className="mb-3">
-                        <CCol className="d-none d-md-block">
-                            <CButton
-                                onClick={handleDownloadTemplate}
-                                className="colorBtn-white">
-                                <CIcon
-                                    icon={cilCloudUpload}
-                                    className="me-2 text-warning" />
-                                DOWNLOAD {templateName}
-                            </CButton>
-                        </CCol>
+                        {useTemplate ?
+                            <CCol className="d-none d-md-block">
+                                <CButton
+                                    onClick={handleDownloadTemplate}
+                                    className="colorBtn-white">
+                                    <CIcon
+                                        icon={cilCloudUpload}
+                                        className="me-2 text-warning" />
+                                    DOWNLOAD {templateName}
+                                </CButton>
+                            </CCol>
+                            : ''
+                        }
                     </CRow>
                     <CRow>
                         <CCol>

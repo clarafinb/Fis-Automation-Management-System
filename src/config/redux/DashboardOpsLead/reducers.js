@@ -21,7 +21,9 @@ let initialState = {
     listTransportArragement: [],
     listTransportArrangmentType: [],
     listOrdeRequestPickup: [],
-    listPickupPreparation: []
+    listPickupPreparation: [],
+    listDeliveryOnSite: [],
+    listDeliveryOnSiteEvidence: []
 };
 
 const DashboardOpsLead = (state = initialState, { type, payload }) => {
@@ -156,6 +158,18 @@ const DashboardOpsLead = (state = initialState, { type, payload }) => {
             return {
                 ...state,
                 listPickupPreparation: payload
+            }
+
+        case actionType.SET_LIST_DELIVERY_ONSITE:
+            return {
+                ...state,
+                listDeliveryOnSite: payload
+            }
+
+        case actionType.SET_LIST_DELIVERY_ONSITE_EVIDENCE:
+            return {
+                ...state,
+                listDeliveryOnSiteEvidence: payload
             }
 
         default:

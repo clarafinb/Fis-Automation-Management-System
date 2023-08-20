@@ -72,7 +72,12 @@ import {
     API_EXPORT_EXCEL_ORDER_REQUEST_PICKUP,
     API_CANCEL_ORDER_REQUEST_PICKUP,
     API_GET_ORDER_REQUEST_PICKUP_PREPARATION,
-    API_COMPLETE_PICKUP_PREPARATION
+    API_COMPLETE_PICKUP_PREPARATION,
+    API_GET_DELIVERY_ONSITE,
+    API_GET_EVIDENCE_DELIVERY_ONSITE,
+    API_UPLOAD_EVIDENCE_DELIVERY_ONSITE,
+    API_DELETE_EVIDENCE_DELIVERY_ONSITE,
+    API_CONFIRM_DELIVERY_ONSITE
 } from "../../api/index"
 
 /**************************************** DASHBOARD OPS LEAD ****************************************/
@@ -2000,6 +2005,150 @@ export const pickupPreparationComplete = (payload) => {
                 })
             }
             return Promise.resolve(create.status)
+        } catch (error) {
+            Swal.fire({
+                title: 'Error!',
+                text: error.message,
+                icon: 'error',
+                confirmButtonText: 'Close'
+            })
+        }
+    }
+}
+
+export const getListDeliveryOnSite = (projectId, whId, userId) => {
+    return async (dispatch) => {
+        try {
+            const fullParam = `${projectId}/${whId}/${userId}`
+            let list = await actionCrud.actionParamRequest(fullParam, API_GET_DELIVERY_ONSITE, "GET");
+            let listDeliveryOnSite = list?.map((item, idx) => {
+                return {
+                    no: idx + 1,
+                    ...item,
+                    extra: {
+                        ...{
+                            projectId: projectId,
+                            whId: whId,
+                            userId: whId
+                        }
+                    }
+                }
+            })
+            dispatch({
+                type: actionType.SET_LIST_DELIVERY_ONSITE,
+                payload: listDeliveryOnSite
+            });
+        } catch (error) {
+            Swal.fire({
+                title: 'Error!',
+                text: error.message,
+                icon: 'error',
+                confirmButtonText: 'Close'
+            })
+        }
+    }
+}
+
+export const getListDeliveryOnSiteEvidence = (orderReqId) => {
+    return async (dispatch) => {
+        try {
+            const fullParam = `${orderReqId}`
+            let list = await actionCrud.actionCommonSlice(fullParam, API_GET_EVIDENCE_DELIVERY_ONSITE, "GET");
+            let listDeliveryOnSiteEvidence = list?.map((item, idx) => {
+                return {
+                    no: idx + 1,
+                    ...item,
+                }
+            })
+            dispatch({
+                type: actionType.SET_LIST_DELIVERY_ONSITE_EVIDENCE,
+                payload: listDeliveryOnSiteEvidence
+            });
+        } catch (error) {
+            Swal.fire({
+                title: 'Error!',
+                text: error.message,
+                icon: 'error',
+                confirmButtonText: 'Close'
+            })
+        }
+    }
+}
+
+export const uploadDeliveryOnsiteEvidence = (formData, orderReqId) => {
+    return async (dispatch) => {
+        try {
+            const { value } = await actionCrud.actionCommonSliceParam(orderReqId, API_UPLOAD_EVIDENCE_DELIVERY_ONSITE, "POST", '', formData)
+            dispatch(getListDeliveryOnSiteEvidence(orderReqId));
+            Swal.fire({
+                title: value.status,
+                text: value.message,
+                icon: "success",
+                confirmButtonText: "Yes",
+            });
+        } catch (error) {
+            Swal.fire({
+                title: 'Error!',
+                text: error.message,
+                icon: 'error',
+                confirmButtonText: 'Close'
+            })
+        }
+    };
+}
+
+export const deleteDeliveryOnsiteEvidence = (evidenceId, userId, orderReqId) => {
+    return async (dispatch) => {
+        try {
+            const fullParam = `${evidenceId}/${userId}`
+            let response = await actionCrud.actionParamRequest(fullParam, API_DELETE_EVIDENCE_DELIVERY_ONSITE, "PUT");
+            if (response.status === "success") {
+                Swal.fire({
+                    position: "center",
+                    icon: "success",
+                    title: response?.message,
+                    showConfirmButton: true
+                });
+                dispatch(getListDeliveryOnSiteEvidence(orderReqId));
+            } else {
+                Swal.fire({
+                    title: 'Error!',
+                    text: response?.message,
+                    icon: 'error',
+                    confirmButtonText: 'Close'
+                })
+            }
+        } catch (error) {
+            Swal.fire({
+                title: 'Error!',
+                text: error.message,
+                icon: 'error',
+                confirmButtonText: 'Close'
+            })
+        }
+    }
+}
+
+export const confirmDeliveryOnSite = (payload, projectId, whId, userId) => {
+    return async (dispatch) => {
+        try {
+            let confirm = await actionCrud.actionCommonCrud(payload, API_CONFIRM_DELIVERY_ONSITE, "PUT");
+            if (confirm.status === "success") {
+                Swal.fire({
+                    position: "center",
+                    icon: "success",
+                    title: confirm?.message,
+                    showConfirmButton: true
+                });
+                dispatch(getListDeliveryOnSite(projectId, whId, userId));
+            } else {
+                Swal.fire({
+                    title: 'Error!',
+                    text: confirm?.message,
+                    icon: 'error',
+                    confirmButtonText: 'Close'
+                })
+            }
         } catch (error) {
             Swal.fire({
                 title: 'Error!',
