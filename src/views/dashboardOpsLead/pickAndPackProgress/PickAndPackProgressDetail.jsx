@@ -33,6 +33,7 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import ButtonSubmit from 'src/components/custom/button/ButtonSubmit'
 import ButtonCancel from 'src/components/custom/button/ButtonCancel'
 import Alert from 'src/components/custom/toast/Alert'
+import { handleDecimalsOnValue } from 'src/helper/globalHelper'
 
 function PickAndPackProgressDetail() {
     const nav = useNavigate();
@@ -360,7 +361,10 @@ function PickAndPackProgressDetail() {
 
     const handleOnchange = useCallback(
         (e) => {
-            const { value, name } = e.target;
+            let { value, name } = e.target;
+            if (name === 'totalVolume' || name === 'totalCollies') {
+                value = handleDecimalsOnValue(value)
+            }
             setValues((prev) => ({
                 ...prev,
                 [name]: value
@@ -712,8 +716,7 @@ function PickAndPackProgressDetail() {
                                             <CFormLabel className=" col-form-label">Total Collies</CFormLabel>
                                             <CCol>
                                                 <CFormInput
-                                                    step="0.01"
-                                                    type="number"
+                                                    type="text"
                                                     name="totalCollies"
                                                     value={values?.totalCollies}
                                                     onChange={handleOnchange}
@@ -725,8 +728,7 @@ function PickAndPackProgressDetail() {
                                             <CFormLabel className=" col-form-label">Total Volume (CBM)</CFormLabel>
                                             <CCol>
                                                 <CFormInput
-                                                    step="0.01"
-                                                    type="number"
+                                                    type="text"
                                                     name="totalVolume"
                                                     value={values?.totalVolume}
                                                     onChange={handleOnchange}
