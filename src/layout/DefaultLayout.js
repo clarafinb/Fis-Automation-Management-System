@@ -9,11 +9,22 @@ import {
 } from '../components/index'
 import { useCookies } from "react-cookie"
 import * as actions from '../config/redux/Global/actions'
+import IdleTimer from 'src/components/custom/idle/IdleTimer'
+import * as actions_dashboard from '../config/redux/Dashboard/actions'
 
 const DefaultLayout = () => {
-  const [cookies, setCookie] = useCookies(["user"]);
+  const [cookies, setCookie, removeCookie] = useCookies(["user"]);
   const { dispatch } = useRedux();
   const nav = useNavigate();
+
+  const handleIdle = () => {
+    dispatch(actions.actionResetUser());
+    dispatch(actions_dashboard.resetDetailDashboard())
+    removeCookie('user');
+    removeCookie('dashboardOpsLead');
+  }
+
+  const { idleTimer } = IdleTimer({ onIdle: handleIdle, idleTime: 5 })
 
   useEffect(() => {
     if (cookies?.user) {
