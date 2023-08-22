@@ -225,3 +225,5 @@ export const API_EXPORT_EXCEL_ORDER_REQUEST_PICKUP = BASE_URL + "logmanagement/g
 // PICKUP PREPARATION
 export const API_GET_ORDER_REQUEST_PICKUP_PREPARATION = BASE_URL + "logmanagement/getOrderRequestPickupPreparationWHProject"
 export const API_COMPLETE_PICKUP_PREPARATION = BASE_URL + "logmanagement/pickupPreparationComplete"
+// MENU
+export const API_GET_MENU = BASE_URL + "menu/getMenuBasedOnRole/:roleId"
