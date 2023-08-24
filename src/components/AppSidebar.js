@@ -112,7 +112,7 @@ const AppSidebar = () => {
               {val?.Children?.map((item, idx2) => (
                 <CNavItem
                   key={idx2}
-                  className='p-3 navItem'
+                  className={item?.Path === Dashboard?.activeMenu ? "navItem-active p-3" : "navItem p-3" }
                 >
                   <span onClick={() => handleActiveMenu(item?.Path)}>{navLink(item?.Name)}</span>
                 </CNavItem>
