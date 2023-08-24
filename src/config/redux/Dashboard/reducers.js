@@ -2,6 +2,8 @@ import * as actionType from "./actionType";
 
 let initialState = {
     detailDashboard: {},
+    menu: [],
+    activeMenu: "",
     listProject: [],
     listServiceCharge: [],
     listDeliveryMode: [],
@@ -41,6 +43,18 @@ const Dashboard = (state = initialState, { type, payload }) => {
             return {
                 ...state,
                 ...payload
+            };
+
+        case actionType.SET_MENU:
+            return {
+                ...state,
+                menu: payload
+            };
+
+        case actionType.SET_ACTIVE_MENU:
+            return {
+                ...state,
+                activeMenu: payload
             };
 
         case actionType.SET_LIST_PROJECT:

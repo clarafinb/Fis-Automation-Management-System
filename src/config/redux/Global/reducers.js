@@ -16,7 +16,7 @@ const Global = (state = initialState, { type, payload }) => {
                     ...payload
                 }
             };
-            
+
         case actionType.RESET_USER:
             return {
                 ...state,
@@ -24,17 +24,17 @@ const Global = (state = initialState, { type, payload }) => {
             }
 
         case actionType.SET_SIDEBAR:
-            return { 
-                ...state, 
+            return {
+                ...state,
                 ...payload
             }
 
         case actionType.SET_SIDEBAR_FOLDABLE:
-            return { 
-                ...state, 
+            return {
+                ...state,
                 ...payload
             }
-        
+
         case actionType.SET_LIST_USER_PHOTO:
             return {
                 ...state,

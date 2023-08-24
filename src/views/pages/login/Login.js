@@ -52,11 +52,11 @@ const Login = () => {
     event.stopPropagation()
   }
 
-
   useEffect(() => {
     if (Global.user.userLogin && cookies) {
       setCookie('user', Global?.user, { path: '/' })
       dispatch(actionsDashboard.getDashboard(Global?.user?.roleInf?.roleId))
+      dispatch(actionsDashboard.getMenu(Global?.user?.roleInf?.roleId))
     }
   }, [Global.user, nav, setCookie]);
 
@@ -66,14 +66,13 @@ const Login = () => {
       setCookie('dashboard', Dashboard?.detailDashboard, { path: '/' })
       if (Dashboard?.detailDashboard?.dashboardURL) {
         nav(handleRoleDashboard(Dashboard?.detailDashboard?.dashboardURL))
-        // if(Dashboard?.detailDashboard?.dashboardURL === '/usr/dashboardOpsLead'){
-        //   nav("/dashboard-ops-lead");
-        // }else{
-        //   nav("/dashboard");
-        // }
+      }
+
+      if(Dashboard?.menu){
+        setCookie('menu', Dashboard?.menu, { path: '/' })
       }
     }
-  }, [Dashboard?.detailDashboard?.dashboardURL])
+  }, [Dashboard?.detailDashboard?.dashboardURL, Dashboard?.menu])
 
   return (
     <>

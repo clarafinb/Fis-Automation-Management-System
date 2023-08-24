@@ -9,8 +9,7 @@ import {
   API_DELETE_USER_PHOTO,
   API_SET_USER_PHOTO_ACTIVE,
   API_SET_USER_PHOTO_INACTIVE,
-  API_GET_DETAIL_USER_ACCOUNT,
-
+  API_GET_DETAIL_USER_ACCOUNT
 } from "../../api/index"
 import { setGlobalToken, removeGlobalToken } from "../../../helper/globalToken"
 import Swal from "sweetalert2";

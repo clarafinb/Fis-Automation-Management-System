@@ -22,13 +22,22 @@ const DefaultLayout = () => {
     dispatch(actions_dashboard.resetDetailDashboard())
     removeCookie('user');
     removeCookie('dashboardOpsLead');
+    removeCookie('menu')
+    removeCookie('activeMenu')
   }
 
-  const { idleTimer } = IdleTimer({ onIdle: handleIdle, idleTime: 5 })
+  const { idleTimer } = IdleTimer({ onIdle: handleIdle, idleTime: 10 })
 
   useEffect(() => {
     if (cookies?.user) {
       dispatch(actions.actionSetReduxUser(cookies.user))
+    }
+    if(cookies?.menu) {
+      dispatch(actions_dashboard.actionSetReduxMenu(cookies.menu))
+    }
+
+    if(cookies?.activeMenu) {
+      dispatch(actions_dashboard.actionSetReduxActiveMenu(cookies.activeMenu))
     }
   }, []);
 

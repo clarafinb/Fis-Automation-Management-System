@@ -32,6 +32,8 @@ const AppHeaderDropdown = () => {
     dispatch(actions_dashboard.resetDetailDashboard())
     removeCookie('user');
     removeCookie('dashboardOpsLead');
+    removeCookie('menu')
+    removeCookie('activeMenu')
 
     event.preventDefault()
 

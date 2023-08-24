@@ -7,30 +7,25 @@ import {
     CRow,
     CFormSelect,
     CCard,
-    CCardBody,
-    CCardText,
-    CNav,
-    CNavItem,
-    CNavLink,
-    CTabContent,
-    CTabPane
 } from '@coreui/react'
 import { useCookies } from "react-cookie";
 import * as actions from '../../config/redux/DashboardOpsLead/actions'
+import * as actions_dashbboard from '../../config/redux/Dashboard/actions'
 import CIcon from '@coreui/icons-react'
 import { cilList, cilNotes, cilPlus } from '@coreui/icons'
 import ModalProjectList from 'src/components/dashboardOpsLead/ModalProjectList';
 import ChartDetailWarehouse from 'src/components/dashboardOpsLead/ChartDetailWarehouse';
 import ModalCreateOrderRequest from 'src/components/dashboardOpsLead/orderRequest/ModalCreateOrderRequest';
+import Delivery from 'src/components/dashboardOpsLead/Delivery';
+import PickUp from 'src/components/dashboardOpsLead/PickUp';
 
 function Dashboard() {
     const [cookies, setCookie] = useCookies(["dashboardOpsLead"]);
-    const { dispatch, Global, DashboardOpsLead } = useRedux()
+    const { dispatch, Global, DashboardOpsLead, Dashboard } = useRedux()
     const [detailProject, setDetailProject] = useState([])
     const [detailWarehouses, setDetailWarehouses] = useState([])
     const [optionWarehouse, setOptionWarehouse] = useState([])
     const [values, setValues] = useState({})
-    const [activeKey, setActiveKey] = useState(1)
     const [modalProjectList, setModalProjectList] = useState(false)
     const [openModalOrderRequest, setOpenModalOrderRequest] = useState(false)
     const [selectedDetailWarehouse, setSelectedDetailWarehouse] = useState({})
@@ -85,8 +80,13 @@ function Dashboard() {
             if (type == 'pilih') {
                 setValues({})
                 setCookie('dashboardOpsLead', { projectId: val }, { path: '/' })
-                dispatch(actions.setProject({ projectId: val })) //set redux
-                getSummaryProject(val) //val: projectId
+                dispatch(actions.setProject({ projectId: val }))
+                getSummaryProject(val)
+
+                if(!Dashboard?.activeMenu){
+                    setCookie('activeMenu', 'dashboardopsleaddelivery', { path: '/' })
+                    dispatch(actions_dashbboard.actionSetReduxActiveMenu("dashboardopsleaddelivery"))
+                }
                 setModalProjectList(false)
             }
         }
@@ -260,284 +260,29 @@ function Dashboard() {
                             <br />
                             <CCard>
                                 <CRow className='m-3'>
-                                    <CNav variant="tabs">
-                                        <CNavItem>
-                                            <CNavLink
-                                                active={activeKey === 1}
-                                                onClick={() => setActiveKey(1)}
-                                            >
-                                                Delivery Request
-                                            </CNavLink>
-                                        </CNavItem>
-                                        <CNavItem>
-                                            <CNavLink
-                                                active={activeKey === 2}
-                                                onClick={() => setActiveKey(2)}
-                                            >
-                                                Pickup Request
-                                            </CNavLink>
-                                        </CNavItem>
-                                    </CNav>
+                                    <CCol sm={5}>
+                                        {Dashboard?.activeMenu === 'dashboardopsleaddelivery' && DashboardOpsLead?.project?.projectId
+                                            ? <h5 className="card-title mb-0">
+                                                <span className='text-underline'>DE</span>LIVERY
+                                            </h5>
+                                            : <h5 className="card-title mb-0">
+                                                <span className='text-underline'>PI</span>CKUP
+                                            </h5>
+                                        }
+                                    </CCol>
                                 </CRow>
                                 <CRow className='m-3'>
                                     <CCol sm={8}>
-                                        <CTabContent>
-                                            <CTabPane role="tabpanel" aria-labelledby="home-tab" visible={activeKey === 1}>
-                                                <CRow>
-                                                    <CCol sm={4}>
-                                                        <CCard className='mb-3' >
-                                                            <CCardBody>
-                                                                <CCardText className='px-3 text-center'>
-                                                                    <p>ORDER REQUEST DELIVERY</p>
-                                                                    <hr />
-                                                                    <h3>{detailWarehouse?.totalOrderReqDelivery}</h3>
-                                                                </CCardText>
-                                                                <CRow>
-                                                                    <CCol className="d-grid gap-2">
-                                                                        <CButton
-                                                                            className="colorBtn-yellow"
-                                                                            onClick={() => handleNavigator("orderRequest", detailWarehouse)}
-                                                                        >
-                                                                            DETAIL
-                                                                        </CButton>
-
-                                                                    </CCol>
-                                                                </CRow>
-                                                            </CCardBody>
-                                                        </CCard>
-                                                    </CCol>
-                                                    <CCol sm={4}>
-                                                        <CCard className='mb-3' >
-                                                            <CCardBody>
-                                                                <CCardText className='px-3 text-center'>
-                                                                    <p>PICK & PACK PENDING</p>
-                                                                    <hr />
-                                                                    <h3>{detailWarehouse?.pickandpackpendingCount}</h3>
-                                                                </CCardText>
-                                                                <CRow>
-                                                                    <CCol className="d-grid gap-2">
-                                                                        <CButton
-                                                                            className="colorBtn-yellow"
-                                                                            onClick={() => handleNavigator("pickAndPackPending", detailWarehouse)}
-                                                                        >
-                                                                            DETAIL
-                                                                        </CButton>
-
-                                                                    </CCol>
-                                                                </CRow>
-                                                            </CCardBody>
-                                                        </CCard>
-                                                    </CCol>
-                                                    <CCol sm={4}>
-                                                        <CCard className='mb-3' >
-                                                            <CCardBody>
-                                                                <CCardText className='px-3 text-center'>
-                                                                    <p>PICK & PACK ON PROGRESS</p>
-                                                                    <hr />
-                                                                    <h3>{detailWarehouse?.pickandpackOnProgressCount}</h3>
-                                                                </CCardText>
-                                                                <CRow>
-                                                                    <CCol className="d-grid gap-2">
-                                                                        <CButton
-                                                                            className="colorBtn-yellow"
-                                                                            onClick={() => handleNavigator("pickAndPackProgress", detailWarehouse)}
-                                                                        >
-                                                                            DETAIL
-                                                                        </CButton>
-
-                                                                    </CCol>
-                                                                </CRow>
-                                                            </CCardBody>
-                                                        </CCard>
-                                                    </CCol>
-                                                </CRow>
-                                                <CRow>
-                                                    <CCol sm={4}>
-                                                        <CCard className='mb-3'>
-                                                            <CCardBody>
-                                                                <CCardText className='px-3 text-center'>
-                                                                    <p>WAITING DISPATCH</p>
-                                                                    <hr />
-                                                                    <h3>{detailWarehouse?.waitingDispatchCount}</h3>
-                                                                </CCardText>
-                                                                <CRow>
-                                                                    <CCol className="d-grid gap-2">
-                                                                        <CButton
-                                                                            className="colorBtn-yellow"
-                                                                            onClick={() => handleNavigator("waitingDispatch", detailWarehouse)}
-                                                                        >
-                                                                            DETAIL
-                                                                        </CButton>
-
-                                                                    </CCol>
-                                                                </CRow>
-                                                            </CCardBody>
-                                                        </CCard>
-                                                    </CCol>
-                                                    <CCol sm={4}>
-                                                        <CCard className='mb-3' >
-                                                            <CCardBody>
-                                                                <CCardText className='px-3 text-center'>
-                                                                    <p>DELIVERY IN TRANSIT</p>
-                                                                    <hr />
-                                                                    <h3>{detailWarehouse?.deliveryInTransitCount}</h3>
-                                                                </CCardText>
-                                                                <CRow>
-                                                                    <CCol className="d-grid gap-2">
-                                                                        <CButton
-                                                                            className="colorBtn-yellow"
-                                                                            onClick={() => handleNavigator("deliveryTransit", detailWarehouse)}
-                                                                        >
-                                                                            DETAIL
-                                                                        </CButton>
-
-                                                                    </CCol>
-                                                                </CRow>
-                                                            </CCardBody>
-                                                        </CCard>
-                                                    </CCol>
-                                                    <CCol sm={4}>
-                                                        <CCard className='mb-3' >
-                                                            <CCardBody>
-                                                                <CCardText className='px-3 text-center'>
-                                                                    <p>DELIVERY ON SITE</p>
-                                                                    <hr />
-                                                                    <h3>{detailWarehouse?.deliveryOnsiteCount}</h3>
-                                                                </CCardText>
-                                                                <CRow>
-                                                                    <CCol className="d-grid gap-2">
-                                                                        <CButton
-                                                                            className="colorBtn-yellow"
-                                                                            onClick={() => handleNavigator("deliveryOnSite", detailWarehouse)}
-                                                                        >
-                                                                            DETAIL
-                                                                        </CButton>
-
-                                                                    </CCol>
-                                                                </CRow>
-                                                            </CCardBody>
-                                                        </CCard>
-                                                    </CCol>
-                                                    <CCol sm={4}>
-                                                        <CCard className='mb-3' >
-                                                            <CCardBody>
-                                                                <CCardText className='px-3 text-center'>
-                                                                    <p>DELIVERY COMPLETED</p>
-                                                                    <hr />
-                                                                    <h3>{detailWarehouse?.deliveryCompleteCount}</h3>
-                                                                </CCardText>
-                                                                <CRow>
-                                                                    <CCol className="d-grid gap-2">
-                                                                        <CButton
-                                                                            className="colorBtn-yellow"
-                                                                            onClick={() => handleNavigator("deliveryComplete", detailWarehouse)}
-                                                                        >
-                                                                            DETAIL
-                                                                        </CButton>
-
-                                                                    </CCol>
-                                                                </CRow>
-                                                            </CCardBody>
-                                                        </CCard>
-                                                    </CCol>
-                                                </CRow>
-                                            </CTabPane>
-                                            <CTabPane role="tabpanel" aria-labelledby="profile-tab" visible={activeKey === 2}>
-                                                {/* <h6>Pickup Request</h6> */}
-                                                <CRow>
-                                                    <CCol>
-                                                        <CCard className='mb-3' >
-                                                            <CCardBody>
-                                                                <CCardText className='px-3 text-center'>
-                                                                    <p>ORDER REQUEST PICKUP</p>
-                                                                    <hr />
-                                                                    <h3>{detailWarehouse?.totalOrderReqPickup}</h3>
-                                                                </CCardText>
-                                                                <CRow>
-                                                                    <CCol className="d-grid gap-2">
-                                                                        <CButton
-                                                                            className="colorBtn-yellow"
-                                                                            onClick={() => handleNavigator("orderRequestPickup", detailWarehouse)}
-                                                                        >
-                                                                            DETAIL
-                                                                        </CButton>
-
-                                                                    </CCol>
-                                                                </CRow>
-                                                            </CCardBody>
-                                                        </CCard>
-                                                    </CCol>
-                                                    <CCol>
-                                                        <CCard className='mb-3' >
-                                                            <CCardBody>
-                                                                <CCardText className='px-3 text-center'>
-                                                                    <p>PICKUP PREPARATION</p>
-                                                                    <hr />
-                                                                    <h3>{detailWarehouse?.waitingPickupCount}</h3>
-                                                                </CCardText>
-                                                                <CRow>
-                                                                    <CCol className="d-grid gap-2">
-                                                                        <CButton
-                                                                            className="colorBtn-yellow"
-                                                                            onClick={() => handleNavigator("pickupPreparation", detailWarehouse)}
-                                                                        >
-                                                                            DETAIL
-                                                                        </CButton>
-
-                                                                    </CCol>
-                                                                </CRow>
-                                                            </CCardBody>
-                                                        </CCard>
-                                                    </CCol>
-                                                </CRow>
-                                                <CRow>
-                                                    <CCol>
-                                                        <CCard className='mb-3' >
-                                                            <CCardBody>
-                                                                <CCardText className='px-3 text-center'>
-                                                                    <p>PICKUP IN TRANSIT</p>
-                                                                    <hr />
-                                                                    <h3>{detailWarehouse?.pickupInTransitCount}</h3>
-                                                                </CCardText>
-                                                                <CRow>
-                                                                    <CCol className="d-grid gap-2">
-                                                                        <CButton
-                                                                            className="colorBtn-yellow"
-                                                                        // onClick={() => handleNavigator("orderRequest", detailWarehouse)}
-                                                                        >
-                                                                            DETAIL
-                                                                        </CButton>
-
-                                                                    </CCol>
-                                                                </CRow>
-                                                            </CCardBody>
-                                                        </CCard>
-                                                    </CCol>
-                                                    <CCol>
-                                                        <CCard className='mb-3' >
-                                                            <CCardBody>
-                                                                <CCardText className='px-3 text-center'>
-                                                                    <p>HO COMPLETED</p>
-                                                                    <hr />
-                                                                    <h3>{detailWarehouse?.hoCompleteCount}</h3>
-                                                                </CCardText>
-                                                                <CRow>
-                                                                    <CCol className="d-grid gap-2">
-                                                                        <CButton
-                                                                            className="colorBtn-yellow"
-                                                                        // onClick={() => handleNavigator("orderRequest", detailWarehouse)}
-                                                                        >
-                                                                            DETAIL
-                                                                        </CButton>
-
-                                                                    </CCol>
-                                                                </CRow>
-                                                            </CCardBody>
-                                                        </CCard>
-                                                    </CCol>
-                                                </CRow>
-                                            </CTabPane>
-                                        </CTabContent>
+                                        {Dashboard?.activeMenu === 'dashboardopsleaddelivery' && DashboardOpsLead?.project?.projectId
+                                            ? <Delivery
+                                                detailWarehouse={detailWarehouse}
+                                                handleNavigator={handleNavigator}
+                                            />
+                                            : <PickUp
+                                                detailWarehouse={detailWarehouse}
+                                                handleNavigator={handleNavigator}
+                                            />
+                                        }
                                     </CCol>
                                     <CCol sm={4}>
                                         <CCard>

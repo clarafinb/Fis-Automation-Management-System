@@ -98,7 +98,8 @@ import {
   API_SET_ACTIVE_EVIDENCE_CHECKLIST_PROJECT,
   API_GET_EVIDENCE_CHECKLIST_PROJECT_NOT_REGISTERED,
   API_EXPORT_EXCEL_SUB_DISTRICT,
-  API_GET_MASTER_LOGISTIC_PROCESS_ACTIVE
+  API_GET_MASTER_LOGISTIC_PROCESS_ACTIVE,
+  API_GET_MENU
 } from "../../api/index"
 import Swal from "sweetalert2";
 
@@ -140,6 +141,24 @@ export const resetDetailDashboard = () => {
   }
 }
 
+export const actionSetReduxMenu = (payload) => {
+  return async (dispatch) => {
+    try {
+      dispatch({
+        type: actionType.SET_MENU,
+        payload: payload,
+      })
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Close'
+      })
+    }
+  }
+}
+
 export const setDashboard = (payload) => {
   return async (dispatch) => {
     try {
@@ -157,6 +176,51 @@ export const setDashboard = (payload) => {
     }
   }
 }
+
+export const getMenu = (payload) => {
+  return async (dispatch) => {
+    try {
+      let list = await actionCrud.actionCommonSlice(payload, API_GET_MENU, "GET");
+      let listMenu = list?.map((item, idx) => {
+        return {
+          no: idx + 1,
+          ...item
+        }
+      })
+
+      dispatch({
+        type: actionType.SET_MENU,
+        payload: listMenu
+      });
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Close'
+      })
+    }
+  }
+}
+
+export const actionSetReduxActiveMenu = (payload) => {
+  return async (dispatch) => {
+    try {
+      dispatch({
+        type: actionType.SET_ACTIVE_MENU,
+        payload: payload,
+      })
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Close'
+      })
+    }
+  }
+}
+
 export const getListProject = (payload) => {
   return async (dispatch) => {
     try {
