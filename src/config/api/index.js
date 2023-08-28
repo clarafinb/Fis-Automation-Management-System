@@ -227,3 +227,17 @@ export const API_GET_ORDER_REQUEST_PICKUP_PREPARATION = BASE_URL + "logmanagemen
 export const API_COMPLETE_PICKUP_PREPARATION = BASE_URL + "logmanagement/pickupPreparationComplete"
 // MENU
 export const API_GET_MENU = BASE_URL + "menu/getMenuBasedOnRole"
+// ASSET TRUCK
+export const API_GET_MASTER_VEHICLES_ALL = BASE_URL + "mvehicle/getMasterVehiclesAll"
+export const API_GET_MASTER_VEHICLES_PLAT_CODE = BASE_URL + "mvehicle/getMasterPlateCodeVehicleActiveOnly"
+export const API_GET_MASTER_VEHICLES_CATEGORY_ACTIVE_ONLY = BASE_URL + "mvehicle/getMasterOwnershipVehicleCategoryActiveOnly"
+export const API_ADD_MASTER_VEHICLES = BASE_URL + "mvehicle/addMasterVehicle"
+export const API_UPDATE_MASTER_VEHICLES = BASE_URL + "mvehicle/updateMasterVehicle"
+export const API_EXPORT_EXCEL_MASTER_VEHICLES = BASE_URL + "mvehicle/getMasterVehiclesAllExportToExcel"
+export const API_SET_ACTIVE_MASTER_VEHICLES = BASE_URL + "mvehicle/masterVehicleSetActiveStatus"
+export const API_SET_INACTIVE_MASTER_VEHICLES = BASE_URL + "mvehicle/masterVehicleSetInActiveStatus"
+// PLATE CODE
+export const API_GET_MASTER_PLATE_CODE = BASE_URL + "masterdata/getMasterPlateCodeA"
+export const API_ADD_MASTER_PLATE_CODE = BASE_URL + "masterdata/masterPlateCodeAdd"
+export const API_SET_ACTIVE_MASTER_PLATE_CODE = BASE_URL + "masterdata/masterPlateCodeSetActiveStatus"
+export const API_SET_INACTIVE_MASTER_PLATE_CODE = BASE_URL + "masterdata/masterPlateCodeSetInActiveStatus"

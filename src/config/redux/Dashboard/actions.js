@@ -99,7 +99,19 @@ import {
   API_GET_EVIDENCE_CHECKLIST_PROJECT_NOT_REGISTERED,
   API_EXPORT_EXCEL_SUB_DISTRICT,
   API_GET_MASTER_LOGISTIC_PROCESS_ACTIVE,
-  API_GET_MENU
+  API_GET_MENU,
+  API_GET_MASTER_VEHICLES_ALL,
+  API_ADD_MASTER_VEHICLES,
+  API_SET_INACTIVE_MASTER_VEHICLES,
+  API_SET_ACTIVE_MASTER_VEHICLES,
+  API_GET_MASTER_VEHICLES_PLAT_CODE,
+  API_GET_MASTER_VEHICLES_CATEGORY_ACTIVE_ONLY,
+  API_UPDATE_MASTER_VEHICLES,
+  API_EXPORT_EXCEL_MASTER_VEHICLES,
+  API_GET_MASTER_PLATE_CODE,
+  API_ADD_MASTER_PLATE_CODE,
+  API_SET_INACTIVE_MASTER_PLATE_CODE,
+  API_SET_ACTIVE_MASTER_PLATE_CODE
 } from "../../api/index"
 import Swal from "sweetalert2";
 
@@ -2248,6 +2260,235 @@ export const subDistrictExportToExcel = () => {
     try {
       let data = await actionCrud.actionCommonSliceParamBlob('', API_EXPORT_EXCEL_SUB_DISTRICT, "GET");
       return Promise.resolve(data)
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Close'
+      })
+    }
+  }
+}
+
+export const getListMasterAssetTruck = () => {
+  return async (dispatch) => {
+    try {
+      let list = await actionCrud.actionCommonCrud(null, API_GET_MASTER_VEHICLES_ALL, "GET");
+      let result = list?.map((item, idx) => {
+        return {
+          no: idx + 1,
+          ...item,
+        }
+      })
+      dispatch({
+        type: actionType.SET_LIST_MASTER_ASSET_TRUCK,
+        payload: result
+      });
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Close'
+      })
+    }
+  }
+}
+
+export const createMasterAssetTruck = (payload, methode = 'POST') => {
+  return async (dispatch) => {
+    try {
+
+      let url = API_ADD_MASTER_VEHICLES
+      if (methode === 'PUT') url = API_UPDATE_MASTER_VEHICLES
+
+      let create = await actionCrud.actionCommonCrud(payload, url, methode);
+      if (create.status === "success") {
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: create?.message,
+          showConfirmButton: true
+        });
+        dispatch(getListMasterAssetTruck());
+      } else {
+        Swal.fire({
+          title: 'Error!',
+          text: create?.message,
+          icon: 'error',
+          confirmButtonText: 'Close'
+        })
+      }
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Close'
+      })
+    }
+  }
+}
+
+export const setStatusActiveMasterAssetTruck = (val, vehicleId, userId) => {
+  return async (dispatch) => {
+    try {
+
+      let url = API_SET_INACTIVE_MASTER_VEHICLES
+      if (val) {
+        url = API_SET_ACTIVE_MASTER_VEHICLES
+      }
+
+      const fullParam = `${vehicleId}/${userId}`
+      let response = await actionCrud.actionCommonSliceParam(fullParam, url, "PUT");
+      if (response.status === "success") {
+        dispatch(getListMasterAssetTruck());
+      }
+
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Close'
+      })
+    }
+  }
+}
+
+export const getSelecPlatCode = (payload) => {
+  return async () => {
+    try {
+      let list = await actionCrud.actionCommonCrud(payload, API_GET_MASTER_VEHICLES_PLAT_CODE, "GET");
+      let data = list?.map((item, idx) => {
+        return {
+          label: item.platCode,
+          value: item.platCode
+        }
+      })
+      return Promise.resolve(data)
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Close'
+      })
+    }
+  }
+}
+
+export const getMasterOwnershipVehicleCategoryActiveOnly = (payload) => {
+  return async () => {
+    try {
+      let list = await actionCrud.actionCommonCrud(payload, API_GET_MASTER_VEHICLES_CATEGORY_ACTIVE_ONLY, "GET");
+      let data = list?.map((item, idx) => {
+        return {
+          label: item.ownerShipCategory,
+          value: item.ownershipCatId
+        }
+      })
+      return Promise.resolve(data)
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Close'
+      })
+    }
+  }
+}
+
+export const assetTruckExportExcel = () => {
+  return async (dispatch) => {
+    try {
+      let data = await actionCrud.actionCommonSliceParamBlob('', API_EXPORT_EXCEL_MASTER_VEHICLES, "GET");
+      return Promise.resolve(data)
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Close'
+      })
+    }
+  }
+}
+
+export const getListMasterPlateCode = () => {
+  return async (dispatch) => {
+    try {
+      let list = await actionCrud.actionCommonCrud(null, API_GET_MASTER_PLATE_CODE, "GET");
+      let result = list?.map((item, idx) => {
+        return {
+          no: idx + 1,
+          ...item,
+        }
+      })
+      dispatch({
+        type: actionType.SET_LIST_MASTER_PLATE_CODE,
+        payload: result
+      });
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Close'
+      })
+    }
+  }
+}
+
+export const createMasterPlateCode = (payload, methode = 'POST') => {
+  return async (dispatch) => {
+    try {
+      let url = API_ADD_MASTER_PLATE_CODE
+      let create = await actionCrud.actionCommonCrud(payload, url, methode);
+      if (create.status === "success") {
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: create?.message,
+          showConfirmButton: true
+        });
+        dispatch(getListMasterPlateCode());
+      } else {
+        Swal.fire({
+          title: 'Error!',
+          text: create?.message,
+          icon: 'error',
+          confirmButtonText: 'Close'
+        })
+      }
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Close'
+      })
+    }
+  }
+}
+
+export const setStatusActiveMasterPlateCode = (val, id) => {
+  return async (dispatch) => {
+    try {
+
+      let url = API_SET_INACTIVE_MASTER_PLATE_CODE
+      if (val) {
+        url = API_SET_ACTIVE_MASTER_PLATE_CODE
+      }
+
+      const fullParam = `${id}`
+      let response = await actionCrud.actionCommonSliceParam(fullParam, url, "PUT");
+      if (response.status === "success") {
+        dispatch(getListMasterPlateCode());
+      }
+
     } catch (error) {
       Swal.fire({
         title: 'Error!',

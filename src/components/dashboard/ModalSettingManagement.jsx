@@ -113,6 +113,14 @@ function ModalSettingManagement({
                             </CCardBody>
                         </CCard>
                     </CCol>
+                    <CCol sm={3}>
+                        <CCard className='text-center no-background' onClick={() => { handleViewModal("assetTruck") }}>
+                            <CCardBody>
+                                <img src={'icon/TRANSPORT-MODE-ICON.png'} />
+                                <p>Asset Truck</p>
+                            </CCardBody>
+                        </CCard>
+                    </CCol>
                 </CRow>
             </CModalBody>
             {/* <CModalFooter>

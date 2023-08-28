@@ -20,6 +20,7 @@ const SubDistrictManagement = React.lazy(() => import('./views/dashboard/setting
 const WarehouseType = React.lazy(() => import('./views/dashboard/settingManagement/WarehouseType'))
 const EvidenceChecklist = React.lazy(() => import('./views/dashboard/settingManagement/EvidenceChecklist'))
 const EvidenceChecklistProject = React.lazy(() => import('./views/dashboard/masterWarehouse/EvidenceChecklistProject'))
+const AssetTruck = React.lazy(() => import('./views/dashboard/settingManagement/AssetTruck'))
 //Operation Lead
 const OrderRequest = React.lazy(() => import('./views/dashboardOpsLead/orderRequest/OrderRequest'))
 const PickAndPack = React.lazy(() => import('./views/dashboardOpsLead/pickAndPackPending/PickAndPack'))
@@ -57,6 +58,7 @@ const routes = [
   { path: '/dashboard/warehouse/:id', name: 'WAREHOUSE', element: Warehouse },
   { path: '/dashboard/setting-management/service-charge', name: 'SERVICE CHARGE LIST', element: ServiceChargeList },
   { path: '/setting-management/evidence-checklist', name: 'EVIDENCE CHECKLIST', element: EvidenceChecklist },
+  { path: '/setting-management/asset-truck', name: 'ASSET TRUCK', element: AssetTruck},
   { path: '/setting-project/evidence-checklist-project/:id', name: 'EVIDENCE CHECKLIST', element: EvidenceChecklistProject },
   { path: '/dashboard/setting-management/delivery', name: 'DELIVERY MODE', element: DeliveryMode },
   { path: '/dashboard/setting-management/transport', name: 'TRANSPORT MODE', element: TransportMode },

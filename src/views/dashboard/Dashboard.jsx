@@ -149,6 +149,10 @@ const Dashboard = () => {
         type: 'evidenceChecklist',
         url: '/setting-management/evidence-checklist'
       },
+      {
+        type: 'assetTruck',
+        url: '/setting-management/asset-truck'
+      },
     ]
 
     let url = navigate.find(e => e.type === type)

@@ -18,6 +18,10 @@ export const formatStandartDate = (date) => {
     return moment(date).format('DD-MM-YYYY')
 }
 
+export const formatDateInput = (date) => {
+    return moment(date).format('YYYY-MM-DD')
+}
+
 export const handleDecimalsOnValue = (value) => {
     const regex = /([0-9]*[\.|\,]{0,1}[0-9]{0,10})/s;
     return value.match(regex)[0];

@@ -23,6 +23,8 @@ let initialState = {
     listBulkUploadSku: [],
     listEvidenceChecklist: [],
     listEvidenceChecklistProject: [],
+    listMasterAssetTruck: [],
+    listMasterPlateCode: []
 };
 
 const Dashboard = (state = initialState, { type, payload }) => {
@@ -171,6 +173,16 @@ const Dashboard = (state = initialState, { type, payload }) => {
             return {
                 ...state,
                 listEvidenceChecklistProject: payload
+            }
+        case actionType.SET_LIST_MASTER_ASSET_TRUCK:
+            return {
+                ...state,
+                listMasterAssetTruck: payload
+            }
+        case actionType.SET_LIST_MASTER_PLATE_CODE:
+            return {
+                ...state,
+                listMasterPlateCode: payload
             }
         default:
             return { ...state };
