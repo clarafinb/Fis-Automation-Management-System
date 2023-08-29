@@ -237,7 +237,7 @@ export const API_EXPORT_EXCEL_MASTER_VEHICLES = BASE_URL + "mvehicle/getMasterVe
 export const API_SET_ACTIVE_MASTER_VEHICLES = BASE_URL + "mvehicle/masterVehicleSetActiveStatus"
 export const API_SET_INACTIVE_MASTER_VEHICLES = BASE_URL + "mvehicle/masterVehicleSetInActiveStatus"
 // PLATE CODE
-export const API_GET_MASTER_PLATE_CODE = BASE_URL + "masterdata/getMasterPlateCodeA"
+export const API_GET_MASTER_PLATE_CODE = BASE_URL + "masterdata/getMasterPlateCodeAll"
 export const API_ADD_MASTER_PLATE_CODE = BASE_URL + "masterdata/masterPlateCodeAdd"
 export const API_SET_ACTIVE_MASTER_PLATE_CODE = BASE_URL + "masterdata/masterPlateCodeSetActiveStatus"
 export const API_SET_INACTIVE_MASTER_PLATE_CODE = BASE_URL + "masterdata/masterPlateCodeSetInActiveStatus"

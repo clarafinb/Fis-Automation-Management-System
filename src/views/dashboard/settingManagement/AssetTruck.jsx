@@ -17,10 +17,12 @@ import * as actions from '../../../config/redux/Dashboard/actions'
 import ModalCreateAssetTruck from 'src/components/dashboard/settingManagement/AssetTruck/ModalCreateAssetTruck'
 import TableListAssetTruck from 'src/components/dashboard/settingManagement/AssetTruck/TableListAssetTruck'
 import { downloadFileConfig } from 'src/helper/globalHelper'
+import ModalPlateCode from 'src/components/dashboard/settingManagement/AssetTruck/PlateCode/ModalPlateCode'
 
 function AssetTruck() {
     const { dispatch, Global, Dashboard } = useRedux()
     const [modalCreate, setModalCreate] = useState(false)
+    const [modalPlateCode, setModalPlateCode] = useState(false)
     const [AssetTruckSelected, setAssetTruckSelected] = useState({})
     const [isEdit, setIsEdit] = useState(false)
 
@@ -33,6 +35,10 @@ function AssetTruck() {
     const handleCreate = () => {
         setIsEdit(false)
         setModalCreate(true)
+    }
+
+    const handleOpenPlateCode = () => {
+        setModalPlateCode(true)
     }
 
     const handleToogle = useCallback(
@@ -75,7 +81,7 @@ function AssetTruck() {
                         <CIcon icon={cilPlus} className="me-2 text-warning" />
                         ADD ASSET TRUCK
                     </CButton>
-                    <CButton className="colorBtn-white me-2" onClick={handleCreate}>
+                    <CButton className="colorBtn-white me-2" onClick={handleOpenPlateCode}>
                         <CIcon icon={cilCode} className="me-2 text-warning" />
                         PLATE CODE
                     </CButton>
@@ -109,11 +115,9 @@ function AssetTruck() {
                 dataEdit={AssetTruckSelected}
             />
 
-            <ModalCreateAssetTruck
-                open={modalCreate}
-                setOpen={setModalCreate}
-                isEdit={isEdit}
-                dataEdit={AssetTruckSelected}
+            <ModalPlateCode
+                open={modalPlateCode}
+                setOpen={setModalPlateCode}
             />
         </>
     )

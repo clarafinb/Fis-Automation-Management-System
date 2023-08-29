@@ -18,6 +18,7 @@ import ButtonCancel from 'src/components/custom/button/ButtonCancel'
 import ButtonSubmit from 'src/components/custom/button/ButtonSubmit'
 import Select from 'react-select'
 import { formatStandartDate, formatDateInput } from 'src/helper/globalHelper'
+import Alert from 'src/components/custom/toast/Alert'
 
 function ModalCreateAssetTruck({ open, setOpen, isEdit = false, dataEdit }) {
     const { dispatch, Global } = useRedux()
@@ -33,12 +34,16 @@ function ModalCreateAssetTruck({ open, setOpen, isEdit = false, dataEdit }) {
     const [ownershipCategory, setOwnershipCategory] = useState([])
     const [selectedOwnershipCategory, setSelectedOwnershipCategory] = useState({});
 
+    const [errMessage, setErrMessage] = useState(null)
+    const [visible, setVisible] = useState(false)
+
 
     useEffect(() => {
         if (Global?.user?.token && open) {
 
             setData({})
             setValues({})
+            setErrMessage(null)
             if (isEdit) {
                 setData(dataEdit)
             }
@@ -75,18 +80,29 @@ function ModalCreateAssetTruck({ open, setOpen, isEdit = false, dataEdit }) {
             LMBY: Global.user.userID
         }
 
-        console.log(payload)
-
         let methode = "POST"
         if (isEdit) {
             methode = "PUT"
             payload.vehicleId = data?.vehicleId
         }
 
-        dispatch(actions.createMasterAssetTruck(payload, methode))
-        setData({})
-        setValues({})
-        setOpen(false)
+        const err = []
+
+        if (payload.transportTypeId === undefined) err.push('Transport Type')
+        if (payload.platCodeFirst === undefined) err.push('First Palte Letter')
+        if (payload.vehicleOwnershipCatId === undefined) err.push('Ownership Type')
+
+        if (err.length > 0) {
+            setErrMessage(err.join(' , '))
+            setVisible(true)
+        } else {
+            dispatch(actions.createMasterAssetTruck(payload, methode))
+            setData({})
+            setValues({})
+            setOpen(false)
+        }
+
+
     }
 
     const handleOnchange = useCallback(
@@ -135,6 +151,7 @@ function ModalCreateAssetTruck({ open, setOpen, isEdit = false, dataEdit }) {
                                 isSearchable={true}
                                 value={selectedTransportType}
                                 onChange={handleOnChangetransportType}
+                                required
                             />
                         </CCol>
                     </CRow>
@@ -147,6 +164,7 @@ function ModalCreateAssetTruck({ open, setOpen, isEdit = false, dataEdit }) {
                                 isSearchable={true}
                                 value={selectedPlatCode}
                                 onChange={handleOnChangePlatCode}
+                                required
                             />
                         </CCol>
                     </CRow>
@@ -220,11 +238,21 @@ function ModalCreateAssetTruck({ open, setOpen, isEdit = false, dataEdit }) {
                                 isSearchable={true}
                                 value={selectedOwnershipCategory}
                                 onChange={handleOnChangeOwnershipCategory}
+                                required
                             />
                         </CCol>
                     </CRow>
                 </CModalBody>
                 <CModalFooter>
+                    <CRow>
+                        <CCol>
+                            <Alert
+                                message={errMessage}
+                                visible={visible}
+                                setVisible={setVisible}
+                            />
+                        </CCol>
+                    </CRow>
                     <ButtonCancel
                         label='CANCEL'
                         handleButton={() => setOpen(false)}
