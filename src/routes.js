@@ -42,7 +42,8 @@ const ManageInventory = React.lazy(() => import('./views/dashboardOpsLead/Manage
 const OrderRequestPickup = React.lazy(() => import('./views/dashboardOpsLead/orderRequestPickup/OrderRequestPickup'))
 const PickupPreparation = React.lazy(() => import('./views/dashboardOpsLead/pickupPreparation/PickupPreparation'))
 const PickupPreparationDetail = React.lazy(() => import('./views/dashboardOpsLead/pickupPreparation/PickupPreparationDetail'))
-// const Colors = React.lazy(() => import('./views/theme/colors/Colors'))
+const WaitingTransportAssignment = React.lazy(() => import('./views/dashboardOpsLead/waitingTransportAssignment/WaitingTransportAssignment'))
+const WaitingTransportAssignmentDetail = React.lazy(() => import('./views/dashboardOpsLead/waitingTransportAssignment/WaitingTransportAssignmentDetail'))
 // DASHBOARD WH TEAM
 const DashboardWhTeam = React.lazy(() => import('./views/dashboardWhTeam/Dashboard'))
 // TESTING
@@ -104,7 +105,11 @@ const routes = [
   { path: '/pickup-preparation/:projectId/:whId/detail/:orderReqId', name: 'PICKUP PREPARATION DETAIL', element: PickupPreparationDetail },
   // DASHBOARD WH TEAM
   { path: '/dashboard-wh', name: 'DASHBOARD', element: DashboardWhTeam },
-
+  // WAITING TRANSPORT ASSIGNMENT
+  { path: '/waiting-transport-assignment/:projectId/:whId', name: 'WAITING TRANSPORT ASSIGNMENT', element: WaitingTransportAssignment },
+  { path: '/waiting-transport-assignment/:projectId/:whId/detail/:orderReqId', name: 'WAITING TRANSPORT ASSIGNMENT DETAIL', element: WaitingTransportAssignmentDetail },
+  { path: '/waiting-transport-assignment/transport-arrangment/:transportArrangmentId/:transportModeId/:projectId/:orderReqId/:whId', name: 'TRANSPORT ARRANGMENT DETAIL', element: TransportArrangmentDetail },
+  { path: '/waiting-transport-assignment/handcarry-arrangment/:transportArrangmentId/:transportModeId/:projectId/:orderReqId/:whId', name: 'TRANSPORT ARRANGMENT DETAIL', element: TransportHandCarryDetail },
   // { path: '/theme', name: 'Theme', element: Colors, exact: true },
   // { path: '/theme/colors', name: 'Colors', element: Colors },
 ]

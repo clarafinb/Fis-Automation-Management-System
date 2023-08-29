@@ -77,7 +77,8 @@ import {
     API_GET_EVIDENCE_DELIVERY_ONSITE,
     API_UPLOAD_EVIDENCE_DELIVERY_ONSITE,
     API_DELETE_EVIDENCE_DELIVERY_ONSITE,
-    API_CONFIRM_DELIVERY_ONSITE
+    API_CONFIRM_DELIVERY_ONSITE,
+    API_GET_WAITING_TRANSPORT_ASSIGNMENT
 } from "../../api/index"
 
 /**************************************** DASHBOARD OPS LEAD ****************************************/
@@ -2149,6 +2150,35 @@ export const confirmDeliveryOnSite = (payload, projectId, whId, userId) => {
                     confirmButtonText: 'Close'
                 })
             }
+        } catch (error) {
+            Swal.fire({
+                title: 'Error!',
+                text: error.message,
+                icon: 'error',
+                confirmButtonText: 'Close'
+            })
+        }
+    }
+}
+
+export const getListWaitingTransportAssignment = (projectId, whId, userId) => {
+    return async (dispatch) => {
+        try {
+            const fullParam = `${projectId}/${whId}/${userId}`
+            let list = await actionCrud.actionParamRequest(fullParam, API_GET_WAITING_TRANSPORT_ASSIGNMENT, "GET");
+            let listOrdeRequest = list?.map((item, idx) => {
+                return {
+                    no: idx + 1,
+                    projectId: projectId,
+                    whId: whId,
+                    userId: userId,
+                    ...item,
+                }
+            })
+            dispatch({
+                type: actionType.SET_LIST_WAITING_TRANSPORT_ASSIGNMENT,
+                payload: listOrdeRequest
+            });
         } catch (error) {
             Swal.fire({
                 title: 'Error!',

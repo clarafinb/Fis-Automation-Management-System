@@ -157,6 +157,10 @@ function Dashboard() {
             {
                 type: 'pickupPreparation',
                 url: `/pickup-preparation/${projectId}/${whId}`
+            },
+            {
+                type: 'waitingTransportAssignment',
+                url:  `/waiting-transport-assignment/${projectId}/${whId}`
             }
         ]
 

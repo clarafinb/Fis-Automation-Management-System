@@ -40,12 +40,15 @@ function TransportArragmentDetail() {
     useEffect(() => {
         const split = window.location.href.split("/");
 
+        console.log(split)
+
         setParam({
             transportArrangmentId: split[6],
             transportModeId: split[7],
             projectId: split[8],
             orderReqId: split[9],
-            whId: split[10]
+            whId: split[10],
+            url: `/${split[4]}/`
         })
 
         if (split[6] && Global?.user?.userID) {
@@ -112,9 +115,9 @@ function TransportArragmentDetail() {
     const handleConfirm = (type) => {
         if (type == "confirm") {
             dispatch(actions.completeTransportArrangement(param?.transportArrangmentId, Global?.user?.userID))
-            nav("/waiting-dispatch/" + param?.projectId + "/" + param?.whId, { replace: true })
+            nav(param?.url + param?.projectId + "/" + param?.whId, { replace: true })
         } else {
-            nav("/waiting-dispatch/" + param?.projectId + "/" + param?.whId + "/detail/" + param?.orderReqId, { replace: true })
+            nav(param?.url + param?.projectId + "/" + param?.whId + "/detail/" + param?.orderReqId, { replace: true })
         }
     }
 
@@ -126,7 +129,11 @@ function TransportArragmentDetail() {
                     <CRow>
                         <CCol sm={5}>
                             <h4 className="card-title mb-0">
-                                <span className='text-underline'>WAITING DELIVERY</span>
+                                {["waiting-dispatch"].includes(param?.url) 
+                                ? <span className='text-underline'>WAITING DELIVERY</span>
+                                : <span className='text-underline'>WAITING TRANSPORT ASSIGNMENT</span>
+                                }
+                                
                             </h4>
                         </CCol>
                     </CRow>

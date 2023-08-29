@@ -23,7 +23,8 @@ let initialState = {
     listOrdeRequestPickup: [],
     listPickupPreparation: [],
     listDeliveryOnSite: [],
-    listDeliveryOnSiteEvidence: []
+    listDeliveryOnSiteEvidence: [],
+    listWaitingTransportAssignment: []
 };
 
 const DashboardOpsLead = (state = initialState, { type, payload }) => {
@@ -170,6 +171,12 @@ const DashboardOpsLead = (state = initialState, { type, payload }) => {
             return {
                 ...state,
                 listDeliveryOnSiteEvidence: payload
+            }
+
+        case actionType.SET_LIST_WAITING_TRANSPORT_ASSIGNMENT:
+            return {
+                ...state,
+                listWaitingTransportAssignment: payload
             }
 
         default:
