@@ -78,17 +78,26 @@ import {
     API_UPLOAD_EVIDENCE_DELIVERY_ONSITE,
     API_DELETE_EVIDENCE_DELIVERY_ONSITE,
     API_CONFIRM_DELIVERY_ONSITE,
-    API_GET_WAITING_TRANSPORT_ASSIGNMENT
+    API_GET_WAITING_TRANSPORT_ASSIGNMENT,
+    API_GET_ACTIVITY_SUMMARY_WH_PROJECT_PICKUP
 } from "../../api/index"
 
 /**************************************** DASHBOARD OPS LEAD ****************************************/
 export const getActivitySummaryWHProject = (userId, projectId) => {
     return async () => {
         try {
-            let data = await actionCrud.actionCommonSlice(projectId, API_GET_ACTIVITY_SUMMARY_WH_PROJECT, "GET", userId);
-            const result = data?.map(row => {
+            let deliveryApi = actionCrud.actionCommonSlice(projectId, API_GET_ACTIVITY_SUMMARY_WH_PROJECT, "GET", userId);
+            let pickupApi =  actionCrud.actionCommonSlice(projectId,API_GET_ACTIVITY_SUMMARY_WH_PROJECT_PICKUP, "GET", userId);
+
+            const [dataDelivery,dataPickup] = await Promise.all([
+                deliveryApi,pickupApi
+            ])
+            
+            const result = dataDelivery?.map((row,index) => {
+                const dataFind = dataPickup.find(e => e.whId === row.whId)
                 return {
                     ...row,
+                    ...dataFind,
                     projectId: projectId
                 }
             })

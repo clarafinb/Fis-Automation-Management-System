@@ -7,6 +7,7 @@ import {
     CCard,
     CCardBody,
     CCol,
+    CForm,
     CFormLabel,
     CFormSelect,
     CModal,
@@ -26,6 +27,8 @@ import TableListCustomerOrderRequestList from 'src/components/dashboardOpsLead/w
 import TableListTransportTypeAndDispatcher from 'src/components/dashboardOpsLead/waitingDispatch/TableListTransportTypeAndDispatcher'
 import TableListServiceCharge from 'src/components/dashboardOpsLead/waitingDispatch/TableListServiceCharge'
 import ModalAdditionalServiceCharge from 'src/components/dashboardOpsLead/waitingDispatch/ModalAdditionalServiceCharge'
+import Select from 'react-select'
+import Alert from 'src/components/custom/toast/Alert'
 
 function TransportArragmentDetail() {
     const nav = useNavigate();
@@ -34,14 +37,15 @@ function TransportArragmentDetail() {
     const [openModalSc, setOpenModalSc] = useState(false)
     const [transportType, setTransportType] = useState([])
     const [dispatcher, setDispatcher] = useState([])
-    const [values, setValues] = useState({})
     const [param, setParam] = useState({})
+    const [visible, setVisible] = useState(false)
+    const [errMessage, setErrMessage] = useState(null)
+
+    const [selectedTransportType, setSelectedTransportType] = useState({});
+    const [selectedDispatcher, setSelectedDispatcher] = useState({});
 
     useEffect(() => {
         const split = window.location.href.split("/");
-
-        console.log(split)
-
         setParam({
             transportArrangmentId: split[6],
             transportModeId: split[7],
@@ -71,11 +75,14 @@ function TransportArragmentDetail() {
 
     const handleCreateTransportArrangmentType = async () => {
 
+        setSelectedDispatcher({})
+        setSelectedTransportType({})
+
         let listTransportType = await dispatch(actions.getTransportTypeList(param?.transportModeId))
         let listDispatcher = await dispatch(actions.getDispatcherList(param?.transportArrangmentId, param?.projectId))
 
-        setTransportType(['Select Transport Type', ...listTransportType])
-        setDispatcher(['Select Dispatcher', ...listDispatcher])
+        setTransportType(listTransportType)
+        setDispatcher(listDispatcher)
 
         setOpenModal(true)
     }
@@ -84,33 +91,33 @@ function TransportArragmentDetail() {
         setOpenModalSc(true)
     }
 
-    const handleAddTransportType = () => {
+    const handleAddTransportType = (event) => {
+
+        event.preventDefault()
+        event.stopPropagation()
+
         let payload = {
             transportArrangmentId: param?.transportArrangmentId,
-            transportTypeId: values?.transportType,
-            mainDispatcherId: values?.dispatcher,
+            transportTypeId: selectedTransportType?.value,
+            mainDispatcherId: selectedDispatcher?.value,
             notes: "",
             LMBY: Global?.user?.userID
         }
 
-        if (!payload.transportTypeId || !payload.mainDispatcherId) {
-            alert("Required Field is Empty !")
+        console.log(payload)
+
+        const err = []
+
+        if (payload.transportTypeId === undefined) err.push('Transport Type')
+        if (payload.mainDispatcherId === undefined) err.push('Dispatcher')
+
+        if (err.length > 0) {
+            setErrMessage(err.join(' , '))
+            setVisible(true)
         } else {
             dispatch(actions.addTransportArrangmentType(payload))
         }
-
     }
-
-    const handleOnchange = useCallback(
-        (e) => {
-            const { value, name } = e.target;
-            setValues((prev) => ({
-                ...prev,
-                [name]: value
-            }));
-
-        }, [setValues]
-    )
 
     const handleConfirm = (type) => {
         if (type == "confirm") {
@@ -121,6 +128,14 @@ function TransportArragmentDetail() {
         }
     }
 
+    const handleOnChangetransportType = (selectedTransportType) => {
+        setSelectedTransportType(selectedTransportType);
+    }
+
+    const handleOnChangeDispatcher = (selectedDispatcher) => {
+        setSelectedDispatcher(selectedDispatcher);
+    }
+
 
     return (
         <>
@@ -129,11 +144,11 @@ function TransportArragmentDetail() {
                     <CRow>
                         <CCol sm={5}>
                             <h4 className="card-title mb-0">
-                                {["waiting-dispatch"].includes(param?.url) 
-                                ? <span className='text-underline'>WAITING DELIVERY</span>
-                                : <span className='text-underline'>WAITING TRANSPORT ASSIGNMENT</span>
+                                {["waiting-dispatch"].includes(param?.url)
+                                    ? <span className='text-underline'>WAITING DELIVERY</span>
+                                    : <span className='text-underline'>WAITING TRANSPORT ASSIGNMENT</span>
                                 }
-                                
+
                             </h4>
                         </CCol>
                     </CRow>
@@ -222,37 +237,51 @@ function TransportArragmentDetail() {
                 onClose={() => setOpenModal(false)}
                 alignment='center'
             >
-                <CModalHeader>
-                    <CModalTitle>Add Transport Type and Dispatcher</CModalTitle>
-                </CModalHeader>
-                <CModalBody>
-                    <CRow className="mb-3">
-                        <CFormLabel className="col-sm-2 col-form-label">Transport Type <code>(*)</code></CFormLabel>
-                        <CCol sm={10}>
-                            <CFormSelect
-                                name="transportType"
-                                options={transportType}
-                                onChange={handleOnchange}
-                            />
-                        </CCol>
-                    </CRow>
-                    <CRow className="mb-3">
-                        <CFormLabel className="col-sm-2 col-form-label">Dispatcher <code>(*)</code></CFormLabel>
-                        <CCol sm={10}>
-                            <CFormSelect
-                                name="dispatcher"
-                                options={dispatcher}
-                                onChange={handleOnchange}
-                            />
-                        </CCol>
-                    </CRow>
-                </CModalBody>
-                <CModalFooter>
-                    <ButtonSubmit
-                        label='ADD'
-                        handleButton={handleAddTransportType}
-                    />
-                </CModalFooter>
+                <CForm onSubmit={handleAddTransportType}>
+                    <CModalHeader>
+                        <CModalTitle>Add Transport Type and Dispatcher</CModalTitle>
+                    </CModalHeader>
+                    <CModalBody>
+                        <CRow className="mb-3">
+                            <CFormLabel className="col-sm-2 col-form-label">Transport Type <code>(*)</code></CFormLabel>
+                            <CCol sm={10}>
+                                <Select
+                                    className="input-select"
+                                    options={transportType}
+                                    isSearchable={true}
+                                    value={selectedTransportType}
+                                    onChange={handleOnChangetransportType}
+                                    required
+                                />
+                            </CCol>
+                        </CRow>
+                        <CRow className="mb-3">
+                            <CFormLabel className="col-sm-2 col-form-label">Dispatcher <code>(*)</code></CFormLabel>
+                            <CCol sm={10}>
+                                <Select
+                                    className="input-select"
+                                    options={dispatcher}
+                                    isSearchable={true}
+                                    value={selectedDispatcher}
+                                    onChange={handleOnChangeDispatcher}
+                                    required
+                                />
+                            </CCol>
+                        </CRow>
+                        <CRow>
+                            <CCol>
+                                <Alert
+                                    message={errMessage}
+                                    visible={visible}
+                                    setVisible={setVisible}
+                                />
+                            </CCol>
+                        </CRow>
+                    </CModalBody>
+                    <CModalFooter>
+                        <ButtonSubmit type="submit" />
+                    </CModalFooter>
+                </CForm>
             </CModal>
 
             <ModalAdditionalServiceCharge
