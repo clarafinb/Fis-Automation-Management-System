@@ -9,7 +9,6 @@ import {
     CForm,
     CFormInput,
     CFormLabel,
-    CFormTextarea,
     CInputGroup,
     CModal,
     CModalBody,
@@ -25,9 +24,9 @@ import { cilPlus } from '@coreui/icons'
 import SmartTable from 'src/components/custom/table/SmartTable'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPen, faPencil, faPlus, faUnlink, faUpload } from '@fortawesome/free-solid-svg-icons'
-import moment from 'moment/moment'
 import Swal from 'sweetalert2'
 import ButtonCancel from 'src/components/custom/button/ButtonCancel'
+import OrderRequestWaitingDispatch from 'src/components/dashboardOpsLead/waitingDispatch/OrderRequestWaitingDispatch'
 
 function WaitingDispatchDetail() {
     const { dispatch, Global, DashboardOpsLead } = useRedux()
@@ -280,236 +279,13 @@ function WaitingDispatchDetail() {
                     </CCard>
                 </CCol>
             </CRow>
-            <CRow>
-                <CCol sm={6}>
-                    <CCard>
-                        <CCardBody>
-                            <CRow>
-                                <CCol>
-                                    <h4 className="card-title mb-0">
-                                        Order Request Detail
-                                    </h4>
-                                </CCol>
-                            </CRow>
-                            <br />
-                            <CRow>
-                                <CCol>
-                                    <CRow className="mb-4">
-                                        <CFormLabel
-                                            className="col-sm-3 col-form-label">Order Request Date
-                                        </CFormLabel>
-                                        <CCol>
-                                            <CFormInput
-                                                type="text"
-                                                name="orderRequestDate"
-                                                value={moment(orderReqDetail?.orderRequestDate).format('DD-MM-YYYY HH:mm:ss')}
-                                                readOnly
-                                                disabled
-                                            />
-                                        </CCol>
-                                    </CRow>
-                                    <CRow className="mb-4">
-                                        <CFormLabel
-                                            className="col-sm-3 col-form-label">Cust Order Req No
-                                        </CFormLabel>
-                                        <CCol>
-                                            <CFormInput
-                                                type="text"
-                                                name="custOrderRequest"
-                                                value={orderReqDetail?.custOrderRequest}
-                                                readOnly
-                                                disabled
-                                            />
-                                        </CCol>
-                                    </CRow>
-                                    <CRow className="mb-4">
-                                        <CFormLabel
-                                            className="col-sm-3 col-form-label">Order Req Description
-                                        </CFormLabel>
-                                        <CCol>
-                                            <CFormInput
-                                                type="text"
-                                                name="orderRequestDesc"
-                                                value={orderReqDetail?.orderRequestDesc}
-                                                readOnly
-                                                disabled
-                                            />
-                                        </CCol>
-                                    </CRow>
-                                    <CRow className="mb-4">
-                                        <CFormLabel
-                                            className="col-sm-3 col-form-label">Delivery Process Type
-                                        </CFormLabel>
-                                        <CCol>
-                                            <CFormInput
-                                                type="text"
-                                                name="processName"
-                                                value={orderReqDetail?.processName}
-                                                readOnly
-                                                disabled
-                                            />
-                                        </CCol>
-                                    </CRow>
-                                    <CRow className="mb-4">
-                                        <CFormLabel
-                                            className="col-sm-3 col-form-label">Route Type
-                                        </CFormLabel>
-                                        <CCol>
-                                            <CFormInput
-                                                type="text"
-                                                name="routeType"
-                                                value={orderReqDetail?.routeType}
-                                                readOnly
-                                                disabled
-                                            />
-                                        </CCol>
-                                    </CRow>
-                                    <CRow className="mb-4">
-                                        <CFormLabel
-                                            className="col-sm-3 col-form-label">Requestor Name
-                                        </CFormLabel>
-                                        <CCol>
-                                            <CFormInput
-                                                type="text"
-                                                name="requestorName"
-                                                value={orderReqDetail?.requestorName}
-                                                readOnly
-                                                disabled
-                                            />
-                                        </CCol>
-                                    </CRow>
-                                    <CRow className="mb-4">
-                                        <CFormLabel
-                                            className="col-sm-3 col-form-label">Delivery Request Type
-                                        </CFormLabel>
-                                        <CCol>
-                                            <CFormInput
-                                                type="text"
-                                                name="deliveryReqType"
-                                                value={orderReqDetail?.deliveryReqType}
-                                                readOnly
-                                                disabled
-                                            />
-                                        </CCol>
-                                    </CRow>
-                                    <CRow className="mb-4">
-                                        <CFormLabel
-                                            className="col-sm-3 col-form-label">Transport Request Type
-                                        </CFormLabel>
-                                        <CCol>
-                                            <CFormInput
-                                                type="text"
-                                                name="transportReqType"
-                                                value={orderReqDetail?.transportReqType}
-                                                readOnly
-                                                disabled
-                                            />
-                                        </CCol>
-                                    </CRow>
-                                    <CRow className="mb-4">
-                                        <CFormLabel
-                                            className="col-sm-3 col-form-label">Origin
-                                        </CFormLabel>
-                                        <CCol>
-                                            <CFormInput
-                                                type="text"
-                                                name="origin"
-                                                value={orderReqDetail?.origin}
-                                                readOnly
-                                                disabled
-                                            />
-                                        </CCol>
-                                    </CRow>
-                                    <CRow className="mb-4">
-                                        <CFormLabel
-                                            className="col-sm-3 col-form-label">
-                                        </CFormLabel>
-                                        <CCol>
-                                            <CFormInput
-                                                type="text"
-                                                name="originAddress"
-                                                value={orderReqDetail?.originAddress}
-                                                readOnly
-                                                disabled
-                                            />
-                                        </CCol>
-                                    </CRow>
-                                    <CRow className="mb-4">
-                                        <CFormLabel
-                                            className="col-sm-3 col-form-label">Destination
-                                        </CFormLabel>
-                                        <CCol>
-                                            <CFormInput
-                                                type="textarea"
-                                                name="destination"
-                                                value={orderReqDetail?.destination}
-                                                readOnly
-                                                disabled
-                                            />
-                                        </CCol>
-                                    </CRow>
-                                    <CRow className="mb-4">
-                                        <CFormLabel
-                                            className="col-sm-3 col-form-label">
-                                        </CFormLabel>
-                                        <CCol>
-                                            <CFormTextarea
-                                                type="text"
-                                                name="destinationAddress"
-                                                value={orderReqDetail?.destinationAddress}
-                                                readOnly
-                                                disabled
-                                            />
-                                        </CCol>
-                                    </CRow>
-                                    <CRow className="mb-4">
-                                        <CFormLabel
-                                            className="col-sm-3 col-form-label">Recipient Name
-                                        </CFormLabel>
-                                        <CCol>
-                                            <CFormInput
-                                                type="text"
-                                                name="recipientName"
-                                                value={orderReqDetail?.recipientName}
-                                                readOnly
-                                                disabled
-                                            />
-                                        </CCol>
-                                    </CRow>
-                                    <CRow className="mb-4">
-                                        <CFormLabel
-                                            className="col-sm-3 col-form-label">Recipient Company Name
-                                        </CFormLabel>
-                                        <CCol>
-                                            <CFormInput
-                                                type="text"
-                                                name="recipientCompanyName"
-                                                value={orderReqDetail?.recipientCompanyName}
-                                                readOnly
-                                                disabled
-                                            />
-                                        </CCol>
-                                    </CRow>
-                                    <CRow className="mb-4">
-                                        <CFormLabel
-                                            className="col-sm-3 col-form-label">Pick And Pack Complete Date
-                                        </CFormLabel>
-                                        <CCol>
-                                            <CFormInput
-                                                type="text"
-                                                name="recipientCompanyName"
-                                                value={orderReqDetail.pickandpackCompleteDate}
-                                                readOnly
-                                                disabled
-                                            />
-                                        </CCol>
-                                    </CRow>
-                                </CCol>
-                            </CRow>
-                        </CCardBody>
-                    </CCard>
+            <CRow className='mb-4'>
+                <CCol sm={5}>
+                    <OrderRequestWaitingDispatch
+                        data={orderReqDetail}
+                    />
                 </CCol>
-                <CCol sm={6}>
+                <CCol>
                     <CCard>
                         <CCardBody>
                             <CRow>
@@ -524,7 +300,7 @@ function WaitingDispatchDetail() {
                                 <CCol>
                                     <CRow className="mb-4">
                                         <CFormLabel
-                                            className="col-sm-3 col-form-label">Final Delivery Mode
+                                            className="col-form-label">Final Delivery Mode
                                         </CFormLabel>
                                         <CCol>
                                             <CFormInput
@@ -538,7 +314,7 @@ function WaitingDispatchDetail() {
                                     </CRow>
                                     <CRow className="mb-4">
                                         <CFormLabel
-                                            className="col-sm-3 col-form-label">Final Transport Mode
+                                            className="col-form-label">Final Transport Mode
                                         </CFormLabel>
                                         <CCol>
                                             <CFormInput
@@ -591,32 +367,6 @@ function WaitingDispatchDetail() {
                                     />
                                 </CCol>
                             </CRow>
-                            {/*
-                            <br />
-                            <br />
-                            <CRow>
-                                <CCol>
-                                    <h5 className="card-title mb-0">
-                                        Additional Service
-                                    </h5>
-                                </CCol>
-                                <CCol className="d-none d-md-block text-end">
-                                    <CIcon
-                                        icon={cilPlus}
-                                        className="me-2 text-default"
-                                        size="xl"
-                                        onClick={handleCreateAdditionalService}
-                                    />
-                                </CCol>
-                            </CRow>
-                            <CCol className="d-none d-md-block text-end">
-                                <SmartTable
-                                    data={Dashboard?.listOrdeRequestAdditionalService}
-                                    // filterValue={filterValue}
-                                    columns={additionalServiceColumn}
-                                    minHeight={200}
-                                />
-                            </CCol> */}
                         </CCardBody>
                     </CCard>
                 </CCol >
