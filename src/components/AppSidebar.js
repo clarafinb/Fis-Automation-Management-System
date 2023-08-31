@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { useRedux } from 'src/utils/hooks'
 
-import { CBadge, CNavGroup, CNavItem, CSidebar, CSidebarBrand, CSidebarNav, CSidebarToggler } from '@coreui/react'
+import { CBadge, CButton, CNavGroup, CNavItem, CSidebar, CSidebarBrand, CSidebarNav, CSidebarToggler } from '@coreui/react'
 
 import { AppSidebarNav } from './AppSidebarNav'
 
@@ -16,12 +16,14 @@ import * as actions_dashbboard from "../config/redux/Dashboard/actions"
 import { useState } from 'react'
 import { useCookies } from 'react-cookie'
 import { handleRoleDashboard } from 'src/helper/urlHelper'
+import { useNavigate } from 'react-router-dom'
 
 const AppSidebar = () => {
-  const { dispatch, Global, Dashboard } = useRedux()
+  const { dispatch, Global, Dashboard, DashboardOpsLead } = useRedux()
   const [url, setUrl] = useState()
   const [style, setStyle] = useState()
   const [cookies, setCookie] = useCookies(["dashboard"]);
+  const nav = useNavigate()
 
   useEffect(() => {
     if (!Global?.sidebarUnfoldable) {
@@ -47,6 +49,10 @@ const AppSidebar = () => {
   const handleActiveMenu = (path) => {
     setCookie('activeMenu', path, { path: '/' })
     dispatch(actions_dashbboard.actionSetReduxActiveMenu(path))
+
+    if(DashboardOpsLead?.project?.projectId){
+      nav("/dashboard-ops-lead")
+    }
   }
 
   const navItems = handleDefaultDashboard(navigation())
@@ -112,9 +118,15 @@ const AppSidebar = () => {
               {val?.Children?.map((item, idx2) => (
                 <CNavItem
                   key={idx2}
-                  className={item?.Path === Dashboard?.activeMenu ? "navItem-active p-3" : "navItem p-3" }
+                  className='p-2 px-4'
                 >
-                  <span onClick={() => handleActiveMenu(item?.Path)}>{navLink(item?.Name)}</span>
+                  <CButton
+                    onClick={() => handleActiveMenu(item?.Path)}
+                    className={item?.Path === Dashboard?.activeMenu ? "btnNav-active" : "btnNav" }
+                  >
+                    <span >{navLink(item?.Name)}</span>
+                  </CButton>
+                  {/* <span >{navLink(item?.Name)}</span> */}
                 </CNavItem>
               ))}
             </CNavGroup>
