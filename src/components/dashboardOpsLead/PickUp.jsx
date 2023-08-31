@@ -33,7 +33,7 @@ function PickUp({ detailWarehouse, handleNavigator}) {
                             <CCardText className='px-3 text-center'>
                                 <p>PICKUP PREPARATION</p>
                                 <hr />
-                                <h3>{detailWarehouse?.waitingPickupCount}</h3>
+                                <h3>{detailWarehouse?.pickupPrepCount}</h3>
                             </CCardText>
                             <CRow>
                                 <CCol className="d-grid gap-2">
