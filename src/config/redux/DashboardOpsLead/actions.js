@@ -87,13 +87,13 @@ export const getActivitySummaryWHProject = (userId, projectId) => {
     return async () => {
         try {
             let deliveryApi = actionCrud.actionCommonSlice(projectId, API_GET_ACTIVITY_SUMMARY_WH_PROJECT, "GET", userId);
-            let pickupApi =  actionCrud.actionCommonSlice(projectId,API_GET_ACTIVITY_SUMMARY_WH_PROJECT_PICKUP, "GET", userId);
+            let pickupApi = actionCrud.actionCommonSlice(projectId, API_GET_ACTIVITY_SUMMARY_WH_PROJECT_PICKUP, "GET", userId);
 
-            const [dataDelivery,dataPickup] = await Promise.all([
-                deliveryApi,pickupApi
+            const [dataDelivery, dataPickup] = await Promise.all([
+                deliveryApi, pickupApi
             ])
-            
-            const result = dataDelivery?.map((row,index) => {
+
+            const result = dataDelivery?.map((row, index) => {
                 const dataFind = dataPickup.find(e => e.whId === row.whId)
                 return {
                     ...row,
@@ -1551,10 +1551,10 @@ export const getTransportTypeList = (transportModeId) => {
     }
 }
 
-export const getDispatcherList = (transportArrangementId, projectId) => {
+export const getDispatcherList = (transportArrangementId, projectId, orderReqId) => {
     return async () => {
         try {
-            const fullParam = `${transportArrangementId}/${projectId}`
+            const fullParam = `${transportArrangementId}/${projectId}/${orderReqId}`
             let list = await actionCrud.actionCommonSliceParam(fullParam, API_GET_DISPATCHER_BASE_TRANSPORT_ARRAGEMENT, "GET");
             let listDispatcher = list?.map((item, idx) => {
                 return {

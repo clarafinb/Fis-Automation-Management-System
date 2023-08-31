@@ -79,7 +79,7 @@ function TransportArragmentDetail() {
         setSelectedTransportType({})
 
         let listTransportType = await dispatch(actions.getTransportTypeList(param?.transportModeId))
-        let listDispatcher = await dispatch(actions.getDispatcherList(param?.transportArrangmentId, param?.projectId))
+        let listDispatcher = await dispatch(actions.getDispatcherList(param?.transportArrangmentId, param?.projectId, param?.orderReqId))
 
         setTransportType(listTransportType)
         setDispatcher(listDispatcher)
