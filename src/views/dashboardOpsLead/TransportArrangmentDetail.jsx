@@ -236,6 +236,8 @@ function TransportArragmentDetail() {
                 visible={openModal}
                 onClose={() => setOpenModal(false)}
                 alignment='center'
+                backdrop="static"
+                keyboard={false}
             >
                 <CForm onSubmit={handleAddTransportType}>
                     <CModalHeader>
