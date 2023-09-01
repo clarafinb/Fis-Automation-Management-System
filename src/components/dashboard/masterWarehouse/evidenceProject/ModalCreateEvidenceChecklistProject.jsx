@@ -32,15 +32,15 @@ function ModalCreateEvidenceChecklistProject({ open, setOpen, projectId }) {
     }, [Global?.user, open]);
 
     const handleCreateEvidenceChecklistProject = (event) => {
+        event.preventDefault()
+        event.stopPropagation()
         let payload = {
             evidenceChecklistId: selectedEvidenceChecklist?.value,
             projectId: projectId,
             LMBY: Global?.user?.userID
         }
         dispatch(actions.createEvidenceChecklistProject(payload))
-
-        event.preventDefault()
-        event.stopPropagation()
+        setOpen(false)
     }
 
     const handleOnChangeChecklistType = (selectedEvidenceChecklist) => {
@@ -52,6 +52,8 @@ function ModalCreateEvidenceChecklistProject({ open, setOpen, projectId }) {
             // size="xl"
             visible={open}
             onClose={() => setOpen(false)}
+            backdrop="static"
+            keyboard={false}
         >
             <CModalHeader>
                 <CModalTitle>ADD EVICENDE CHECKLIST</CModalTitle>

@@ -33,15 +33,15 @@ function ModalCreateEvidenceChecklist({ open, setOpen }) {
     }, [Global?.user, open]);
 
     const handleCreateEvidenceChecklist = (event) => {
+        event.preventDefault()
+        event.stopPropagation()
         let payload = {
             checklistTypeId: selectedChecklistType?.value,
             checklistName: values.checklistName,
             LMBY: Global?.user?.userID
         }
         dispatch(actions.createEvidenceChecklist(payload))
-
-        event.preventDefault()
-        event.stopPropagation()
+        setOpen(false)
     }
 
     const handleOnchange = useCallback(
@@ -64,6 +64,8 @@ function ModalCreateEvidenceChecklist({ open, setOpen }) {
             // size="xl"
             visible={open}
             onClose={() => setOpen(false)}
+            backdrop="static"
+            keyboard={false}
         >
             <CModalHeader>
                 <CModalTitle>ADD CHECKLIST CREATION</CModalTitle>
