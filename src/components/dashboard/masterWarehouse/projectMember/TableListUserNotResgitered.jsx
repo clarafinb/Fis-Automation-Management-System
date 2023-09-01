@@ -67,12 +67,12 @@ function TableListUserNotResgitered({
             headerName: 'PHONE NO',
         },
         {
-            field: 'accountstatus',
+            field: 'accountStatus',
             headerName: 'USER STATUS',
             minWidth: 150,
             cellStyle: { textAlign: 'center' },
             cellRenderer: ({ data }) => {
-                return badge(data.accountstatus)
+                return badge(data.accountStatus)
             }
         },
         {
