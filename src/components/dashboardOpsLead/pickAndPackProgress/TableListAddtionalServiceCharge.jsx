@@ -42,7 +42,7 @@ function TableListAddtionalServiceCharge({
         {
             field: 'serviceCharge',
             headerName: 'SVC Desc',
-            minWidth: 300,
+            minWidth: 150,
         },
         {
             field: 'uom',
@@ -59,8 +59,9 @@ function TableListAddtionalServiceCharge({
             field: 'custOrderRequestServiceChargeId',
             headerName: 'Action',
             filter: false,
+            pinned: 'right',
             cellStyle: { textAlign: 'center' },
-            minWidth: 150,
+            minWidth: 80,
             cellRenderer: ({ data }) => {
                 return handleAction(data.custOrderRequestServiceChargeId)
             }

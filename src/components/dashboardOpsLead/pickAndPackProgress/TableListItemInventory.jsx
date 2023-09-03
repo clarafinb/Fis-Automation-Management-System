@@ -31,20 +31,25 @@ function TableListItemInventory({
         {
             field: 'uom',
             headerName: 'UOM',
-            minWidth: 100,
+            minWidth: 150,
         },
         {
-            field: 'totalQtyOut',
-            headerName: 'Total Qty Out',
-            headerStyle: { textAlign: 'center' },
+            field: 'itemQty',
+            headerName: 'QTY REQUEST',
             minWidth: 150,
         },
         {
             field: 'totalQtyReserved',
-            headerName: 'Total Qty Reserved',
+            headerName: 'QTY RESERVED',
             cellStyle: { textAlign: 'center' },
             minWidth: 150,
-        }
+        },
+        {
+            field: 'totalQtyOut',
+            headerName: 'QTY OUT',
+            headerStyle: { textAlign: 'center' },
+            minWidth: 150,
+        },
     ];
 
     return (

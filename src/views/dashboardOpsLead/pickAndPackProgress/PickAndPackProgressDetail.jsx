@@ -274,7 +274,7 @@ function PickAndPackProgressDetail() {
                 </CCol>
             </CRow>
             <CRow>
-                <CCol sm={6}>
+                <CCol sm={8}>
                     <CCard>
                         <CCardBody>
 

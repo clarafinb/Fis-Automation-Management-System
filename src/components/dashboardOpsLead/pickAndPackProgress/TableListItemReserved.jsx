@@ -20,12 +20,12 @@ function TableListItemReserved({
         },
         {
             field: 'itemCode',
-            headerName: 'ITEM CODE',
+            headerName: 'Item Code',
             minWidth: 150,
         },
         {
             field: 'itemDesc',
-            headerName: 'ITEM DESC',
+            headerName: 'Item Desc',
             minWidth: 200,
         },
         {
@@ -59,7 +59,7 @@ function TableListItemReserved({
         },
         {
             field: 'transactionStatus',
-            headerName: 'Tran Statu',
+            headerName: 'Status',
             cellStyle: { textAlign: 'center' },
             minWidth: 150,
         }
