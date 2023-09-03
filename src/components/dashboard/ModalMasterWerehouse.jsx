@@ -72,7 +72,7 @@ function ModalMasterWerehouse({
                     <CCol sm={3}>
                         <CCard className='text-center no-background' onClick={() => { handleViewModal("masterMrs", data.projectId) }}>
                             <CCardBody>
-                                <img src={'icon/EVIDENCE-SERVICE-ICON.svg'} />
+                                <img src={'icon/MASTER-MRS.svg'} />
                                 <p>Master MRS</p>
                             </CCardBody>
                         </CCard>
