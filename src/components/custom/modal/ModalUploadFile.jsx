@@ -80,7 +80,7 @@ function ModalUploadFile({
                             <CForm onSubmit={handleSubmit} encType="multipart/form-data">
                                 <CRow>
                                     <CCol>
-                                        <CContainer>
+                                        <CContainer fluid>
                                             <CRow className='mb-3'>
                                                 <CCol {...getRootProps({ className: 'dropzone' })}>
                                                     <input {...getInputProps()} />

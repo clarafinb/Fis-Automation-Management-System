@@ -135,6 +135,10 @@ export const API_GET_DELIVERY_MODE_BASED_TRANSPORT_MODE = BASE_URL + "logManagem
 export const API_ADD_ORDER_REQUEST_SERVICE_CHARGE = BASE_URL + "servicecharge/orderRequestServiceChargeAdd"
 export const API_COMPLETE_PICK_AND_PACK = BASE_URL + "logmanagement/pickandPackComplete"
 export const API_DELETE_ADDITIONAL_SERVICE_PICK_AND_PACK = BASE_URL + "servicecharge/orderRequestServiceChargeDelete";
+export const API_GET_RESERVED_STATUS_COMPLETE = BASE_URL + "logmanagement/orderReqCheckItemReservedHasCompleted"
+export const API_EXPORT_EXCEL_ORDER_REQUEST_ITEM = BASE_URL + "logmanagement/getOrderRequestItemListExportToExcel"
+export const API_GET_ORDER_REQUEST_ITEM_RESERVED = BASE_URL + "inventory/getOutboundTransactionBasedOnOrderRequest"
+export const API_EXPORT_EXCEL_ORDER_REQUEST_ITEM_RESERVED = BASE_URL + "inventory/getOutboundTransactionBasedOnOrderRequestExportToExcel"
 // WAITING DISPATCH
 export const API_GET_DELIVERY_PENDING = BASE_URL + "logmanagement/getDeliveryPendingWHProject"
 export const API_ADD_TRANSPORT_ARRAGEMENT = BASE_URL + "transportarrangement/transportArrangementAdd"

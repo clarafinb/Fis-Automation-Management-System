@@ -9,58 +9,57 @@ import {
     CForm,
     CFormInput,
     CFormLabel,
-    CFormTextarea,
     CInputGroup,
-    CModal,
-    CModalBody,
-    CModalFooter,
-    CModalHeader,
-    CModalTitle,
-    CRow
+    CInputGroupText,
+    CNav,
+    CNavItem,
+    CNavLink,
+    CRow,
+    CTabContent,
+    CTabPane
 } from '@coreui/react'
 
 import * as actions_dashboard from '../../../config/redux/Dashboard/actions'
 import * as actions from '../../../config/redux/DashboardOpsLead/actions'
 import CIcon from '@coreui/icons-react'
-import { cilPlus } from '@coreui/icons'
-import SmartTable from 'src/components/custom/table/SmartTable'
+import { cilPlus, cilSpreadsheet } from '@coreui/icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPlus, faSearch, faTrash, faUpload } from '@fortawesome/free-solid-svg-icons'
-import moment from 'moment/moment'
+import { faSearch } from '@fortawesome/free-solid-svg-icons'
 import Select from 'react-select'
-import Swal from 'sweetalert2'
 import { useLocation, useNavigate } from 'react-router-dom'
 import ButtonSubmit from 'src/components/custom/button/ButtonSubmit'
 import ButtonCancel from 'src/components/custom/button/ButtonCancel'
 import Alert from 'src/components/custom/toast/Alert'
-import { handleDecimalsOnValue } from 'src/helper/globalHelper'
+import { downloadFileConfig, handleDecimalsOnValue } from 'src/helper/globalHelper'
+import ModalListItem from 'src/components/dashboardOpsLead/pickAndPackProgress/ModalListItem'
+import OrderRequestDetailPickAndPackProgressDetail from 'src/components/dashboardOpsLead/pickAndPackProgress/OrderRequestDetailPickAndPackProgress'
+import ModalAdditionalService from 'src/components/dashboardOpsLead/pickAndPackProgress/ModalAdditionalService'
+import TableListAddtionalServiceCharge from 'src/components/dashboardOpsLead/pickAndPackProgress/TableListAddtionalServiceCharge'
+import TableListItemInventory from 'src/components/dashboardOpsLead/pickAndPackProgress/TableListItemInventory'
+import TableListItemReserved from 'src/components/dashboardOpsLead/pickAndPackProgress/TableListItemReserved'
 
 function PickAndPackProgressDetail() {
     const nav = useNavigate();
     const { dispatch, Global, DashboardOpsLead } = useRedux()
-    const [detailProject, setDetailProject] = useState({})
     const [orderReqDetail, setOrderReqDetail] = useState({})
     const [projectId, setProjectId] = useState("")
     const [orderReqId, setOrderReqId] = useState("")
     const [warehouseId, setWarehouseId] = useState("");
     const [openModal, setOpenModal] = useState(false)
-    const [custOrderRequest, setCustOrderRequest] = useState(null)
-    const [itemOrderRequest, setItemOrderRequest] = useState([])
     const [itemOrderRequestData, setItemOrderRequestData] = useState([])
     const [transportMode, setTrasportMode] = useState([])
     const [deliveryRequest, setDeliveryRequest] = useState([])
     const [selectedTransportMode, setSelectedTransportMode] = useState({});
     const [selectedDeliveryRequest, setSelectedDeliveryRequest] = useState({});
-    const [templateName, setTemplateName] = useState("")
-    const [openModalUpload, setOpenModalUpload] = useState(false)
     const [openModalAdditionalService, setOpenModalAdditionalService] = useState(false)
-    const [fileUpload, setFileUpload] = useState(null);
-    const [templateUrl, setTemplateUrl] = useState("")
     const [serviceChargeData, setServiceChargeData] = useState([])
     const [values, setValues] = useState({})
     const [visible, setVisible] = useState(false)
     const [errMessage, setErrMessage] = useState(null)
     const { pathname } = useLocation();
+    const [activeKey, setActiveKey] = useState(1)
+    const [btnConfirm, setBtnConfirm] = useState(false)
+    const [itemReservedData, setItemReservedData] = useState([])
 
     useEffect(() => {
         const pId = pathname.split('/')[2]
@@ -72,6 +71,30 @@ function PickAndPackProgressDetail() {
         setWarehouseId(wId)
 
         if (Global?.user?.userID) {
+
+            dispatch(
+                actions_dashboard.getSelectActiveTransport()
+            ).then(result => {
+                setTrasportMode(result)
+            })
+            dispatch(
+                actions.getReservedStatusComplete(orId)
+            ).then(result => {
+                if (result[0].hasReservedStatus === 'Completed') {
+                    setBtnConfirm(true)
+                }
+            })
+
+            dispatch(actions.getOrderRequestServiceCharge(orId))
+
+
+            dispatch(
+                actions.getOrderRequestItemList(orId)
+            ).then(result => {
+                setItemOrderRequestData(result)
+            })
+
+
             dispatch(
                 actions.getOrderRequestDetail(orId)
             ).then(result => {
@@ -79,14 +102,13 @@ function PickAndPackProgressDetail() {
             })
 
             dispatch(
-                actions_dashboard.getSelectActiveTransport()
+                actions.getItemReservedData(orId)
             ).then(result => {
-                setTrasportMode(result)
+                setItemReservedData(result)
             })
 
-            dispatch(actions.getOrderRequestServiceCharge(orId))
         }
-    }, [Global?.user?.userID]);
+    }, [Global?.user?.userID, activeKey]);
 
     useEffect(() => {
         if (projectId && orderReqId) {
@@ -109,11 +131,6 @@ function PickAndPackProgressDetail() {
 
     const handleOnChangeDeliveryRequest = (selectedDeliveryRequest) => {
         setSelectedDeliveryRequest(selectedDeliveryRequest);
-    }
-
-    const handleCloseModalUpload = () => {
-        setOpenModalUpload(false)
-        setFileUpload(null)
     }
 
     const handleBack = () => {
@@ -147,25 +164,6 @@ function PickAndPackProgressDetail() {
         }
     }
 
-
-    const handleComponent = useCallback(
-        (action, orderReqId) => {
-            // setOrderReqId(orderReqId)
-            if (action === 'start') {
-            } else if (action === 'reset') {
-                dispatch(actions.resetPickAndPackprogress(orderReqId, projectId, detailProject.whId, Global.user.userID))
-            } else {
-                setOpenModalUpload(true)
-                dispatch(
-                    actions.getMassUploadTemplateOrderReqItemBulkUpload()
-                ).then(response => {
-                    setTemplateName(response?.templateName)
-                    setTemplateUrl(response?.templateURL)
-                })
-            }
-        }
-    )
-
     const handleComponentQty = useCallback(
         (projectServiceChargeId) => {
             if (values[projectServiceChargeId]) {
@@ -183,11 +181,6 @@ function PickAndPackProgressDetail() {
         }
     )
 
-
-    const handleClose = () => {
-        setOpenModal(false)
-    }
-
     const handleCreateAdditionalService = () => {
 
         dispatch(
@@ -195,67 +188,14 @@ function PickAndPackProgressDetail() {
         ).then(response => {
             setServiceChargeData(response)
             setOpenModalAdditionalService(true)
-            // setValues({})
         })
 
     }
 
-    const handleDownloadTemplate = () => {
-        window.open(templateUrl, '_blank')
-    }
-
-    const handleFileChange = (event) => {
-        const file = event.target.files[0];
-        setFileUpload(file);
-    };
-
-    const handleUploadFile = (e) => {
-        e.preventDefault()
-        if (fileUpload) {
-            const formData = new FormData(e.target);
-            dispatch(actions.uploadOrderReqItemPickAndPackProgress(
-                formData,
-                orderReqId
-            ))
-            setFileUpload(null)
-        } else {
-            Swal.fire({
-                title: 'Error!',
-                text: 'File Empty !',
-                icon: 'error',
-                confirmButtonText: 'OK'
-            })
-        }
-    }
-
-
     const handleModalDetailItem = (orderReqId) => {
         dispatch(actions.getOrderRequestItemList(orderReqId))
             .then(result => {
-                const remapData = [
-                    {
-                        name: 'no',
-                        header: 'No',
-                        defaultVisible: true,
-                        defaultWidth: 80,
-                        type: 'number'
-                    }]
-                result.map((row, idx) => {
-                    remapData.push({
-                        name: Object.keys(row)[idx],
-                        header: Object.keys(row)[idx],
-                        defaultFlex: 1
-                    })
-                })
-
-                const dataSet = result.map((item, index) => {
-                    return {
-                        no: index + 1,
-                        ...item
-                    }
-                })
-                setItemOrderRequestData(dataSet)
-                setItemOrderRequest(remapData)
+                setItemOrderRequestData(result)
                 setOpenModal(true)
             })
     }
@@ -286,79 +226,6 @@ function PickAndPackProgressDetail() {
         )
     }
 
-    const additionalServiceColumn = [
-        { name: 'no', header: 'No', defaultVisible: true, defaultWidth: 80, type: 'number' },
-        { name: 'serviceChargeCode', header: 'SVC Code', defaultFlex: 1 },
-        { name: 'serviceCharge', header: 'SVC Desc', defaultFlex: 1 },
-        { name: 'uom', header: 'UOM', defaultFlex: 1 },
-        { name: 'serviceQty', header: 'QTY', defaultFlex: 1 },
-        {
-            name: 'custOrderRequestServiceChargeId',
-            header: 'Action',
-            defaultFlex: 1,
-            textAlign: "center",
-            render: ({ value }) => {
-                return (
-                    <>
-                        <FontAwesomeIcon
-                            icon={faTrash}
-                            className='textBlue px-2'
-                            title='Delete Addtional Service'
-                            onClick={() => handleDeleteAddService(value)}
-                        />
-                    </>
-                )
-            }
-        },
-    ]
-
-    const additionalServiceChargeColumn = [
-        { name: 'no', header: 'No', defaultVisible: true, defaultWidth: 80, type: 'number' },
-        { name: 'serviceChargeCode', header: 'SVC Code', defaultFlex: 1 },
-        { name: 'serviceCharge', header: 'SVC Desc', defaultFlex: 1 },
-        { name: 'uom', header: 'UOM', defaultFlex: 1 },
-        {
-            name: 'serviceQty',
-            header: 'QTY',
-            defaultFlex: 1,
-            defaultWidth: 80,
-            render: ({ value, data }) => {
-                return (
-                    <>
-                        <CFormInput
-                            className='form-control'
-                            type="text"
-                            name="qty"
-                            value={values?.qty}
-                            onChange={(e) => handleChangeQty(e, data)}
-                        />
-                    </>
-                )
-            }
-        }, {
-            name: 'projectServiceChargeId',
-            header: 'Action',
-            // defaultFlex: 1,
-            textAlign: 'center',
-            defaultWidth: 110,
-            render: ({ value, cellProps }) => {
-                return (
-                    <>
-                        <FontAwesomeIcon
-                            icon={faPlus}
-                            className='textBlue px-2'
-                            title='Order Request'
-                            size='sm'
-                            onClick={() =>
-                                handleComponentQty(value)
-                            }
-                        />
-                    </>
-                )
-            }
-        },
-    ]
-
     const handleOnchange = useCallback(
         (e) => {
             let { value, name } = e.target;
@@ -372,6 +239,22 @@ function PickAndPackProgressDetail() {
 
         }, [setValues]
     )
+
+    const handleExportExcelItemRequest = () => {
+        dispatch(
+            actions.orderRequestItemExcel(orderReqId, orderReqDetail?.custOrderRequest)
+        ).then(resp => {
+            downloadFileConfig(resp, 'item_request_' + Date.now() + 'xlsx')
+        })
+    }
+
+    const handleExportExcelItemReserved = () => {
+        dispatch(
+            actions.orderRequestItemReservedExcel(orderReqId, orderReqDetail?.custOrderRequest)
+        ).then(resp => {
+            downloadFileConfig(resp, 'item_reserved_' + Date.now() + 'xlsx')
+        })
+    }
 
     return (
         <>
@@ -391,241 +274,72 @@ function PickAndPackProgressDetail() {
                 </CCol>
             </CRow>
             <CRow>
-                <CCol sm={4}>
+                <CCol sm={6}>
                     <CCard>
                         <CCardBody>
-                            <CRow>
-                                <CCol>
-                                    <h4 className="card-title mb-0">
+
+                            <CNav variant="tabs" className='mb-4'>
+                                <CNavItem>
+                                    <CNavLink
+                                        active={activeKey === 1}
+                                        onClick={() => setActiveKey(1)}
+                                    >
                                         Order Request Detail
-                                    </h4>
-                                </CCol>
-                            </CRow>
-                            <br />
-                            <CRow>
-                                <CCol>
-                                    <CRow className="mb-4">
-                                        <CFormLabel
-                                            className=" col-form-label">Order Request Date
-                                        </CFormLabel>
-                                        <CCol>
-                                            <CFormInput
-                                                type="text"
-                                                name="orderRequestDate"
-                                                value={moment(orderReqDetail?.orderRequestDate).format('DD-MM-YYYY HH:mm:ss')}
-                                                readOnly
-                                                disabled
-                                            />
-                                        </CCol>
-                                    </CRow>
-                                    <CRow className="mb-4">
-                                        <CFormLabel
-                                            className=" col-form-label">Cust Order Req No
-                                        </CFormLabel>
-                                        <CCol>
-                                            <CFormInput
-                                                type="text"
-                                                name="custOrderRequest"
-                                                value={orderReqDetail?.custOrderRequest}
-                                                readOnly
-                                                disabled
-                                            />
-                                        </CCol>
-                                    </CRow>
-                                    <CRow className="mb-4">
-                                        <CFormLabel
-                                            className=" col-form-label">Order Req Description
-                                        </CFormLabel>
-                                        <CCol>
-                                            <CFormInput
-                                                type="text"
-                                                name="orderRequestDesc"
-                                                value={orderReqDetail?.orderRequestDesc}
-                                                readOnly
-                                                disabled
-                                            />
-                                        </CCol>
-                                    </CRow>
-                                    <CRow className="mb-4">
-                                        <CFormLabel
-                                            className=" col-form-label">Delivery Process Type
-                                        </CFormLabel>
-                                        <CCol>
-                                            <CFormInput
-                                                type="text"
-                                                name="processName"
-                                                value={orderReqDetail?.processName}
-                                                readOnly
-                                                disabled
-                                            />
-                                        </CCol>
-                                    </CRow>
-                                    <CRow className="mb-4">
-                                        <CFormLabel
-                                            className=" col-form-label">Route Type
-                                        </CFormLabel>
-                                        <CCol>
-                                            <CFormInput
-                                                type="text"
-                                                name="routeType"
-                                                value={orderReqDetail?.routeType}
-                                                readOnly
-                                                disabled
-                                            />
-                                        </CCol>
-                                    </CRow>
-                                    <CRow className="mb-4">
-                                        <CFormLabel
-                                            className=" col-form-label">Requestor Name
-                                        </CFormLabel>
-                                        <CCol>
-                                            <CFormInput
-                                                type="text"
-                                                name="requestorName"
-                                                value={orderReqDetail?.requestorName}
-                                                readOnly
-                                                disabled
-                                            />
-                                        </CCol>
-                                    </CRow>
-                                    <CRow className="mb-4">
-                                        <CFormLabel
-                                            className=" col-form-label">Delivery Request Type
-                                        </CFormLabel>
-                                        <CCol>
-                                            <CFormInput
-                                                type="text"
-                                                name="deliveryReqType"
-                                                value={orderReqDetail?.deliveryReqType}
-                                                readOnly
-                                                disabled
-                                            />
-                                        </CCol>
-                                    </CRow>
-                                    <CRow className="mb-4">
-                                        <CFormLabel
-                                            className=" col-form-label">Transport Request Type
-                                        </CFormLabel>
-                                        <CCol>
-                                            <CFormInput
-                                                type="text"
-                                                name="transportReqType"
-                                                value={orderReqDetail?.transportReqType}
-                                                readOnly
-                                                disabled
-                                            />
-                                        </CCol>
-                                    </CRow>
-                                    <CRow className="mb-4">
-                                        <CFormLabel
-                                            className=" col-form-label">Origin
-                                        </CFormLabel>
-                                        <CCol>
-                                            <CFormInput
-                                                type="text"
-                                                name="origin"
-                                                value={orderReqDetail?.origin}
-                                                readOnly
-                                                disabled
-                                            />
-                                        </CCol>
-                                    </CRow>
-                                    <CRow className="mb-4">
-                                        <CFormLabel
-                                            className=" col-form-label">
-                                        </CFormLabel>
-                                        <CCol>
-                                            <CFormInput
-                                                type="text"
-                                                name="originAddress"
-                                                value={orderReqDetail?.originAddress}
-                                                readOnly
-                                                disabled
-                                            />
-                                        </CCol>
-                                    </CRow>
-                                    {/* <CRow className="mb-4">
-                                        <CFormLabel
-                                            className=" col-form-label">Destination
-                                        </CFormLabel>
-                                        <CCol>
-                                            <CFormInput
-                                                type="text"
-                                                name="destination"
-                                                value={orderReqDetail?.destination}
-                                                readOnly
-                                                disabled
-                                            />
-                                        </CCol>
-                                    </CRow> */}
-                                    <CRow className="mb-4">
-                                        <CFormLabel
-                                            className=" col-form-label">Destination
-                                        </CFormLabel>
-                                        <CCol>
-                                            {/* <CFormInput
-                                                type="text"
-                                                name="destinationAddress"
-                                                value={orderReqDetail?.destinationAddress}
-                                                readOnly
-                                                disabled
-                                            /> */}
-                                            <CFormTextarea
-                                                rows={4}
-                                                name="description"
-                                                value={orderReqDetail?.destinationAddress}
-                                                readOnly
-                                                disabled />
-                                        </CCol>
-                                    </CRow>
-                                    <CRow className="mb-4">
-                                        <CFormLabel
-                                            className=" col-form-label">Recipient Name
-                                        </CFormLabel>
-                                        <CCol>
-                                            <CFormInput
-                                                type="text"
-                                                name="recipientName"
-                                                value={orderReqDetail?.recipientName}
-                                                readOnly
-                                                disabled
-                                            />
-                                        </CCol>
-                                    </CRow>
-                                    <CRow className="mb-4">
-                                        <CFormLabel
-                                            className=" col-form-label">Recipient Company Name
-                                        </CFormLabel>
-                                        <CCol>
-                                            <CFormInput
-                                                type="text"
-                                                name="recipientCompanyName"
-                                                value={orderReqDetail?.recipientCompanyName}
-                                                readOnly
-                                                disabled
-                                            />
-                                        </CCol>
-                                    </CRow>
-                                    <CRow className="mb-4">
-                                        <CFormLabel
-                                            className=" col-form-label">Create By / Create Date
-                                        </CFormLabel>
-                                        <CCol>
-                                            <CFormInput
-                                                type="text"
-                                                name="recipientCompanyName"
-                                                value={orderReqDetail?.createBy + ' / ' + orderReqDetail?.createDate}
-                                                readOnly
-                                                disabled
-                                            />
-                                        </CCol>
-                                    </CRow>
-                                </CCol>
-                            </CRow>
+                                    </CNavLink>
+                                </CNavItem>
+                                <CNavItem>
+                                    <CNavLink
+                                        active={activeKey === 2}
+                                        onClick={() => setActiveKey(2)}
+                                    >
+                                        Item Request
+                                    </CNavLink>
+                                </CNavItem>
+                                <CNavItem>
+                                    <CNavLink
+                                        active={activeKey === 3}
+                                        onClick={() => setActiveKey(3)}
+                                    >
+                                        Item Reserved
+                                    </CNavLink>
+                                </CNavItem>
+                            </CNav>
+
+
+                            <CTabContent>
+
+                                <CTabPane role="tabpanel" aria-labelledby="home-tab" visible={activeKey === 1}>
+                                    <OrderRequestDetailPickAndPackProgressDetail
+                                        data={orderReqDetail}
+                                    />
+                                </CTabPane>
+
+                                <CTabPane role="tabpanel" aria-labelledby="home-tab" visible={activeKey === 2}>
+                                    <CButton className="colorBtn-white mb-2" onClick={handleExportExcelItemRequest}>
+                                        <CIcon icon={cilSpreadsheet} className="me-2 text-success" />
+                                        EXPORT TO EXCEL
+                                    </CButton>
+                                    <TableListItemInventory
+                                        data={itemOrderRequestData}
+                                    />
+                                </CTabPane>
+
+                                <CTabPane role="tabpanel" aria-labelledby="home-tab" visible={activeKey === 3}>
+                                    <CButton className="colorBtn-white mb-2" onClick={handleExportExcelItemReserved}>
+                                        <CIcon icon={cilSpreadsheet} className="me-2 text-success" />
+                                        EXPORT TO EXCEL
+                                    </CButton>
+                                    <TableListItemReserved
+                                        data={itemReservedData}
+                                    />
+                                </CTabPane>
+
+                            </CTabContent>
+
                         </CCardBody>
                     </CCard>
                 </CCol>
-                <CCol sm={8}>
+                <CCol>
                     <CCard>
                         <CCardBody>
                             <CRow>
@@ -641,53 +355,33 @@ function PickAndPackProgressDetail() {
                                     <CCol>
                                         <CRow className="mb-4">
                                             <CFormLabel
-                                                className="col-sm-3 col-form-label">Total Item Request
+                                                className="col-form-label">Total Item Request
                                             </CFormLabel>
-                                            <CCol md={2}>
-                                                <CFormInput
-                                                    type="text"
-                                                    name="totalItem"
-                                                    value={orderReqDetail?.totalItem}
-                                                    readOnly
-                                                    disabled
-                                                />
-                                            </CCol>
-                                            <CCol>
-                                                <FontAwesomeIcon
-                                                    icon={faSearch}
-                                                    className='textBlue px-2'
-                                                    title='Item List'
-                                                    size='lg'
-                                                    onClick={() =>
-                                                        handleModalDetailItem(orderReqId)
-                                                    }
-                                                />
-                                                {/* {
-                                                orderReqDetail?.totalItem > 0 ?
-                                                    <FontAwesomeIcon
-                                                        icon={faRefresh}
-                                                        className='textBlue px-2'
-                                                        title='Item List'
-                                                        size='lg'
-                                                        onClick={() =>
-                                                            handleComponent('reset', orderReqId)
-                                                        }
+                                            <CCol md={3}>
+                                                <CInputGroup>
+                                                    <CFormInput
+                                                        readOnly
+                                                        disabled
+                                                        value={orderReqDetail?.totalItem}
                                                     />
-                                                    : ''
-                                            }
-                                            <FontAwesomeIcon
-                                                icon={faUpload}
-                                                className='textBlue px-2'
-                                                title='Item List'
-                                                size='lg'
-                                                onClick={() =>
-                                                    handleComponent('upload')
-                                                }
-                                            /> */}
+                                                    <CInputGroupText>
+                                                        <CButton color="black" size='sm'>
+                                                            <FontAwesomeIcon
+                                                                icon={faSearch}
+                                                                className='px-2'
+                                                                title='Item List'
+                                                                size='lg'
+                                                                onClick={() =>
+                                                                    handleModalDetailItem(orderReqId)
+                                                                }
+                                                            />
+                                                        </CButton>
+                                                    </CInputGroupText>
+                                                </CInputGroup>
                                             </CCol>
                                         </CRow>
                                         <CRow className="mb-4">
-                                            <CFormLabel className=" col-form-label">Transport Mode Final</CFormLabel>
+                                            <CFormLabel className="col-form-label">Transport Mode Final</CFormLabel>
                                             <CCol>
                                                 <Select
                                                     className="input-select"
@@ -743,20 +437,16 @@ function PickAndPackProgressDetail() {
                                                 </h5>
                                             </CCol>
                                             <CCol className="d-none d-md-block text-end">
-                                                <CIcon
-                                                    icon={cilPlus}
-                                                    className="me-2 text-default"
-                                                    size="xl"
-                                                    onClick={handleCreateAdditionalService}
-                                                />
+                                                <CButton className="colorBtn-white mb-3" onClick={handleCreateAdditionalService}>
+                                                    <CIcon icon={cilPlus} className="me-2 text-warning" />
+                                                    ADD ADDTIONAL SERVICE CHARGE
+                                                </CButton>
                                             </CCol>
                                         </CRow>
                                         <CCol className="d-none d-md-block text-end">
-                                            <SmartTable
+                                            <TableListAddtionalServiceCharge
                                                 data={DashboardOpsLead?.listOrdeRequestAdditionalService}
-                                                // filterValue={filterValue}
-                                                columns={additionalServiceColumn}
-                                                minHeight={200}
+                                                handleDeleteAddService={handleDeleteAddService}
                                             />
                                         </CCol>
                                         <CRow>
@@ -768,23 +458,24 @@ function PickAndPackProgressDetail() {
                                                 />
                                             </CCol>
                                         </CRow>
-                                        {
-                                            orderReqDetail?.totalItem > 0 ?
-                                                < CRow className='mt-3'>
-                                                    <CCol className="d-none d-md-block text-end" md={12}>
+                                        < CRow className='mt-3'>
+                                            <CCol className="d-none d-md-block text-end" md={12}>
+                                                {
+                                                    btnConfirm ?
                                                         <ButtonSubmit
                                                             label='CONFIRM'
                                                             type="submit"
                                                             className='me-2'
                                                         />
-                                                        <ButtonCancel
-                                                            label='CANCEL'
-                                                            handleButton={handleBack}
-                                                        />
-                                                    </CCol>
-                                                </CRow>
-                                                : ''
-                                        }
+                                                        :
+                                                        ''
+                                                }
+                                                <ButtonCancel
+                                                    label='CANCEL'
+                                                    handleButton={handleBack}
+                                                />
+                                            </CCol>
+                                        </CRow>
                                     </CCol>
 
                                 </CRow>
@@ -793,96 +484,20 @@ function PickAndPackProgressDetail() {
                     </CCard>
                 </CCol >
             </CRow >
-            <CModal
-                size="lg"
-                visible={openModal}
-                onClose={() => setOpenModal(false)}
-                alignment='center'
-            >
-                <CModalHeader>
-                    <CModalTitle>Item List {custOrderRequest}</CModalTitle>
-                </CModalHeader>
-                <CModalBody>
-                    <CRow>
-                        <CCol className="d-none d-md-block text-end">
-                            <SmartTable
-                                data={itemOrderRequestData}
-                                columns={itemOrderRequest}
-                                minHeight={200}
-                            />
-                        </CCol>
-                    </CRow>
-                </CModalBody>
-                <CModalFooter>
-                    <CButton onClick={handleClose} color="secondary">Close</CButton>
-                </CModalFooter>
-            </CModal>
-            <CModal
-                size="lg"
-                visible={openModalUpload}
-                onClose={() => setOpenModalUpload(false)}
-                alignment='center'
-            >
-                <CModalHeader>
-                    <CModalTitle>Item List Upload {custOrderRequest}</CModalTitle>
-                </CModalHeader>
-                <CModalBody>
-                    <CRow className="mb-3">
-                        <CCol sm={6}>
-                            <CForm onSubmit={handleUploadFile} encType="multipart/form-data">
-                                <CInputGroup className="mb-3">
-                                    <CFormInput
-                                        type="file"
-                                        name="fileUpload"
-                                        onChange={(e) => handleFileChange(e)}
-                                    />
-                                    <CButton
-                                        type="submit"
-                                        color="success"
-                                        title='upload file'
-                                    >
-                                        <FontAwesomeIcon icon={faUpload} />
-                                    </CButton>
-                                </CInputGroup>
-                            </CForm>
-                        </CCol>
-                        <CCol>
-                            <CButton
-                                onClick={handleDownloadTemplate}
-                                color="info">
-                                Download {templateName}
-                            </CButton>
-                        </CCol>
-                    </CRow>
-                </CModalBody>
-                <CModalFooter>
-                    <CButton onClick={handleCloseModalUpload} color="secondary">Close</CButton>
-                </CModalFooter>
-            </CModal>
-            <CModal
-                size="lg"
-                visible={openModalAdditionalService}
-                onClose={() => setOpenModalAdditionalService(false)}
-                alignment='center'
-            >
-                <CModalHeader>
-                    <CModalTitle>Additonal Service Charge {custOrderRequest}</CModalTitle>
-                </CModalHeader>
-                <CModalBody>
-                    <CRow>
-                        <CCol className="d-none d-md-block text-end">
-                            <SmartTable
-                                data={serviceChargeData}
-                                columns={additionalServiceChargeColumn}
-                                minHeight={200}
-                            />
-                        </CCol>
-                    </CRow>
-                </CModalBody>
-                <CModalFooter>
-                    {/* <CButton onClick={handleClose} color="secondary">Close</CButton> */}
-                </CModalFooter>
-            </CModal>
+
+            <ModalAdditionalService
+                open={openModalAdditionalService}
+                setOpen={setOpenModalAdditionalService}
+                serviceChargeData={serviceChargeData}
+                handleChangeQty={handleChangeQty}
+                handleComponentQty={handleComponentQty}
+            />
+
+            <ModalListItem
+                open={openModal}
+                setOpen={setOpenModal}
+                data={itemOrderRequestData}
+            />
         </>
     )
 }

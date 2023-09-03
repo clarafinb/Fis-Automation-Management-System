@@ -55,7 +55,7 @@ function MasterLocation() {
 
     return (
         <>
-            <CContainer>
+            <CContainer fluid>
                 <CRow>
                     <CCol sm={5}>
                         <h4 className="card-title mb-0">

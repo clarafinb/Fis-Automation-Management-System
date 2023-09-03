@@ -80,6 +80,10 @@ import {
   API_CONFIRM_DELIVERY_ONSITE,
   API_GET_WAITING_TRANSPORT_ASSIGNMENT,
   API_GET_ACTIVITY_SUMMARY_WH_PROJECT_PICKUP,
+  API_GET_RESERVED_STATUS_COMPLETE,
+  API_EXPORT_EXCEL_ORDER_REQUEST_ITEM,
+  API_GET_ORDER_REQUEST_ITEM_RESERVED,
+  API_EXPORT_EXCEL_ORDER_REQUEST_ITEM_RESERVED,
 } from '../../api/index'
 
 /**************************************** DASHBOARD OPS LEAD ****************************************/
@@ -674,7 +678,13 @@ export const getOrderRequestItemList = (orderRequestId) => {
     try {
       const fullParam = `${orderRequestId}`
       let list = await actionCrud.actionParamRequest(fullParam, API_GET_ORDER_REQUEST_ITEM, 'GET')
-      return Promise.resolve(list)
+      let result = list?.map((item, idx) => {
+        return {
+          no: idx + 1,
+          ...item,
+        }
+      })
+      return Promise.resolve(result)
     } catch (error) {
       Swal.fire({
         title: 'Error!',
@@ -2389,6 +2399,88 @@ export const getListWaitingTransportAssignment = (projectId, whId, userId) => {
         type: actionType.SET_LIST_WAITING_TRANSPORT_ASSIGNMENT,
         payload: listOrdeRequest,
       })
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Close',
+      })
+    }
+  }
+}
+
+export const getReservedStatusComplete = (orderReqId) => {
+  return async () => {
+    try {
+      const fullParam = `${orderReqId}`
+      const result = await actionCrud.actionParamRequest(fullParam, API_GET_RESERVED_STATUS_COMPLETE, 'GET')
+      return Promise.resolve(result)
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Close',
+      })
+    }
+  }
+}
+
+export const orderRequestItemExcel = (orderReqId, custOrderReqNo) => {
+  return async (dispatch) => {
+    try {
+      const fullParam = `${orderReqId}/${custOrderReqNo}`
+      let data = await actionCrud.actionCommonSliceParamBlob(
+        fullParam,
+        API_EXPORT_EXCEL_ORDER_REQUEST_ITEM,
+        'GET',
+      )
+      return Promise.resolve(data)
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Close',
+      })
+    }
+  }
+}
+
+export const orderRequestItemReservedExcel = (orderReqId, custOrderReqNo) => {
+  return async (dispatch) => {
+    try {
+      const fullParam = `${orderReqId}/${custOrderReqNo}`
+      let data = await actionCrud.actionCommonSliceParamBlob(
+        fullParam,
+        API_EXPORT_EXCEL_ORDER_REQUEST_ITEM_RESERVED,
+        'GET',
+      )
+      return Promise.resolve(data)
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Close',
+      })
+    }
+  }
+}
+
+export const getItemReservedData = (orderRequestId) => {
+  return async (dispatch) => {
+    try {
+      const fullParam = `${orderRequestId}`
+      let list = await actionCrud.actionParamRequest(fullParam, API_GET_ORDER_REQUEST_ITEM_RESERVED, 'GET')
+      let result = list?.map((item, idx) => {
+        return {
+          no: idx + 1,
+          ...item,
+        }
+      })
+      return Promise.resolve(result)
     } catch (error) {
       Swal.fire({
         title: 'Error!',

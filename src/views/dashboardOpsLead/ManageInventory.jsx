@@ -130,7 +130,7 @@ function ManageInventory() {
 
     return (
         <>
-            <CContainer>
+            <CContainer fluid>
                 <CRow>
                     <CCol sm={5} className='mb-4'>
                         <h4 className="card-title mb-2">
