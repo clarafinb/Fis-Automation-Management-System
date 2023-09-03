@@ -248,3 +248,7 @@ export const API_SET_ACTIVE_MASTER_PLATE_CODE = BASE_URL + "masterdata/masterPla
 export const API_SET_INACTIVE_MASTER_PLATE_CODE = BASE_URL + "masterdata/masterPlateCodeSetInActiveStatus"
 // WAITING TRANSPORT ASSIGNMENT
 export const API_GET_WAITING_TRANSPORT_ASSIGNMENT = BASE_URL + "logmanagement/getOrderRequestPickupWaitingAssignmentWHProject"
+// MRS
+export const API_GET_MRS_ALL = BASE_URL + "mrs/mrsGetAllBasedOnProject";
+export const API_ADD_MRS = BASE_URL + "mrs/mrsAdd";
+export const API_SET_IN_USE_MRS = BASE_URL + "mrs/mrsSetInUse";

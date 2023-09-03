@@ -111,7 +111,10 @@ import {
   API_GET_MASTER_PLATE_CODE,
   API_ADD_MASTER_PLATE_CODE,
   API_SET_INACTIVE_MASTER_PLATE_CODE,
-  API_SET_ACTIVE_MASTER_PLATE_CODE
+  API_SET_ACTIVE_MASTER_PLATE_CODE,
+  API_GET_MRS_ALL,
+  API_ADD_MRS,
+  API_SET_IN_USE_MRS
 } from "../../api/index"
 import Swal from "sweetalert2";
 
@@ -2487,6 +2490,86 @@ export const setStatusActiveMasterPlateCode = (val, id) => {
       let response = await actionCrud.actionCommonSliceParam(fullParam, url, "PUT");
       if (response.status === "success") {
         dispatch(getListMasterPlateCode());
+      }
+
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Close'
+      })
+    }
+  }
+}
+
+export const getListMrs = (projectId) => {
+  return async (dispatch) => {
+    try {
+      let list = await actionCrud.actionCommonSlice(projectId, API_GET_MRS_ALL, "GET");
+      let result = list?.map((item, idx) => {
+        return {
+          no: idx + 1,
+          ...item,
+        }
+      })
+      dispatch({
+        type: actionType.SET_LIST_MRS,
+        payload: result
+      });
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Close'
+      })
+    }
+  }
+}
+
+export const createMrs = (payload, methode = 'POST') => {
+  return async (dispatch) => {
+    try {
+      let url = API_ADD_MRS
+      let create = await actionCrud.actionCommonCrud(payload, url, methode);
+      if (create.status === "success") {
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: create?.message,
+          showConfirmButton: true
+        });
+        dispatch(getListMrs(payload.projectId));
+      } else {
+        Swal.fire({
+          title: 'Error!',
+          text: create?.message,
+          icon: 'error',
+          confirmButtonText: 'Close'
+        })
+      }
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Close'
+      })
+    }
+  }
+}
+
+export const setInUseMrs = (mrsId, projectId, userId) => {
+  return async (dispatch) => {
+    try {
+
+      let url = API_SET_IN_USE_MRS
+      const fullParam = `${mrsId}/${projectId}/${userId}`
+      console.log(fullParam)
+      let response = await actionCrud.actionCommonSliceParam(fullParam, url, "PUT");
+      if (response.status === "success") {
+        dispatch(getListMrs(projectId));
       }
 
     } catch (error) {

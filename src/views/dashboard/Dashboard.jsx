@@ -153,6 +153,10 @@ const Dashboard = () => {
         type: 'assetTruck',
         url: '/setting-management/asset-truck'
       },
+      {
+        type: 'masterMrs',
+        url: '/mrs/' + id
+      },
     ]
 
     let url = navigate.find(e => e.type === type)
