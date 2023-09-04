@@ -4,7 +4,7 @@ import React from 'react'
 function PageNoneSelectedProject() {
   return (
     <div className="min-vh-70 d-flex flex-row align-items-center">
-      <CContainer>
+      <CContainer fluid>
         <CCard className='card-dashboard'>
           <CRow className="justify-content-center m-5">
             <CCol>
