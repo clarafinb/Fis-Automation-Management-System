@@ -55,7 +55,7 @@ p {
   border: 1px solid white !important;
   color: black;
   box-shadow: inset 0 1px 0 rgba($white, .15), 0 1px 1px rgba($black, .075);
-  font-size: 14px;
+  font-size: 16px;
 
   &:hover {
     background-color: white !important;
@@ -129,8 +129,22 @@ p {
   }
 }
 
+.colorBtnIcon-blue {
+  background-color: $bluePrimary !important;
+  border: 1px solid $bluePrimary !important;
+  color: white;
+  box-shadow: inset 0 1px 0 rgba($white, .15), 0 1px 1px rgba($black, .075);
+  font-size: 14px;
+
+  &:hover {
+    background-color: $bluePrimary !important;
+    border: 1px solid $bluePrimary !important;
+    color: white;
+  }
+}
+
 .textBlue {
-  color: $blackPrimary !important;
+  color: $bluePrimary !important;
 }
 
 .textWhite {
@@ -146,8 +160,8 @@ p {
 }
 
 .bgCustom-blue {
-  background-color: $blackPrimary;
-  border: $blackPrimary;
+  background-color: $bluePrimary;
+  border: $bluePrimary;
 }
 
 .background-login {
@@ -189,6 +203,14 @@ p {
   background-color: rgba(var(--cui-light-rgb), var(--cui-bg-opacity)) !important;
   color: $greyPrimary;
 }
+
+.badge-blue {
+  --cui-bg-opacity: 0.1;
+  background-color: rgba($bluePrimary, var(--cui-bg-opacity)) !important;
+  color: $bluePrimary;
+  font-size: 16px;
+}
+
 
 .text-underline {
   text-decoration: underline;
@@ -233,6 +255,15 @@ p {
 
 .rotate-icon {
   transform: rotate(45deg);
+}
+
+.rotate-icon90 {
+  transform: rotate(90deg);
+}
+
+.card-dashboard {
+  border: none;
+  border-radius: 2% !important;
 }
 
 .col-form-label {

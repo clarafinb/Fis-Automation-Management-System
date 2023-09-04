@@ -12,12 +12,14 @@ import { useCookies } from "react-cookie";
 import * as actions from '../../config/redux/DashboardOpsLead/actions'
 import * as actions_dashbboard from '../../config/redux/Dashboard/actions'
 import CIcon from '@coreui/icons-react'
-import { cilList, cilNotes, cilPlus } from '@coreui/icons'
+import { cilEqualizer, cilNotes } from '@coreui/icons'
 import ModalProjectList from 'src/components/dashboardOpsLead/ModalProjectList';
 import ChartDetailWarehouse from 'src/components/dashboardOpsLead/ChartDetailWarehouse';
 import ModalCreateOrderRequest from 'src/components/dashboardOpsLead/orderRequest/ModalCreateOrderRequest';
 import Delivery from 'src/components/dashboardOpsLead/Delivery';
 import PickUp from 'src/components/dashboardOpsLead/PickUp';
+import PageNoneSelectedProject from './PageNoneSelectedProject';
+import HeaderProject from './HeaderProject';
 
 function Dashboard() {
     const [cookies, setCookie] = useCookies(["dashboardOpsLead"]);
@@ -83,7 +85,7 @@ function Dashboard() {
                 dispatch(actions.setProject({ projectId: val }))
                 getSummaryProject(val)
 
-                if(!Dashboard?.activeMenu){
+                if (!Dashboard?.activeMenu) {
                     setCookie('activeMenu', 'dashboardopsleaddelivery', { path: '/' })
                     dispatch(actions_dashbboard.actionSetReduxActiveMenu("dashboardopsleaddelivery"))
                 }
@@ -160,7 +162,7 @@ function Dashboard() {
             },
             {
                 type: 'waitingTransportAssignment',
-                url:  `/waiting-transport-assignment/${projectId}/${whId}`
+                url: `/waiting-transport-assignment/${projectId}/${whId}`
             }
         ]
 
@@ -201,14 +203,15 @@ function Dashboard() {
             </CRow>
             <br />
             <CRow>
-                <CCol sm={2} className="d-grid gap-2" >
+                <CCol sm={2} className="d-grid" >
                     <CButton
                         className="float-end btn colorBtn-white px-1 ms-2"
                         onClick={handleOpenProjectList}
                     >
                         <CIcon
                             icon={cilNotes}
-                            className="me-2 text-warning" />
+                            className="me-2 text-warning"
+                        />
                         LIST PROJECT
                     </CButton>
                 </CCol>
@@ -223,84 +226,67 @@ function Dashboard() {
             </CRow>
             <br />
             {
-                detailWarehouses.length > 0 && detailWarehouses?.map((detailWarehouse) => {
+                detailWarehouses.length > 0 ? detailWarehouses?.map((detailWarehouse) => {
                     return (
                         <>
-                            <CCard key={detailWarehouse?.whId}>
-                                <CRow className='m-3'>
-                                    <CCol sm={6}>
-                                        <h5>
-                                            <img src={'icon/icon_project.png'} alt="icon_project" className='px-2' />{detailWarehouse?.projectName} <span className='px-3'>|</span>
-                                            <img src={'icon/icon_warehouse.png'} alt="icon_warehouse" className='px-2' /> {detailWarehouse?.whName} <span className='px-3'>|</span>
-                                            <img src={'icon/icon_code.png'} alt="icon_code" className='px-2' /> {detailWarehouse?.whCode}
-                                        </h5>
-                                    </CCol>
-                                    <CCol className="d-none d-md-block" sm={6}>
-                                        {/* <CButton
-                                            onClick={() => handleNavigator("masterLocation", detailWarehouse)}
-                                            className="float-end colorBtn-white me-2">
-                                            <CIcon
-                                                icon={cilList}
-                                                className="me-2 text-warning" />
-                                            Master Location
-                                        </CButton> */}
-                                        <CButton
-                                            className="float-end colorBtn-white me-2"
-                                            onClick={() => handleNavigator("manageInventory", detailWarehouse)}>
-                                            <CIcon
-                                                icon={cilList}
-                                                className="me-2 text-warning" />
-                                            Manage Inventory
-                                        </CButton>
-                                        <CButton
-                                            onClick={() => handleCreateOrderRequest(detailWarehouse)}
-                                            className="float-end colorBtn-white me-2">
-                                            <CIcon icon={cilPlus} className="me-2 text-warning" />
-                                            ADD ORDER REQUEST
-                                        </CButton>
-                                    </CCol>
-                                </CRow>
-                            </CCard>
-                            <br />
-                            <CCard>
-                                <CRow className='m-3'>
-                                    <CCol sm={5}>
-                                        {Dashboard?.activeMenu === 'dashboardopsleaddelivery' && DashboardOpsLead?.project?.projectId
-                                            ? <h5 className="card-title mb-0">
-                                                <span className='text-underline'>DE</span>LIVERY
-                                            </h5>
-                                            : <h5 className="card-title mb-0">
-                                                <span className='text-underline'>PI</span>CKUP
-                                            </h5>
-                                        }
-                                    </CCol>
-                                </CRow>
-                                <CRow className='m-3'>
-                                    <CCol sm={8}>
-                                        {Dashboard?.activeMenu === 'dashboardopsleaddelivery' && DashboardOpsLead?.project?.projectId
-                                            ? <Delivery
-                                                detailWarehouse={detailWarehouse}
-                                                handleNavigator={handleNavigator}
-                                            />
-                                            : <PickUp
-                                                detailWarehouse={detailWarehouse}
-                                                handleNavigator={handleNavigator}
-                                            />
-                                        }
-                                    </CCol>
-                                    <CCol sm={4}>
-                                        <CCard>
-                                            <div className='m-2'>
-                                                <ChartDetailWarehouse data={detailWarehouse} />
-                                            </div>
-                                        </CCard>
-                                    </CCol>
-                                </CRow>
-                            </CCard>
+                            <CRow>
+                                <CCol sm={9}>
+                                    <CCard className='card-dashboard'>
+                                        <div className='m-3'>
+                                            <CRow>
+                                                <CCol sm={6}>
+                                                    <HeaderProject data={detailWarehouse} />
+                                                </CCol>
+                                                <CCol className="d-none d-md-block p-2" sm={6}>
+                                                    <CButton
+                                                        className="float-end colorBtnIcon-blue me-2"
+                                                        onClick={() => handleNavigator("manageInventory", detailWarehouse)}>
+                                                        <CIcon
+                                                            icon={cilEqualizer}
+                                                            className="me-2 textWhite rotate-icon90"
+                                                        />
+                                                        MANAGE INVENTORY
+                                                    </CButton>
+                                                    <CButton
+                                                        onClick={() => handleCreateOrderRequest(detailWarehouse)}
+                                                        className="float-end colorBtnIcon-blue me-2">
+                                                        <CIcon
+                                                            icon={cilEqualizer}
+                                                            className="me-2 textWhite rotate-icon90"
+                                                        />
+                                                        ADD ORDER REQUEST
+                                                    </CButton>
+                                                </CCol>
+                                            </CRow>
+                                            <br />
+                                            <CRow>
+                                                {Dashboard?.activeMenu === 'dashboardopsleaddelivery' && DashboardOpsLead?.project?.projectId
+                                                    ? <Delivery
+                                                        detailWarehouse={detailWarehouse}
+                                                        handleNavigator={handleNavigator}
+                                                    />
+                                                    : <PickUp
+                                                        detailWarehouse={detailWarehouse}
+                                                        handleNavigator={handleNavigator}
+                                                    />
+                                                }
+                                            </CRow>
+                                        </div>
+                                    </CCard>
+                                </CCol>
+                                <CCol sm={3}>
+                                    <CCard className='card-dashboard'>
+                                        <div className='m-3'>
+                                            <ChartDetailWarehouse data={detailWarehouse} />
+                                        </div>
+                                    </CCard>
+                                </CCol>
+                            </CRow>
                             <br />
                         </>
                     )
                 })
+                    : <PageNoneSelectedProject />
             }
             <ModalProjectList
                 open={modalProjectList}

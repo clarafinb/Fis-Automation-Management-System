@@ -166,42 +166,60 @@ function DeliveryTransitDetail() {
                                         </CCol>
                                     </CRow>
                                     <br />
-                                    <CRow>
+                                    <CRow className=' mb-2'>
                                         <CCol>
-                                            <h4 className="card-title mb-4">
-                                                Transport Arrangement
+                                            <h4 className="card-title">
+                                                <span className='text-underline'>TR</span>ANSPORT ARRANGEMENT
                                             </h4>
                                         </CCol>
                                     </CRow>
-                                    <CRow className="mb-4">
-                                        <h5 className="card-title mb-4">
-                                            {transportArragmentData?.transportTypeArrangementId}&nbsp;|&nbsp;
-                                            {transportArragmentData?.transportName}&nbsp;|&nbsp;
-                                            {transportArragmentData?.assignBy}&nbsp;|&nbsp;
-                                            {moment(transportArragmentData?.assignDate).format('DD-MM-YYYY HH:mm:ss')}
-                                        </h5>
+                                    <CRow className="m-2 py-3">
+                                        <CCard>
+                                            <CRow className='m-3'>
+                                                <CCol>
+                                                    <CRow>
+                                                        <CCol sm={1}>
+                                                            <img src={'icon/transport.png'} alt="" className='py-2' />
+                                                        </CCol>
+                                                        <CCol>
+                                                            <CRow className='px-2'>
+                                                                <CCol>
+                                                                    <h5>{transportArragmentData?.transportTypeArrangementId}</h5>
+                                                                </CCol>
+                                                            </CRow>
+                                                            <CRow className='px-2'>
+                                                                <CCol>
+                                                                    <h5 className="card-title">
+                                                                        <img src={'icon/card.png'} alt="" /> {transportArragmentData?.transportName} &nbsp;|&nbsp;
+                                                                        <img src={'icon/truck.svg'} alt="" /> {transportArragmentData?.assignBy} &nbsp;|&nbsp;
+                                                                        <img src={'icon/truck.svg'} alt="" /> {moment(transportArragmentData?.assignDate).format('DD-MM-YYYY HH:mm:ss')}
+                                                                    </h5>
+                                                                </CCol>
+                                                            </CRow>
+                                                        </CCol>
+                                                    </CRow>
+                                                </CCol>
+                                            </CRow>
+                                        </CCard>
                                     </CRow>
+                                    <hr />
+                                    <CRow className=' mb-2 py-2'>
+                                        <CCol>
+                                            <h4 className="card-title">
+                                                <span className='text-underline'>CU</span>RRENT LOCATION
+                                            </h4>
+                                        </CCol>
+                                    </CRow>
+
                                     <CRow className="mb-4">
-                                        <h5 className="card-title mb-4">
-                                            Popup MAP
-                                            <CButton
-                                                type="button"
-                                                className='colorBtn-white px-1'
-                                                color="success"
-                                                title='Show Last Location'
-                                                onClick={handleOpenModal}
-                                            >
-                                                <FontAwesomeIcon icon={faMap} />
-                                            </CButton>
-                                        </h5>
+                                        <img src={'images/map.png'} alt="" onClick={handleOpenModal} style={{cursor: "pointer"}}/>
                                     </CRow>
                                     < CRow >
                                         <CCol className="d-none d-md-block text-end py-3">
                                             <CButton
                                                 type="button"
                                                 onClick={handleBack}
-                                                className='colorBtn-white px-1'
-                                                color="success"
+                                                className='colorBtn-yellow'
                                                 title='Back'
                                             >Close</CButton>
                                         </CCol>
