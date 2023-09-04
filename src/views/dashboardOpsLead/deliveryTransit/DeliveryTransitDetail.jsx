@@ -211,7 +211,7 @@ function DeliveryTransitDetail() {
                                         </CCol>
                                     </CRow>
 
-                                    <CRow className="mb-4">
+                                    <CRow className="m-1 py-3">
                                         <img src={'images/map.png'} alt="" onClick={handleOpenModal} style={{cursor: "pointer"}}/>
                                     </CRow>
                                     < CRow >
