@@ -2,6 +2,7 @@ import React, { useState, useCallback, useEffect } from 'react'
 import { useRedux } from 'src/utils/hooks'
 
 import {
+    CButton,
     CCard,
     CCardBody,
     CCol,
@@ -146,42 +147,34 @@ function PickAndPackDetail() {
     return (
         <>
             <CRow className='py-2'>
-                <CCol sm={12}>
-                    <CCard>
-                        <CCardBody>
-                            <CRow>
-                                <CCol>
-                                    <h4 className="card-title mb-0">
-                                        Pick And Pack Pending Detail
-                                    </h4>
-                                </CCol>
-                            </CRow>
-                        </CCardBody>
-                    </CCard>
+                <CCol sm={5}>
+                    <h4 className="card-title mb-0">
+                        <span className='text-underline'>PI</span>CK & PACK PENDING DETAIL
+                    </h4>
                 </CCol>
             </CRow>
-            <CRow>
-                <CCol sm={4}>
-                    <OrderRequestDetailPickAndPackPendingDetail
-                        data={orderReqDetail}
-                    />
-                </CCol>
-                <CCol sm={8}>
-                    <CCard>
-                        <CCardBody>
-                            <CRow>
+
+            <CCard className='mt-3 mb-3'>
+                <CCardBody>
+                    <CRow className='m-2'>
+                        <CCol sm={4}>
+                            <OrderRequestDetailPickAndPackPendingDetail
+                                data={orderReqDetail}
+                            />
+                        </CCol>
+                        <CCol sm={8}>
+                            <CRow className='ms-1'>
                                 <CCol>
-                                    <h4 className="card-title mb-0">
-                                        Order Request Detail
-                                    </h4>
+                                    <p className="card-title mb-0">
+                                        <span className='text-underline'>OR</span>DER REQUEST DETAIL
+                                    </p>
                                 </CCol>
                             </CRow>
                             <br />
-                            <CRow>
+                            <CRow className='ms-1'>
                                 <CCol>
                                     <CRow className="mb-4">
-                                        <CFormLabel
-                                            className="col-form-label col-sm-3">Total Item Request
+                                        <CFormLabel>Total Item Request
                                         </CFormLabel>
                                         <CCol md={2}>
                                             <CFormInput
@@ -204,36 +197,42 @@ function PickAndPackDetail() {
                                             /> */}
                                             {
                                                 orderReqDetail?.totalItem > 0 ?
-                                                    <FontAwesomeIcon
-                                                        icon={faRefresh}
-                                                        className='textBlue px-2'
-                                                        title='Reset'
-                                                        size='lg'
-                                                        onClick={() =>
-                                                            handleComponent('reset', orderReqId)
-                                                        }
-                                                    />
+                                                    <CButton className='colorBtnIcon-black p-1'>
+                                                        <FontAwesomeIcon
+                                                            icon={faRefresh}
+                                                            className='textWhite px-2 mt-1'
+                                                            title='Reset'
+                                                            size='lg'
+                                                            onClick={() =>
+                                                                handleComponent('reset', orderReqId)
+                                                            }
+                                                        />
+                                                    </CButton>
+
                                                     : ''
                                             }
-                                            <FontAwesomeIcon
-                                                icon={faUpload}
-                                                className='textBlue px-2'
-                                                title='Upload'
-                                                size='lg'
-                                                onClick={() =>
-                                                    handleComponent('upload')
-                                                }
-                                            />
+                                            <CButton className='colorBtnIcon-black p-1'>
+                                                <FontAwesomeIcon
+                                                    icon={faUpload}
+                                                    className='textWhite px-1 mt-1'
+                                                    title='Upload'
+                                                    size='lg'
+                                                    onClick={() =>
+                                                        handleComponent('upload')
+                                                    }
+                                                />
+                                            </CButton>
+
                                         </CCol>
                                     </CRow>
                                     <CRow>
                                         <CCol>
-                                            <h5 className="card-title mb-0">
-                                                Item List
-                                            </h5>
+                                            <p className="card-title mb-0">
+                                                <span className='text-underline'>IT</span>EM LIST
+                                            </p>
                                         </CCol>
                                     </CRow>
-                                    <CCol className="d-none d-md-block text-end">
+                                    <CCol className="d-none d-md-block text-end py-3">
                                         <TableListItemInventory
                                             data={DashboardOpsLead?.listOrderReqItemWithInventory}
                                         />
@@ -259,10 +258,12 @@ function PickAndPackDetail() {
                                     </CRow>
                                 </CCol>
                             </CRow>
-                        </CCardBody>
-                    </CCard>
-                </CCol >
-            </CRow >
+                        </CCol >
+                    </CRow >
+                </CCardBody>
+            </CCard>
+
+
             <ModalUploadFile
                 open={openModalUpload}
                 setOpen={setOpenModalUpload}
