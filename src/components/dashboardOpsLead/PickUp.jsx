@@ -6,7 +6,7 @@ function PickUp({ detailWarehouse, handleNavigator}) {
         <>
             <CRow>
                 <CCol>
-                    <CCard className='mb-3' >
+                    <CCard className='mb-3 card-border' >
                         <CCardBody>
                             <CCardText className='px-3 text-center'>
                                 <p>ORDER REQUEST PICKUP</p>
@@ -28,7 +28,7 @@ function PickUp({ detailWarehouse, handleNavigator}) {
                     </CCard>
                 </CCol>
                 <CCol>
-                    <CCard className='mb-3' >
+                    <CCard className='mb-3 card-border' >
                         <CCardBody>
                             <CCardText className='px-3 text-center'>
                                 <p>PICKUP PREPARATION</p>
@@ -50,7 +50,7 @@ function PickUp({ detailWarehouse, handleNavigator}) {
                     </CCard>
                 </CCol>
                 <CCol>
-                    <CCard className='mb-3' >
+                    <CCard className='mb-3 card-border' >
                         <CCardBody>
                             <CCardText className='px-3 text-center'>
                                 <p>WAITING TRANSPORT ASSIGNMENT</p>
@@ -74,7 +74,7 @@ function PickUp({ detailWarehouse, handleNavigator}) {
             </CRow>
             <CRow>
                 <CCol>
-                    <CCard className='mb-3' >
+                    <CCard className='mb-3 card-border' >
                         <CCardBody>
                             <CCardText className='px-3 text-center'>
                                 <p>PICKUP IN TRANSIT</p>
@@ -96,7 +96,7 @@ function PickUp({ detailWarehouse, handleNavigator}) {
                     </CCard>
                 </CCol>
                 <CCol>
-                    <CCard className='mb-3' >
+                    <CCard className='mb-3 card-border' >
                         <CCardBody>
                             <CCardText className='px-3 text-center'>
                                 <p>ON SITE</p>
@@ -118,7 +118,7 @@ function PickUp({ detailWarehouse, handleNavigator}) {
                     </CCard>
                 </CCol>
                 <CCol>
-                    <CCard className='mb-3' >
+                    <CCard className='mb-3 card-border' >
                         <CCardBody>
                             <CCardText className='px-3 text-center'>
                                 <p>HO COMPLETED</p>

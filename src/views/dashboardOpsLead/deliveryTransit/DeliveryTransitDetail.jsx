@@ -174,7 +174,7 @@ function DeliveryTransitDetail() {
                                         </CCol>
                                     </CRow>
                                     <CRow className="m-2 py-3">
-                                        <CCard>
+                                        <CCard className='card-border'>
                                             <CRow className='m-3'>
                                                 <CCol>
                                                     <CRow>

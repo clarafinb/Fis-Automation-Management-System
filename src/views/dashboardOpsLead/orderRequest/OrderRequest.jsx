@@ -23,6 +23,7 @@ import ModalCreateOrderRequest from 'src/components/dashboardOpsLead/orderReques
 import ModalCancelOrderRequest from 'src/components/dashboardOpsLead/orderRequest/ModalCancelOrderRequest'
 import TableListOrderRequest from 'src/components/dashboardOpsLead/orderRequest/TableListOrderRequest'
 import { downloadFileConfig } from 'src/helper/globalHelper'
+import HeaderProject from '../HeaderProject'
 
 function OrderRequest() {
     const { dispatch, Global, DashboardOpsLead } = useRedux()
@@ -113,22 +114,18 @@ function OrderRequest() {
                 <CCard className="">
                     <CCardBody>
                         <CRow className='mt-3'>
-                            <CCol>
-                                <h5>
-                                    <img src={'icon/icon_project_grey.png'} alt="icon_project" className='px-2' />{detailProject?.projectName} <span className='px-3'>|</span>
-                                    <img src={'icon/icon_warehouse_grey.png'} alt="icon_warehouse" className='px-2' /> {detailProject?.whName} <span className='px-3'>|</span>
-                                    <img src={'icon/icon_code_grey.png'} alt="icon_code" className='px-2' /> {detailProject?.whCode}
-                                </h5>
+                            <CCol sm={6}>
+                                <HeaderProject data={detailProject} />
                             </CCol>
                         </CRow>
                         <CRow className='mt-3'>
-                            <CNav variant="tabs">
+                            <CNav variant="underline">
                                 <CNavItem>
                                     <CNavLink
                                         active={activeKey === 1}
                                         onClick={() => setActiveKey(1)}
                                     >
-                                        Order Request
+                                        <p className={activeKey === 1 ? 'text-underline-tab' : ''}>ORDER REQUEST</p>
                                     </CNavLink>
                                 </CNavItem>
                                 <CNavItem>
@@ -136,7 +133,7 @@ function OrderRequest() {
                                         active={activeKey === 2}
                                         onClick={() => setActiveKey(2)}
                                     >
-                                        Order Req Bulk Upload Log
+                                       <p className={activeKey === 2 ? 'text-underline-tab' : ''}>ORDER REQ BULK UPLOAD LOG</p>
                                     </CNavLink>
                                 </CNavItem>
                                 {/* <CNavItem>
@@ -149,14 +146,16 @@ function OrderRequest() {
                                 </CNavItem> */}
                             </CNav>
                         </CRow>
-                        <CRow>
+                        <CRow className='mt-2'>
                             <CCol className="d-none d-md-block text-end">
                                 <CTabContent>
-                                    <CTabPane role="tabpanel" aria-labelledby="home-tab" visible={activeKey === 1}>
+                                    <CTabPane role="tablist" aria-labelledby="home-tab" visible={activeKey === 1}>
                                         <TableListOrderRequest
                                             data={DashboardOpsLead?.listOrdeRequest}
                                             handleComponent={handleComponent}
                                         />
+                                    </CTabPane>
+                                    <CTabPane role="tablist" aria-labelledby="home-tab" visible={activeKey === 2}>
                                     </CTabPane>
                                 </CTabContent>
                             </CCol>

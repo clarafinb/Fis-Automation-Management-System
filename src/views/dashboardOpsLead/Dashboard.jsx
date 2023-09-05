@@ -231,7 +231,7 @@ function Dashboard() {
                         <>
                             <CRow>
                                 <CCol sm={9}>
-                                    <CCard className='card-dashboard'>
+                                    <CCard>
                                         <div className='m-3'>
                                             <CRow>
                                                 <CCol sm={6}>

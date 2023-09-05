@@ -6,7 +6,7 @@ function Delivery({ detailWarehouse, handleNavigator }) {
         <>
             <CRow>
                 <CCol sm={4}>
-                    <CCard className='mb-3' >
+                    <CCard className='mb-3 card-border' >
                         <CCardBody>
                             <CCardText className='px-3 text-center'>
                                 <p>ORDER REQUEST DELIVERY</p>
@@ -28,7 +28,7 @@ function Delivery({ detailWarehouse, handleNavigator }) {
                     </CCard>
                 </CCol>
                 <CCol sm={4}>
-                    <CCard className='mb-3' >
+                    <CCard className='mb-3 card-border' >
                         <CCardBody>
                             <CCardText className='px-3 text-center'>
                                 <p>PICK & PACK PENDING</p>
@@ -50,7 +50,7 @@ function Delivery({ detailWarehouse, handleNavigator }) {
                     </CCard>
                 </CCol>
                 <CCol sm={4}>
-                    <CCard className='mb-3' >
+                    <CCard className='mb-3 card-border' >
                         <CCardBody>
                             <CCardText className='px-3 text-center'>
                                 <p>PICK & PACK ON PROGRESS</p>
@@ -74,7 +74,7 @@ function Delivery({ detailWarehouse, handleNavigator }) {
             </CRow>
             <CRow>
                 <CCol sm={4}>
-                    <CCard className='mb-3'>
+                    <CCard className='mb-3 card-border'>
                         <CCardBody>
                             <CCardText className='px-3 text-center'>
                                 <p>WAITING DISPATCH</p>
@@ -96,7 +96,7 @@ function Delivery({ detailWarehouse, handleNavigator }) {
                     </CCard>
                 </CCol>
                 <CCol sm={4}>
-                    <CCard className='mb-3' >
+                    <CCard className='mb-3 card-border' >
                         <CCardBody>
                             <CCardText className='px-3 text-center'>
                                 <p>DELIVERY IN TRANSIT</p>
@@ -118,7 +118,7 @@ function Delivery({ detailWarehouse, handleNavigator }) {
                     </CCard>
                 </CCol>
                 <CCol sm={4}>
-                    <CCard className='mb-3' >
+                    <CCard className='mb-3 card-border' >
                         <CCardBody>
                             <CCardText className='px-3 text-center'>
                                 <p>DELIVERY ON SITE</p>
@@ -140,7 +140,7 @@ function Delivery({ detailWarehouse, handleNavigator }) {
                     </CCard>
                 </CCol>
                 <CCol sm={4}>
-                    <CCard className='mb-3' >
+                    <CCard className='mb-3 card-border' >
                         <CCardBody>
                             <CCardText className='px-3 text-center'>
                                 <p>DELIVERY COMPLETED</p>
