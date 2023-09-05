@@ -9,8 +9,6 @@ import {
     CForm,
     CFormInput,
     CFormLabel,
-    CInputGroup,
-    CInputGroupText,
     CNav,
     CNavItem,
     CNavLink,
@@ -23,8 +21,6 @@ import * as actions_dashboard from '../../../config/redux/Dashboard/actions'
 import * as actions from '../../../config/redux/DashboardOpsLead/actions'
 import CIcon from '@coreui/icons-react'
 import { cilPlus, cilSpreadsheet } from '@coreui/icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faSearch } from '@fortawesome/free-solid-svg-icons'
 import Select from 'react-select'
 import { useLocation, useNavigate } from 'react-router-dom'
 import ButtonSubmit from 'src/components/custom/button/ButtonSubmit'
