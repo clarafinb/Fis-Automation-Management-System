@@ -120,7 +120,7 @@ function TableListWaitingDelivery({
         {
             field: 'orderReqId',
             headerName: 'ACTION',
-            minWidth: 100,
+            maxWidth: 100,
             filter: false,
             cellStyle: { textAlign: 'center' },
             pinned: 'right',

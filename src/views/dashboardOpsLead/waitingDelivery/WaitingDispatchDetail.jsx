@@ -23,7 +23,7 @@ import CIcon from '@coreui/icons-react'
 import { cilPlus } from '@coreui/icons'
 import SmartTable from 'src/components/custom/table/SmartTable'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPen, faPencil, faPlus, faUnlink, faUpload } from '@fortawesome/free-solid-svg-icons'
+import { faPen, faPencil, faUnlink, faUpload } from '@fortawesome/free-solid-svg-icons'
 import Swal from 'sweetalert2'
 import ButtonCancel from 'src/components/custom/button/ButtonCancel'
 import OrderRequestWaitingDispatch from 'src/components/dashboardOpsLead/waitingDispatch/OrderRequestWaitingDispatch'
@@ -222,38 +222,47 @@ function WaitingDispatchDetail() {
                     <>
                         {
                             data.hasDetachFunction != 'No' ?
-                                <FontAwesomeIcon
-                                    icon={faUnlink}
-                                    className='textBlue px-2'
-                                    title='Detach Transport Arrangement'
-                                    size='sm'
-                                    onClick={() =>
-                                        handleComponent('detachTransport', value)
-                                    }
-                                />
+                                <CButton className='colorBtnIcon-black p-1 me-1'>
+                                    <FontAwesomeIcon
+                                        icon={faUnlink}
+                                        className='textWhite px-1'
+                                        title='Detach Transport Arrangement'
+                                        size='sm'
+                                        onClick={() =>
+                                            handleComponent('detachTransport', value)
+                                        }
+                                    />
+                                </CButton>
+
                                 : ''
                         }
                         {
                             data.transportType === 'handCarry' ?
-                                <FontAwesomeIcon
-                                    icon={faPen}
-                                    className='textBlue px-2'
-                                    title='Add Arrangement Hand Carry'
-                                    size='sm'
-                                    onClick={() =>
-                                        handleComponent('addHandCarry', data?.transportArrangementId)
-                                    }
-                                />
+                                <CButton className='colorBtnIcon-black p-1'>
+                                    <FontAwesomeIcon
+                                        icon={faPen}
+                                        className='textWhite px-1'
+                                        title='Add Arrangement Hand Carry'
+                                        size='sm'
+                                        onClick={() =>
+                                            handleComponent('addHandCarry', data?.transportArrangementId)
+                                        }
+                                    />
+                                </CButton>
+
                                 :
-                                <FontAwesomeIcon
-                                    icon={faPencil}
-                                    className='textBlue px-2'
-                                    title='Add Arrangement Transport'
-                                    size='sm'
-                                    onClick={() =>
-                                        handleComponent('addTransport', data?.transportArrangementId)
-                                    }
-                                />
+                                <CButton className='colorBtnIcon-black p-1'>
+                                    <FontAwesomeIcon
+                                        icon={faPencil}
+                                        className='textWhite px-1'
+                                        title='Add Arrangement Transport'
+                                        size='sm'
+                                        onClick={() =>
+                                            handleComponent('addTransport', data?.transportArrangementId)
+                                        }
+                                    />
+                                </CButton>
+
                         }
 
                     </>
@@ -265,38 +274,30 @@ function WaitingDispatchDetail() {
     return (
         <>
             <CRow className='py-2'>
-                <CCol sm={12}>
-                    <CCard>
-                        <CCardBody>
-                            <CRow>
-                                <CCol>
-                                    <h4 className="card-title mb-0">
-                                        Waiting Delivery
-                                    </h4>
-                                </CCol>
-                            </CRow>
-                        </CCardBody>
-                    </CCard>
+                <CCol sm={5}>
+                    <h4 className="card-title mb-0">
+                        <span className='text-underline'>WA</span>ITING DELIVERY
+                    </h4>
                 </CCol>
             </CRow>
-            <CRow className='mb-4'>
-                <CCol sm={5}>
-                    <OrderRequestWaitingDispatch
-                        data={orderReqDetail}
-                    />
-                </CCol>
-                <CCol>
-                    <CCard>
-                        <CCardBody>
-                            <CRow>
+            <CCard className='mt-3 mb-3'>
+                <CCardBody>
+                    <CRow className='m-2'>
+                        <CCol sm={5}>
+                            <OrderRequestWaitingDispatch
+                                data={orderReqDetail}
+                            />
+                        </CCol>
+                        <CCol>
+                            <CRow className='ms-1'>
                                 <CCol>
-                                    <h4 className="card-title mb-0">
-                                        Delivery Arrangement
-                                    </h4>
+                                    <p className="card-title mb-0">
+                                        <span className='text-underline'>DE</span>LIVERY ARRANGEMENT
+                                    </p>
                                 </CCol>
                             </CRow>
                             <br />
-                            <CRow>
+                            <CRow className='ms-1'>
                                 <CCol>
                                     <CRow className="mb-4">
                                         <CFormLabel
@@ -326,11 +327,11 @@ function WaitingDispatchDetail() {
                                             />
                                         </CCol>
                                     </CRow>
-                                    <CRow>
+                                    <CRow className='mb-4 mt-5'>
                                         <CCol>
-                                            <h5 className="card-title mb-0">
-                                                Transport Arrangement
-                                            </h5>
+                                            <p className="card-title mb-0">
+                                                <span className='text-underline'>TR</span>ANSPORT ARRANGEMENT
+                                            </p>
                                         </CCol>
                                         {
                                             (DashboardOpsLead?.listTransportArragement.length == 0 && orderReqDetail?.hasGroup == 'No') ||
@@ -347,7 +348,7 @@ function WaitingDispatchDetail() {
                                                 ''
                                         }
                                     </CRow>
-                                    <CCol className="d-none d-md-block text-end">
+                                    <CCol className="d-none d-md-block text-end ">
                                         <SmartTable
                                             data={DashboardOpsLead?.listTransportArragement}
                                             // filterValue={filterValue}
@@ -367,10 +368,11 @@ function WaitingDispatchDetail() {
                                     />
                                 </CCol>
                             </CRow>
-                        </CCardBody>
-                    </CCard>
-                </CCol >
-            </CRow >
+                        </CCol >
+                    </CRow >
+                </CCardBody>
+            </CCard>
+
             <CModal
                 size="lg"
                 visible={openModal}
