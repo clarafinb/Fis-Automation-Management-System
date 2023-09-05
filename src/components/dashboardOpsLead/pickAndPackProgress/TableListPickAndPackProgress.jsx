@@ -124,7 +124,7 @@ function TableListPickAndPackProgress({
         {
             field: 'orderReqId',
             headerName: 'ACTION',
-            minWidth: 100,
+            maxWidth: 100,
             cellStyle: { textAlign: 'center' },
             pinned: 'right',
             filter: false,

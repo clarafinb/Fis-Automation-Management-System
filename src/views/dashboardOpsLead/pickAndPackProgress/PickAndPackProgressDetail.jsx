@@ -259,32 +259,23 @@ function PickAndPackProgressDetail() {
     return (
         <>
             <CRow className='py-2'>
-                <CCol sm={12}>
-                    <CCard>
-                        <CCardBody>
-                            <CRow>
-                                <CCol>
-                                    <h4 className="card-title mb-0">
-                                        Pick And Pack Progress
-                                    </h4>
-                                </CCol>
-                            </CRow>
-                        </CCardBody>
-                    </CCard>
+                <CCol sm={5}>
+                    <h4 className="card-title mb-0">
+                        <span className='text-underline'>PI</span>CK & PACK PROGRESS
+                    </h4>
                 </CCol>
             </CRow>
-            <CRow>
-                <CCol sm={8}>
-                    <CCard>
-                        <CCardBody>
-
-                            <CNav variant="tabs" className='mb-4'>
+            <CCard className='mt-3 mb-3'>
+                <CCardBody>
+                    <CRow className='m-2'>
+                        <CCol sm={8}>
+                            <CNav variant="underline" className='mb-3'>
                                 <CNavItem>
                                     <CNavLink
                                         active={activeKey === 1}
                                         onClick={() => setActiveKey(1)}
                                     >
-                                        Order Request Detail
+                                        <p className={activeKey === 1 ? 'text-underline-tab' : ''}>ORDER REQUEST DETAIL</p>
                                     </CNavLink>
                                 </CNavItem>
                                 <CNavItem>
@@ -292,7 +283,7 @@ function PickAndPackProgressDetail() {
                                         active={activeKey === 2}
                                         onClick={() => setActiveKey(2)}
                                     >
-                                        Item Request
+                                        <p className={activeKey === 2 ? 'text-underline-tab' : ''}>ITEM REQUEST</p>
                                     </CNavLink>
                                 </CNavItem>
                                 <CNavItem>
@@ -300,7 +291,7 @@ function PickAndPackProgressDetail() {
                                         active={activeKey === 3}
                                         onClick={() => setActiveKey(3)}
                                     >
-                                        Item Reserved
+                                        <p className={activeKey === 3 ? 'text-underline-tab' : ''}>ITEM RESERVED</p>
                                     </CNavLink>
                                 </CNavItem>
                             </CNav>
@@ -335,23 +326,18 @@ function PickAndPackProgressDetail() {
                                 </CTabPane>
 
                             </CTabContent>
-
-                        </CCardBody>
-                    </CCard>
-                </CCol>
-                <CCol>
-                    <CCard>
-                        <CCardBody>
-                            <CRow>
+                        </CCol >
+                        <CCol>
+                            <CRow className='ms-1 mb-3 mt-2'>
                                 <CCol>
-                                    <h4 className="card-title mb-0">
-                                        Pick and Pack Completion
-                                    </h4>
+                                    <p className="card-title mb-0">
+                                        <span className='text-underline'>PI</span>CK AND PACK COMPLETION
+                                    </p>
                                 </CCol>
                             </CRow>
                             <br />
                             <CForm onSubmit={handleConfirm}>
-                                <CRow>
+                                <CRow className='ms-1'>
                                     <CCol>
                                         {/* <CRow className="mb-4">
                                             <CFormLabel
@@ -432,14 +418,14 @@ function PickAndPackProgressDetail() {
                                         </CRow>
                                         <CRow>
                                             <CCol>
-                                                <h5 className="card-title mb-0">
-                                                    Additional Service
-                                                </h5>
+                                                <p className="card-title mb-0">
+                                                    <span className='text-underline'>AD</span>DITONAL SERVICE
+                                                </p>
                                             </CCol>
                                             <CCol className="d-none d-md-block text-end">
                                                 <CButton className="colorBtn-white mb-3" onClick={handleCreateAdditionalService}>
                                                     <CIcon icon={cilPlus} className="me-2 text-warning" />
-                                                    ADD ADDTIONAL SERVICE CHARGE
+                                                    ADD SERVICE
                                                 </CButton>
                                             </CCol>
                                         </CRow>
@@ -480,10 +466,11 @@ function PickAndPackProgressDetail() {
 
                                 </CRow>
                             </CForm>
-                        </CCardBody>
-                    </CCard>
-                </CCol >
-            </CRow >
+                        </CCol >
+                    </CRow >
+                </CCardBody>
+            </CCard>
+
 
             <ModalAdditionalService
                 open={openModalAdditionalService}

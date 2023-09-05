@@ -15,6 +15,7 @@ import CIcon from '@coreui/icons-react'
 import ModalListItem from 'src/components/dashboardOpsLead/pickAndPackPending/ModalListItem'
 import { cilSpreadsheet } from '@coreui/icons'
 import TableListPickAndPackProgress from '../../../components/dashboardOpsLead/pickAndPackProgress/TableListPickAndPackProgress'
+import HeaderProject from '../HeaderProject'
 
 function PickAndPackProgress() {
     const nav = useNavigate();
@@ -100,12 +101,8 @@ function PickAndPackProgress() {
                 <CCard className="">
                     <CCardBody>
                         <CRow className='mt-3'>
-                            <CCol>
-                                <h5>
-                                    <img src={'icon/icon_project_grey.png'} alt="icon_project" className='px-2' />{detailProject?.projectName} <span className='px-3'>|</span>
-                                    <img src={'icon/icon_warehouse_grey.png'} alt="icon_warehouse" className='px-2' /> {detailProject?.whName} <span className='px-3'>|</span>
-                                    <img src={'icon/icon_code_grey.png'} alt="icon_code" className='px-2' /> {detailProject?.whCode}
-                                </h5>
+                            <CCol sm={6}>
+                                <HeaderProject data={detailProject} />
                             </CCol>
                         </CRow>
                         <br />

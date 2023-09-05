@@ -1,8 +1,6 @@
 
 import React from 'react'
 import {
-    CCard,
-    CCardBody,
     CCol,
     CFormInput,
     CFormLabel,

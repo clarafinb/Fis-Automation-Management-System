@@ -14,7 +14,6 @@ import {
 import * as actions from '../../../config/redux/DashboardOpsLead/actions'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faRefresh, faUpload } from '@fortawesome/free-solid-svg-icons'
-import moment from 'moment/moment'
 import Swal from 'sweetalert2'
 import { useNavigate, useLocation } from 'react-router-dom';
 import TableListItemInventory from 'src/components/dashboardOpsLead/pickAndPackPending/TableListItemInventory'
@@ -149,7 +148,7 @@ function PickAndPackDetail() {
             <CRow className='py-2'>
                 <CCol sm={5}>
                     <h4 className="card-title mb-0">
-                        <span className='text-underline'>PI</span>CK & PACK PENDING DETAIL
+                        <span className='text-underline'>PI</span>CK & PACK PENDING
                     </h4>
                 </CCol>
             </CRow>

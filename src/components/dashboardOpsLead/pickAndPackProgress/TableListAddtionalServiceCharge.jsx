@@ -1,5 +1,6 @@
 import React from 'react'
 import {
+    CButton,
     CCol,
     CRow,
 } from '@coreui/react'
@@ -15,12 +16,14 @@ function TableListAddtionalServiceCharge({
     const handleAction = (custOrderRequestServiceChargeId) => {
         return (
             <>
-                <FontAwesomeIcon
-                    icon={faTrash}
-                    className='textBlue px-2'
-                    title='Delete Addtional Service'
-                    onClick={() => handleDeleteAddService(custOrderRequestServiceChargeId)}
-                />
+                <CButton className='colorBtnIcon-red p-1'>
+                    <FontAwesomeIcon
+                        icon={faTrash}
+                        className='textWhite px-1'
+                        title='Delete Addtional Service'
+                        onClick={() => handleDeleteAddService(custOrderRequestServiceChargeId)}
+                    />
+                </CButton>
             </>
         )
     }
