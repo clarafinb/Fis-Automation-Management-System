@@ -32,15 +32,34 @@ function TableProjectList({
     }
 
     const columns = [
-        { field: 'no', headerName: 'NO', minWidth: 100, filter: false },
-        { field: 'projectName', headerName: 'PROJECT NAME',},
-        { field: 'processGroup', headerName: 'PROCESS GROUP'},
-        { field: 'customerName', headerName: 'CUSTOMER'},
+        { 
+            field: 'no', 
+            headerName: 'NO', 
+            minWidth: 80, 
+            filter: false, 
+            cellStyle: { textAlign: 'center' }
+        },
+        { 
+            field: 'projectName', 
+            headerName: 'PROJECT NAME', 
+            minWidth: 250,
+            cellStyle: { textAlign: 'center' }
+        },
+        { 
+            field: 'processGroup', 
+            headerName: 'PROCESS GROUP', 
+            cellStyle: { textAlign: 'center' }
+        },
+        { 
+            field: 'customerName', 
+            headerName: 'CUSTOMER', 
+            cellStyle: { textAlign: 'center' }
+        },
         {
             field: 'projectId',
             headerName: 'ACTION',
             cellStyle: { textAlign: 'center' },
-            minWidth: 80,
+            minWidth: 100,
             // pinned: 'right',
             filter: false,
             cellRenderer: ({ data }) => {
@@ -55,7 +74,7 @@ function TableProjectList({
                 <DataGrid
                     data={data}
                     columns={columns}
-                    minHeight={400}
+                    minHeight={420}
                 />
             </CCol>
         </CRow>

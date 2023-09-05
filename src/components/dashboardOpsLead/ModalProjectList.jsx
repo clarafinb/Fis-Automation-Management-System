@@ -26,15 +26,18 @@ function ModalProjectList({ open, setOpen, handleProject }) {
             onClose={() => setOpen(false)}
             alignment="center"
         >
-            <CModalHeader>
-                <CModalTitle>LIST PROJECT</CModalTitle>
-            </CModalHeader>
-            <CModalBody>
-                <TableProjectList
-                    data={Dashboard?.listProject}
-                    handleComponent={handleProject}
-                />
-            </CModalBody>
+            <div className='m-3'>
+                <CModalHeader>
+                    <CModalTitle>LIST PROJECT</CModalTitle>
+                </CModalHeader>
+                <CModalBody>
+                    <TableProjectList
+                        data={Dashboard?.listProject}
+                        handleComponent={handleProject}
+                    />
+                </CModalBody>
+            </div>
+
         </CModal>
     )
 }
