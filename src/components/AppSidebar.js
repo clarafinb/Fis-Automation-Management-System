@@ -1,11 +1,6 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useRedux } from 'src/utils/hooks'
-
 import { CBadge, CButton, CNavGroup, CNavItem, CSidebar, CSidebarBrand, CSidebarNav, CSidebarToggler } from '@coreui/react'
-
-import { AppSidebarNav } from './AppSidebarNav'
-
-import SimpleBar from 'simplebar-react'
 import 'simplebar/dist/simplebar.min.css'
 
 // sidebar nav config
@@ -13,7 +8,6 @@ import { navigation } from '../_nav'
 
 import * as actionType from "../config/redux/Global/actionType"
 import * as actions_dashbboard from "../config/redux/Dashboard/actions"
-import { useState } from 'react'
 import { useCookies } from 'react-cookie'
 import { handleRoleDashboard } from 'src/helper/urlHelper'
 import { useNavigate } from 'react-router-dom'

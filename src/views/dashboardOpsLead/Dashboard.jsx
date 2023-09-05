@@ -20,6 +20,7 @@ import Delivery from 'src/components/dashboardOpsLead/Delivery';
 import PickUp from 'src/components/dashboardOpsLead/PickUp';
 import PageNoneSelectedProject from './PageNoneSelectedProject';
 import HeaderProject from './HeaderProject';
+import { manipulateDataTableDashboard } from '../../helper/dashboardHelper';
 
 function Dashboard() {
     const [cookies, setCookie] = useCookies(["dashboardOpsLead"]);
@@ -31,6 +32,7 @@ function Dashboard() {
     const [modalProjectList, setModalProjectList] = useState(false)
     const [openModalOrderRequest, setOpenModalOrderRequest] = useState(false)
     const [selectedDetailWarehouse, setSelectedDetailWarehouse] = useState({})
+    const [listTableDashboard, setListTableDashboard] = useState([])
     const nav = useNavigate()
 
     const getSummaryProject = (projectId) => {
@@ -51,6 +53,15 @@ function Dashboard() {
             setDetailWarehouses(result)
         })
     }
+
+    useEffect(() => {
+        if(detailWarehouses?.length > 0){
+            let listTable = []
+            listTable =  manipulateDataTableDashboard(detailWarehouses)
+
+            setListTableDashboard(listTable)
+        }
+    }, [detailWarehouses])
 
     useEffect(() => {
         if (!cookies?.user) {
@@ -226,7 +237,7 @@ function Dashboard() {
             </CRow>
             <br />
             {
-                detailWarehouses.length > 0 ? detailWarehouses?.map((detailWarehouse) => {
+                listTableDashboard.length > 0 ? listTableDashboard?.map((listData) => {
                     return (
                         <>
                             <CRow>
@@ -235,12 +246,12 @@ function Dashboard() {
                                         <div className='m-3'>
                                             <CRow>
                                                 <CCol sm={6}>
-                                                    <HeaderProject data={detailWarehouse} />
+                                                    <HeaderProject data={listData} />
                                                 </CCol>
                                                 <CCol className="d-none d-md-block p-2" sm={6}>
                                                     <CButton
                                                         className="float-end colorBtnIcon-blue me-2"
-                                                        onClick={() => handleNavigator("manageInventory", detailWarehouse)}>
+                                                        onClick={() => handleNavigator("manageInventory", listData)}>
                                                         <CIcon
                                                             icon={cilEqualizer}
                                                             className="me-2 textWhite rotate-icon90"
@@ -248,7 +259,7 @@ function Dashboard() {
                                                         MANAGE INVENTORY
                                                     </CButton>
                                                     <CButton
-                                                        onClick={() => handleCreateOrderRequest(detailWarehouse)}
+                                                        onClick={() => handleCreateOrderRequest(listData)}
                                                         className="float-end colorBtnIcon-blue me-2">
                                                         <CIcon
                                                             icon={cilEqualizer}
@@ -262,11 +273,11 @@ function Dashboard() {
                                             <CRow>
                                                 {Dashboard?.activeMenu === 'dashboardopsleaddelivery' && DashboardOpsLead?.project?.projectId
                                                     ? <Delivery
-                                                        detailWarehouse={detailWarehouse}
+                                                        data={listData?.delivery}
                                                         handleNavigator={handleNavigator}
                                                     />
                                                     : <PickUp
-                                                        detailWarehouse={detailWarehouse}
+                                                        data={listData?.pickUp}
                                                         handleNavigator={handleNavigator}
                                                     />
                                                 }
@@ -277,7 +288,7 @@ function Dashboard() {
                                 <CCol sm={3}>
                                     <CCard className='card-dashboard'>
                                         <div className='m-3'>
-                                            <ChartDetailWarehouse data={detailWarehouse} />
+                                            <ChartDetailWarehouse data={listData} />
                                         </div>
                                     </CCard>
                                 </CCol>
