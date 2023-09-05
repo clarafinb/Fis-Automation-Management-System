@@ -61,7 +61,7 @@ function TableListAddtionalServiceCharge({
             filter: false,
             pinned: 'right',
             cellStyle: { textAlign: 'center' },
-            minWidth: 80,
+            maxWidth: 80,
             cellRenderer: ({ data }) => {
                 return handleAction(data.custOrderRequestServiceChargeId)
             }

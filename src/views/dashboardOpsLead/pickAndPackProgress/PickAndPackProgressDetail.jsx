@@ -353,7 +353,7 @@ function PickAndPackProgressDetail() {
                             <CForm onSubmit={handleConfirm}>
                                 <CRow>
                                     <CCol>
-                                        <CRow className="mb-4">
+                                        {/* <CRow className="mb-4">
                                             <CFormLabel
                                                 className="col-form-label">Total Item Request
                                             </CFormLabel>
@@ -379,7 +379,7 @@ function PickAndPackProgressDetail() {
                                                     </CInputGroupText>
                                                 </CInputGroup>
                                             </CCol>
-                                        </CRow>
+                                        </CRow> */}
                                         <CRow className="mb-4">
                                             <CFormLabel className="col-form-label">Transport Mode Final</CFormLabel>
                                             <CCol>
