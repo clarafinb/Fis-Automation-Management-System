@@ -27,6 +27,7 @@ import Swal from 'sweetalert2'
 import { downloadFileConfig } from 'src/helper/globalHelper'
 import { useLocation } from 'react-router-dom'
 import TableListOutboundLog from 'src/components/dashboardOpsLead/manageInventory/TableListOutboundLog'
+import HeaderProject from './HeaderProject'
 
 function ManageInventory() {
     const { dispatch, Global, Dashboard, DashboardOpsLead } = useRedux()
@@ -170,12 +171,12 @@ function ManageInventory() {
             <CContainer fluid>
                 <CRow>
                     <CCol sm={5} className='mb-4'>
-                        <h4 className="card-title mb-2">
-                            <span className='text-underline'>MA</span>NAGE INVENTORY
-                        </h4>
-                        <h4 className="card-title mb-0">
-                            <span className='text-underline'>{whCode}</span> | {whName}
-                        </h4>
+                        <HeaderProject data={{
+                            projectName: 'MANAGE INVENTORY',
+                            whName: whName,
+                            whCode: whCode
+                        }}
+                        />
                     </CCol>
                 </CRow>
                 <CCard className="">
