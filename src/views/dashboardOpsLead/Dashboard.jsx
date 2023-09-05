@@ -55,9 +55,9 @@ function Dashboard() {
     }
 
     useEffect(() => {
-        if(detailWarehouses?.length > 0){
+        if (detailWarehouses?.length > 0) {
             let listTable = []
-            listTable =  manipulateDataTableDashboard(detailWarehouses)
+            listTable = manipulateDataTableDashboard(detailWarehouses)
 
             setListTableDashboard(listTable)
         }
@@ -237,7 +237,7 @@ function Dashboard() {
             </CRow>
             <br />
             {
-                listTableDashboard.length > 0 ? listTableDashboard?.map((listData) => {
+                listTableDashboard.length > 0 ? listTableDashboard?.map((listData, index) => {
                     return (
                         <>
                             <CRow>
@@ -288,7 +288,7 @@ function Dashboard() {
                                 <CCol sm={3}>
                                     <CCard className='card-dashboard'>
                                         <div className='m-3'>
-                                            <ChartDetailWarehouse data={listData} />
+                                            <ChartDetailWarehouse data={detailWarehouses[index]} />
                                         </div>
                                     </CCard>
                                 </CCol>

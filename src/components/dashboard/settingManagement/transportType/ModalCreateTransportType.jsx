@@ -46,6 +46,7 @@ function ModalCreateTransportType({ open, setOpen }) {
         }
 
         dispatch(actions.createTransportType(payload))
+        setOpen(false)
     }
 
     const handleOnchange = useCallback(
@@ -101,7 +102,7 @@ function ModalCreateTransportType({ open, setOpen }) {
                         </CCol>
                     </CRow>
                     <CRow className="mb-3">
-                        <CFormLabel className="col-form-label">Transport Type<code>*</code></CFormLabel>
+                        <CFormLabel className="col-form-label">Transport Mode<code>*</code></CFormLabel>
                         <CCol>
                             <Select
                                 className="input-select"

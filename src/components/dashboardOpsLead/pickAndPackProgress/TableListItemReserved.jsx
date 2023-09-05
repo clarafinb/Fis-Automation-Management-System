@@ -46,12 +46,6 @@ function TableListItemReserved({
             minWidth: 150,
         },
         {
-            field: 'itemLocation',
-            headerName: 'Item Location',
-            cellStyle: { textAlign: 'center' },
-            minWidth: 150,
-        },
-        {
             field: 'qtyOut',
             headerName: 'QTY Out',
             cellStyle: { textAlign: 'center' },

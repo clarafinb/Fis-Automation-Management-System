@@ -37,7 +37,7 @@ function Delivery({ data, handleNavigator }) {
         {
             field: 'no',
             headerName: 'NO',
-            minWidth: 80,
+            maxWidth: 80,
             filter: false,
             cellStyle: { textAlign: 'center' }
         },
@@ -53,7 +53,6 @@ function Delivery({ data, handleNavigator }) {
         {
             field: 'transaction',
             headerName: 'DELIVERY NAME',
-            cellStyle: { textAlign: 'center' }
         },
 
         {
