@@ -84,6 +84,10 @@ import {
   API_EXPORT_EXCEL_ORDER_REQUEST_ITEM,
   API_GET_ORDER_REQUEST_ITEM_RESERVED,
   API_EXPORT_EXCEL_ORDER_REQUEST_ITEM_RESERVED,
+  API_EXPORT_EXCEL_INBOUND_ITEM,
+  API_EXPORT_EXCEL_INBOUND_BOX,
+  API_EXPORT_EXCEL_OUTBOUND_SUCCESS_LOG,
+  API_GET_OUTBOUND_TRANSACTION_SUCCESS,
 } from '../../api/index'
 
 /**************************************** DASHBOARD OPS LEAD ****************************************/
@@ -2481,6 +2485,99 @@ export const getItemReservedData = (orderRequestId) => {
         }
       })
       return Promise.resolve(result)
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Close',
+      })
+    }
+  }
+}
+
+export const getInventoryItemBaseSummaryExportToExcel = (whId, whCode) => {
+  return async (dispatch) => {
+    try {
+      const fullParam = `${whId}/${whCode}`
+      let data = await actionCrud.actionCommonSliceParamBlob(
+        fullParam,
+        API_EXPORT_EXCEL_INBOUND_ITEM,
+        'GET',
+      )
+      return Promise.resolve(data)
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Close',
+      })
+    }
+  }
+}
+
+export const getInventoryBoxSummaryExportToExcel = (whId, whCode) => {
+  return async (dispatch) => {
+    try {
+      const fullParam = `${whId}/${whCode}`
+      let data = await actionCrud.actionCommonSliceParamBlob(
+        fullParam,
+        API_EXPORT_EXCEL_INBOUND_BOX,
+        'GET',
+      )
+      return Promise.resolve(data)
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Close',
+      })
+    }
+  }
+}
+
+export const outboundTransactionSuccessExportToExcel = (whId, whCode) => {
+  return async (dispatch) => {
+    try {
+      const fullParam = `${whId}/${whCode}`
+      let data = await actionCrud.actionCommonSliceParamBlob(
+        fullParam,
+        API_EXPORT_EXCEL_OUTBOUND_SUCCESS_LOG,
+        'GET',
+      )
+      return Promise.resolve(data)
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Close',
+      })
+    }
+  }
+}
+
+export const getOutboundTransactionSuccess = (whId) => {
+  return async (dispatch) => {
+    try {
+      const fullParam = `${whId}`
+      let list = await actionCrud.actionParamRequest(
+        fullParam,
+        API_GET_OUTBOUND_TRANSACTION_SUCCESS,
+        'GET'
+      )
+      let result = list?.map((item, idx) => {
+        return {
+          no: idx + 1,
+          ...item,
+        }
+      })
+      dispatch({
+        type: actionType.SET_LIST_OUTBOUND,
+        payload: result,
+      })
     } catch (error) {
       Swal.fire({
         title: 'Error!',

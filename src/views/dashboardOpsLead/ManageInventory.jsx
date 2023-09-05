@@ -17,7 +17,7 @@ import {
 
 import * as actions from '../../config/redux/DashboardOpsLead/actions'
 import CIcon from '@coreui/icons-react'
-import { cilCloudUpload, cilSpreadsheet } from '@coreui/icons'
+import { cilCloudUpload, cilFile, cilSpreadsheet } from '@coreui/icons'
 import TableListInventoryItem from 'src/components/dashboardOpsLead/manageInventory/TableListInventoryItem'
 import TableListInventoryBox from 'src/components/dashboardOpsLead/manageInventory/TableListInventoryBox'
 import TableListInboundFile from 'src/components/dashboardOpsLead/manageInventory/TableListInboundFile'
@@ -26,6 +26,7 @@ import ModalUploadFile from 'src/components/custom/modal/ModalUploadFile'
 import Swal from 'sweetalert2'
 import { downloadFileConfig } from 'src/helper/globalHelper'
 import { useLocation } from 'react-router-dom'
+import TableListOutboundLog from 'src/components/dashboardOpsLead/manageInventory/TableListOutboundLog'
 
 function ManageInventory() {
     const { dispatch, Global, Dashboard, DashboardOpsLead } = useRedux()
@@ -61,6 +62,10 @@ function ManageInventory() {
 
             if (activeKey === 3) {
                 dispatch(actions.getInboundTransactionSuccess(wId))
+            }
+
+            if (activeKey === 4) {
+                dispatch(actions.getOutboundTransactionSuccess(wId))
             }
 
         }
@@ -101,6 +106,30 @@ function ManageInventory() {
         })
     }
 
+    const handleExportExcelInboundItem = () => {
+        dispatch(
+            actions.getInventoryItemBaseSummaryExportToExcel(whId, whCode)
+        ).then(resp => {
+            downloadFileConfig(resp, 'inbound_item.xlsx')
+        })
+    }
+
+    const handleExportExcelInboundBox = () => {
+        dispatch(
+            actions.getInventoryBoxSummaryExportToExcel(whId, whCode)
+        ).then(resp => {
+            downloadFileConfig(resp, 'inbound_box.xlsx')
+        })
+    }
+
+    const handleExportExcelOutboundLog = () => {
+        dispatch(
+            actions.outboundTransactionSuccessExportToExcel(whId, whCode)
+        ).then(resp => {
+            downloadFileConfig(resp, 'outbound_success_log.xlsx')
+        })
+    }
+
     const handleDownloadTemplate = () => {
         window.open(templateUrl, '_blank')
     }
@@ -125,6 +154,14 @@ function ManageInventory() {
                 icon: 'error',
                 confirmButtonText: 'OK'
             })
+        }
+    }
+
+    const handleDownloadExcel = (type = 'box') => {
+        if (type === 'item') {
+            handleExportExcelInboundItem()
+        } else {
+            handleExportExcelInboundBox()
         }
     }
 
@@ -168,6 +205,14 @@ function ManageInventory() {
                                     Inbound Success Log
                                 </CNavLink>
                             </CNavItem>
+                            <CNavItem>
+                                <CNavLink
+                                    active={activeKey === 4}
+                                    onClick={() => setActiveKey(4)}
+                                >
+                                    Outbound Success Log
+                                </CNavLink>
+                            </CNavItem>
                         </CNav>
                     </CRow>
                     <CCardBody>
@@ -175,6 +220,15 @@ function ManageInventory() {
                             <CTabPane role="tabpanel" aria-labelledby="home-tab" visible={activeKey === 1}>
                                 <CRow className=''>
                                     <CCol className="d-none d-md-block text-end">
+                                        <CButton
+                                            className="colorBtn-white me-3"
+                                            onClick={() => handleDownloadExcel('item')}
+                                        >
+                                            <CIcon
+                                                icon={cilSpreadsheet}
+                                                className="me-2 text-warning" />
+                                            DONWLOAD EXCEL INBOUND ITEM
+                                        </CButton>
                                         <CButton
                                             className="colorBtn-white me-3"
                                             onClick={() => handleOpenModalUpload('item')}
@@ -203,6 +257,15 @@ function ManageInventory() {
                                 </CRow>
                                 <CRow className=''>
                                     <CCol className="d-none d-md-block text-end">
+                                        <CButton
+                                            className="colorBtn-white me-3"
+                                            onClick={() => handleDownloadExcel('box')}
+                                        >
+                                            <CIcon
+                                                icon={cilSpreadsheet}
+                                                className="me-2 text-warning" />
+                                            DOWNLOAD EXCEL INBOUND BOX
+                                        </CButton>
                                         <CButton
                                             className="colorBtn-white me-3"
                                             onClick={() => handleOpenModalUpload('box')}
@@ -271,6 +334,33 @@ function ManageInventory() {
                                     <CCol className="d-none d-md-block text-end">
                                         <TableListInboundLog
                                             data={DashboardOpsLead?.listInboundLog}
+                                            handleComponent={handleComponent}
+                                        />
+                                    </CCol>
+                                </CRow>
+                            </CTabPane>
+                        </CTabContent>
+                        <CTabContent>
+                            <CTabPane role="tabpanel" aria-labelledby="home-tab" visible={activeKey === 4}>
+                                <CRow>
+                                    <CCol sm={5} className='mb-4'>
+                                        <h5 className="card-title mb-0">
+                                            <span className='text-underline'>OUT</span>BOUND SUCCESS LOG
+                                        </h5>
+                                    </CCol>
+                                </CRow>
+                                <CRow className=''>
+                                    <CCol className="d-none d-md-block text-end me-2 mb-2">
+                                        <CButton className="colorBtn-white" onClick={handleExportExcelOutboundLog}>
+                                            <CIcon icon={cilSpreadsheet} className="me-2 text-success" />
+                                            EXPORT TO EXCEL
+                                        </CButton>
+                                    </CCol>
+                                </CRow>
+                                <CRow>
+                                    <CCol className="d-none d-md-block text-end">
+                                        <TableListOutboundLog
+                                            data={DashboardOpsLead?.listOutboundLog}
                                             handleComponent={handleComponent}
                                         />
                                     </CCol>

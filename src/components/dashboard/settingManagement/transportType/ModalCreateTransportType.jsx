@@ -10,35 +10,42 @@ import {
     CModalHeader,
     CModalTitle,
     CModalBody,
-    CFormSelect,
     CForm
 } from '@coreui/react'
 import * as actions from '../../../../config/redux/Dashboard/actions'
 import ButtonSubmit from 'src/components/custom/button/ButtonSubmit'
+import Select from 'react-select'
 
 function ModalCreateTransportType({ open, setOpen }) {
     const { dispatch, Global } = useRedux()
     const [values, setValues] = useState({})
     const [transportTypeList, setTransportTypeList] = useState([])
+    const [selectedTransportType, setSelectedTransportType] = useState({})
 
     useEffect(() => {
-        if (Global?.user?.token) {
+
+        setValues({})
+        setSelectedTransportType({})
+
+        if (Global?.user?.token && open) {
             dispatch(actions.getSelectActiveTransport()).then(e => {
                 setTransportTypeList(e)
             })
         }
-    }, [Global?.user]);
+    }, [Global?.user, open]);
 
     const handleCreateTransportType = (event) => {
-        let payload = {
-            transportName: values.transportName,
-            transportModeId: values.transportModeId,
-            LMBY: Global?.user?.userID
-        }
-        dispatch(actions.createTransportType(payload))
-
         event.preventDefault()
         event.stopPropagation()
+
+        let payload = {
+            transportName: values.transportName,
+            transportModeId: selectedTransportType.value,
+            transportTypeCode: values.transportTypeCode,
+            LMBY: Global?.user?.userID
+        }
+
+        dispatch(actions.createTransportType(payload))
     }
 
     const handleOnchange = useCallback(
@@ -52,12 +59,17 @@ function ModalCreateTransportType({ open, setOpen }) {
         }, [setValues]
     )
 
+    const handleOnChangeTransportType = (selectedTransportType) => {
+        setSelectedTransportType(selectedTransportType);
+    }
+
     return (
         <CModal
             // size="xl"
             visible={open}
             onClose={() => setOpen(false)}
-        // alignment='center'
+            backdrop="static"
+            keyboard={false}
         >
             <CModalHeader>
                 <CModalTitle>ADD TRANSPORT TYPE</CModalTitle>
@@ -77,12 +89,26 @@ function ModalCreateTransportType({ open, setOpen }) {
                         </CCol>
                     </CRow>
                     <CRow className="mb-3">
+                        <CFormLabel className="col-form-label">Transport Type Code<code>*</code></CFormLabel>
+                        <CCol>
+                            <CFormInput
+                                type="text"
+                                name="transportTypeCode"
+                                value={values?.transportTypeCode}
+                                onChange={handleOnchange}
+                                required
+                            />
+                        </CCol>
+                    </CRow>
+                    <CRow className="mb-3">
                         <CFormLabel className="col-form-label">Transport Type<code>*</code></CFormLabel>
                         <CCol>
-                            <CFormSelect
-                                name="transportModeId"
+                            <Select
+                                className="input-select"
                                 options={transportTypeList}
-                                onChange={handleOnchange}
+                                isSearchable={true}
+                                value={selectedTransportType}
+                                onChange={handleOnChangeTransportType}
                                 required
                             />
                         </CCol>

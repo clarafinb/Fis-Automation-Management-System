@@ -204,6 +204,10 @@ export const API_GET_TEMPLATE_UPLOAD_INBOUND = BASE_URL + "masterdata/getMassUpl
 export const API_UPLOAD_INVENTORY_ITEM = BASE_URL + "inventory/inboundItemFileUpload"
 export const API_UPLOAD_INVENTORY_BOX = BASE_URL + "inventory/inboundBoxFileUpload"
 export const API_GET_ORDER_REQUEST_ITEM_INVENTORY = BASE_URL + "logmanagement/getOrderRequestItemListWithInventory"
+export const API_EXPORT_EXCEL_INBOUND_ITEM = BASE_URL + "inventory/getInventoryItemBaseSummaryExportToExcel";
+export const API_EXPORT_EXCEL_INBOUND_BOX = BASE_URL + "inventory/getInventoryBoxSummaryExportToExcel";
+export const API_EXPORT_EXCEL_OUTBOUND_SUCCESS_LOG = BASE_URL + "inventory/outboundTransactionSuccessExportToExcel";
+export const API_GET_OUTBOUND_TRANSACTION_SUCCESS = BASE_URL + "inventory/getOutboundTransactionSuccess"
 // HANDCARRY ARRAGMENET
 export const API_ADD_EVIDENCE_CHECKLIST = BASE_URL + "transportarrangement/transportArrangementCreateEvidence"
 export const API_GET_EVIDENCE_CHECKLIST = BASE_URL + "transportarrangement/getTransportArrangementEvidenceCheclist"

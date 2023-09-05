@@ -31,27 +31,29 @@ function TableListTransportType({
             field: 'no',
             headerName: 'NO',
             cellStyle: { textAlign: 'center' },
-            minWidth: 150
+            minWidth: 80,
+            filter: false
         },
         {
             field: 'transportMode',
             headerName: 'TRANSPORT TYPE',
-            cellStyle: { textAlign: 'center' },
+            minWidth: 300,
         },
         {
             field: 'transportName',
             headerName: 'TRANSPORT NAME',
-            cellStyle: { textAlign: 'center' },
+            maxWidth: 300,
         },
         {
             field: 'createName',
             headerName: 'CREATE BY',
-            cellStyle: { textAlign: 'center' },
+            maxWidth: 200,
         },
         {
             field: 'createDate',
             headerName: 'CREATE DATE',
             cellStyle: { textAlign: 'center' },
+            maxWidth: 200,
             cellRenderer: ({ data }) => {
                 return formatStandartDate(data.createDate)
             }
@@ -59,11 +61,12 @@ function TableListTransportType({
         {
             field: 'modifiedBy',
             headerName: 'MODIFIED BY',
-            cellStyle: { textAlign: 'center' },
+            maxWidth: 200,
         },
         {
             field: 'modifiedDate',
             headerName: 'MODIFIED DATE',
+            maxWidth: 250,
             cellStyle: { textAlign: 'center' },
             cellRenderer: ({ data }) => {
                 return formatStandartDate(data.modifiedDate)
@@ -73,6 +76,7 @@ function TableListTransportType({
             field: 'isActive',
             headerName: 'ACTIVE STATUS',
             minWidth: 100,
+            filter: false,
             cellStyle: { textAlign: 'center' },
             pinned: 'right',
             cellRenderer: ({ data }) => {
