@@ -88,6 +88,8 @@ import {
   API_EXPORT_EXCEL_INBOUND_BOX,
   API_EXPORT_EXCEL_OUTBOUND_SUCCESS_LOG,
   API_GET_OUTBOUND_TRANSACTION_SUCCESS,
+  API_GET_STOCK_BOX_INVENTORY,
+  API_ADD_BOX_REQUEST,
 } from '../../api/index'
 
 /**************************************** DASHBOARD OPS LEAD ****************************************/
@@ -2578,6 +2580,60 @@ export const getOutboundTransactionSuccess = (whId) => {
         type: actionType.SET_LIST_OUTBOUND,
         payload: result,
       })
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Close',
+      })
+    }
+  }
+}
+export const getBoxRequest = (whId) => {
+  return async (dispatch) => {
+    try {
+      const fullParam = `${whId}`
+      let list = await actionCrud.actionParamRequest(fullParam, API_GET_STOCK_BOX_INVENTORY, 'GET')
+      let result = list?.map((item, idx) => {
+        return {
+          no: idx + 1,
+          ...item,
+        }
+      })
+      return Promise.resolve(result)
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Close',
+      })
+    }
+  }
+}
+// 
+export const addBoxRequest = (payload) => {
+  return async (dispatch) => {
+    try {
+      let response = await actionCrud.actionCommonCrud(payload, API_ADD_BOX_REQUEST, 'POST')
+      if (response.status === 'success') {
+        Swal.fire({
+          position: 'center',
+          icon: 'success',
+          title: response?.message,
+          showConfirmButton: true,
+        })
+        // dispatch(getListMasterLocation(payload.projectId))
+      } else {
+        Swal.fire({
+          title: 'Error!',
+          text: response?.message,
+          icon: 'error',
+          confirmButtonText: 'Close',
+        })
+      }
+      return Promise.resolve(response)
     } catch (error) {
       Swal.fire({
         title: 'Error!',

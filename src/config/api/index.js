@@ -126,6 +126,8 @@ export const API_RESET_ORDER_REQUEST = BASE_URL + "logmanagement/orderRequestIte
 export const API_GET_ORDER_REQUEST_ITEM = BASE_URL + "logmanagement/getOrderRequestItemList"
 export const API_GET_TEMPLATE_ORDER_REQUEST_ITEM = BASE_URL + "masterdata/getMassUploadTemplateOrderReqItemBulkUpload"
 export const API_UPLOAD_CUST_ORDER_REQ_TEIM = BASE_URL + "logmanagement/custItemRequestUpload"
+export const API_GET_STOCK_BOX_INVENTORY = BASE_URL + "inventory/getAvailableStockBoxInventory"
+export const API_ADD_BOX_REQUEST = BASE_URL + "inventory/boxStockBooking"
 //PICK AND PACK PROGRESS
 export const API_GET_PICK_AND_PACK_PROGRESS = BASE_URL + "logmanagement/getPickandPackOnProgressWHProject"
 export const API_GET_ORDER_REQUEST_DETAIL = BASE_URL + "logmanagement/getOrderRequestDetail"

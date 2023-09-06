@@ -13,7 +13,7 @@ import {
 
 import * as actions from '../../../config/redux/DashboardOpsLead/actions'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faRefresh, faUpload } from '@fortawesome/free-solid-svg-icons'
+import { faPlus, faRefresh, faUpload } from '@fortawesome/free-solid-svg-icons'
 import Swal from 'sweetalert2'
 import { useNavigate, useLocation } from 'react-router-dom';
 import TableListItemInventory from 'src/components/dashboardOpsLead/pickAndPackPending/TableListItemInventory'
@@ -21,6 +21,7 @@ import ButtonCancel from 'src/components/custom/button/ButtonCancel'
 import ButtonSubmit from 'src/components/custom/button/ButtonSubmit'
 import ModalUploadFile from 'src/components/custom/modal/ModalUploadFile'
 import OrderRequestDetailPickAndPackPendingDetail from 'src/components/dashboardOpsLead/pickAndPackPending/OrderRequestDetailPickAndPackPendingDetail'
+import ModalBoxRequest from 'src/components/dashboardOpsLead/pickAndPackPending/ModalBoxRequest'
 
 function PickAndPackDetail() {
     const nav = useNavigate();
@@ -34,6 +35,7 @@ function PickAndPackDetail() {
     const [whId, setWhId] = useState("")
     const [confirmStatus, setConfirmStatus] = useState(false)
     const { pathname } = useLocation();
+    const [openModalBoxRequest, setOpenModalBoxRequest] = useState(false)
 
     useEffect(() => {
 
@@ -49,6 +51,10 @@ function PickAndPackDetail() {
             refreshData(orId, wId)
         }
     }, [Global?.user?.userID, DashboardOpsLead?.listOrderReqItemWithInventory.length]);
+
+    const handleOpenModalBoxRequest = () => {
+        setOpenModalBoxRequest(true)
+    }
 
     const handleBack = () => {
         nav("/pick-pack-pending/" + projectId + "/" + whId, { replace: true })
@@ -97,23 +103,38 @@ function PickAndPackDetail() {
         })
     }
 
+
     const handleComponent = useCallback(
         (action, orderReqId) => {
-            if (action === 'start') {
-            } else if (action === 'reset') {
-                dispatch(
-                    actions.resetPickAndPackprogress(orderReqId, projectId, whId, Global.user.userID)
-                ).then(() => {
-                    refreshData(orderReqId, whId)
-                })
-            } else {
-                setOpenModalUpload(true)
-                dispatch(
-                    actions.getMassUploadTemplateOrderReqItemBulkUpload()
-                ).then(response => {
-                    setTemplateName(response?.templateName)
-                    setTemplateUrl(response?.templateURL)
-                })
+
+            switch (action) {
+                case 'reset':
+
+                    dispatch(
+                        actions.resetPickAndPackprogress(orderReqId, projectId, whId, Global.user.userID)
+                    ).then(() => {
+                        refreshData(orderReqId, whId)
+                    })
+                    break;
+
+                case 'upload':
+
+                    setOpenModalUpload(true)
+                    dispatch(
+                        actions.getMassUploadTemplateOrderReqItemBulkUpload()
+                    ).then(response => {
+                        setTemplateName(response?.templateName)
+                        setTemplateUrl(response?.templateURL)
+                    })
+                    break;
+
+                case 'addBoxRequest':
+                    handleOpenModalBoxRequest()
+                    break;
+
+                default:
+                    alert('undifined actions')
+                    break;
             }
         }
     )
@@ -184,45 +205,55 @@ function PickAndPackDetail() {
                                                 disabled
                                             />
                                         </CCol>
-                                        <CCol>
-                                            {/* <FontAwesomeIcon
-                                                icon={faSearch}
-                                                className='textBlue px-2'
-                                                title='Item List'
-                                                size='lg'
-                                                onClick={() =>
-                                                    handleModalDetailItem(orderReqId)
-                                                }
-                                            /> */}
-                                            {
-                                                orderReqDetail?.totalItem > 0 ?
+                                        {
+                                            orderReqDetail?.inboundType === 'ITEM' ?
+                                                <CCol>
+                                                    {
+                                                        orderReqDetail?.totalItem > 0 ?
+                                                            <CButton className='colorBtnIcon-black p-1 me-2'>
+                                                                <FontAwesomeIcon
+                                                                    icon={faRefresh}
+                                                                    className='textWhite px-2 mt-1'
+                                                                    title='Reset'
+                                                                    size='lg'
+                                                                    onClick={() =>
+                                                                        handleComponent('reset', orderReqId)
+                                                                    }
+                                                                />
+                                                            </CButton>
+                                                            : ''
+                                                    }
                                                     <CButton className='colorBtnIcon-black p-1'>
                                                         <FontAwesomeIcon
-                                                            icon={faRefresh}
-                                                            className='textWhite px-2 mt-1'
-                                                            title='Reset'
+                                                            icon={faUpload}
+                                                            className='textWhite px-1 mt-1'
+                                                            title='Upload'
                                                             size='lg'
                                                             onClick={() =>
-                                                                handleComponent('reset', orderReqId)
+                                                                handleComponent('upload')
                                                             }
                                                         />
                                                     </CButton>
-
-                                                    : ''
-                                            }
-                                            <CButton className='colorBtnIcon-black p-1'>
-                                                <FontAwesomeIcon
-                                                    icon={faUpload}
-                                                    className='textWhite px-1 mt-1'
-                                                    title='Upload'
-                                                    size='lg'
-                                                    onClick={() =>
-                                                        handleComponent('upload')
-                                                    }
-                                                />
-                                            </CButton>
-
-                                        </CCol>
+                                                </CCol>
+                                                : ''
+                                        }
+                                        {
+                                            orderReqDetail?.inboundType === 'BOX' ?
+                                                <CCol>
+                                                    <CButton className='colorBtnIcon-black p-1'>
+                                                        <FontAwesomeIcon
+                                                            icon={faPlus}
+                                                            className='textWhite px-1 mt-1'
+                                                            title='Add Box Request'
+                                                            size='lg'
+                                                            onClick={() =>
+                                                                handleComponent('addBoxRequest')
+                                                            }
+                                                        />
+                                                    </CButton>
+                                                </CCol>
+                                                : ''
+                                        }
                                     </CRow>
                                     <CRow>
                                         <CCol>
@@ -269,6 +300,13 @@ function PickAndPackDetail() {
                 handleDownloadTemplate={handleDownloadTemplate}
                 templateName={templateName}
                 handleUpload={handleUploadFile}
+            />
+
+            <ModalBoxRequest
+                open={openModalBoxRequest}
+                setOpen={setOpenModalBoxRequest}
+                whId={whId}
+                orderReqId={orderReqId}
             />
         </>
     )
