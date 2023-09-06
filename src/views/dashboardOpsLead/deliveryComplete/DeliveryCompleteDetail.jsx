@@ -16,7 +16,6 @@ import {
 } from '@coreui/react'
 
 import * as actions from '../../../config/redux/Dashboard/actions'
-import moment from 'moment/moment'
 import { useLocation, useNavigate } from 'react-router-dom';
 import ButtonCancel from 'src/components/custom/button/ButtonCancel'
 import HoDocument from 'src/components/dashboardOpsLead/deliveryComplete/HoDocument'
@@ -78,13 +77,13 @@ function DeliveryCompleteDetail() {
                     <CCard>
                         <CCardBody>
                             <CRow className='mb-2'>
-                                <CNav variant="tabs">
+                                <CNav variant="underline">
                                     <CNavItem>
                                         <CNavLink
                                             active={activeKey === 1}
                                             onClick={() => setActiveKey(1)}
                                         >
-                                            Delivery Arrangement
+                                            <p className={activeKey === 1 ? 'text-underline-tab' : ''}> DELIVERY ARRANGEMENT</p>
                                         </CNavLink>
                                     </CNavItem>
                                     <CNavItem>
@@ -92,7 +91,7 @@ function DeliveryCompleteDetail() {
                                             active={activeKey === 2}
                                             onClick={() => setActiveKey(2)}
                                         >
-                                            HO Document
+                                            <p className={activeKey === 2 ? 'text-underline-tab' : ''}>  HO DOCUMENT</p>
                                         </CNavLink>
                                     </CNavItem>
                                 </CNav>

@@ -36,7 +36,7 @@ function PickUp({ data, handleNavigator }) {
         {
             field: 'no',
             headerName: 'NO',
-            minWidth: 80,
+            maxWidth: 80,
             filter: false,
             cellStyle: { textAlign: 'center' }
         },
@@ -52,7 +52,6 @@ function PickUp({ data, handleNavigator }) {
         {
             field: 'transaction',
             headerName: 'PICKUP NAME',
-            cellStyle: { textAlign: 'center' }
         },
 
         {

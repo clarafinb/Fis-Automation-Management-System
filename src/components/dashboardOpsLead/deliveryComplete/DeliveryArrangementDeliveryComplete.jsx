@@ -77,7 +77,7 @@ function DeliveryArrangementDeliveryComplete({
                         <CFormInput
                             type="text"
                             name="deliveryCompleteDate"
-                            value={data?.deliveryCompleteDate}
+                            value={formatStandartDate(data?.orderCompleteDate)}
                             readOnly
                             disabled
                         />
