@@ -309,6 +309,7 @@ function Dashboard() {
                 setOpen={setOpenModalOrderRequest}
                 projectId={selectedDetailWarehouse.projectId}
                 detailProject={selectedDetailWarehouse}
+                getSummaryProject={getSummaryProject}
             />
         </>
     )

@@ -19,7 +19,7 @@ import Select from 'react-select'
 import ButtonSubmit from 'src/components/custom/button/ButtonSubmit'
 import Alert from 'src/components/custom/toast/Alert'
 
-function ModalCreateOrderRequest({ open, setOpen, projectId, detailProject }) {
+function ModalCreateOrderRequest({ open, setOpen, projectId, detailProject, getSummaryProject }) {
     const { dispatch, Global } = useRedux()
     const [values, setValues] = useState({})
     const [deliveryProcess, setDeliveryProcess] = useState([])
@@ -288,10 +288,8 @@ function ModalCreateOrderRequest({ open, setOpen, projectId, detailProject }) {
             dispatch(actions.createOrderRequest(payload, "POST"))
                 .then(resp => {
                     if (resp === "success") {
+                        getSummaryProject(projectId)
                         setOpen(false)
-                        setTimeout(function () {
-                            window.location.reload();
-                        }, 1000);
                     }
                 })
         }
