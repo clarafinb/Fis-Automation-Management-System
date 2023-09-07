@@ -16,7 +16,7 @@ import * as actions from '../../../config/redux/DashboardOpsLead/actions'
 import { useRedux } from 'src/utils/hooks';
 import { formatStandartDate } from 'src/helper/globalHelper';
 
-function ModalBoxRequest({ open, setOpen, whId, orderReqId }) {
+function ModalBoxRequest({ open, setOpen, whId, orderReqId, refreshData }) {
     const { dispatch, Global } = useRedux();
     const [boxRequestList, setBoxRequestList] = useState([])
 
@@ -41,6 +41,7 @@ function ModalBoxRequest({ open, setOpen, whId, orderReqId }) {
         dispatch(actions.addBoxRequest(payload))
             .then(resp => {
                 if (resp.status !== 'error') {
+                    refreshData(orderReqId, whId)
                     setOpen(false)
                 }
             })

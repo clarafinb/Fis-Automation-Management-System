@@ -44,8 +44,8 @@ function TransportArragmentDetail() {
 
     const [selectedTransportType, setSelectedTransportType] = useState({});
     const [selectedDispatcher, setSelectedDispatcher] = useState({});
-    const [transportArrRefId,setTransportArrRefId] = useState("")
-    const [installationId,setInstallationId] = useState("")
+    const [transportArrRefId, setTransportArrRefId] = useState("")
+    const [installationId, setInstallationId] = useState("")
 
     useEffect(() => {
         const split = window.location.href.split("/");
@@ -107,8 +107,6 @@ function TransportArragmentDetail() {
             LMBY: Global?.user?.userID
         }
 
-        console.log(payload)
-
         const err = []
 
         if (payload.transportTypeId === undefined) err.push('Transport Type')
@@ -119,6 +117,7 @@ function TransportArragmentDetail() {
             setVisible(true)
         } else {
             dispatch(actions.addTransportArrangmentType(payload))
+            setOpenModal(false)
         }
     }
 
@@ -126,7 +125,7 @@ function TransportArragmentDetail() {
         if (type == "confirm") {
             dispatch(actions.completeTransportArrangement(param?.transportArrangmentId, Global?.user?.userID))
             nav(param?.url + param?.projectId + "/" + param?.whId, { replace: true })
-            sendNotif(selectedDispatcher.installationId,transportArrRefId)
+            sendNotif(selectedDispatcher.installationId, transportArrRefId)
         } else {
             nav(param?.url + param?.projectId + "/" + param?.whId + "/detail/" + param?.orderReqId, { replace: true })
         }
@@ -145,19 +144,19 @@ function TransportArragmentDetail() {
     // Notification http Request
     //Start
 
-    
-    useEffect(()=>{
+
+    useEffect(() => {
         setTransportArrRefId(DashboardOpsLead?.listRequestTransportArragement[0]?.transportArrRefId)
-    },[])
+    }, [])
 
 
-    const sendNotif = (installationId,arrRef) => {
+    const sendNotif = (installationId, arrRef) => {
         // Set up the FCM API endpoint
         const fcmEndpoint = 'https://fcm.googleapis.com/fcm/send';
 
         // Set up your FCM server key
-        const serverKey ='AAAAuWeZK_Y:APA91bEJmZ-lg90fmX7FNRrbNPMceLgEG1SxCzFVUDVXQvTp4DZMA1w0Ta0z-bmXgDVxoz8c4AS4bEcOw_DHH8v1LW5ybXWkj6WyRwpyfgzkohpu7kC9OLCEA-KOnZuh0syzQ0HUhVDA'
-  
+        const serverKey = 'AAAAuWeZK_Y:APA91bEJmZ-lg90fmX7FNRrbNPMceLgEG1SxCzFVUDVXQvTp4DZMA1w0Ta0z-bmXgDVxoz8c4AS4bEcOw_DHH8v1LW5ybXWkj6WyRwpyfgzkohpu7kC9OLCEA-KOnZuh0syzQ0HUhVDA'
+
         // Set up the notification payload
         const notification = {
             "title": "You Have New Task",
@@ -165,22 +164,22 @@ function TransportArragmentDetail() {
             "mutable_content": true,
             "sound": "Tri-tone"
         }
-  
+
         // Set up the target device's FCM registration token
         const registrationToken = installationId;
-  
+
         // Set up the HTTP headers
         const headers = {
             'Content-Type': 'application/json',
             Authorization: `key=${serverKey}`,
         };
-  
+
         // Set up the request data
         const data = {
             notification: notification,
             to: registrationToken,
         };
-  
+
         // Send the POST request to the FCM API
         axios.post(fcmEndpoint, data, { headers })
             .then(response => {
@@ -280,7 +279,7 @@ function TransportArragmentDetail() {
                                 handleButton={() => handleConfirm("confirm")}
                                 className='me-2'
                             />
-                     
+
                             <ButtonCancel
                                 label='CANCEL'
                                 handleButton={() => handleConfirm("cancel")}

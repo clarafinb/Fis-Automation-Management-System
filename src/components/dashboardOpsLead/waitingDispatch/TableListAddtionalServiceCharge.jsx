@@ -10,8 +10,6 @@ import { cilPlus } from '@coreui/icons'
 import DataGrid from 'src/components/custom/table/DataGrid'
 import * as actions from '../../../config/redux/DashboardOpsLead/actions'
 import { useRedux } from 'src/utils/hooks'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPlus } from '@fortawesome/free-solid-svg-icons'
 import SmartTable from 'src/components/custom/table/SmartTable'
 
 function TableListAddtionalServiceCharge({
@@ -70,7 +68,8 @@ function TableListAddtionalServiceCharge({
         return (
             <>
                 <CFormInput
-                    className='form-control mt-1'
+                    className='form-control'
+                    style={{ "border-radius": 0 }}
                     type="text"
                     name="qty"
                     onChange={(e) => handleChangeQty(e, selectedData)}

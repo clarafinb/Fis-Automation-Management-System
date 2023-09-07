@@ -240,7 +240,7 @@ function PickAndPackDetail() {
                                         {
                                             orderReqDetail?.inboundType === 'BOX' ?
                                                 <CCol>
-                                                    <CButton className='colorBtnIcon-black p-1'>
+                                                    <CButton className='colorBtnIcon-black p-1 me-2'>
                                                         <FontAwesomeIcon
                                                             icon={faPlus}
                                                             className='textWhite px-1 mt-1'
@@ -251,6 +251,21 @@ function PickAndPackDetail() {
                                                             }
                                                         />
                                                     </CButton>
+                                                    {
+                                                        orderReqDetail?.totalItem > 0 ?
+                                                            <CButton className='colorBtnIcon-black p-1 me-2'>
+                                                                <FontAwesomeIcon
+                                                                    icon={faRefresh}
+                                                                    className='textWhite px-2 mt-1'
+                                                                    title='Reset'
+                                                                    size='lg'
+                                                                    onClick={() =>
+                                                                        handleComponent('reset', orderReqId)
+                                                                    }
+                                                                />
+                                                            </CButton>
+                                                            : ''
+                                                    }
                                                 </CCol>
                                                 : ''
                                         }
@@ -307,6 +322,7 @@ function PickAndPackDetail() {
                 setOpen={setOpenModalBoxRequest}
                 whId={whId}
                 orderReqId={orderReqId}
+                refreshData={refreshData}
             />
         </>
     )
