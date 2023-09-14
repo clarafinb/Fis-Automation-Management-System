@@ -25,9 +25,15 @@ function PickUp({ data, handleNavigator }) {
                     ${parseInt(data?.color.slice(3, 5), 16)}, 
                     ${parseInt(data?.color.slice(5, 7), 16)}, 
                     0.1)`,
+                    fontSize: 13
                 }}
             >
-                {data?.totalTransaction} Transactions
+                {
+                    data?.totalTransaction && data?.totalTransaction > 1 ?
+                        data.totalTransaction + ' TRANSACTIONS'
+                        :
+                        data.totalTransaction + ' TRANSACTION' || 0 + ' TRANSACTION'
+                }
             </CBadge>
         )
     }

@@ -70,11 +70,11 @@ function ChartDetailWarehouse({ data = {} }) {
 
             <hr />
             <h8><b>INFORMATION :</b></h8>
-            <p className='m-0'><img src={'assets/ellipse1.png'} alt='' /> ORDER REQUEST DELIVERY</p>
-            <p className='m-0'><img src={'assets/ellipse2.png'} alt='' /> ORDER REQUEST CANCELLED</p>
-            <p className='m-0'><img src={'assets/ellipse3.png'} alt='' /> PICK & PACK DONE</p>
-            <p className='m-0'><img src={'assets/ellipse4.png'} alt='' /> DELIVERY IN TRANSIT</p>
-            <p className='m-0'><img src={'assets/ellipse5.png'} alt='' /> DELIVERY COMPLETE</p>
+            <p className='m-0'><img src={'assets/Ellipse1.png'} alt='' /> ORDER REQUEST DELIVERY</p>
+            <p className='m-0'><img src={'assets/Ellipse2.png'} alt='' /> ORDER REQUEST CANCELLED</p>
+            <p className='m-0'><img src={'assets/Ellipse3.png'} alt='' /> PICK & PACK DONE</p>
+            <p className='m-0'><img src={'assets/Ellipse4.png'} alt='' /> DELIVERY IN TRANSIT</p>
+            <p className='m-0'><img src={'assets/Ellipse5.png'} alt='' /> DELIVERY COMPLETE</p>
         </>
     )
 }

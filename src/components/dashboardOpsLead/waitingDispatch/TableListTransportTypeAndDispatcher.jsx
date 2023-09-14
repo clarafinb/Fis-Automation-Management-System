@@ -7,6 +7,7 @@ import {
 import DataGrid from 'src/components/custom/table/DataGrid';
 import CIcon from '@coreui/icons-react';
 import { cilTrash } from '@coreui/icons';
+import { formatStandartDate } from 'src/helper/globalHelper';
 
 function TableListTransportTypeAndDispatcher({
     data,
@@ -48,8 +49,13 @@ function TableListTransportTypeAndDispatcher({
             headerName: 'Dispatcher',
         },
         {
-            field: 'pickandpackCompleteDate',
+            field: 'createDate',
             headerName: 'Create Date',
+            headerStyle: { textAlign: 'center' },
+            cellStyle: { textAlign: 'center' },
+            cellRenderer: ({ data }) => {
+                return formatStandartDate(data.createDate)
+            }
         },
         {
             field: 'transportTypeArrangementId',
