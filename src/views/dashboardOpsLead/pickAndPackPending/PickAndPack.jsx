@@ -19,7 +19,7 @@ import HeaderProject from '../HeaderProject'
 
 function PickAndPack() {
     const nav = useNavigate();
-    const { dispatch, Global, DashboardOpsLead } = useRedux()
+    const { dispatch, Global, DashboardOpsLead, Dashboard } = useRedux()
     const [detailProject, setDetailProject] = useState({})
     const [projectId, setProjectId] = useState("")
     const [openModal, setOpenModal] = useState(false)
@@ -33,7 +33,7 @@ function PickAndPack() {
         setProjectId(pId)
         if (Global?.user?.userID && projectId) {
             dispatch(
-                actions.getActivitySummaryWHProject(Global?.user?.userID, pId)
+                actions.getActivitySummaryWHProject(Global?.user?.userID, pId, Dashboard?.activeMenu)
             ).then(result => {
                 const dtProjectFind = result.find(row => row.whId == wId)
                 setDetailProject(dtProjectFind)

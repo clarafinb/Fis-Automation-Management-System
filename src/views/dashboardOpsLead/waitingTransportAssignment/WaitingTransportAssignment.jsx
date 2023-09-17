@@ -14,7 +14,7 @@ import TableListWaitingTransportAssignment from 'src/components/dashboardOpsLead
 
 function WaitingTransportAssignment() {
     const nav = useNavigate();
-    const { dispatch, Global, DashboardOpsLead } = useRedux()
+    const { dispatch, Global, DashboardOpsLead, Dashboard} = useRedux()
     const [detailProject, setDetailProject] = useState({})
     const { pathname } = useLocation();
     useEffect(() => {
@@ -22,7 +22,7 @@ function WaitingTransportAssignment() {
         const wId = pathname.split('/')[3]
         if (Global?.user?.userID) {
             dispatch(
-                actions.getActivitySummaryWHProject(Global?.user?.userID, pId)
+                actions.getActivitySummaryWHProject(Global?.user?.userID, pId, Dashboard?.activeMenu)
             ).then(result => {
                 const dtProjectFind = result.find(row => row.whId == wId)
                 setDetailProject(dtProjectFind)

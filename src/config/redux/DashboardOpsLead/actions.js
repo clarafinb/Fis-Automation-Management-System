@@ -93,33 +93,36 @@ import {
 } from '../../api/index'
 
 /**************************************** DASHBOARD OPS LEAD ****************************************/
-export const getActivitySummaryWHProject = (userId, projectId) => {
+export const getActivitySummaryWHProject = (userId, projectId, type) => {
   return async () => {
     try {
-      let deliveryApi = actionCrud.actionCommonSlice(
-        projectId,
-        API_GET_ACTIVITY_SUMMARY_WH_PROJECT,
-        'GET',
-        userId,
-      )
-      let pickupApi = actionCrud.actionCommonSlice(
-        projectId,
-        API_GET_ACTIVITY_SUMMARY_WH_PROJECT_PICKUP,
-        'GET',
-        userId,
-      )
+      let resultData = []
 
-      const [dataDelivery, dataPickup] = await Promise.all([deliveryApi, pickupApi])
+      if (type === 'dashboardopsleaddelivery') {
+         resultData = await actionCrud.actionCommonSlice(
+          projectId,
+          API_GET_ACTIVITY_SUMMARY_WH_PROJECT,
+          'GET',
+          userId,
+        )
+       
+      } else {
+        resultData =await  actionCrud.actionCommonSlice(
+          projectId,
+          API_GET_ACTIVITY_SUMMARY_WH_PROJECT_PICKUP,
+          'GET',
+          userId,
+        )
+      }
 
-      const result = dataDelivery?.map((row, index) => {
-        const dataFind = dataPickup.find((e) => e.whId === row.whId)
+      const result = resultData?.map((row, index) => {
         return {
           ...row,
-          ...dataFind,
           projectId: projectId,
         }
       })
       return Promise.resolve(result)
+
     } catch (error) {
       Swal.fire({
         title: 'Error!',

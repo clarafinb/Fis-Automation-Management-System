@@ -17,7 +17,7 @@ import { cilSpreadsheet } from '@coreui/icons'
 
 function DeliveryComplete() {
     const nav = useNavigate();
-    const { dispatch, Global, DashboardOpsLead } = useRedux()
+    const { dispatch, Global, DashboardOpsLead, Dashboard } = useRedux()
     const [detailProject, setDetailProject] = useState({})
     const [openModal, setOpenModal] = useState(false)
     const [custOrderRequest, setCustOrderRequest] = useState(null)
@@ -28,7 +28,7 @@ function DeliveryComplete() {
         const wId = pathname.split('/')[3]
         if (Global?.user?.userID) {
             dispatch(
-                actions.getActivitySummaryWHProject(Global?.user?.userID, pId)
+                actions.getActivitySummaryWHProject(Global?.user?.userID, pId, Dashboard?.activeMenu)
             ).then(result => {
                 const dtProjectFind = result.find(row => row.whId == wId)
                 setDetailProject(dtProjectFind)

@@ -17,7 +17,7 @@ import ModalCreateMasterLocation from 'src/components/dashboardOpsLead/masterLoc
 
 
 function MasterLocation() {
-    const { dispatch, Global, DashboardOpsLead } = useRedux()
+    const { dispatch, Global, DashboardOpsLead, Dashboard } = useRedux()
     const [detailProject, setDetailProject] = useState({})
     const [openModal, setOpenModal] = useState(false)
     const [routeCategoryList, setRouteCategoryList] = useState([])
@@ -30,7 +30,7 @@ function MasterLocation() {
         setProjectId(pId)
         if (Global?.user?.userID) {
             dispatch(
-                actions.getActivitySummaryWHProject(Global?.user?.userID, pId)
+                actions.getActivitySummaryWHProject(Global?.user?.userID, pId, Dashboard?.activeMenu)
             ).then(result => {
                 const dtProjectFind = result.find(row => row.whId == wId)
                 setDetailProject(dtProjectFind)

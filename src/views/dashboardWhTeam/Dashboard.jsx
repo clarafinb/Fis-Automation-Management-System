@@ -24,7 +24,7 @@ import ChartDetailWarehouse from 'src/components/dashboardOpsLead/ChartDetailWar
 
 function Dashboard() {
     const [cookies, setCookie] = useCookies(["dashboardOpsLead"]);
-    const { dispatch, Global, DashboardOpsLead } = useRedux()
+    const { dispatch, Global, DashboardOpsLead, Dashboard } = useRedux()
     const [detailProject, setDetailProject] = useState([])
     const [detailWarehouses, setDetailWarehouses] = useState([])
     const [optionWarehouse, setOptionWarehouse] = useState([])
@@ -79,7 +79,7 @@ function Dashboard() {
 
     const getSummaryProject = (projectId) => {
         dispatch(
-            actions.getActivitySummaryWHProject(Global?.user?.userID, projectId)
+            actions.getActivitySummaryWHProject(Global?.user?.userID, projectId, Dashboard?.activeMenu)
         ).then(result => {
             setDetailProject(result)
 

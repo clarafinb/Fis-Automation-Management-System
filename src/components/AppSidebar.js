@@ -83,27 +83,10 @@ const AppSidebar = () => {
       </CSidebarBrand>
       <hr />
       <CSidebarNav>
-        {/* <SimpleBar>
-          <AppSidebarNav items={navItems} />
-        </SimpleBar> */}
-        {/* {Dashboard?.menu?.map((val, idx) => (
-          <CNavGroup toggler={val?.Name} key={idx}>
-            {val?.Children?.map((item, idx2) => (
-              <CNavItem
-                key={idx2}
-                onClick={() => handleActiveMenu(item?.Path)}
-                className='py-1'
-              >
-                <img src={'icon/icon_dashboard.png'} className='px-1' alt="" />
-                {item?.Name}
-              </CNavItem>
-            ))}
-          </CNavGroup>
-        ))} */}
-
         {Dashboard?.menu?.map((val, idx) => (
           <React.Fragment key={idx}>
             <CNavGroup
+              className='show'
               idx={String(idx)}
               key={idx}
               visible={Dashboard?.activeMenu ? true : false}
@@ -120,7 +103,6 @@ const AppSidebar = () => {
                   >
                     <span >{navLink(item?.Name)}</span>
                   </CButton>
-                  {/* <span >{navLink(item?.Name)}</span> */}
                 </CNavItem>
               ))}
             </CNavGroup>

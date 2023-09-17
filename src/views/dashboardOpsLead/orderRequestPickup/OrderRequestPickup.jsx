@@ -24,7 +24,7 @@ import TableListOrderRequestPickup from 'src/components/dashboardOpsLead/orderRe
 import { downloadFileConfig } from 'src/helper/globalHelper'
 
 function OrderRequestPickup() {
-    const { dispatch, Global, DashboardOpsLead } = useRedux()
+    const { dispatch, Global, DashboardOpsLead, Dashboard } = useRedux()
     const [detailProject, setDetailProject] = useState({})
     const [openModal, setOpenModal] = useState(false)
     const [orderReqId, setOrderReqId] = useState()
@@ -35,7 +35,7 @@ function OrderRequestPickup() {
         const wId = pathname.split('/')[3]
         if (Global?.user?.userID) {
             dispatch(
-                actions.getActivitySummaryWHProject(Global?.user?.userID, pId)
+                actions.getActivitySummaryWHProject(Global?.user?.userID, pId, Dashboard?.activeMenu)
             ).then(result => {
                 const dtProjectFind = result.find(row => row.whId == wId)
                 setDetailProject(dtProjectFind)

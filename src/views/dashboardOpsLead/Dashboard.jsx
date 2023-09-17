@@ -36,8 +36,10 @@ function Dashboard() {
     const nav = useNavigate()
 
     const getSummaryProject = (projectId) => {
+
+        let type = cookies?.activeMenu || Dashboard?.activeMenu
         dispatch(
-            actions.getActivitySummaryWHProject(Global?.user?.userID, projectId)
+            actions.getActivitySummaryWHProject(Global?.user?.userID, projectId, type)
         ).then(result => {
             setDetailProject(result)
 
@@ -68,16 +70,6 @@ function Dashboard() {
             nav("/login")
         }
 
-        if (cookies?.dashboardOpsLead && Global?.user?.userID) {
-            let param = {
-                projectId: cookies?.dashboardOpsLead?.projectId,
-                whId: cookies?.dashboardOpsLead?.whId || 0
-            }
-
-            dispatch(actions.setProject(param))
-
-            getSummaryProject(cookies?.dashboardOpsLead?.projectId)
-        }
     }, [Global?.user])
 
     useEffect(() => {
@@ -94,11 +86,12 @@ function Dashboard() {
                 setValues({})
                 setCookie('dashboardOpsLead', { projectId: val }, { path: '/' })
                 dispatch(actions.setProject({ projectId: val }))
-                getSummaryProject(val)
 
                 if (!Dashboard?.activeMenu) {
                     setCookie('activeMenu', 'dashboardopsleaddelivery', { path: '/' })
                     dispatch(actions_dashbboard.actionSetReduxActiveMenu("dashboardopsleaddelivery"))
+                } else {
+                    getSummaryProject(val)
                 }
                 setModalProjectList(false)
             }
@@ -203,6 +196,19 @@ function Dashboard() {
         setOpenModalOrderRequest(true)
     }
 
+    useEffect(() => {
+        if (cookies?.dashboardOpsLead && Global?.user?.userID && cookies?.activeMenu) {
+            let param = {
+                projectId: cookies?.dashboardOpsLead?.projectId,
+                whId: cookies?.dashboardOpsLead?.whId || 0
+            }
+
+            dispatch(actions.setProject(param))
+
+            getSummaryProject(cookies?.dashboardOpsLead?.projectId)
+        }
+    }, [Dashboard?.activeMenu]);
+
     return (
         <>
             <CRow>
@@ -288,7 +294,7 @@ function Dashboard() {
                                 <CCol sm={3}>
                                     <CCard className='card-dashboard'>
                                         <div className='m-3'>
-                                            <ChartDetailWarehouse data={detailWarehouses[index]} />
+                                            <ChartDetailWarehouse data={detailWarehouses[index], Dashboard?.activeMenu} />
                                         </div>
                                     </CCard>
                                 </CCol>
