@@ -2,7 +2,7 @@ import React from 'react'
 import { CChart } from '@coreui/react-chartjs'
 import { CCol, CRow } from '@coreui/react'
 
-function ChartDetailWarehouse({ data = {} }) {
+function ChartPickUp({ data = {} }) {
     return (
         <>
             <CRow>
@@ -18,11 +18,11 @@ function ChartDetailWarehouse({ data = {} }) {
                     type="bar"
                     data={{
                         labels: [
-                            data?.totalOrderReqDelivery,
-                            data?.orderReqDeliveryCanceledCount,
-                            data?.pickandpackDoneCount,
+                            data?.totalOrderReqPickup,
+                            data?.pickupPrepCount,
+                            data?.waitingTransportAssignmentCount,
                             data?.pickupInTransitCount,
-                            data?.deliveryCompleteCount
+                            data?.pickupOnsiteCount
                         ],
                         datasets: [
                             {
@@ -35,11 +35,11 @@ function ChartDetailWarehouse({ data = {} }) {
                                     '#BD9F3B',
                                 ],
                                 data: [
-                                    data?.totalOrderReqDelivery,
-                                    data?.orderReqDeliveryCanceledCount,
-                                    data?.pickandpackDoneCount,
+                                    data?.totalOrderReqPickup,
+                                    data?.pickupPrepCount,
+                                    data?.waitingTransportAssignmentCount,
                                     data?.pickupInTransitCount,
-                                    data?.deliveryCompleteCount
+                                    data?.pickupOnsiteCount
                                 ],
                                 borderWidth: 0,
                             },
@@ -70,13 +70,13 @@ function ChartDetailWarehouse({ data = {} }) {
 
             <hr />
             <h8><b>INFORMATION :</b></h8>
-            <p className='m-0'><img src={'assets/Ellipse1.png'} alt='' /> ORDER REQUEST DELIVERY</p>
-            <p className='m-0'><img src={'assets/Ellipse2.png'} alt='' /> ORDER REQUEST CANCELLED</p>
-            <p className='m-0'><img src={'assets/Ellipse3.png'} alt='' /> PICK & PACK DONE</p>
-            <p className='m-0'><img src={'assets/Ellipse4.png'} alt='' /> DELIVERY IN TRANSIT</p>
-            <p className='m-0'><img src={'assets/Ellipse5.png'} alt='' /> DELIVERY COMPLETE</p>
+            <p className='m-0'><img src={'assets/Ellipse1.png'} alt='' /> ORDER REQUEST PICKUP</p>
+            <p className='m-0'><img src={'assets/Ellipse2.png'} alt='' /> PICKUP PREPARATION</p>
+            <p className='m-0'><img src={'assets/Ellipse3.png'} alt='' /> WAITING TRANSPORT ASSIGNMENT</p>
+            <p className='m-0'><img src={'assets/Ellipse4.png'} alt='' /> PICKUP IN TRANSIT</p>
+            <p className='m-0'><img src={'assets/Ellipse5.png'} alt='' /> PICKUP ON SITE</p>
         </>
     )
 }
 
-export default ChartDetailWarehouse
+export default ChartPickUp

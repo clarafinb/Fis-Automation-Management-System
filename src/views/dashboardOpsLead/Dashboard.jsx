@@ -14,13 +14,14 @@ import * as actions_dashbboard from '../../config/redux/Dashboard/actions'
 import CIcon from '@coreui/icons-react'
 import { cilEqualizer, cilNotes } from '@coreui/icons'
 import ModalProjectList from 'src/components/dashboardOpsLead/ModalProjectList';
-import ChartDetailWarehouse from 'src/components/dashboardOpsLead/ChartDetailWarehouse';
 import ModalCreateOrderRequest from 'src/components/dashboardOpsLead/orderRequest/ModalCreateOrderRequest';
 import Delivery from 'src/components/dashboardOpsLead/Delivery';
 import PickUp from 'src/components/dashboardOpsLead/PickUp';
 import PageNoneSelectedProject from './PageNoneSelectedProject';
 import HeaderProject from './HeaderProject';
 import { manipulateDataTableDashboard } from '../../helper/dashboardHelper';
+import ChartDelivery from 'src/components/dashboardOpsLead/ChartDelivery';
+import ChartPickUp from 'src/components/dashboardOpsLead/ChartPickUp';
 
 function Dashboard() {
     const [cookies, setCookie] = useCookies(["dashboardOpsLead"]);
@@ -292,11 +293,18 @@ function Dashboard() {
                                     </CCard>
                                 </CCol>
                                 <CCol sm={3}>
-                                    <CCard className='card-dashboard'>
-                                        <div className='m-3'>
-                                            <ChartDetailWarehouse data={detailWarehouses[index], Dashboard?.activeMenu} />
-                                        </div>
-                                    </CCard>
+                                    {Dashboard?.activeMenu === 'dashboardopsleaddelivery' && DashboardOpsLead?.project?.projectId
+                                        ? <CCard className='card-dashboard'>
+                                            <div className='m-3'>
+                                                <ChartDelivery data={detailWarehouses[index]} />
+                                            </div>
+                                        </CCard>
+                                        : <CCard className='card-dashboard'>
+                                            <div className='m-3'>
+                                                <ChartPickUp data={detailWarehouses[index]} />
+                                            </div>
+                                        </CCard>
+                                    }
                                 </CCol>
                             </CRow>
                             <br />

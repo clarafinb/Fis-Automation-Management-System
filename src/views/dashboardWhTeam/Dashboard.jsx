@@ -20,7 +20,7 @@ import * as actions from '../../config/redux/DashboardOpsLead/actions'
 import CIcon from '@coreui/icons-react'
 import { cilList, cilNotes } from '@coreui/icons'
 import ModalProjectList from 'src/components/dashboardOpsLead/ModalProjectList';
-import ChartDetailWarehouse from 'src/components/dashboardOpsLead/ChartDetailWarehouse';
+import ChartDetailWarehouse from 'src/components/dashboardOpsLead/ChartDelivery';
 
 function Dashboard() {
     const [cookies, setCookie] = useCookies(["dashboardOpsLead"]);
