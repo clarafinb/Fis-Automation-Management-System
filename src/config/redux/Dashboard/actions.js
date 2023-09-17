@@ -156,6 +156,23 @@ export const resetDetailDashboard = () => {
   }
 }
 
+export const resetaActiveMenu = () => {
+  return async (dispatch) => {
+    try {
+      dispatch({
+        type: actionType.RESET_ACTIVE_MENU
+      });
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Close'
+      })
+    }
+  }
+}
+
 export const actionSetReduxMenu = (payload) => {
   return async (dispatch) => {
     try {

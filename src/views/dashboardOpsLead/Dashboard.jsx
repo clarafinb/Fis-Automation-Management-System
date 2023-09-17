@@ -107,8 +107,9 @@ function Dashboard() {
             }
             setCookie('dashboardOpsLead', param, { path: '/' })
             dispatch(actions.setProject(param))
-
-            if (values?.whId != 'All') {
+            
+            if (values?.whId != '0') {
+                console.log(values)
                 let arr = []
                 let temp = detailProject.find(e => e.whId == values.whId)
                 arr.push(temp)
@@ -180,7 +181,6 @@ function Dashboard() {
     const handleOnchange = useCallback(
         (e) => {
             const { value, name } = e.target
-
             setValues((prev) => ({
                 ...prev,
                 [name]: value

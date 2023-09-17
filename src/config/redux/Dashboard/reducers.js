@@ -190,6 +190,13 @@ const Dashboard = (state = initialState, { type, payload }) => {
                 ...state,
                 listMrs: payload
             }
+
+        case actionType.RESET_ACTIVE_MENU:
+            return {
+                ...state,
+                activeMenu: ""
+            }
+
         default:
             return { ...state };
     }
