@@ -90,7 +90,7 @@ function ManageInventory() {
 
     const handleOpenModalUpload = (type) => {
         dispatch(
-            actions.getMassUploadInboundTemplate()
+            actions.getMassUploadInboundTemplate(type)
         ).then(reps => {
             setTemplateName(reps.templateName)
             setTemplateUrl(reps.templateURL)

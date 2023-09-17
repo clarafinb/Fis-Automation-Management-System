@@ -9,6 +9,7 @@ import {
   API_GET_INVENTORY_BOX,
   API_GET_INVENTORY_ITEM,
   API_GET_TEMPLATE_UPLOAD_INBOUND,
+  API_GET_TEMPLATE_UPLOAD_INBOUND_BOX,
   API_UPLOAD_INVENTORY_BOX,
   API_UPLOAD_INVENTORY_ITEM,
   API_GET_ACTIVITY_SUMMARY_WH_PROJECT,
@@ -99,15 +100,15 @@ export const getActivitySummaryWHProject = (userId, projectId, type) => {
       let resultData = []
 
       if (type === 'dashboardopsleaddelivery') {
-         resultData = await actionCrud.actionCommonSlice(
+        resultData = await actionCrud.actionCommonSlice(
           projectId,
           API_GET_ACTIVITY_SUMMARY_WH_PROJECT,
           'GET',
           userId,
         )
-       
+
       } else {
-        resultData =await  actionCrud.actionCommonSlice(
+        resultData = await actionCrud.actionCommonSlice(
           projectId,
           API_GET_ACTIVITY_SUMMARY_WH_PROJECT_PICKUP,
           'GET',
@@ -881,10 +882,13 @@ export const getInboundTransactionSuccess = (whId) => {
     }
   }
 }
-export const getMassUploadInboundTemplate = () => {
+export const getMassUploadInboundTemplate = (type = 'item') => {
   return async (dispatch) => {
     try {
-      let data = await actionCrud.actionCommonCrud(null, API_GET_TEMPLATE_UPLOAD_INBOUND, 'GET')
+      let url = (type === 'box') ?
+        API_GET_TEMPLATE_UPLOAD_INBOUND_BOX :
+        API_GET_TEMPLATE_UPLOAD_INBOUND
+      let data = await actionCrud.actionCommonCrud(null, url, 'GET')
       return Promise.resolve(data)
     } catch (error) {
       Swal.fire({

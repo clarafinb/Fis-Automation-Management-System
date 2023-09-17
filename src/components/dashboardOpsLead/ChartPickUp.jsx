@@ -19,10 +19,10 @@ function ChartPickUp({ data = {} }) {
                     data={{
                         labels: [
                             data?.totalOrderReqPickup,
-                            data?.pickupPrepCount,
-                            data?.waitingTransportAssignmentCount,
+                            data?.orderReqPickupCanceledCount,
                             data?.pickupInTransitCount,
-                            data?.pickupOnsiteCount
+                            data?.pickupOnsiteCount,
+                            data?.hoCompleteCount
                         ],
                         datasets: [
                             {
@@ -36,10 +36,10 @@ function ChartPickUp({ data = {} }) {
                                 ],
                                 data: [
                                     data?.totalOrderReqPickup,
-                                    data?.pickupPrepCount,
-                                    data?.waitingTransportAssignmentCount,
+                                    data?.orderReqPickupCanceledCount,
                                     data?.pickupInTransitCount,
-                                    data?.pickupOnsiteCount
+                                    data?.pickupOnsiteCount,
+                                    data?.hoCompleteCount
                                 ],
                                 borderWidth: 0,
                             },
@@ -71,10 +71,10 @@ function ChartPickUp({ data = {} }) {
             <hr />
             <h8><b>INFORMATION :</b></h8>
             <p className='m-0'><img src={'assets/Ellipse1.png'} alt='' /> ORDER REQUEST PICKUP</p>
-            <p className='m-0'><img src={'assets/Ellipse2.png'} alt='' /> PICKUP PREPARATION</p>
-            <p className='m-0'><img src={'assets/Ellipse3.png'} alt='' /> WAITING TRANSPORT ASSIGNMENT</p>
-            <p className='m-0'><img src={'assets/Ellipse4.png'} alt='' /> PICKUP IN TRANSIT</p>
-            <p className='m-0'><img src={'assets/Ellipse5.png'} alt='' /> PICKUP ON SITE</p>
+            <p className='m-0'><img src={'assets/Ellipse2.png'} alt='' /> PICKUP CANCELLED</p>
+            <p className='m-0'><img src={'assets/Ellipse3.png'} alt='' /> PICKUP IN TRANSIT</p>
+            <p className='m-0'><img src={'assets/Ellipse4.png'} alt='' /> PICKUP ONSITE</p>
+            <p className='m-0'><img src={'assets/Ellipse5.png'} alt='' /> PICKUP COMPLETE</p>
         </>
     )
 }

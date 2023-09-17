@@ -70,13 +70,13 @@ function ModalBoxRequest({ open, setOpen, whId, orderReqId, refreshData }) {
             name: 'no',
             header: 'No',
             defaultVisible: true,
-            defaultWidth: 80,
+            defaultWidth: 65,
             type: 'number'
         },
         {
             name: 'materialCode',
             header: 'Box No',
-            defaultFlex: 1
+            defaultFlex: 2
         },
         {
             name: 'inboundDate',
@@ -85,6 +85,21 @@ function ModalBoxRequest({ open, setOpen, whId, orderReqId, refreshData }) {
             render: ({ data }) => {
                 return formatStandartDate(data.inboundDate)
             }
+        },
+        {
+            name: 'onHandQTY',
+            header: 'On Hand QTY',
+            defaultFlex: 1
+        },
+        {
+            name: 'totalCollies',
+            header: 'Total Collies',
+            defaultFlex: 1
+        },
+        {
+            name: 'totalCBM',
+            header: 'Total CBM',
+            defaultFlex: 1
         },
         {
             name: 'projectServiceChargeId',
@@ -99,7 +114,7 @@ function ModalBoxRequest({ open, setOpen, whId, orderReqId, refreshData }) {
     return (
         <>
             <CModal
-                size="lg"
+                size="xl"
                 visible={open}
                 onClose={() => setOpen(false)}
                 alignment='center'

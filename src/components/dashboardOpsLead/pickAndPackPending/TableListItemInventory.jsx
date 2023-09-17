@@ -20,6 +20,9 @@ function TableListItemInventory({
         if (value > 0) badge = "success"
         return (
             <CBadge
+                style={
+                    { fontSize: 12 }
+                }
                 color={badge}
             >
                 {value}
