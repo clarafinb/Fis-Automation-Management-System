@@ -189,13 +189,6 @@ function ModalCreateWarehouse({ open, setOpen, projectId, isEdit, dataEdit }) {
                             <CRow className="mb-3">
                                 <CFormLabel className="col-form-label">Warehouse Type <code>*</code></CFormLabel>
                                 <CCol>
-                                    {/* <CFormSelect
-                                        name="warehouseType"
-                                        options={warehouseType}
-                                        onChange={handleOnchange}
-                                        defaultValue={isEdit ? data?.whTypeId : ""}
-                                        required
-                                    /> */}
                                     <Select
                                         className="input-select"
                                         options={warehouseType}
