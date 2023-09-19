@@ -102,7 +102,7 @@ function ModalCreateWarehouse({ open, setOpen, projectId, isEdit, dataEdit }) {
             whName: values?.warehouseName || data?.whName,
             whCode: values?.warehouseCode || data?.whCode,
             isMainWH: true,
-            whTypeId: values?.warehouseType || data?.whTypeId,
+            whTypeId: selectedWhType?.value,
             provinceId: selectedProvince?.value,
             subDistrictId: selectedSubDistrict?.value,
             whAddress: values?.address || data?.whAddress,
