@@ -19,6 +19,7 @@ import ButtonSubmit from 'src/components/custom/button/ButtonSubmit'
 import Select from 'react-select'
 import { formatStandartDate, formatDateInput } from 'src/helper/globalHelper'
 import Alert from 'src/components/custom/toast/Alert'
+import DateInput from 'src/components/custom/form/DateInput'
 
 function ModalCreateAssetTruck({ open, setOpen, isEdit = false, dataEdit }) {
     const { dispatch, Global } = useRedux()
@@ -37,31 +38,52 @@ function ModalCreateAssetTruck({ open, setOpen, isEdit = false, dataEdit }) {
     const [errMessage, setErrMessage] = useState(null)
     const [visible, setVisible] = useState(false)
 
+    const [stnkExpiryDate, setStnkExpiryDate] = useState(null);
+
 
     useEffect(() => {
         if (Global?.user?.token && open) {
 
-            setData({})
-            setValues({})
-            setErrMessage(null)
+            resetForm()
+
             if (isEdit) {
                 setData(dataEdit)
             }
 
-            dispatch(actions.getSelecTransportType()).then(e => {
-                console.log(e)
-                setTransportType(e)
-            })
+            Promise.all([
+                dispatch(actions.getSelecTransportType())
+                    .then(e => {
+                        setTransportType(e)
+                    }),
+                dispatch(actions.getSelecPlatCode())
+                    .then(e => {
+                        setPlatCode(e)
+                    }),
+                dispatch(actions.getMasterOwnershipVehicleCategoryActiveOnly())
+                    .then(e => {
+                        setOwnershipCategory(e)
+                    })
+            ])
 
-            dispatch(actions.getSelecPlatCode()).then(e => {
-                setPlatCode(e)
-            })
 
-            dispatch(actions.getMasterOwnershipVehicleCategoryActiveOnly()).then(e => {
-                setOwnershipCategory(e)
-            })
         }
     }, [Global?.user, isEdit, open, dataEdit]);
+
+    const resetForm = () => {
+        // reset form field
+        setData({})
+        setValues({})
+        setErrMessage(null)
+
+        //reset form date
+        setStnkExpiryDate(null)
+
+        //reset form select
+        setSelectedTransportType({})
+        setSelectedPlatCode({})
+        setSelectedOwnershipCategory({})
+
+    }
 
     const handleCreateAssetTruck = (event) => {
 
@@ -74,11 +96,14 @@ function ModalCreateAssetTruck({ open, setOpen, isEdit = false, dataEdit }) {
             platCodeFirst: selectedPlatCode?.value,
             platCodeLast: values.plateCodeLast || data.plateCodeLast,
             stnkNumber: values.stnkNumber || data.stnkNumber,
-            stnkExpiryDate: formatStandartDate(values.stnkExpiryDate) || formatStandartDate(data.stnkExpiryDate),
+            stnkExpiryDate: formatStandartDate(values.stnkExpiryDate || data.stnkExpiryDate),
             ownerName: values.ownerName || data.ownerName,
             vehicleOwnershipCatId: selectedOwnershipCategory?.value,
             LMBY: Global.user.userID
         }
+
+        console.log(payload)
+        return;
 
         let methode = "POST"
         if (isEdit) {
@@ -107,6 +132,7 @@ function ModalCreateAssetTruck({ open, setOpen, isEdit = false, dataEdit }) {
 
     const handleOnchange = useCallback(
         (e) => {
+            console.log(e)
             const { value, name } = e.target;
             setValues((prev) => ({
                 ...prev,
@@ -116,12 +142,29 @@ function ModalCreateAssetTruck({ open, setOpen, isEdit = false, dataEdit }) {
         }, [setValues]
     )
 
+    const handleChangeStnkExpiryDate = (date, name) => {
+        setStnkExpiryDate(date)
+    }
+
+    // const handleOnchangeDate = useCallback(
+    //     (date, name) => {
+    //         setValues((prev) => ({
+    //             ...prev,
+    //             [name]: date
+    //         }));
+    //     }, [setValues]
+    // )
+
+    // onChange={(date) => {
+    //     setStartDate(date)
+    //     console.log(date)
+    // }}
+
     const handleOnChangetransportType = (selectedTransportType) => {
         setSelectedTransportType(selectedTransportType);
     }
 
     const handleOnChangePlatCode = (selectedPlatCode) => {
-        console.log(selectedPlatCode)
         setSelectedPlatCode(selectedPlatCode);
     }
 
@@ -219,13 +262,19 @@ function ModalCreateAssetTruck({ open, setOpen, isEdit = false, dataEdit }) {
                     <CRow className="mb-3">
                         <CFormLabel className="col-form-label">STNK Expiry Date</CFormLabel>
                         <CCol>
-                            <input
+                            {/* <input
                                 type="date"
                                 className="form-control"
                                 name="stnkExpiryDate"
                                 value={values?.stnkExpiryDate || formatDateInput(data?.stnkExpiryDate)}
                                 onChange={handleOnchange}
                                 required
+                            /> */}
+                            <DateInput
+                                name="stnkExpiryDate"
+                                value={stnkExpiryDate || data?.stnkExpiryDate}
+                                onChange={handleChangeStnkExpiryDate}
+                                required={true}
                             />
                         </CCol>
                     </CRow>
@@ -262,6 +311,9 @@ function ModalCreateAssetTruck({ open, setOpen, isEdit = false, dataEdit }) {
                         type='submit'
                     />
                 </CModalFooter>
+                <pre>
+                    {JSON.stringify(formatStandartDate(stnkExpiryDate), null, 2)}
+                </pre>
             </CForm>
         </CModal>
     )
