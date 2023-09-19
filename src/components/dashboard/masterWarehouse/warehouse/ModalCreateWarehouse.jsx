@@ -10,7 +10,6 @@ import {
     CModalHeader,
     CModalTitle,
     CModalBody,
-    CFormSelect,
     CFormTextarea,
     CForm
 } from '@coreui/react'
@@ -156,7 +155,7 @@ function ModalCreateWarehouse({ open, setOpen, projectId, isEdit, dataEdit }) {
             keyboard={false}
         >
             <CModalHeader>
-                <CModalTitle>ADD WAREHOUSE</CModalTitle>
+                <CModalTitle>{isEdit ? 'EDIT' : 'ADD'} WAREHOUSE</CModalTitle>
             </CModalHeader>
             <CModalBody>
                 <CForm onSubmit={handleCreate}>
