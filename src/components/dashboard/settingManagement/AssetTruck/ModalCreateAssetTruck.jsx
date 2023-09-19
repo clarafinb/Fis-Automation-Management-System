@@ -35,37 +35,26 @@ function ModalCreateAssetTruck({ open, setOpen, isEdit = false, dataEdit }) {
     const [ownershipCategory, setOwnershipCategory] = useState([])
     const [selectedOwnershipCategory, setSelectedOwnershipCategory] = useState({});
 
-    const [errMessage, setErrMessage] = useState(null)
+    const [brand, setBrand] = useState([])
+    const [selectedBrand, setSelectedBrand] = useState({});
+
+    const [category, setCategory] = useState([])
+    const [selectedCategory, setSelectedCategory] = useState({});
+
+    const [errMessage, setErrMessage] = useState("")
     const [visible, setVisible] = useState(false)
 
-    const [stnkExpiryDate, setStnkExpiryDate] = useState(null);
-    const [kirExpiryDate, setKirExpiryDate] = useState(null);
+    const [stnkExpiryDate, setStnkExpiryDate] = useState("");
+    const [kirExpiryDate, setKirExpiryDate] = useState("");
 
     useEffect(() => {
         if (Global?.user?.token && open) {
 
             resetForm()
 
-            if (isEdit) {
-                setData(dataEdit)
-            }
-
-            Promise.all([
-                dispatch(actions.getSelecTransportType())
-                    .then(e => {
-                        setTransportType(e)
-                    }),
-                dispatch(actions.getSelecPlatCode())
-                    .then(e => {
-                        setPlatCode(e)
-                    }),
-                dispatch(actions.getMasterOwnershipVehicleCategoryActiveOnly())
-                    .then(e => {
-                        setOwnershipCategory(e)
-                    })
-            ])
-
-
+            initFormSelect()
+            
+            if (isEdit) autoFillEditForm(dataEdit.vehicleId)
         }
     }, [Global?.user, isEdit, open, dataEdit]);
 
@@ -83,7 +72,57 @@ function ModalCreateAssetTruck({ open, setOpen, isEdit = false, dataEdit }) {
         setSelectedTransportType({})
         setSelectedPlatCode({})
         setSelectedOwnershipCategory({})
+        setSelectedBrand({})
+        setSelectedCategory({})
 
+    }
+
+    const initFormSelect = () => {
+        Promise.all([
+            dispatch(actions.getSelecTransportType())
+                .then(e => {
+                    setTransportType(e)
+                }),
+            dispatch(actions.getSelecPlatCode())
+                .then(e => {
+                    setPlatCode(e)
+                }),
+            dispatch(actions.getMasterOwnershipVehicleCategoryActiveOnly())
+                .then(e => {
+                    setOwnershipCategory(e)
+                }),
+            dispatch(actions.getMasterVehicleBrandActiveOnly())
+                .then(e => {
+                    setBrand(e)
+                }),
+            dispatch(actions.getMasterVehicleCategoryActiveOnly())
+                .then(e => {
+                    setCategory(e)
+                })
+        ])
+    }
+
+    const autoFillEditForm = (id) => {
+        dispatch(actions.getMasterVehiclesDetail(id))
+            .then(resp => {
+                setData(resp)
+
+                const brandFind = brand.find(e => e.value === resp.brandId)
+                setSelectedBrand(brandFind || {})
+
+                const catFind = category.find(e => e.value === resp.vehicleCategoryId)
+                setSelectedCategory(catFind)
+
+                const transFind = transportType.find(e => e.value === resp.transportTypeId)
+                setSelectedTransportType(transFind)
+
+                const platFind = platCode.find(e => e.value === resp.plateCodeFirst)
+                setSelectedPlatCode(platFind)
+
+                const ownerFind = ownershipCategory.find(e => e.value === resp.ownershipCatId)
+                setSelectedOwnershipCategory(ownerFind)
+
+            })
     }
 
     const handleCreateAssetTruck = (event) => {
@@ -92,20 +131,22 @@ function ModalCreateAssetTruck({ open, setOpen, isEdit = false, dataEdit }) {
         event.stopPropagation()
 
         let payload = {
+            brandId: selectedBrand?.value,
+            vehicleType: values?.vehicleType,
+            vehicleCategoryId: selectedCategory?.value,
             transportTypeId: selectedTransportType?.value,
             numberPlate: values.numberPlate || data.numberPlate,
             platCodeFirst: selectedPlatCode?.value,
             platCodeLast: values.plateCodeLast || data.plateCodeLast,
             stnkNumber: values.stnkNumber || data.stnkNumber,
+            chassisNumber: values.chassisNumber || data.chassisNumber,
+            engineNumber: values.engineNumber || data.engineNumber,
             stnkExpiryDate: formatStandartDate(stnkExpiryDate || data.stnkExpiryDate),
             kirExpiryDate: formatStandartDate(kirExpiryDate || data.kirExpiryDate),
             ownerName: values.ownerName || data.ownerName,
             vehicleOwnershipCatId: selectedOwnershipCategory?.value,
             LMBY: Global.user.userID
         }
-
-        console.log(payload)
-        return;
 
         let methode = "POST"
         if (isEdit) {
@@ -118,6 +159,8 @@ function ModalCreateAssetTruck({ open, setOpen, isEdit = false, dataEdit }) {
         if (payload.transportTypeId === undefined) err.push('Transport Type')
         if (payload.platCodeFirst === undefined) err.push('First Palte Letter')
         if (payload.vehicleOwnershipCatId === undefined) err.push('Ownership Type')
+        if (payload.brandId === undefined) err.push('Brand')
+        if (payload.vehicleCategoryId === undefined) err.push('Category')
 
         if (err.length > 0) {
             setErrMessage(err.join(' , '))
@@ -134,7 +177,6 @@ function ModalCreateAssetTruck({ open, setOpen, isEdit = false, dataEdit }) {
 
     const handleOnchange = useCallback(
         (e) => {
-            console.log(e)
             const { value, name } = e.target;
             setValues((prev) => ({
                 ...prev,
@@ -160,6 +202,14 @@ function ModalCreateAssetTruck({ open, setOpen, isEdit = false, dataEdit }) {
         setSelectedOwnershipCategory(selectedOwnershipCategory);
     }
 
+    const handleOnChangeBrand = (selectedBrand) => {
+        setSelectedBrand(selectedBrand);
+    }
+
+    const handleOnchangeCategory = (selectedCategory) => {
+        setSelectedCategory(selectedCategory);
+    }
+
     return (
         <CModal
             size="lg"
@@ -180,11 +230,12 @@ function ModalCreateAssetTruck({ open, setOpen, isEdit = false, dataEdit }) {
                             <CRow className="mb-3">
                                 <CFormLabel className="col-form-label">Brand</CFormLabel>
                                 <CCol>
-                                    <CFormInput
-                                        type="text"
-                                        name="brandId"
-                                        value={values?.brandId || data?.brandId}
-                                        onChange={handleOnchange}
+                                    <Select
+                                        className="input-select"
+                                        options={brand}
+                                        isSearchable={true}
+                                        value={selectedBrand}
+                                        onChange={handleOnChangeBrand}
                                         required
                                     />
                                 </CCol>
@@ -204,11 +255,12 @@ function ModalCreateAssetTruck({ open, setOpen, isEdit = false, dataEdit }) {
                             <CRow className="mb-3">
                                 <CFormLabel className="col-form-label">Vehicle Category</CFormLabel>
                                 <CCol>
-                                    <CFormInput
-                                        type="text"
-                                        name="vehicleCategoryId"
-                                        value={values?.vehicleCategoryId || data?.vehicleCategoryId}
-                                        onChange={handleOnchange}
+                                    <Select
+                                        className="input-select"
+                                        options={category}
+                                        isSearchable={true}
+                                        value={selectedCategory}
+                                        onChange={handleOnchangeCategory}
                                         required
                                     />
                                 </CCol>
@@ -370,9 +422,6 @@ function ModalCreateAssetTruck({ open, setOpen, isEdit = false, dataEdit }) {
                         type='submit'
                     />
                 </CModalFooter>
-                <pre>
-                    {JSON.stringify(formatStandartDate(stnkExpiryDate), null, 2)}
-                </pre>
             </CForm>
         </CModal>
     )

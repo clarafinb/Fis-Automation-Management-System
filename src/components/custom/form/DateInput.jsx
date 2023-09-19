@@ -26,6 +26,8 @@ const DateInput = ({
                 selected={formatedDate}
                 onChange={(date) => onChange(date, name)} //pass name as string
                 required={required}
+                showYearDropdown
+                showMonthDropdown
                 customInput={<CalendarIcon />}
                 dayClassName={() => "example-datepicker-day-class"}
                 popperClassName="example-datepicker-class"

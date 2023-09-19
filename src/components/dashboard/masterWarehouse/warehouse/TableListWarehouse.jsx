@@ -86,7 +86,7 @@ function TableListWarehouse({
         {
             field: 'whId',
             headerName: 'MAP',
-            minWidth: 80,
+            maxWidth: 100,
             cellStyle: { textAlign: 'center' },
             pinned: 'right',
             filter: false,
@@ -97,7 +97,7 @@ function TableListWarehouse({
         {
             field: 'isActive',
             headerName: 'ACTIVE STATUS',
-            minWidth: 80,
+            maxWidth: 140,
             cellStyle: { textAlign: 'center' },
             pinned: 'right',
             filter: false,
@@ -108,7 +108,7 @@ function TableListWarehouse({
         {
             field: 'whId',
             headerName: 'ACTION',
-            minWidth: 80,
+            maxWidth: 100,
             cellStyle: { textAlign: 'center' },
             pinned: 'right',
             filter: false,

@@ -94,19 +94,21 @@ function TableListAssetTruck({
             }
         },
         {
-            field: 'vehicleOwnership',
+            field: 'ownershipCategory',
             headerName: 'OWNERSHIP',
-            maxWidth:150,
+            maxWidth:200,
             cellStyle: { textAlign: 'center' },
         },
         {
             field: 'modifiedUser',
             headerName: 'MODIFY USER',
+            maxWidth:200,
         },
         {
             field: 'modifyDate',
             headerName: 'MODIFIED DATE',
             cellStyle: { textAlign: 'center' },
+            maxWidth:200,
             cellRenderer: ({ data }) => {
                 return formatStandartDate(data.modifyDate)
             }

@@ -10,7 +10,8 @@ import {
 } from '@coreui/react'
 import {
     cilCode,
-    cilPlus, cilSpreadsheet,
+    cilPlus,
+    cilSpreadsheet,
 } from '@coreui/icons'
 import CIcon from '@coreui/icons-react'
 import * as actions from '../../../config/redux/Dashboard/actions'

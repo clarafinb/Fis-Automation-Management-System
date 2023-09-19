@@ -116,7 +116,8 @@ import {
   API_ADD_MRS,
   API_SET_IN_USE_MRS,
   API_GET_MASTER_VEHICLES_CATEGORY,
-  API_GET_MASTER_VEHICLES_BRAND
+  API_GET_MASTER_VEHICLES_BRAND,
+  API_GET_MASTER_VEHICLES_DETAIL
 } from "../../api/index"
 import Swal from "sweetalert2";
 
@@ -886,15 +887,13 @@ export const getSelectWarehouseType = (payload) => {
   return async () => {
     try {
       let list = await actionCrud.actionCommonCrud(payload, API_GET_WAREHOUSE_ACTIVE, "GET");
-
-
       let listWarehouse = list?.map((item, idx) => {
         return {
           label: item.whType,
           value: item.whTypeId
         }
       })
-      return Promise.resolve(['Please Select..', ...listWarehouse])
+      return Promise.resolve(listWarehouse)
     } catch (error) {
       Swal.fire({
         title: 'Error!',
@@ -2390,6 +2389,22 @@ export const getSelecPlatCode = (payload) => {
         }
       })
       return Promise.resolve(data)
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Close'
+      })
+    }
+  }
+}
+
+export const getMasterVehiclesDetail = (id) => {
+  return async () => {
+    try {
+      let [result] = await actionCrud.actionCommonSlice(id, API_GET_MASTER_VEHICLES_DETAIL, "GET");
+      return Promise.resolve(result)
     } catch (error) {
       Swal.fire({
         title: 'Error!',
