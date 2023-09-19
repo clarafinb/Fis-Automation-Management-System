@@ -50,12 +50,22 @@ function TableListAssetTruck({
             field: 'no',
             headerName: 'NO',
             cellStyle: { textAlign: 'center' },
-            minWidth: 150,
+            minWidth: 100,
             filter:false
         },
         {
-            field: 'transportType',
-            headerName: 'TRANPORT TYPE',
+            field: 'brandName',
+            headerName: 'BRAND',
+            minWidth: 200,
+        },
+        {
+            field: 'vehicleCategory',
+            headerName: 'CATEGORY',
+            minWidth: 200,
+        },
+        {
+            field: 'vehicleType',
+            headerName: 'TYPE',
             minWidth: 200,
         },
         {
@@ -66,6 +76,10 @@ function TableListAssetTruck({
         {
             field: 'stnkNumber',
             headerName: 'STNK NUMBER',
+        },
+        {
+            field: 'chassisNumber',
+            headerName: 'CHASSIS NUMBER',
         },
         {
             field: 'ownerName',
@@ -80,18 +94,21 @@ function TableListAssetTruck({
             }
         },
         {
-            field: 'vehicleOwnership',
+            field: 'ownershipCategory',
             headerName: 'OWNERSHIP',
+            maxWidth:200,
             cellStyle: { textAlign: 'center' },
         },
         {
             field: 'modifiedUser',
             headerName: 'MODIFY USER',
+            maxWidth:200,
         },
         {
             field: 'modifyDate',
             headerName: 'MODIFIED DATE',
             cellStyle: { textAlign: 'center' },
+            maxWidth:200,
             cellRenderer: ({ data }) => {
                 return formatStandartDate(data.modifyDate)
             }
@@ -99,7 +116,7 @@ function TableListAssetTruck({
         {
             field: 'isActive',
             headerName: 'ACTIVE STATUS',
-            minWidth: 100,
+            maxWidth: 150,
             cellStyle: { textAlign: 'center' },
             pinned: 'right',
             filter:false,
@@ -110,7 +127,7 @@ function TableListAssetTruck({
         {
             field: 'vehicleId',
             headerName: 'ACTION',
-            minWidth: 100,
+            maxWidth: 100,
             cellStyle: { textAlign: 'center' },
             pinned: 'right',
             filter:false,

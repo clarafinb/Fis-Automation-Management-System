@@ -10,7 +10,8 @@ import {
 } from '@coreui/react'
 import {
     cilCode,
-    cilPlus, cilSpreadsheet,
+    cilPlus,
+    cilSpreadsheet,
 } from '@coreui/icons'
 import CIcon from '@coreui/icons-react'
 import * as actions from '../../../config/redux/Dashboard/actions'
@@ -67,15 +68,14 @@ function AssetTruck() {
 
     return (
         <>
-            <CRow>
+            <CRow className='mb-2'>
                 <CCol sm={5}>
                     <h4 className="card-title mb-0">
                         <span className='text-underline'>ASS</span>ET TRUCK
                     </h4>
                 </CCol>
             </CRow>
-            <br />
-            <CRow>
+            <CRow className='mb-4'>
                 <CCol className="d-none d-md-block text-end mb-2">
                     <CButton className="colorBtn-white me-2" onClick={handleCreate}>
                         <CIcon icon={cilPlus} className="me-2 text-warning" />
@@ -85,15 +85,12 @@ function AssetTruck() {
                         <CIcon icon={cilCode} className="me-2 text-warning" />
                         PLATE CODE
                     </CButton>
-                    {/* </CCol>
-                <CCol className="d-none d-md-block text-end mb-2"> */}
                     <CButton className="colorBtn-white" onClick={handleExportExcel}>
                         <CIcon icon={cilSpreadsheet} className="me-2 text-success" />
                         EXPORT TO EXCEL
                     </CButton>
                 </CCol>
             </CRow>
-            <br />
             <CRow>
                 <CCard>
                     <CCardBody>

@@ -24,11 +24,42 @@ function ModalCreateWarehouse({ open, setOpen, projectId, isEdit, dataEdit }) {
     const [values, setValues] = useState({})
     const [warehouseType, setWarehouseType] = useState([])
     const [province, setProvince] = useState([])
-    const [selectedProvince, setSelectedProvince] = useState(null);
     const [mapKey, setMapKey] = useState(Date.now())
     const [data, setData] = useState({})
     const [subDistrict, setSubDistrict] = useState([]);
-    const [selectedSubDistrict, setSelectedSubDistrict] = useState(null);
+    const [selectedProvince, setSelectedProvince] = useState({});
+    const [selectedSubDistrict, setSelectedSubDistrict] = useState({});
+    const [selectedWhType, setSelectedWhType] = useState({});
+
+    useEffect(() => {
+        if (Global?.user?.token && open) {
+
+            resetForm()
+            initFormSelect()
+
+            if (isEdit) autoFillEditForm(dataEdit)
+
+        }
+    }, [Global?.user, open]);
+
+    const resetForm = () => {
+        setData({})
+        setValues({})
+        setSelectedWhType({})
+        setSelectedProvince({})
+        setSelectedSubDistrict({})
+    }
+
+    const initFormSelect = () => {
+        Promise.all([
+            dispatch(actions.getSelectWarehouseType()).then(e => {
+                setWarehouseType(e)
+            }),
+            dispatch(actions.getSelectWarehouseProvince()).then(e => {
+                setProvince(e)
+            })
+        ])
+    }
 
     const handleOnChangeProvince = (selectedProvince) => {
         setSelectedProvince(selectedProvince);
@@ -40,34 +71,30 @@ function ModalCreateWarehouse({ open, setOpen, projectId, isEdit, dataEdit }) {
         }
     }
 
+    const autoFillEditForm = (dataEdit) => {
+        setData(dataEdit)
+        setSelectedProvince({
+            label: dataEdit?.provinceName,
+            value: dataEdit?.provinceId
+        })
+        setSelectedSubDistrict({
+            label: dataEdit?.subDistrictName,
+            value: dataEdit?.subDistrictId
+        })
+        setSelectedWhType({
+            label: dataEdit?.whType,
+            value: dataEdit?.whTypeId
+        })
+        setMapKey(Date.now())
+    }
+
     const handleOnChangeSubDistrict = (selectedSubDistrict) => {
         setSelectedSubDistrict(selectedSubDistrict);
     }
 
-    useEffect(() => {
-        if (Global?.user?.token && open) {
-            dispatch(actions.getSelectWarehouseType()).then(e => {
-                setWarehouseType(e)
-            })
-
-            dispatch(actions.getSelectWarehouseProvince()).then(e => {
-                setProvince(e)
-            })
-            setData({})
-        }
-    }, [Global?.user,open]);
-
-    useEffect(() => {
-        setData({})
-        if (isEdit) {
-            setData(dataEdit)
-            setSelectedProvince({
-                label: dataEdit?.provinceName,
-                value: dataEdit?.provinceId
-            })
-            setMapKey(Date.now())
-        }
-    }, [isEdit, open]);
+    const handleOnChangeWhType = (selectedWhType) => {
+        setSelectedWhType(selectedWhType);
+    }
 
     const handleCreate = (event) => {
         let payload = {
@@ -162,11 +189,19 @@ function ModalCreateWarehouse({ open, setOpen, projectId, isEdit, dataEdit }) {
                             <CRow className="mb-3">
                                 <CFormLabel className="col-form-label">Warehouse Type <code>*</code></CFormLabel>
                                 <CCol>
-                                    <CFormSelect
+                                    {/* <CFormSelect
                                         name="warehouseType"
                                         options={warehouseType}
                                         onChange={handleOnchange}
                                         defaultValue={isEdit ? data?.whTypeId : ""}
+                                        required
+                                    /> */}
+                                    <Select
+                                        className="input-select"
+                                        options={warehouseType}
+                                        isSearchable={true}
+                                        value={selectedWhType}
+                                        onChange={handleOnChangeWhType}
                                         required
                                     />
                                 </CCol>
