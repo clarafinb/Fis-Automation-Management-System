@@ -1,7 +1,6 @@
 .example-custom-input {
     background: url("../../public/svg/calendar.svg") no-repeat right;
     background-size: 25px;
-    width: 210%;
 }
 
 .example-custom-input:focus-visible {
@@ -69,4 +68,8 @@
     border-top: 0px;
     text-align: right;
     margin-right: 20px;
+}
+
+.react-datepicker-wrapper {
+    width: 100%;
 }

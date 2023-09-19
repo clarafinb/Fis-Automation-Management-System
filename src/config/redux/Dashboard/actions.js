@@ -114,7 +114,9 @@ import {
   API_SET_ACTIVE_MASTER_PLATE_CODE,
   API_GET_MRS_ALL,
   API_ADD_MRS,
-  API_SET_IN_USE_MRS
+  API_SET_IN_USE_MRS,
+  API_GET_MASTER_VEHICLES_CATEGORY,
+  API_GET_MASTER_VEHICLES_BRAND
 } from "../../api/index"
 import Swal from "sweetalert2";
 
@@ -2407,6 +2409,50 @@ export const getMasterOwnershipVehicleCategoryActiveOnly = (payload) => {
         return {
           label: item.ownerShipCategory,
           value: item.ownershipCatId
+        }
+      })
+      return Promise.resolve(data)
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Close'
+      })
+    }
+  }
+}
+
+export const getMasterVehicleCategoryActiveOnly = (payload) => {
+  return async () => {
+    try {
+      let list = await actionCrud.actionCommonCrud(payload, API_GET_MASTER_VEHICLES_CATEGORY, "GET");
+      let data = list?.map((item, idx) => {
+        return {
+          label: item.vehicleCategory,
+          value: item.vehicleCategoryId
+        }
+      })
+      return Promise.resolve(data)
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Close'
+      })
+    }
+  }
+}
+
+export const getMasterVehicleBrandActiveOnly = (payload) => {
+  return async () => {
+    try {
+      let list = await actionCrud.actionCommonCrud(payload, API_GET_MASTER_VEHICLES_BRAND, "GET");
+      let data = list?.map((item, idx) => {
+        return {
+          label: item.brandName,
+          value: item.brandId
         }
       })
       return Promise.resolve(data)

@@ -17,7 +17,7 @@ import * as actions from '../../../../config/redux/Dashboard/actions'
 import ButtonCancel from 'src/components/custom/button/ButtonCancel'
 import ButtonSubmit from 'src/components/custom/button/ButtonSubmit'
 import Select from 'react-select'
-import { formatStandartDate, formatDateInput } from 'src/helper/globalHelper'
+import { formatStandartDate } from 'src/helper/globalHelper'
 import Alert from 'src/components/custom/toast/Alert'
 import DateInput from 'src/components/custom/form/DateInput'
 
@@ -39,7 +39,7 @@ function ModalCreateAssetTruck({ open, setOpen, isEdit = false, dataEdit }) {
     const [visible, setVisible] = useState(false)
 
     const [stnkExpiryDate, setStnkExpiryDate] = useState(null);
-
+    const [kirExpiryDate, setKirExpiryDate] = useState(null);
 
     useEffect(() => {
         if (Global?.user?.token && open) {
@@ -77,6 +77,7 @@ function ModalCreateAssetTruck({ open, setOpen, isEdit = false, dataEdit }) {
 
         //reset form date
         setStnkExpiryDate(null)
+        setKirExpiryDate(null)
 
         //reset form select
         setSelectedTransportType({})
@@ -96,7 +97,8 @@ function ModalCreateAssetTruck({ open, setOpen, isEdit = false, dataEdit }) {
             platCodeFirst: selectedPlatCode?.value,
             platCodeLast: values.plateCodeLast || data.plateCodeLast,
             stnkNumber: values.stnkNumber || data.stnkNumber,
-            stnkExpiryDate: formatStandartDate(values.stnkExpiryDate || data.stnkExpiryDate),
+            stnkExpiryDate: formatStandartDate(stnkExpiryDate || data.stnkExpiryDate),
+            kirExpiryDate: formatStandartDate(kirExpiryDate || data.kirExpiryDate),
             ownerName: values.ownerName || data.ownerName,
             vehicleOwnershipCatId: selectedOwnershipCategory?.value,
             LMBY: Global.user.userID
@@ -142,24 +144,10 @@ function ModalCreateAssetTruck({ open, setOpen, isEdit = false, dataEdit }) {
         }, [setValues]
     )
 
-    const handleChangeStnkExpiryDate = (date, name) => {
-        setStnkExpiryDate(date)
+    const handleChangeDate = (date, name) => {
+        if (name === 'stnkExpiryDate') setStnkExpiryDate(date)
+        if (name === 'kirExpiryDate') setKirExpiryDate(date)
     }
-
-    // const handleOnchangeDate = useCallback(
-    //     (date, name) => {
-    //         setValues((prev) => ({
-    //             ...prev,
-    //             [name]: date
-    //         }));
-    //     }, [setValues]
-    // )
-
-    // onChange={(date) => {
-    //     setStartDate(date)
-    //     console.log(date)
-    // }}
-
     const handleOnChangetransportType = (selectedTransportType) => {
         setSelectedTransportType(selectedTransportType);
     }
@@ -174,7 +162,7 @@ function ModalCreateAssetTruck({ open, setOpen, isEdit = false, dataEdit }) {
 
     return (
         <CModal
-            // size="xl"
+            size="lg"
             visible={open}
             onClose={() => setOpen(false)}
             backdrop="static"
@@ -185,110 +173,181 @@ function ModalCreateAssetTruck({ open, setOpen, isEdit = false, dataEdit }) {
                     <CModalTitle>{isEdit ? 'EDIT' : 'ADD'} ASSET TRUCK</CModalTitle>
                 </CModalHeader>
                 <CModalBody>
-                    <CRow className="mb-3">
-                        <CFormLabel className="col-form-label">Transport Type</CFormLabel>
-                        <CCol>
-                            <Select
-                                className="input-select"
-                                options={transportType}
-                                isSearchable={true}
-                                value={selectedTransportType}
-                                onChange={handleOnChangetransportType}
-                                required
-                            />
+                    <CRow>
+                        <CCol md={6}>
+
+
+                            <CRow className="mb-3">
+                                <CFormLabel className="col-form-label">Brand</CFormLabel>
+                                <CCol>
+                                    <CFormInput
+                                        type="text"
+                                        name="brandId"
+                                        value={values?.brandId || data?.brandId}
+                                        onChange={handleOnchange}
+                                        required
+                                    />
+                                </CCol>
+                            </CRow>
+                            <CRow className="mb-3">
+                                <CFormLabel className="col-form-label">Vehicle Type</CFormLabel>
+                                <CCol>
+                                    <CFormInput
+                                        type="text"
+                                        name="vehicleType"
+                                        value={values?.vehicleType || data?.vehicleType}
+                                        onChange={handleOnchange}
+                                        required
+                                    />
+                                </CCol>
+                            </CRow>
+                            <CRow className="mb-3">
+                                <CFormLabel className="col-form-label">Vehicle Category</CFormLabel>
+                                <CCol>
+                                    <CFormInput
+                                        type="text"
+                                        name="vehicleCategoryId"
+                                        value={values?.vehicleCategoryId || data?.vehicleCategoryId}
+                                        onChange={handleOnchange}
+                                        required
+                                    />
+                                </CCol>
+                            </CRow>
+                            <CRow className="mb-3">
+                                <CFormLabel className="col-form-label">Transport Type</CFormLabel>
+                                <CCol>
+                                    <Select
+                                        className="input-select"
+                                        options={transportType}
+                                        isSearchable={true}
+                                        value={selectedTransportType}
+                                        onChange={handleOnChangetransportType}
+                                        required
+                                    />
+                                </CCol>
+                            </CRow>
+                            <CRow className="mb-3">
+                                <CFormLabel className="col-form-label">First Plate Letter</CFormLabel>
+                                <CCol>
+                                    <Select
+                                        className="input-select"
+                                        options={platCode}
+                                        isSearchable={true}
+                                        value={selectedPlatCode}
+                                        onChange={handleOnChangePlatCode}
+                                        required
+                                    />
+                                </CCol>
+                            </CRow>
+                            <CRow className="mb-3">
+                                <CFormLabel className="col-form-label">Plate Number</CFormLabel>
+                                <CCol>
+                                    <CFormInput
+                                        type="text"
+                                        name="numberPlate"
+                                        value={values?.numberPlate || data?.numberPlate}
+                                        onChange={handleOnchange}
+                                        required
+                                    />
+                                </CCol>
+                            </CRow>
+                            <CRow className="mb-3">
+                                <CFormLabel className="col-form-label">Last Plate Letter</CFormLabel>
+                                <CCol>
+                                    <CFormInput
+                                        type="text"
+                                        name="plateCodeLast"
+                                        value={values?.plateCodeLast || data?.plateCodeLast}
+                                        onChange={handleOnchange}
+                                        required
+                                    />
+                                </CCol>
+                            </CRow>
                         </CCol>
-                    </CRow>
-                    <CRow className="mb-3">
-                        <CFormLabel className="col-form-label">First Plate Letter</CFormLabel>
                         <CCol>
-                            <Select
-                                className="input-select"
-                                options={platCode}
-                                isSearchable={true}
-                                value={selectedPlatCode}
-                                onChange={handleOnChangePlatCode}
-                                required
-                            />
-                        </CCol>
-                    </CRow>
-                    <CRow className="mb-3">
-                        <CFormLabel className="col-form-label">Plate Number</CFormLabel>
-                        <CCol>
-                            <CFormInput
-                                type="text"
-                                name="numberPlate"
-                                value={values?.numberPlate || data?.numberPlate}
-                                onChange={handleOnchange}
-                                required
-                            />
-                        </CCol>
-                    </CRow>
-                    <CRow className="mb-3">
-                        <CFormLabel className="col-form-label">Last Plate Letter</CFormLabel>
-                        <CCol>
-                            <CFormInput
-                                type="text"
-                                name="plateCodeLast"
-                                value={values?.plateCodeLast || data?.plateCodeLast}
-                                onChange={handleOnchange}
-                                required
-                            />
-                        </CCol>
-                    </CRow>
-                    <CRow className="mb-3">
-                        <CFormLabel className="col-form-label">Owner Name</CFormLabel>
-                        <CCol>
-                            <CFormInput
-                                type="text"
-                                name="ownerName"
-                                value={values?.ownerName || data?.ownerName}
-                                onChange={handleOnchange}
-                                required
-                            />
-                        </CCol>
-                    </CRow>
-                    <CRow className="mb-3">
-                        <CFormLabel className="col-form-label">STNK Number</CFormLabel>
-                        <CCol>
-                            <CFormInput
-                                type="text"
-                                name="stnkNumber"
-                                value={values?.stnkNumber || data?.stnkNumber}
-                                onChange={handleOnchange}
-                                required
-                            />
-                        </CCol>
-                    </CRow>
-                    <CRow className="mb-3">
-                        <CFormLabel className="col-form-label">STNK Expiry Date</CFormLabel>
-                        <CCol>
-                            {/* <input
-                                type="date"
-                                className="form-control"
-                                name="stnkExpiryDate"
-                                value={values?.stnkExpiryDate || formatDateInput(data?.stnkExpiryDate)}
-                                onChange={handleOnchange}
-                                required
-                            /> */}
-                            <DateInput
-                                name="stnkExpiryDate"
-                                value={stnkExpiryDate || data?.stnkExpiryDate}
-                                onChange={handleChangeStnkExpiryDate}
-                                required={true}
-                            />
-                        </CCol>
-                    </CRow>
-                    <CRow className="mb-3">
-                        <CFormLabel className="col-form-label">Ownership Type</CFormLabel>
-                        <CCol>
-                            <Select
-                                className="input-select"
-                                options={ownershipCategory}
-                                isSearchable={true}
-                                value={selectedOwnershipCategory}
-                                onChange={handleOnChangeOwnershipCategory}
-                                required
-                            />
+                            <CRow className="mb-3">
+                                <CFormLabel className="col-form-label">STNK Number</CFormLabel>
+                                <CCol>
+                                    <CFormInput
+                                        type="text"
+                                        name="stnkNumber"
+                                        value={values?.stnkNumber || data?.stnkNumber}
+                                        onChange={handleOnchange}
+                                        required
+                                    />
+                                </CCol>
+                            </CRow>
+                            <CRow className="mb-3">
+                                <CFormLabel className="col-form-label">Chassis Number</CFormLabel>
+                                <CCol>
+                                    <CFormInput
+                                        type="text"
+                                        name="chassisNumber"
+                                        value={values?.chassisNumber || data?.chassisNumber}
+                                        onChange={handleOnchange}
+                                        required
+                                    />
+                                </CCol>
+                            </CRow>
+                            <CRow className="mb-3">
+                                <CFormLabel className="col-form-label">Engine Number</CFormLabel>
+                                <CCol>
+                                    <CFormInput
+                                        type="text"
+                                        name="engineNumber"
+                                        value={values?.engineNumber || data?.engineNumber}
+                                        onChange={handleOnchange}
+                                        required
+                                    />
+                                </CCol>
+                            </CRow>
+                            <CRow className="mb-3">
+                                <CFormLabel className="col-form-label">Owner Name</CFormLabel>
+                                <CCol>
+                                    <CFormInput
+                                        type="text"
+                                        name="ownerName"
+                                        value={values?.ownerName || data?.ownerName}
+                                        onChange={handleOnchange}
+                                        required
+                                    />
+                                </CCol>
+                            </CRow>
+                            <CRow className="mb-3">
+                                <CFormLabel className="col-form-label">Ownership Type</CFormLabel>
+                                <CCol>
+                                    <Select
+                                        className="input-select"
+                                        options={ownershipCategory}
+                                        isSearchable={true}
+                                        value={selectedOwnershipCategory}
+                                        onChange={handleOnChangeOwnershipCategory}
+                                        required
+                                    />
+                                </CCol>
+                            </CRow>
+                            <CRow className="mb-3">
+                                <CFormLabel className="col-form-label">STNK Expiry Date</CFormLabel>
+                                <CCol>
+                                    <DateInput
+                                        name="stnkExpiryDate"
+                                        value={stnkExpiryDate || data?.stnkExpiryDate}
+                                        onChange={handleChangeDate}
+                                        required={true}
+                                    />
+                                </CCol>
+                            </CRow>
+                            <CRow className="mb-3">
+                                <CFormLabel className="col-form-label">KIR Expiry Date</CFormLabel>
+                                <CCol>
+                                    <DateInput
+                                        name="kirExpiryDate"
+                                        value={kirExpiryDate || data?.kirExpiryDate}
+                                        onChange={handleChangeDate}
+                                        required={true}
+                                    />
+                                </CCol>
+                            </CRow>
                         </CCol>
                     </CRow>
                 </CModalBody>
