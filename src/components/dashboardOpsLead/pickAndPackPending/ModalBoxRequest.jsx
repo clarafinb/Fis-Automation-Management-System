@@ -65,6 +65,15 @@ function ModalBoxRequest({ open, setOpen, whId, orderReqId, refreshData }) {
         )
     }
 
+    const filterValue = [
+        {
+            name: 'materialCode',
+            operator: 'contains',
+            type: 'string',
+            value: ''
+        }
+    ]
+
     const additionalServiceChargeColumn = [
         {
             name: 'no',
@@ -129,6 +138,7 @@ function ModalBoxRequest({ open, setOpen, whId, orderReqId, refreshData }) {
                         <CCol className="d-none d-md-block text-end">
                             <SmartTable
                                 data={boxRequestList}
+                                filterValue={filterValue}
                                 columns={additionalServiceChargeColumn}
                                 minHeight={300}
                             />
