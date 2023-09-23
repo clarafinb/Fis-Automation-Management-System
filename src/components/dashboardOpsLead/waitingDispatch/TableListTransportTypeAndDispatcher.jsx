@@ -6,7 +6,7 @@ import {
 } from '@coreui/react';
 import DataGrid from 'src/components/custom/table/DataGrid';
 import CIcon from '@coreui/icons-react';
-import { cilTrash } from '@coreui/icons';
+import { cilTrash, cilUser } from '@coreui/icons';
 import { formatStandartDate } from 'src/helper/globalHelper';
 
 function TableListTransportTypeAndDispatcher({
@@ -14,19 +14,35 @@ function TableListTransportTypeAndDispatcher({
     handleComponent
 }) {
 
-    const handleAction = (transportTypeArrangementId) => {
+    const handleAction = (data, transportTypeArrangementId) => {
         return (
             <>
-                <CButton className='colorBtnIcon-red p-1'>
-                    <CIcon
-                        icon={cilTrash}
-                        className=""
-                        title='Delete Transport Type And Dispatcher'
-                        onClick={() =>
-                            handleComponent("delTransportType", transportTypeArrangementId)
-                        }
-                    />
-                </CButton>
+                {data?.hasDeleteFunction?.toLowerCase() === 'no' ? '' :
+                    <CButton className='colorBtnIcon-red p-1 me-2'>
+                        <CIcon
+                            icon={cilTrash}
+                            className=""
+                            title='Delete Dispatcher'
+                            onClick={() =>
+                                handleComponent("delTransportType", transportTypeArrangementId)
+                            }
+                        />
+                    </CButton>
+                }
+
+
+                {data?.hasReassignFunction?.toLowerCase() === 'yes' ?
+                    <CButton className='colorBtnIcon-black p-1'>
+                        <CIcon
+                            icon={cilUser}
+                            className=""
+                            title='Re-assign Dispatcher.'
+                            onClick={() =>
+                                handleComponent("reAssignTransportType", transportTypeArrangementId)
+                            }
+                        />
+                    </CButton>
+                    : ''}
             </>
         )
     }
@@ -61,9 +77,11 @@ function TableListTransportTypeAndDispatcher({
             field: 'transportTypeArrangementId',
             headerName: 'Action',
             filter: false,
+            pinned: 'right',
+            maxWidth: 150,
             cellStyle: { textAlign: 'center' },
             cellRenderer: ({ data }) => {
-                return handleAction(data.transportTypeArrangementId)
+                return handleAction(data, data.transportTypeArrangementId)
             }
         },
     ];

@@ -91,6 +91,11 @@ import {
   API_GET_OUTBOUND_TRANSACTION_SUCCESS,
   API_GET_STOCK_BOX_INVENTORY,
   API_ADD_BOX_REQUEST,
+  API_GET_DETAIL_TRANSPORT_ARRANGMENT,
+  API_GET_TRANSPORT_ARRANGMENT_ORDER_REQUEST,
+  API_ADD_TRANSPORT_ARRAGEMENT_ORDER_REQUEST,
+  API_DELETE_TRANSPORT_ARRAGEMENT_ORDER_REQUEST,
+  API_CHANGE_MOVER,
 } from '../../api/index'
 
 /**************************************** DASHBOARD OPS LEAD ****************************************/
@@ -2440,6 +2445,23 @@ export const getReservedStatusComplete = (orderReqId) => {
   }
 }
 
+export const getDetailTransportArrangement = (transportArrangementId) => {
+  return async () => {
+    try {
+      const fullParam = `${transportArrangementId}`
+      const [result] = await actionCrud.actionParamRequest(fullParam, API_GET_DETAIL_TRANSPORT_ARRANGMENT, 'GET')
+      return Promise.resolve(result)
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Close',
+      })
+    }
+  }
+}
+
 export const orderRequestItemExcel = (orderReqId, custOrderReqNo) => {
   return async (dispatch) => {
     try {
@@ -2641,6 +2663,142 @@ export const addBoxRequest = (payload) => {
         })
       }
       return Promise.resolve(response)
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Close',
+      })
+    }
+  }
+}
+
+export const getOrderRequestNeedGroupWithoutAssignmentYet = (
+  orderReqId,
+  deliveryModeId,
+  whId
+) => {
+  return async (dispatch) => {
+    try {
+      const fullParam = `${orderReqId}/${deliveryModeId}/${whId}`
+      let list = await actionCrud.actionCommonSlice(
+        fullParam,
+        API_GET_TRANSPORT_ARRANGMENT_ORDER_REQUEST,
+        'GET',
+      )
+      let listTransportArragementOrderRequest = list?.map((item, idx) => {
+        return {
+          no: idx + 1,
+          ...item,
+        }
+      })
+      dispatch({
+        type: actionType.SET_LIST_TRANSPORT_ARRAGEMENT_ORDER_REQUEST,
+        payload: listTransportArragementOrderRequest,
+      })
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Close',
+      })
+    }
+  }
+}
+
+export const transportArrangementAddOrderRequest = (
+  payload
+) => {
+  return async (dispatch) => {
+    try {
+      let response = await actionCrud.actionCommonCrud(payload, API_ADD_TRANSPORT_ARRAGEMENT_ORDER_REQUEST, 'POST')
+      if (response.status === 'success') {
+        Swal.fire({
+          position: 'center',
+          icon: 'success',
+          title: response?.message,
+          showConfirmButton: true,
+        })
+        dispatch(getOrderRequestTransportArrangment(payload.transportArrangmentId))
+      } else {
+        Swal.fire({
+          title: 'Error!',
+          text: response?.message,
+          icon: 'error',
+          confirmButtonText: 'Close',
+        })
+      }
+      return Promise.resolve(response)
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Close',
+      })
+    }
+  }
+}
+
+export const transportArrangementDeleteOrderRequest = (
+  payload
+) => {
+  return async (dispatch) => {
+    try {
+      let response = await actionCrud.actionCommonCrud(payload, API_DELETE_TRANSPORT_ARRAGEMENT_ORDER_REQUEST, 'DELETE')
+      if (response.status === 'success') {
+        Swal.fire({
+          position: 'center',
+          icon: 'success',
+          title: response?.message,
+          showConfirmButton: true,
+        })
+        dispatch(getOrderRequestTransportArrangment(payload.transportArrangmentId))
+      } else {
+        Swal.fire({
+          title: 'Error!',
+          text: response?.message,
+          icon: 'error',
+          confirmButtonText: 'Close',
+        })
+      }
+      return Promise.resolve(response)
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Close',
+      })
+    }
+  }
+}
+
+export const transportArrangementChangeDispatcher = (payload) => {
+  return async (dispatch) => {
+    try {
+      let create = await actionCrud.actionCommonCrud(
+        payload,
+        API_CHANGE_MOVER,
+        'POST',
+      )
+      if (create.status === 'success') {
+        Swal.fire({
+          position: 'center',
+          icon: 'success',
+          title: create?.message,
+          showConfirmButton: true,
+        })
+      } else {
+        Swal.fire({
+          title: 'Error!',
+          text: create?.message,
+          icon: 'error',
+          confirmButtonText: 'Close',
+        })
+      }
     } catch (error) {
       Swal.fire({
         title: 'Error!',

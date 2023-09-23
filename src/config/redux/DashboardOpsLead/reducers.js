@@ -25,7 +25,8 @@ let initialState = {
     listDeliveryOnSite: [],
     listDeliveryOnSiteEvidence: [],
     listWaitingTransportAssignment: [],
-    listOutboundLog: []
+    listOutboundLog: [],
+    listTransportArragementOrderRequest: []
 };
 
 const DashboardOpsLead = (state = initialState, { type, payload }) => {
@@ -180,10 +181,10 @@ const DashboardOpsLead = (state = initialState, { type, payload }) => {
                 listWaitingTransportAssignment: payload
             }
 
-        case actionType.SET_LIST_OUTBOUND:
+        case actionType.SET_LIST_TRANSPORT_ARRAGEMENT_ORDER_REQUEST:
             return {
                 ...state,
-                listOutboundLog: payload
+                listTransportArragementOrderRequest: payload
             }
 
         default:

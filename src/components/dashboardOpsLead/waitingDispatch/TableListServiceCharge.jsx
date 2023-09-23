@@ -63,7 +63,8 @@ function TableListServiceCharge({
             headerName: 'Action',
             filter: false,
             cellStyle: { textAlign: 'center' },
-            minWidth: 80,
+            pinned: 'right',
+            maxWidth: 150,
             cellRenderer: ({ data }) => {
                 return handleAction(data.transportArrangementServiceId)
             }

@@ -9,7 +9,6 @@ import {
     CCol,
     CForm,
     CFormLabel,
-    CFormSelect,
     CModal,
     CModalBody,
     CModalFooter,
@@ -30,6 +29,8 @@ import ModalAdditionalServiceCharge from 'src/components/dashboardOpsLead/waitin
 import Select from 'react-select'
 import Alert from 'src/components/custom/toast/Alert'
 import axios from 'axios'
+import ModalListOrderRequest from 'src/components/dashboardOpsLead/waitingDispatch/ModalListOrderRequest'
+import ModalReAssignMover from 'src/components/dashboardOpsLead/waitingDispatch/ModalReAssignMover'
 
 function TransportArragmentDetail() {
     const nav = useNavigate();
@@ -44,12 +45,18 @@ function TransportArragmentDetail() {
 
     const [selectedTransportType, setSelectedTransportType] = useState({});
     const [selectedDispatcher, setSelectedDispatcher] = useState({});
-    const [transportArrRefId, setTransportArrRefId] = useState("")
-    const [installationId, setInstallationId] = useState("")
+    const [transportArrRefId, setTransportArrRefId] = useState("");
+
+    const [detailTransport, setDetailTransport] = useState({})
+    const [openModalOrderRequest, setOpenModalOrderRequest] = useState(false)
+
+    const [transportTypeArrangementId, setTransportTypeArrangementId] = useState('');
+    const [openModalReAssignMover, setOpenModalReAssignMover] = useState(false)
 
     useEffect(() => {
         const split = window.location.href.split("/");
-        setParam({
+
+        setInitValue({
             transportArrangmentId: split[6],
             transportModeId: split[7],
             projectId: split[8],
@@ -59,18 +66,50 @@ function TransportArragmentDetail() {
         })
 
         if (split[6] && Global?.user?.userID) {
-            dispatch(actions.getOrderRequestTransportArrangment(split[6]))
-            dispatch(actions.getTransportTypeArranged(split[6]))
-            dispatch(actions.getTransportArrangmentServiceChargeList(split[6]))
+            setInitApi({ transportArrangementId: split[6] })
+            dispatch(actions.getDetailTransportArrangement(split[6]))
+                .then(resp => setDetailTransport({
+                    ...resp,
+                    orderReqId: split[9],
+                    transportArrangmentId: split[6]
+                }))
         }
     }, [Global?.user?.userID]);
 
+    const setInitApi = ({ transportArrangementId }) => {
+        Promise.all([
+            dispatch(actions.getOrderRequestTransportArrangment(transportArrangementId)),
+            dispatch(actions.getTransportTypeArranged(transportArrangementId)),
+            dispatch(actions.getTransportArrangmentServiceChargeList(transportArrangementId)),
+        ])
+    }
+
+    const setInitValue = ({
+        transportArrangmentId,
+        transportModeId,
+        projectId,
+        orderReqId,
+        whId,
+        url,
+    }) => {
+        setParam({
+            transportArrangmentId: transportArrangmentId,
+            transportModeId: transportModeId,
+            projectId: projectId,
+            orderReqId: orderReqId,
+            whId: whId,
+            url: url
+        })
+    }
+
     const handleComponent = useCallback(
         (action, id) => {
-            if (action == "delServiceCharge") {
+            if (action === "delServiceCharge") {
                 dispatch(actions.deleteTransportArrangmentServiceCharge(id, Global?.user?.userID))
-            } else {
+            } else if (action === "delTransportType") {
                 dispatch(actions.deleteTransportType(id, param?.transportArrangmentId))
+            } else if (action === "reAssignTransportType") {
+                handleReAssignTransportArrangmentType(id)
             }
 
         }
@@ -90,8 +129,17 @@ function TransportArragmentDetail() {
         setOpenModal(true)
     }
 
+    const handleReAssignTransportArrangmentType = async (transportTypeArrangementId) => {
+        setTransportTypeArrangementId(transportTypeArrangementId)
+        setOpenModalReAssignMover(true)
+    }
+
     const handleCreateServiceCharge = async () => {
         setOpenModalSc(true)
+    }
+
+    const handleCreateOrderRequest = async () => {
+        setOpenModalOrderRequest(true)
     }
 
     const handleAddTransportType = (event) => {
@@ -217,9 +265,24 @@ function TransportArragmentDetail() {
                                         CUSTOMER ORDER REQUEST LIST
                                     </h5>
                                 </CCol>
+                                {detailTransport.needGroup ?
+                                    <CCol className="d-none d-md-block text-end">
+                                        <CButton
+                                            className="colorBtn-white mb-2"
+                                            title='Add Order Request.'
+                                            onClick={handleCreateOrderRequest}>
+                                            <CIcon
+                                                icon={cilPlus}
+                                                className="me-2 text-warning" />
+                                            ADD ORDER REQUEST
+                                        </CButton>
+                                    </CCol>
+                                    : ''
+                                }
                             </CRow>
                             <TableListCustomerOrderRequestList
                                 data={DashboardOpsLead?.listRequestTransportArragement}
+                                transportArrangmentId={param?.transportArrangmentId}
                             />
                         </CCol>
                     </CRow>
@@ -243,6 +306,7 @@ function TransportArragmentDetail() {
                             </CRow>
                             <TableListTransportTypeAndDispatcher
                                 data={DashboardOpsLead?.listTransportArrangmentType}
+                                transportArrangmentId={param?.transportArrangmentId}
                                 handleComponent={handleComponent}
                             />
                         </CCol>
@@ -348,6 +412,20 @@ function TransportArragmentDetail() {
                 setOpen={setOpenModalSc}
                 data={param}
             />
+
+            <ModalListOrderRequest
+                open={openModalOrderRequest}
+                setOpen={setOpenModalOrderRequest}
+                data={detailTransport}
+            />
+
+            <ModalReAssignMover
+                open={openModalReAssignMover}
+                setOpen={setOpenModalReAssignMover}
+                data={param}
+                transportTypeArrangementId={transportTypeArrangementId}
+            />
+
         </>
     )
 }

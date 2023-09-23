@@ -258,6 +258,11 @@ export const API_SET_ACTIVE_MASTER_PLATE_CODE = BASE_URL + "masterdata/masterPla
 export const API_SET_INACTIVE_MASTER_PLATE_CODE = BASE_URL + "masterdata/masterPlateCodeSetInActiveStatus"
 // WAITING TRANSPORT ASSIGNMENT
 export const API_GET_WAITING_TRANSPORT_ASSIGNMENT = BASE_URL + "logmanagement/getOrderRequestPickupWaitingAssignmentWHProject"
+export const API_GET_DETAIL_TRANSPORT_ARRANGMENT = BASE_URL + "transportarrangement/getDetailTransportArrangement"
+export const API_GET_TRANSPORT_ARRANGMENT_ORDER_REQUEST = BASE_URL + "transportarrangement/getOrderRequestNeedGroupWithoutAssignmentYet"
+export const API_ADD_TRANSPORT_ARRAGEMENT_ORDER_REQUEST = BASE_URL + "transportarrangement/transportArrangementAddOrderRequest"
+export const API_DELETE_TRANSPORT_ARRAGEMENT_ORDER_REQUEST = BASE_URL + "transportarrangement/transportArrangementDeleteOrderRequest"
+export const API_CHANGE_MOVER = BASE_URL + "transportarrangement/transportArrangementChangeDispatcher"
 // MRS
 export const API_GET_MRS_ALL = BASE_URL + "mrs/mrsGetAllBasedOnProject";
 export const API_ADD_MRS = BASE_URL + "mrs/mrsAdd";
