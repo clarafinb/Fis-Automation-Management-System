@@ -112,6 +112,16 @@ export const manipulateDataTableDashboard = (data) => {
                     projectName: item?.projectName
                 }, {
                     no: 4,
+                    transaction: "WAITING TRANSPORT CONFIRM",
+                    totalTransaction: item?.waitingDispatcherConfirmCount,
+                    color: "#4ADE80",
+                    key: "waitingTransportConfirm",
+                    whId: item?.whId,
+                    whName: item?.whName,
+                    projectId: item?.projectId,
+                    projectName: item?.projectName
+                }, {
+                    no: 5,
                     transaction: "PICKUP IN TRANSIT",
                     totalTransaction: item?.pickupInTransitCount,
                     color: "#E4AF00",
@@ -121,7 +131,7 @@ export const manipulateDataTableDashboard = (data) => {
                     projectId: item?.projectId,
                     projectName: item?.projectName
                 }, {
-                    no: 5,
+                    no: 6,
                     transaction: "ON SITE",
                     totalTransaction: item?.pickupOnsiteCount,
                     color: "#BD9F3B",
@@ -131,7 +141,7 @@ export const manipulateDataTableDashboard = (data) => {
                     projectId: item?.projectId,
                     projectName: item?.projectName
                 }, {
-                    no: 6,
+                    no: 7,
                     transaction: "HO COMPLETED",
                     totalTransaction: item?.hoCompleteCount,
                     color: "#F87272",

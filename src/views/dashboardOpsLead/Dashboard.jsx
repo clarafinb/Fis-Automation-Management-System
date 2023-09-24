@@ -107,7 +107,7 @@ function Dashboard() {
             }
             setCookie('dashboardOpsLead', param, { path: '/' })
             dispatch(actions.setProject(param))
-            
+
             if (values?.whId != '0') {
                 console.log(values)
                 let arr = []
@@ -169,6 +169,10 @@ function Dashboard() {
             {
                 type: 'waitingTransportAssignment',
                 url: `/waiting-transport-assignment/${projectId}/${whId}`
+            },
+            {
+                type: 'waitingTransportConfirm',
+                url: `/waiting-transport-confirm/${projectId}/${whId}`
             }
         ]
 

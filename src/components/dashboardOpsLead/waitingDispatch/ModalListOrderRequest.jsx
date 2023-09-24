@@ -42,7 +42,7 @@ function ModalListOrderRequest({
                 <CRow>
                     <CCol className="d-none d-md-block text-end">
                         <TableListOrderRequest
-                            data={DashboardOpsLead?.listOrdeRequestAdditionalService}
+                            data={DashboardOpsLead?.listTransportArragementOrderRequest}
                             transportArrangmentId={data?.transportArrangmentId}
                         />
                     </CCol>

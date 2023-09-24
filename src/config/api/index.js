@@ -153,6 +153,7 @@ export const API_GET_DISPATCHER_BASE_TRANSPORT_ARRAGEMENT = BASE_URL + "transpor
 export const API_ADD_TRANSPORT_ARRAGEMENT_TYPE = BASE_URL + "transportarrangement/transportArrangementTransportTypeAdd"
 export const API_DELETE_TRANSPORT_ARRAGEMENT_TYPE = BASE_URL + "transportarrangement/transportArrangementTransportTypeDelete"
 export const API_GET_TRANSPORT_ARRAGEMENT_TYPE = BASE_URL + "transportarrangement/getTransportTypeArranged"
+export const API_GET_DISPATCHER_BASE_TRANSPORT_ARRAGEMENT_REASIGN = BASE_URL + "transportarrangement/getDispatcherReassignmentBasedOnTransportArrangement"
 //WAITING DISPATCH -> TRANSPORT ARRAGEMENT -> SERVICE CHARGE
 export const API_GET_TRANSPORT_ARRAGEMENT_SERVICE_CHARGE = BASE_URL + "servicecharge/transportArrangementGetServiceChargeList"
 export const API_ADD_TRANSPORT_ARRAGEMENT_SERVICE_CHARGE = BASE_URL + "servicecharge/transportArrangementServiceChargeAdd"
@@ -267,3 +268,5 @@ export const API_CHANGE_MOVER = BASE_URL + "transportarrangement/transportArrang
 export const API_GET_MRS_ALL = BASE_URL + "mrs/mrsGetAllBasedOnProject";
 export const API_ADD_MRS = BASE_URL + "mrs/mrsAdd";
 export const API_SET_IN_USE_MRS = BASE_URL + "mrs/mrsSetInUse";
+// WAITING TRANSPORT CONFRIM
+export const API_GET_WAITING_TRANSPORT_COMPLETE = BASE_URL + "logmanagement/getOrderRequestPickupWaitingDispatcherConfirmWHProject";

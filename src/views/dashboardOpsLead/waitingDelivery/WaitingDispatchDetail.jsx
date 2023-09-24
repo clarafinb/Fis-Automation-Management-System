@@ -47,8 +47,21 @@ function WaitingDispatchDetail() {
     const [templateUrl, setTemplateUrl] = useState("")
     const [values, setValues] = useState({})
     const { pathname } = useLocation();
+    const [headerData, setHeaderData] = useState({
+        url: 'waiting-dispatch',
+        label: 'WAITING DELIVERY'
+    })
 
     useEffect(() => {
+        const url = pathname.split('/')[1];
+        if (url === 'waiting-transport-confirm') {
+            setHeaderData({
+                url: 'waiting-transport-confirm',
+                label: 'WAITING TRANSPORT CONFIRM'
+            })
+        }
+
+
         const pId = pathname.split('/')[2]
         const wId = pathname.split('/')[3]
         const orId = pathname.split('/')[5]
@@ -81,7 +94,7 @@ function WaitingDispatchDetail() {
     }
 
     const handleBack = () => {
-        nav("/waiting-dispatch/" + projectId + "/" + whId, { replace: true })
+        nav(`/${headerData.url}/` + projectId + "/" + whId, { replace: true })
     }
 
     const handleComponent = useCallback(
@@ -89,11 +102,11 @@ function WaitingDispatchDetail() {
             let param = ""
             if (action === 'addTransport') {
                 param = `${id}/${orderReqDetail.transportModeId}/${projectId}/${orderReqId}/${whId}`
-                nav('/waiting-dispatch/transport-arrangment/' + param, { replace: true })
+                nav(`/${headerData.url}/transport-arrangment/` + param, { replace: true })
             }
             if (action === 'addHandCarry') {
                 param = `${id}/${orderReqDetail.transportModeId}/${projectId}/${orderReqId}/${whId}`
-                nav('/waiting-dispatch/handcarry-arrangment/' + param, { replace: true })
+                nav(`/${headerData.url}/handcarry-arrangment/` + param, { replace: true })
             }
         }
     )
@@ -276,7 +289,9 @@ function WaitingDispatchDetail() {
             <CRow className='py-2'>
                 <CCol sm={5}>
                     <h4 className="card-title mb-0">
-                        <span className='text-underline'>WA</span>ITING DELIVERY
+                        <span className='text-underline'>
+                            {headerData.label}
+                        </span>
                     </h4>
                 </CCol>
             </CRow>

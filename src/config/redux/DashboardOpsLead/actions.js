@@ -96,6 +96,8 @@ import {
   API_ADD_TRANSPORT_ARRAGEMENT_ORDER_REQUEST,
   API_DELETE_TRANSPORT_ARRAGEMENT_ORDER_REQUEST,
   API_CHANGE_MOVER,
+  API_GET_WAITING_TRANSPORT_COMPLETE,
+  API_GET_DISPATCHER_BASE_TRANSPORT_ARRAGEMENT_REASIGN,
 } from '../../api/index'
 
 /**************************************** DASHBOARD OPS LEAD ****************************************/
@@ -1707,6 +1709,33 @@ export const getTransportTypeList = (transportModeId) => {
   }
 }
 
+export const getDispatcherReassignmentBasedOnTransportArrangement = (transportArrangementId, projectId, orderReqId) => {
+  return async () => {
+    try {
+      const fullParam = `${transportArrangementId}/${projectId}/${orderReqId}`
+      let list = await actionCrud.actionCommonSliceParam(
+        fullParam,
+        API_GET_DISPATCHER_BASE_TRANSPORT_ARRAGEMENT_REASIGN,
+        'GET',
+      )
+      let listDispatcher = list?.map((item, idx) => {
+        return {
+          label: item.dispatcherName,
+          value: item.usr_id,
+          installationId: item.installationId,
+        }
+      })
+      return Promise.resolve(listDispatcher)
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Close',
+      })
+    }
+  }
+}
 export const getDispatcherList = (transportArrangementId, projectId, orderReqId) => {
   return async () => {
     try {
@@ -2782,7 +2811,7 @@ export const transportArrangementChangeDispatcher = (payload) => {
       let create = await actionCrud.actionCommonCrud(
         payload,
         API_CHANGE_MOVER,
-        'POST',
+        'PUT',
       )
       if (create.status === 'success') {
         Swal.fire({
@@ -2799,6 +2828,39 @@ export const transportArrangementChangeDispatcher = (payload) => {
           confirmButtonText: 'Close',
         })
       }
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Close',
+      })
+    }
+  }
+}
+
+export const getListWaitingTransportConfirm = (projectId, whId, userId) => {
+  return async (dispatch) => {
+    try {
+      const fullParam = `${projectId}/${whId}/${userId}`
+
+      let list = await actionCrud.actionParamRequest(
+        fullParam,
+        API_GET_WAITING_TRANSPORT_COMPLETE,
+        'GET'
+      )
+
+      let getListWaitingTransportComplete = list?.map((item, idx) => {
+        return {
+          no: idx + 1,
+          ...item,
+        }
+      })
+
+      dispatch({
+        type: actionType.SET_LIST_WAITING_TRANSPORT_COMPLETE,
+        payload: getListWaitingTransportComplete,
+      })
     } catch (error) {
       Swal.fire({
         title: 'Error!',

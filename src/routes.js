@@ -45,6 +45,8 @@ const PickupPreparation = React.lazy(() => import('./views/dashboardOpsLead/pick
 const PickupPreparationDetail = React.lazy(() => import('./views/dashboardOpsLead/pickupPreparation/PickupPreparationDetail'))
 const WaitingTransportAssignment = React.lazy(() => import('./views/dashboardOpsLead/waitingTransportAssignment/WaitingTransportAssignment'))
 const WaitingTransportAssignmentDetail = React.lazy(() => import('./views/dashboardOpsLead/waitingTransportAssignment/WaitingTransportAssignmentDetail'))
+const WaitingTransportConfirm = React.lazy(() => import('./views/dashboardOpsLead/waitingTransportConfirm/WaitingTransportConfirm'))
+const WaitingTransportConfirmDetail = React.lazy(() => import('./views/dashboardOpsLead/waitingTransportConfirm/WaitingTransportConfirmDetail'))
 // DASHBOARD WH TEAM
 const DashboardWhTeam = React.lazy(() => import('./views/dashboardWhTeam/Dashboard'))
 // TESTING
@@ -112,6 +114,11 @@ const routes = [
   { path: '/waiting-transport-assignment/:projectId/:whId/detail/:orderReqId', name: 'WAITING TRANSPORT ASSIGNMENT DETAIL', element: WaitingTransportAssignmentDetail },
   { path: '/waiting-transport-assignment/transport-arrangment/:transportArrangmentId/:transportModeId/:projectId/:orderReqId/:whId', name: 'TRANSPORT ARRANGMENT DETAIL', element: TransportArrangmentDetail },
   { path: '/waiting-transport-assignment/handcarry-arrangment/:transportArrangmentId/:transportModeId/:projectId/:orderReqId/:whId', name: 'TRANSPORT ARRANGMENT DETAIL', element: TransportHandCarryDetail },
+  // ORDER REQUEST
+  { path: '/waiting-transport-confirm/:projectId/:whId', name: 'WAITING TRANSPORT COMPLETE', element: WaitingTransportConfirm },
+  { path: '/waiting-transport-confirm/:projectId/:whId/detail/:orderReqId', name: 'WAITING TRANSPORT COMPLETE DETAIL', element: WaitingDispatchDetail },
+  { path: '/waiting-transport-confirm/transport-arrangment/:transportArrangmentId/:transportModeId/:projectId/:orderReqId/:whId', name: 'TRANSPORT ARRANGMENT DETAIL', element: TransportArrangmentDetail },
+  { path: '/waiting-transport-confirm/handcarry-arrangment/:transportArrangmentId/:transportModeId/:projectId/:orderReqId/:whId', name: 'TRANSPORT ARRANGMENT DETAIL', element: TransportHandCarryDetail },
   // { path: '/theme', name: 'Theme', element: Colors, exact: true },
   // { path: '/theme/colors', name: 'Colors', element: Colors },
 ]

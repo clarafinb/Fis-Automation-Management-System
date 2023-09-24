@@ -40,7 +40,7 @@ function ModalReAssignMover({
             dispatch(actions.getTransportTypeList(data?.transportModeId))
                 .then(resp => setTransportType(resp))
 
-            dispatch(actions.getDispatcherList(data?.transportArrangmentId, data?.projectId, data?.orderReqId))
+            dispatch(actions.getDispatcherReassignmentBasedOnTransportArrangement(data?.transportArrangmentId, data?.projectId, data?.orderReqId))
                 .then(resp => setDispatcher(resp))
 
         }

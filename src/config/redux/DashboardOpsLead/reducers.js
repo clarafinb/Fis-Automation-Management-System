@@ -26,7 +26,8 @@ let initialState = {
     listDeliveryOnSiteEvidence: [],
     listWaitingTransportAssignment: [],
     listOutboundLog: [],
-    listTransportArragementOrderRequest: []
+    listTransportArragementOrderRequest: [],
+    listWaitingTransporComplete: []
 };
 
 const DashboardOpsLead = (state = initialState, { type, payload }) => {
@@ -185,6 +186,12 @@ const DashboardOpsLead = (state = initialState, { type, payload }) => {
             return {
                 ...state,
                 listTransportArragementOrderRequest: payload
+            }
+
+        case actionType.SET_LIST_WAITING_TRANSPORT_COMPLETE:
+            return {
+                ...state,
+                listWaitingTransporComplete: payload
             }
 
         default:
