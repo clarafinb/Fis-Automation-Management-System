@@ -17,7 +17,7 @@ function TableListTransportTypeAndDispatcher({
     const handleAction = (data, transportTypeArrangementId) => {
         return (
             <>
-                {data?.hasDeleteFunction?.toLowerCase() === 'no' ? '' :
+                {data?.hasDeleteFunction?.toLowerCase() === 'yes' ?
                     <CButton className='colorBtnIcon-red p-1 me-2'>
                         <CIcon
                             icon={cilTrash}
@@ -28,7 +28,7 @@ function TableListTransportTypeAndDispatcher({
                             }
                         />
                     </CButton>
-                }
+                    : ''}
 
 
                 {data?.hasReassignFunction?.toLowerCase() === 'yes' ?

@@ -20,7 +20,7 @@ function TableListCustomerOrderRequestList({
     const handleAction = (data) => {
         return (
             <>
-                {data?.hasDeleteFunction?.toLowerCase() === 'no' ? '' :
+                {data?.hasDeleteFunction?.toLowerCase() === 'yes' ?
                     <CButton className='colorBtnIcon-red p-1'>
                         <CIcon
                             icon={cilTrash}
@@ -31,6 +31,7 @@ function TableListCustomerOrderRequestList({
                             }
                         />
                     </CButton>
+                    : ''
                 }
             </>
         )
