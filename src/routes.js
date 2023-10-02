@@ -50,6 +50,7 @@ const WaitingTransportConfirm = React.lazy(() => import('./views/dashboardOpsLea
 const WaitingTransportConfirmDetail = React.lazy(() => import('./views/dashboardOpsLead/waitingTransportConfirm/WaitingTransportConfirmDetail'))
 const PickupOnsite = React.lazy(() => import('./views/dashboardOpsLead/pickupOnsite/PickupOnsite'))
 const PickupOnsiteDetail = React.lazy(() => import('./views/dashboardOpsLead/pickupOnsite/PickupOnsiteDetail'))
+const HoComplete = React.lazy(() => import('./views/dashboardOpsLead/hoComplete/HoComplete'))
 // DASHBOARD WH TEAM
 const DashboardWhTeam = React.lazy(() => import('./views/dashboardWhTeam/Dashboard'))
 // TESTING
@@ -126,7 +127,8 @@ const routes = [
   { path: '/pickup-onsite/:projectId/:whId', name: 'ONSITE PICKUP LSIT', element: PickupOnsite },
   { path: '/pickup-onsite/:projectId/:whId/detail/:orderReqId', name: 'ONSITE PICKUP DETAIL', element: PickupOnsiteDetail },
   // HO COMPLETE
-  
+  { path: '/ho-complete/:projectId/:whId', name: 'ONSITE PICKUP LSIT', element: HoComplete },
+  { path: '/ho-complete/:projectId/:whId/detail/:orderReqId', name: 'ONSITE PICKUP DETAIL', element: DeliveryCompleteDetail },
   // { path: '/theme', name: 'Theme', element: Colors, exact: true },
   // { path: '/theme/colors', name: 'Colors', element: Colors },
 ]

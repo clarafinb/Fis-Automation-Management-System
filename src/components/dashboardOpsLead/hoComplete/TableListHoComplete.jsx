@@ -5,11 +5,11 @@ import {
     CRow,
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react';
-import { cilHome, cilUser } from '@coreui/icons';
+import { cilHome, cilPencil, cilUser } from '@coreui/icons';
 import DataGrid from 'src/components/custom/table/DataGrid';
 import { formatStandartDate } from 'src/helper/globalHelper';
 
-function TableListPickupOnsite({
+function TableListHoComplete({
     data,
     handleComponent,
 }) {
@@ -19,21 +19,11 @@ function TableListPickupOnsite({
             <>
                 <CButton className='colorBtnIcon-black p-1 me-2'>
                     <CIcon
-                        icon={cilUser}
+                        icon={cilPencil}
                         className=""
-                        title='Re-assign Dispatcher'
+                        title='HO Detail'
                         onClick={() =>
-                            handleComponent("assign", data)
-                        }
-                    />
-                </CButton>
-                <CButton className='colorBtnIcon-black p-1'>
-                    <CIcon
-                        icon={cilHome}
-                        className=""
-                        title='Request Back to Pool'
-                        onClick={() =>
-                            handleComponent("pool", data)
+                            handleComponent("detail", data)
                         }
                     />
                 </CButton>
@@ -119,6 +109,14 @@ function TableListPickupOnsite({
             headerName: 'DISPATCHER NAME',
         },
         {
+            field: 'orderCompleteDate',
+            headerName: 'HO COMPLETE DATE',
+            cellStyle: { textAlign: 'center' },
+            cellRenderer: ({ data }) => {
+                return formatStandartDate(data.orderCompleteDate)
+            }
+        },
+        {
             field: 'orderReqId',
             headerName: 'ACTION',
             maxWidth: 150,
@@ -143,4 +141,4 @@ function TableListPickupOnsite({
     )
 }
 
-export default TableListPickupOnsite;
+export default TableListHoComplete;

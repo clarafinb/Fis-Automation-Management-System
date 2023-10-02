@@ -28,7 +28,8 @@ let initialState = {
     listOutboundLog: [],
     listTransportArragementOrderRequest: [],
     listWaitingTransporComplete: [],
-    listPickupOnsite: []
+    listPickupOnsite: [],
+    listHoComplete: []
 };
 
 const DashboardOpsLead = (state = initialState, { type, payload }) => {
@@ -199,6 +200,12 @@ const DashboardOpsLead = (state = initialState, { type, payload }) => {
             return {
                 ...state,
                 listPickupOnsite: payload
+            }
+
+        case actionType.SET_LIST_HO_COMPLETE:
+            return {
+                ...state,
+                listHoComplete: payload
             }
 
         default:
