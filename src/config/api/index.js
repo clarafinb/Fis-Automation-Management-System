@@ -270,3 +270,5 @@ export const API_ADD_MRS = BASE_URL + "mrs/mrsAdd";
 export const API_SET_IN_USE_MRS = BASE_URL + "mrs/mrsSetInUse";
 // WAITING TRANSPORT CONFRIM
 export const API_GET_WAITING_TRANSPORT_COMPLETE = BASE_URL + "logmanagement/getOrderRequestPickupWaitingDispatcherConfirmWHProject";
+// ONSITE PICKUP LIST
+export const API_GET_ONSITE_PICKUPLIST = BASE_URL + "logmanagement/getOrderRequestOnsitePickupDispatcherConfirmedWHProject"

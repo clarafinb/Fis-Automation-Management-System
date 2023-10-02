@@ -173,6 +173,14 @@ function Dashboard() {
             {
                 type: 'waitingTransportConfirm',
                 url: `/waiting-transport-confirm/${projectId}/${whId}`
+            },
+            {
+                type: 'pickupOnsite',
+                url: `/pickup-onsite/${projectId}/${whId}`
+            },
+            {
+                type: 'hoComplete',
+                url: `/ho-complete/${projectId}/${whId}`
             }
         ]
 

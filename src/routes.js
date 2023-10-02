@@ -47,6 +47,7 @@ const WaitingTransportAssignment = React.lazy(() => import('./views/dashboardOps
 const WaitingTransportAssignmentDetail = React.lazy(() => import('./views/dashboardOpsLead/waitingTransportAssignment/WaitingTransportAssignmentDetail'))
 const WaitingTransportConfirm = React.lazy(() => import('./views/dashboardOpsLead/waitingTransportConfirm/WaitingTransportConfirm'))
 const WaitingTransportConfirmDetail = React.lazy(() => import('./views/dashboardOpsLead/waitingTransportConfirm/WaitingTransportConfirmDetail'))
+const PickupOnsite = React.lazy(() => import('./views/dashboardOpsLead/pickupOnsite/PickupOnsite'))
 // DASHBOARD WH TEAM
 const DashboardWhTeam = React.lazy(() => import('./views/dashboardWhTeam/Dashboard'))
 // TESTING
@@ -119,6 +120,10 @@ const routes = [
   { path: '/waiting-transport-confirm/:projectId/:whId/detail/:orderReqId', name: 'WAITING TRANSPORT COMPLETE DETAIL', element: WaitingDispatchDetail },
   { path: '/waiting-transport-confirm/transport-arrangment/:transportArrangmentId/:transportModeId/:projectId/:orderReqId/:whId', name: 'TRANSPORT ARRANGMENT DETAIL', element: TransportArrangmentDetail },
   { path: '/waiting-transport-confirm/handcarry-arrangment/:transportArrangmentId/:transportModeId/:projectId/:orderReqId/:whId', name: 'TRANSPORT ARRANGMENT DETAIL', element: TransportHandCarryDetail },
+  // PICKUP ONSITE
+  { path: '/pickup-onsite/:projectId/:whId', name: 'ONSITE PICKUP LSIT', element: PickupOnsite },
+  // HO COMPLETE
+  
   // { path: '/theme', name: 'Theme', element: Colors, exact: true },
   // { path: '/theme/colors', name: 'Colors', element: Colors },
 ]
