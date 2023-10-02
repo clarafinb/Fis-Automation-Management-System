@@ -16,15 +16,28 @@ import CIcon from '@coreui/icons-react'
 import { cilSpreadsheet } from '@coreui/icons'
 import TableListPickupOnsite from 'src/components/dashboardOpsLead/pickupOnsite/TableListPickupOnsite'
 import HeaderProject from '../HeaderProject'
+import ModalReAssignMover from 'src/components/dashboardOpsLead/waitingDispatch/ModalReAssignMover'
 
 function PickupOnsite() {
     const nav = useNavigate();
     const { dispatch, Global, DashboardOpsLead, Dashboard } = useRedux()
     const [detailProject, setDetailProject] = useState({})
     const { pathname } = useLocation();
+
+    const [transportTypeArrangementId, setTransportTypeArrangementId] = useState('');
+    const [openModalReAssignMover, setOpenModalReAssignMover] = useState(false)
+    const [detailData, setDetailData] = useState({})
+
+    const [projectId, setProjectId] = useState('');
+    const [whId, setWhId] = useState('')
+
     useEffect(() => {
         const pId = pathname.split('/')[2]
         const wId = pathname.split('/')[3]
+
+        setProjectId(pId);
+        setWhId(wId);
+
         if (Global?.user?.userID) {
             dispatch(
                 actions.getActivitySummaryWHProject(Global?.user?.userID, pId, Dashboard?.activeMenu)
@@ -36,14 +49,28 @@ function PickupOnsite() {
         }
     }, [Global?.user?.userID]);
 
-
     const handleComponent = useCallback(
-        (name, orderReqId) => {
-            if (name === 'detail') {
-                nav(`detail/${orderReqId}`)
+        (name, data) => {
+
+            data.transportArrangmentId = data.transportArrangementId;
+            data.projectId = projectId;
+            data.whId = whId;
+
+            if (name === 'pool') nav(`detail/${data.orderReqId}`)
+
+            if (name === 'assign') {
+                setDetailData(data)
+                setTransportTypeArrangementId(data.transportTypeArrangementId)
+                setOpenModalReAssignMover(true)
             }
         }
     )
+
+    const handleComplete = (value) => {
+        if (value) {
+            dispatch(actions.getListPickupOnsite(projectId, whId, Global?.user?.userID))
+        }
+    }
 
     const handleExportExcel = () => {
         console.log('export excel')
@@ -86,6 +113,15 @@ function PickupOnsite() {
                     </CCardBody>
                 </CCard>
             </CContainer>
+
+            <ModalReAssignMover
+                open={openModalReAssignMover}
+                setOpen={setOpenModalReAssignMover}
+                data={detailData}
+                transportTypeArrangementId={transportTypeArrangementId}
+                onSite={true}
+                handleComplete={handleComplete}
+            />
         </>
     )
 }

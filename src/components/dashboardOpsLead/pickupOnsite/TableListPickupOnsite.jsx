@@ -5,7 +5,7 @@ import {
     CRow,
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react';
-import { cilHome, cilPen, cilUser } from '@coreui/icons';
+import { cilHome, cilUser } from '@coreui/icons';
 import DataGrid from 'src/components/custom/table/DataGrid';
 import { formatStandartDate } from 'src/helper/globalHelper';
 
@@ -23,7 +23,7 @@ function TableListPickupOnsite({
                         className=""
                         title='Re-assign Dispatcher'
                         onClick={() =>
-                            handleComponent("assign", data?.orderReqId)
+                            handleComponent("assign", data)
                         }
                     />
                 </CButton>
@@ -33,7 +33,7 @@ function TableListPickupOnsite({
                         className=""
                         title='Request Back to Pool'
                         onClick={() =>
-                            handleComponent("pool", data?.orderReqId)
+                            handleComponent("pool", data)
                         }
                     />
                 </CButton>

@@ -1,4 +1,5 @@
 import React from 'react'
+// import PickupOnsiteDetail from './views/dashboardOpsLead/pickupOnsite/PickupOnsiteDetail'
 // import PickAndPackProgressDetail from './views/dashboard/operationLead/PickAndPackProgressDetail'
 
 //SETING MANAGEMENT
@@ -48,6 +49,7 @@ const WaitingTransportAssignmentDetail = React.lazy(() => import('./views/dashbo
 const WaitingTransportConfirm = React.lazy(() => import('./views/dashboardOpsLead/waitingTransportConfirm/WaitingTransportConfirm'))
 const WaitingTransportConfirmDetail = React.lazy(() => import('./views/dashboardOpsLead/waitingTransportConfirm/WaitingTransportConfirmDetail'))
 const PickupOnsite = React.lazy(() => import('./views/dashboardOpsLead/pickupOnsite/PickupOnsite'))
+const PickupOnsiteDetail = React.lazy(() => import('./views/dashboardOpsLead/pickupOnsite/PickupOnsiteDetail'))
 // DASHBOARD WH TEAM
 const DashboardWhTeam = React.lazy(() => import('./views/dashboardWhTeam/Dashboard'))
 // TESTING
@@ -122,6 +124,7 @@ const routes = [
   { path: '/waiting-transport-confirm/handcarry-arrangment/:transportArrangmentId/:transportModeId/:projectId/:orderReqId/:whId', name: 'TRANSPORT ARRANGMENT DETAIL', element: TransportHandCarryDetail },
   // PICKUP ONSITE
   { path: '/pickup-onsite/:projectId/:whId', name: 'ONSITE PICKUP LSIT', element: PickupOnsite },
+  { path: '/pickup-onsite/:projectId/:whId/detail/:orderReqId', name: 'ONSITE PICKUP DETAIL', element: PickupOnsiteDetail },
   // HO COMPLETE
   
   // { path: '/theme', name: 'Theme', element: Colors, exact: true },

@@ -21,7 +21,9 @@ function ModalReAssignMover({
     open,
     setOpen,
     data,
-    transportTypeArrangementId
+    transportTypeArrangementId,
+    handleComplete,
+    onSite = false
 }) {
     const { dispatch, Global } = useRedux()
 
@@ -36,6 +38,9 @@ function ModalReAssignMover({
 
     useEffect(() => {
         if (Global?.user?.token && open) {
+
+            setSelectedTransportType({})
+            setSelectedDispatcher({})
 
             dispatch(actions.getTransportTypeList(data?.transportModeId))
                 .then(resp => setTransportType(resp))
@@ -77,8 +82,11 @@ function ModalReAssignMover({
         } else {
             dispatch(actions.transportArrangementChangeDispatcher(payload))
                 .then(() => {
-                    dispatch(actions.getTransportTypeArranged(data?.transportArrangmentId))
+                    if (!onSite) {
+                        dispatch(actions.getTransportTypeArranged(data?.transportArrangmentId))
+                    }
                     setOpen(false)
+                    handleComplete(true)
                 })
         }
     }
