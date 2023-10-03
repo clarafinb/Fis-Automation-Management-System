@@ -51,7 +51,7 @@ function HoComplete() {
             data.projectId = projectId;
             data.whId = whId;
 
-            if (name === 'pool') nav(`detail/${data.orderReqId}`)
+            if (name === 'detail') nav(`detail/${data.orderReqId}`)
 
         }
     )

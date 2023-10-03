@@ -5,7 +5,7 @@ import {
     CRow,
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react';
-import { cilHome, cilPencil, cilUser } from '@coreui/icons';
+import { cilPencil } from '@coreui/icons';
 import DataGrid from 'src/components/custom/table/DataGrid';
 import { formatStandartDate } from 'src/helper/globalHelper';
 
