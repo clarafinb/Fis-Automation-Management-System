@@ -5,8 +5,6 @@ import {
     CCard,
     CCardBody,
     CCol,
-    CFormInput,
-    CFormLabel,
     CNav,
     CNavItem,
     CNavLink,
@@ -28,18 +26,31 @@ function DeliveryCompleteDetail() {
     const [orderReqDetail, setOrderReqDetail] = useState({})
     const [projectId, setProjectId] = useState("")
     const [whId, setWhId] = useState("")
+    const [url, setUrl] = useState("")
     const [orderReqId, setOrderReqId] = useState()
     const [activeKey, setActiveKey] = useState(1)
     const { pathname } = useLocation();
+
+    const [labelData, setLabelData] = useState({
+        header: 'DELIVERY COMPLETE DETAIL'
+    })
 
     useEffect(() => {
         const pId = pathname.split('/')[2]
         const wId = pathname.split('/')[3]
         const orderRequestId = pathname.split('/')[5]
+        const uri = pathname.split('/')[1]
+
+        if (uri === 'ho-complete') {
+            setLabelData({
+                header: 'HO COMPLETE PICKUP DETAIL'
+            })
+        }
 
         setProjectId(pId)
         setWhId(wId)
         setOrderReqId(orderRequestId)
+        setUrl(uri)
 
         if (Global?.user?.userID) {
             dispatch(
@@ -51,7 +62,7 @@ function DeliveryCompleteDetail() {
     }, [Global?.user?.userID]);
 
     const handleBack = () => {
-        nav('/delivery-complete/' + projectId + "/" + whId);
+        nav('/' + url + '/' + projectId + "/" + whId);
     }
 
     return (
@@ -61,7 +72,7 @@ function DeliveryCompleteDetail() {
                     <CRow className='mb-2'>
                         <CCol>
                             <h5 className="card-title mb-0">
-                                <b><span className='text-underline'>DE</span>LIVERY COMPLETE DETAIL</b>
+                                <b><span className='text-underline'>{labelData?.header}</span></b>
                             </h5>
                         </CCol>
                     </CRow>

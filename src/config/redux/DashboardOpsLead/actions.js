@@ -98,6 +98,8 @@ import {
   API_CHANGE_MOVER,
   API_GET_WAITING_TRANSPORT_COMPLETE,
   API_GET_DISPATCHER_BASE_TRANSPORT_ARRAGEMENT_REASIGN,
+  API_GET_ONSITE_PICKUPLIST,
+  API_GET_HO_COMPLETE_LIST,
 } from '../../api/index'
 
 /**************************************** DASHBOARD OPS LEAD ****************************************/
@@ -2860,6 +2862,72 @@ export const getListWaitingTransportConfirm = (projectId, whId, userId) => {
       dispatch({
         type: actionType.SET_LIST_WAITING_TRANSPORT_COMPLETE,
         payload: getListWaitingTransportComplete,
+      })
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Close',
+      })
+    }
+  }
+}
+
+export const getListPickupOnsite = (projectId, whId, userId) => {
+  return async (dispatch) => {
+    try {
+      const fullParam = `${projectId}/${whId}/${userId}`
+
+      let list = await actionCrud.actionParamRequest(
+        fullParam,
+        API_GET_ONSITE_PICKUPLIST,
+        'GET'
+      )
+
+      let getLitPickupOnsite = list?.map((item, idx) => {
+        return {
+          no: idx + 1,
+          ...item,
+        }
+      })
+
+      dispatch({
+        type: actionType.SET_LIST_PICKUP_ONSITE,
+        payload: getLitPickupOnsite,
+      })
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Close',
+      })
+    }
+  }
+}
+
+export const getListHoComplete = (projectId, whId, userId) => {
+  return async (dispatch) => {
+    try {
+      const fullParam = `${projectId}/${whId}/${userId}`
+
+      let list = await actionCrud.actionParamRequest(
+        fullParam,
+        API_GET_HO_COMPLETE_LIST,
+        'GET'
+      )
+
+      let getListHoComplete = list?.map((item, idx) => {
+        return {
+          no: idx + 1,
+          ...item,
+        }
+      })
+
+      dispatch({
+        type: actionType.SET_LIST_HO_COMPLETE,
+        payload: getListHoComplete,
       })
     } catch (error) {
       Swal.fire({
