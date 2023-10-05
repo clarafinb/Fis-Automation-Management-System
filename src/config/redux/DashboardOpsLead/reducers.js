@@ -29,7 +29,8 @@ let initialState = {
     listTransportArragementOrderRequest: [],
     listWaitingTransporComplete: [],
     listPickupOnsite: [],
-    listHoComplete: []
+    listHoComplete: [],
+    listBackToPool: []
 };
 
 const DashboardOpsLead = (state = initialState, { type, payload }) => {
@@ -206,6 +207,12 @@ const DashboardOpsLead = (state = initialState, { type, payload }) => {
             return {
                 ...state,
                 listHoComplete: payload
+            }
+
+        case actionType.SET_LIST_BACK_TO_POOL:
+            return {
+                ...state,
+                listBackToPool: payload
             }
 
         default:

@@ -175,12 +175,20 @@ function Dashboard() {
                 url: `/waiting-transport-confirm/${projectId}/${whId}`
             },
             {
+                type: 'pickupInTransit',
+                url: `/pickup-transit/${projectId}/${whId}`
+            },
+            {
                 type: 'pickupOnsite',
                 url: `/pickup-onsite/${projectId}/${whId}`
             },
             {
                 type: 'hoComplete',
                 url: `/ho-complete/${projectId}/${whId}`
+            },
+            {
+                type: 'backToPool',
+                url: `/back-to-pool/${projectId}/${whId}`
             }
         ]
 

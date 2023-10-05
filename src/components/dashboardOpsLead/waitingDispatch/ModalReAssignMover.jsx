@@ -25,6 +25,9 @@ function ModalReAssignMover({
     handleComplete,
     onSite = false
 }) {
+
+    console.log('transportTypeArrangementId : ',transportTypeArrangementId)
+
     const { dispatch, Global } = useRedux()
 
     const [visible, setVisible] = useState(false)

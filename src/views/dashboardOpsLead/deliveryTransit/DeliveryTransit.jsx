@@ -12,26 +12,35 @@ import {
 } from '@coreui/react'
 import * as actions from '../../../config/redux/DashboardOpsLead/actions'
 import CIcon from '@coreui/icons-react'
-import ModalListItem from 'src/components/dashboardOpsLead/pickAndPackPending/ModalListItem'
 import TableListDeliveryTransit from 'src/components/dashboardOpsLead/deliveryTransit/TableListDeliveryTransit'
 import { cilSpreadsheet } from '@coreui/icons'
+import ModalReAssignMover from 'src/components/dashboardOpsLead/waitingDispatch/ModalReAssignMover'
 
 function DeliveryTransit() {
     const nav = useNavigate();
     const { dispatch, Global, DashboardOpsLead, Dashboard } = useRedux()
     const [detailProject, setDetailProject] = useState({})
-    const [openModal, setOpenModal] = useState(false)
-    const [custOrderRequest, setCustOrderRequest] = useState(null)
-    const [itemOrderRequestData, setItemOrderRequestData] = useState([])
+
+    const [transportTypeArrangementId, setTransportTypeArrangementId] = useState('');
+    const [openModalReAssignMover, setOpenModalReAssignMover] = useState(false)
+    const [detailData, setDetailData] = useState({})
+
+    const [projectId, setProjectId] = useState('')
+    const [whId, setWhId] = useState('')
+
     const { pathname } = useLocation();
     useEffect(() => {
         const pId = pathname.split('/')[2]
         const wId = pathname.split('/')[3]
+
+        setProjectId(pId)
+        setWhId(wId)
+
         if (Global?.user?.userID) {
             dispatch(
                 actions.getActivitySummaryWHProject(Global?.user?.userID, pId, Dashboard?.activeMenu)
             ).then(result => {
-                const dtProjectFind = result.find(row => row.whId == wId)
+                const dtProjectFind = result.find(row => Number.parseInt(row.whId) === Number.parseInt(wId))
                 setDetailProject(dtProjectFind)
                 dispatch(actions.getListDeliveryTransit(pId, wId, Global?.user?.userID))
             })
@@ -42,40 +51,24 @@ function DeliveryTransit() {
         (action, value, data) => {
             if (action === 'detail') {
                 nav(`detail/${value}`)
-            } else {
-                setCustOrderRequest(data?.custOrderRequest)
-                dispatch(actions.getOrderRequestItemList(data?.orderReqId))
-                    .then(result => {
-                        const remapData = [
-                            {
-                                name: 'no',
-                                header: 'No',
-                                defaultVisible: true,
-                                defaultWidth: 80,
-                                type: 'number'
-                            }
-                        ]
-                        result.map((row, idx) => {
-                            if (Object.keys(row)[idx]) {
-                                remapData.push({
-                                    name: Object.keys(row)[idx],
-                                    header: Object.keys(row)[idx],
-                                    defaultFlex: 1
-                                })
-                            }
-                        })
-                        const dataSet = result.map((item, index) => {
-                            return {
-                                no: index + 1,
-                                ...item
-                            }
-                        })
-                        setItemOrderRequestData(dataSet)
-                        setOpenModal(true)
-                    })
+            }
+            if (action === 'assign') {
+                setDetailData({
+                    ...data,
+                    transportArrangmentId: data.transportArrangementId,
+                    projectId: projectId
+                })
+                setTransportTypeArrangementId(data.transport_type_arrangement_id)
+                setOpenModalReAssignMover(true)
             }
         }
     )
+
+    const handleComplete = (value) => {
+        if (value) {
+            dispatch(actions.getListDeliveryTransit(projectId, whId, Global?.user?.userID))
+        }
+    }
 
     return (
         <>
@@ -120,11 +113,13 @@ function DeliveryTransit() {
                     </CCardBody>
                 </CCard>
             </CContainer>
-            <ModalListItem
-                open={openModal}
-                setOpen={setOpenModal}
-                data={itemOrderRequestData}
-                custOrderRequest={custOrderRequest}
+
+            <ModalReAssignMover
+                open={openModalReAssignMover}
+                setOpen={setOpenModalReAssignMover}
+                data={detailData}
+                transportTypeArrangementId={transportTypeArrangementId}
+                handleComplete={handleComplete}
             />
         </>
     )

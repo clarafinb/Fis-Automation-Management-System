@@ -4,54 +4,27 @@ import {
     CCol,
     CRow,
 } from '@coreui/react'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEye } from '@fortawesome/free-solid-svg-icons';
 import CIcon from '@coreui/icons-react';
-import { cilPencil, cilUser } from '@coreui/icons';
+import { cilPencil } from '@coreui/icons';
 import DataGrid from 'src/components/custom/table/DataGrid';
 import { formatStandartDate } from 'src/helper/globalHelper';
 
-function TableListDeliveryTransit({
+function TableListBackToPool({
     data,
-    handleComponent
+    handleComponent,
 }) {
 
-    const handleAction = (value, data) => {
+    const handleAction = (data) => {
         return (
             <>
-                <CButton className='colorBtnIcon-black p-1 me-2'>
+                <CButton className='colorBtnIcon-black p-1 me-2' disabled>
                     <CIcon
                         icon={cilPencil}
                         className=""
+                        title='Back To Pool Detail'
                         onClick={() =>
-                            handleComponent("detail", value, data)
+                            handleComponent("detail", data)
                         }
-                    />
-                </CButton>
-                <CButton className='colorBtnIcon-black p-1 me-2'>
-                    <CIcon
-                        icon={cilUser}
-                        className=""
-                        title='Re-assign Dispatcher'
-                        onClick={() =>
-                            handleComponent("assign", value, data)
-                        }
-                    />
-                </CButton>
-            </>
-        )
-    }
-
-    const hadleTotalItem = (value, data) => {
-        return (
-            <>
-                <CButton
-                    className='colorBtnIcon-black'
-                    onClick={() => handleComponent("item", value, data)}
-                >
-                    <span>{value} ITEM </span>
-                    <FontAwesomeIcon
-                        icon={faEye}
                     />
                 </CButton>
             </>
@@ -62,20 +35,26 @@ function TableListDeliveryTransit({
         {
             field: 'no',
             headerName: 'NO',
+            headerStyle: { textAlign: 'center' },
+            cellStyle: { textAlign: 'center' },
+            filter: false,
             minWidth: 80,
-            filter: false
         },
         {
             field: 'whCode',
             headerName: 'WH CODE',
         },
         {
+            field: 'whName',
+            headerName: 'WH NAME',
+        },
+        {
             field: 'custOrderRequest',
-            headerName: 'CUSTOMER ORDER REQUEST',
+            headerName: 'CUST ORDER REQUEST',
         },
         {
             field: 'orderRequestDesc',
-            headerName: 'ORDER REQUEST DESC',
+            headerName: 'ORDER REQ DESC',
         },
         {
             field: 'requestorName',
@@ -106,42 +85,38 @@ function TableListDeliveryTransit({
             headerName: 'DESTINATION',
         },
         {
-            field: 'totalItem',
-            headerName: 'TOTAL ITEM REQUEST',
+            field: 'siteId',
+            headerName: 'SITE ID',
+        },
+        {
+            field: 'siteName',
+            headerName: 'SITE NAME',
+        },
+        {
+            field: 'orderRequestStatus',
+            headerName: 'ORDER STATUS',
+        },
+        {
+            field: 'btpDate',
+            headerName: 'BTP REQUEST DATE',
             cellStyle: { textAlign: 'center' },
             cellRenderer: ({ data }) => {
-                return hadleTotalItem(data.totalItem, data)
+                return formatStandartDate(data.btpDate)
             }
         },
         {
-            field: 'pickandpackcompletedate',
-            headerName: 'PICK AND PACK COMPLETE DATE',
-            cellStyle: { textAlign: 'center' },
-            cellRenderer: ({ data }) => {
-                return formatStandartDate(data.pickandpackcompletedate)
-            }
-        },
-        {
-            field: 'pickupDate',
-            headerName: 'PICKUP DATE',
-            cellStyle: { textAlign: 'center' },
-            cellRenderer: ({ data }) => {
-                return formatStandartDate(data.pickupDate)
-            }
-        },
-        {
-            field: 'pickupBy',
-            headerName: 'PICKUP BY',
+            field: 'btpConfirmedBy',
+            headerName: 'BTP CONFIRM BY',
         },
         {
             field: 'orderReqId',
             headerName: 'ACTION',
-            minWidth: 100,
-            filter: false,
+            maxWidth: 150,
             cellStyle: { textAlign: 'center' },
             pinned: 'right',
+            filter: false,
             cellRenderer: ({ data }) => {
-                return handleAction(data.orderReqId, data)
+                return handleAction(data)
             }
         },
     ];
@@ -158,4 +133,4 @@ function TableListDeliveryTransit({
     )
 }
 
-export default TableListDeliveryTransit
+export default TableListBackToPool;

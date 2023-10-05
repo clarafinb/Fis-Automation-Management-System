@@ -171,6 +171,7 @@ export const API_UPLOAD_EVIDENCE_DELIVERY_ONSITE = BASE_URL + "logmanagement/cus
 export const API_DELETE_EVIDENCE_DELIVERY_ONSITE = BASE_URL + "logmanagement/custOrderRequestReturnWHEvidenceDelete"
 // DELIVERY COMPLETE
 export const API_GET_DELIVERY_COMPLETE = BASE_URL + "logmanagement/getDeliveryCompletedWHProject"
+export const API_EXPORT_DELIVERY_COMPLETE = BASE_URL + "logmanagement/getDeliveryCompletedWHProjectExportToExcel"
 // MASTER LOCATION
 export const API_GET_MASTER_LOCATION = BASE_URL + "masterdata/getMasterLocationsBasedOnProject"
 export const API_GET_ROUTE_CATEGORY_ACTIVE = BASE_URL + "masterdata/getRouteCategoryActiveOnly"
@@ -274,3 +275,6 @@ export const API_GET_WAITING_TRANSPORT_COMPLETE = BASE_URL + "logmanagement/getO
 export const API_GET_ONSITE_PICKUPLIST = BASE_URL + "logmanagement/getOrderRequestOnsitePickupDispatcherConfirmedWHProject"
 // HO COMPLETE
 export const API_GET_HO_COMPLETE_LIST = BASE_URL + "logmanagement/getOrderRequestHOCompletePickupWHProject"
+// BACK TO POOL
+export const API_GET_BTP = BASE_URL + "logmanagement/getDeliveryBTPWHProject"
+export const API_EXPORT_EXCEL_BTP = BASE_URL + "logmanagement/getDeliveryBTPWHProjectExportToExcel"

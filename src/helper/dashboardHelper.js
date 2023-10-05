@@ -77,6 +77,17 @@ export const manipulateDataTableDashboard = (data) => {
                     whName: item?.whName,
                     projectId: item?.projectId,
                     projectName: item?.projectName
+                },
+                {
+                    no: 8,
+                    transaction: "BACK TO POOL",
+                    totalTransaction: item?.btpCount,
+                    color: "#02275D",
+                    key: "backToPool",
+                    whId: item?.whId,
+                    whName: item?.whName,
+                    projectId: item?.projectId,
+                    projectName: item?.projectName
                 }
             ],
             pickUp: [

@@ -100,6 +100,9 @@ import {
   API_GET_DISPATCHER_BASE_TRANSPORT_ARRAGEMENT_REASIGN,
   API_GET_ONSITE_PICKUPLIST,
   API_GET_HO_COMPLETE_LIST,
+  API_EXPORT_DELIVERY_COMPLETE,
+  API_GET_BTP,
+  API_EXPORT_EXCEL_BTP,
 } from '../../api/index'
 
 /**************************************** DASHBOARD OPS LEAD ****************************************/
@@ -1001,6 +1004,49 @@ export const getOrderRequestWHProjectExportToExcel = ({ projectId, whId, userId,
       let data = await actionCrud.actionCommonSliceParamBlob(
         fullParam,
         API_EXPORT_EXCEL_ORDER_REQUEST,
+        'GET',
+      )
+      return Promise.resolve(data)
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Close',
+      })
+    }
+  }
+}
+
+export const getDeliveryCompletedWHProjectExportToExcel = ({ projectId, whId, userId, whCode }) => {
+  return async (dispatch) => {
+    try {
+      const fullParam = `${projectId}/${whId}/${userId}/${whCode}`
+      let data = await actionCrud.actionCommonSliceParamBlob(
+        fullParam,
+        API_EXPORT_DELIVERY_COMPLETE,
+        'GET',
+      )
+      return Promise.resolve(data)
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Close',
+      })
+    }
+  }
+}
+
+
+export const getDeliveryBTPWHProjectExportToExcel = ({ projectId, whId, userId, whCode }) => {
+  return async (dispatch) => {
+    try {
+      const fullParam = `${projectId}/${whId}/${userId}/${whCode}`
+      let data = await actionCrud.actionCommonSliceParamBlob(
+        fullParam,
+        API_EXPORT_EXCEL_BTP,
         'GET',
       )
       return Promise.resolve(data)
@@ -2928,6 +2974,39 @@ export const getListHoComplete = (projectId, whId, userId) => {
       dispatch({
         type: actionType.SET_LIST_HO_COMPLETE,
         payload: getListHoComplete,
+      })
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Close',
+      })
+    }
+  }
+}
+
+export const getListBtp = (projectId, whId, userId) => {
+  return async (dispatch) => {
+    try {
+      const fullParam = `${projectId}/${whId}/${userId}`
+
+      let list = await actionCrud.actionParamRequest(
+        fullParam,
+        API_GET_BTP,
+        'GET'
+      )
+
+      let getListData = list?.map((item, idx) => {
+        return {
+          no: idx + 1,
+          ...item,
+        }
+      })
+
+      dispatch({
+        type: actionType.SET_LIST_BACK_TO_POOL,
+        payload: getListData,
       })
     } catch (error) {
       Swal.fire({

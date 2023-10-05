@@ -14,6 +14,7 @@ import CIcon from '@coreui/icons-react'
 import ModalListItem from 'src/components/dashboardOpsLead/pickAndPackPending/ModalListItem'
 import TableListDeliveryComplete from 'src/components/dashboardOpsLead/deliveryComplete/TableListDeliveryComplete'
 import { cilSpreadsheet } from '@coreui/icons'
+import { downloadFileConfig } from 'src/helper/globalHelper'
 
 function DeliveryComplete() {
     const nav = useNavigate();
@@ -76,6 +77,21 @@ function DeliveryComplete() {
         }
     )
 
+    const handleExportExcel = () => {
+        const param = {
+            projectId: detailProject?.projectId,
+            whId: detailProject?.whId,
+            userId: Global?.user?.userID,
+            whCode: detailProject?.whCode,
+        }
+
+        dispatch(
+            actions.getDeliveryCompletedWHProjectExportToExcel(param)
+        ).then(resp => {
+            downloadFileConfig(resp, 'delivery_complete_' + Date.now() + 'xlsx')
+        })
+    }
+
     return (
         <>
             <CContainer fluid>
@@ -89,7 +105,7 @@ function DeliveryComplete() {
                 <br />
                 <CRow>
                     <CCol className="d-none d-md-block">
-                        <CButton className="colorBtn-white">
+                        <CButton className="colorBtn-white" onClick={handleExportExcel}>
                             <CIcon icon={cilSpreadsheet} className="me-2 text-success" />
                             EXPORT TO EXCEL
                         </CButton>
