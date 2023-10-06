@@ -50,6 +50,8 @@ const WaitingTransportConfirm = React.lazy(() => import('./views/dashboardOpsLea
 const WaitingTransportConfirmDetail = React.lazy(() => import('./views/dashboardOpsLead/waitingTransportConfirm/WaitingTransportConfirmDetail'))
 const PickupOnsite = React.lazy(() => import('./views/dashboardOpsLead/pickupOnsite/PickupOnsite'))
 const PickupOnsiteDetail = React.lazy(() => import('./views/dashboardOpsLead/pickupOnsite/PickupOnsiteDetail'))
+const PickupTransit = React.lazy(() => import('./views/dashboardOpsLead/pickupTransit/PickupTransit'))
+const PickupTransitDetail = React.lazy(() => import('./views/dashboardOpsLead/pickupTransit/PickupTransitDetail'))
 const HoComplete = React.lazy(() => import('./views/dashboardOpsLead/hoComplete/HoComplete'))
 const backToPool = React.lazy(() => import('./views/dashboardOpsLead/backToPool/BackToPool'))
 // DASHBOARD WH TEAM
@@ -132,6 +134,9 @@ const routes = [
   { path: '/ho-complete/:projectId/:whId/detail/:orderReqId', name: 'ONSITE PICKUP DETAIL', element: DeliveryCompleteDetail },
   // BACK TO POOL
   { path: '/back-to-pool/:projectId/:whId', name: 'BACK TO POOL REQUEST', element: backToPool },
+  // PICKUP TRANSIT
+  { path: '/pickup-transit/:projectId/:whId', name: 'INTRANSIT PICKUP', element: PickupTransit },
+  { path: '/pickup-transit/:projectId/:whId/detail/:orderReqId', name: 'INTRANSIT PICKUP PICKUP DETAIL', element: PickupTransitDetail },
   // { path: '/theme', name: 'Theme', element: Colors, exact: true },
   // { path: '/theme/colors', name: 'Colors', element: Colors },
 ]

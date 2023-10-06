@@ -278,3 +278,6 @@ export const API_GET_HO_COMPLETE_LIST = BASE_URL + "logmanagement/getOrderReques
 // BACK TO POOL
 export const API_GET_BTP = BASE_URL + "logmanagement/getDeliveryBTPWHProject"
 export const API_EXPORT_EXCEL_BTP = BASE_URL + "logmanagement/getDeliveryBTPWHProjectExportToExcel"
+// PICKUP TRANSIT
+export const API_GET_PICKUP_TRANSIT = BASE_URL + "logmanagement/getOrderRequestInTransitPickupDispatcherConfirmedWHProject"
+export const API_EXPORT_EXCEL_PICKUP_TRANSIT = BASE_URL + "logmanagement/getOrderRequestInTransitPickupExportToExcel"
