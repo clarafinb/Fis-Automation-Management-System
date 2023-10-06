@@ -105,6 +105,10 @@ import {
   API_EXPORT_EXCEL_BTP,
   API_GET_PICKUP_TRANSIT,
   API_EXPORT_EXCEL_PICKUP_TRANSIT,
+  API_GET_INVENTORY_ITEM_DETAIL,
+  API_GET_INVENTORY_BOX_DETAIL,
+  API_EXPORT_EXCEL_INVENTORY_ITEM_DETAIL,
+  API_EXPORT_EXCEL_INVENTORY_BOX_DETAIL,
 } from '../../api/index'
 
 /**************************************** DASHBOARD OPS LEAD ****************************************/
@@ -3065,6 +3069,116 @@ export const getListPickupTransit = (projectId, whId, userId) => {
         payload: getListData,
       })
 
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Close',
+      })
+    }
+  }
+}
+
+export const getListInventoryDetailItem = (whId) => {
+  return async (dispatch) => {
+    try {
+      const fullParam = `${whId}`
+
+      let list = await actionCrud.actionParamRequest(
+        fullParam,
+        API_GET_INVENTORY_ITEM_DETAIL,
+        'GET'
+      )
+
+      let getListData = list?.map((item, idx) => {
+        return {
+          no: idx + 1,
+          ...item,
+        }
+      })
+
+      dispatch({
+        type: actionType.SET_LIST_INVENTEORY_ITEM_DETAIL,
+        payload: getListData,
+      })
+
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Close',
+      })
+    }
+  }
+}
+
+export const getListInventoryDetailBox = (whId) => {
+  return async (dispatch) => {
+    try {
+      const fullParam = `${whId}`
+
+      let list = await actionCrud.actionParamRequest(
+        fullParam,
+        API_GET_INVENTORY_BOX_DETAIL,
+        'GET'
+      )
+
+      let getListData = list?.map((item, idx) => {
+        return {
+          no: idx + 1,
+          ...item,
+        }
+      })
+
+      dispatch({
+        type: actionType.SET_LIST_INVENTEORY_BOX_DETAIL,
+        payload: getListData,
+      })
+
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Close',
+      })
+    }
+  }
+}
+
+export const getInventoryItemBaseWithDetailSummaryExportToExcel = (whId, whCode) => {
+  return async (dispatch) => {
+    try {
+      const fullParam = `${whId}/${whCode}`
+      let data = await actionCrud.actionCommonSliceParamBlob(
+        fullParam,
+        API_EXPORT_EXCEL_INVENTORY_ITEM_DETAIL,
+        'GET',
+      )
+      return Promise.resolve(data)
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Close',
+      })
+    }
+  }
+}
+
+export const getInventoryBoxWithDetailSummaryExportToExcel = (whId, whCode) => {
+  return async (dispatch) => {
+    try {
+      const fullParam = `${whId}/${whCode}`
+      let data = await actionCrud.actionCommonSliceParamBlob(
+        fullParam,
+        API_EXPORT_EXCEL_INVENTORY_BOX_DETAIL,
+        'GET',
+      )
+      return Promise.resolve(data)
     } catch (error) {
       Swal.fire({
         title: 'Error!',

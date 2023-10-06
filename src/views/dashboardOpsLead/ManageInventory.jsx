@@ -28,6 +28,8 @@ import { downloadFileConfig } from 'src/helper/globalHelper'
 import { useLocation } from 'react-router-dom'
 import TableListOutboundLog from 'src/components/dashboardOpsLead/manageInventory/TableListOutboundLog'
 import HeaderProject from './HeaderProject'
+import TableListInventoryDetailItem from 'src/components/dashboardOpsLead/manageInventory/TableListInventoryDetailItem'
+import TableListInventoryDetailBox from 'src/components/dashboardOpsLead/manageInventory/TableListInventoryDetailBox'
 
 function ManageInventory() {
     const { dispatch, Global, Dashboard, DashboardOpsLead } = useRedux()
@@ -67,6 +69,11 @@ function ManageInventory() {
 
             if (activeKey === 4) {
                 dispatch(actions.getOutboundTransactionSuccess(wId))
+            }
+
+            if (activeKey === 5) {
+                dispatch(actions.getListInventoryDetailItem(wId))
+                dispatch(actions.getListInventoryDetailBox(wId))
             }
 
         }
@@ -131,6 +138,22 @@ function ManageInventory() {
         })
     }
 
+    const handleExportExcelInventoryDetailItem = () => {
+        dispatch(
+            actions.getInventoryItemBaseWithDetailSummaryExportToExcel(whId, whCode)
+        ).then(resp => {
+            downloadFileConfig(resp, 'inventory_detail_item.xlsx')
+        })
+    }
+
+    const handleExportExcelInventoryDetailBox = () => {
+        dispatch(
+            actions.getInventoryBoxWithDetailSummaryExportToExcel(whId, whCode)
+        ).then(resp => {
+            downloadFileConfig(resp, 'inventory_detail_box.xlsx')
+        })
+    }
+
     const handleDownloadTemplate = () => {
         window.open(templateUrl, '_blank')
     }
@@ -166,6 +189,14 @@ function ManageInventory() {
         }
     }
 
+    const handleExportExcelInventoryDetail = (type = 'item') => {
+        if (type === 'item') {
+            handleExportExcelInventoryDetailItem()
+        } else {
+            handleExportExcelInventoryDetailBox()
+        }
+    }
+
     return (
         <>
             <CContainer fluid>
@@ -188,6 +219,14 @@ function ManageInventory() {
                                     onClick={() => setActiveKey(1)}
                                 >
                                     Inventory
+                                </CNavLink>
+                            </CNavItem>
+                            <CNavItem>
+                                <CNavLink
+                                    active={activeKey === 5}
+                                    onClick={() => setActiveKey(5)}
+                                >
+                                    Inventory Detail
                                 </CNavLink>
                             </CNavItem>
                             <CNavItem>
@@ -362,6 +401,60 @@ function ManageInventory() {
                                     <CCol className="d-none d-md-block text-end">
                                         <TableListOutboundLog
                                             data={DashboardOpsLead?.listOutboundLog}
+                                            handleComponent={handleComponent}
+                                        />
+                                    </CCol>
+                                </CRow>
+                            </CTabPane>
+                        </CTabContent>
+                        <CTabContent>
+                            <CTabPane role="tabpanel" aria-labelledby="home-tab" visible={activeKey === 5}>
+                                <CRow>
+                                    <CCol sm={5} className='mb-4'>
+                                        <h5 className="card-title mb-0">
+                                            <span className='text-underline'>IN</span>BOUND ITEM BASE
+                                        </h5>
+                                    </CCol>
+                                </CRow>
+                                <CRow className=''>
+                                    <CCol className="d-none d-md-block text-end me-2 mb-2">
+                                        <CButton className="colorBtn-white"
+                                            onClick={() => handleExportExcelInventoryDetail('item')}
+                                        >
+                                            <CIcon icon={cilSpreadsheet} className="me-2 text-success" />
+                                            DOWNLOAD INVENTORY DETAIL ITEM
+                                        </CButton>
+                                    </CCol>
+                                </CRow>
+                                <CRow>
+                                    <CCol className="d-none d-md-block text-end">
+                                        <TableListInventoryDetailItem
+                                            data={DashboardOpsLead?.listInventoryDetailItem}
+                                            handleComponent={handleComponent}
+                                        />
+                                    </CCol>
+                                </CRow>
+                                <CRow>
+                                    <CCol sm={5} className='mb-4'>
+                                        <h5 className="card-title mb-0">
+                                            <span className='text-underline'>IN</span>BOUND BOX
+                                        </h5>
+                                    </CCol>
+                                </CRow>
+                                <CRow className=''>
+                                    <CCol className="d-none d-md-block text-end me-2 mb-2">
+                                        <CButton className="colorBtn-white"
+                                            onClick={() => handleExportExcelInventoryDetail('box')}
+                                        >
+                                            <CIcon icon={cilSpreadsheet} className="me-2 text-success" />
+                                            DOWNLOAD INVENTORY DETAIL BOX
+                                        </CButton>
+                                    </CCol>
+                                </CRow>
+                                <CRow>
+                                    <CCol className="d-none d-md-block text-end">
+                                        <TableListInventoryDetailBox
+                                            data={DashboardOpsLead?.listInventoryDetailBox}
                                             handleComponent={handleComponent}
                                         />
                                     </CCol>

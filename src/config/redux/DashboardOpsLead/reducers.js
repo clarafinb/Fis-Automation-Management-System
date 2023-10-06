@@ -31,7 +31,9 @@ let initialState = {
     listPickupOnsite: [],
     listHoComplete: [],
     listBackToPool: [],
-    listPickupTransit: []
+    listPickupTransit: [],
+    listInventoryDetailItem: [],
+    listInventoryDetailBox: []
 };
 
 const DashboardOpsLead = (state = initialState, { type, payload }) => {
@@ -220,6 +222,18 @@ const DashboardOpsLead = (state = initialState, { type, payload }) => {
             return {
                 ...state,
                 listPickupTransit: payload
+            }
+
+        case actionType.SET_LIST_INVENTEORY_ITEM_DETAIL:
+            return {
+                ...state,
+                listInventoryDetailItem: payload
+            }
+
+        case actionType.SET_LIST_INVENTEORY_BOX_DETAIL:
+            return {
+                ...state,
+                listInventoryDetailBox: payload
             }
 
         default:

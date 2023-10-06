@@ -213,6 +213,10 @@ export const API_EXPORT_EXCEL_INBOUND_ITEM = BASE_URL + "inventory/getInventoryI
 export const API_EXPORT_EXCEL_INBOUND_BOX = BASE_URL + "inventory/getInventoryBoxSummaryExportToExcel";
 export const API_EXPORT_EXCEL_OUTBOUND_SUCCESS_LOG = BASE_URL + "inventory/outboundTransactionSuccessExportToExcel";
 export const API_GET_OUTBOUND_TRANSACTION_SUCCESS = BASE_URL + "inventory/getOutboundTransactionSuccess"
+export const API_GET_INVENTORY_ITEM_DETAIL = BASE_URL + "inventory/getInventoryItemBaseWithDetailSummary"
+export const API_GET_INVENTORY_BOX_DETAIL = BASE_URL + "inventory/getInventoryBoxWithDetailSummary"
+export const API_EXPORT_EXCEL_INVENTORY_ITEM_DETAIL = BASE_URL + "inventory/getInventoryItemBaseWithDetailSummaryExportToExcel"
+export const API_EXPORT_EXCEL_INVENTORY_BOX_DETAIL = BASE_URL + "inventory/getInventoryBoxWithDetailSummaryExportToExcel"
 // HANDCARRY ARRAGMENET
 export const API_ADD_EVIDENCE_CHECKLIST = BASE_URL + "transportarrangement/transportArrangementCreateEvidence"
 export const API_GET_EVIDENCE_CHECKLIST = BASE_URL + "transportarrangement/getTransportArrangementEvidenceCheclist"
