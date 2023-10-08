@@ -293,4 +293,5 @@ export const API_DELETE_FINAL_CONFIRM_COST_TRANSPORT_FILE = BASE_URL + "transpor
 export const API_ADD_FINAL_CONFIRM_COST_TRANSPORT = BASE_URL + "transportArrangement/transportArrangementAddFinalCostTransport"
 export const API_SUBMIT_FINAL_CONFIRM = BASE_URL + "transportArrangement/transportArrangementFinalCostConfirmed"
 export const API_UPLOAD_FINAL_CONFIRM_COST_TRANSPORT_FILE = BASE_URL + "transportArrangement/transportArrangementFinalCostTransportAddAttachment"
+export const API_GET_FINAL_CONFIRM_WH_COST = BASE_URL + "transportArrangement/transportArrangementGetWHCost"
 // FINAL COMPLETE

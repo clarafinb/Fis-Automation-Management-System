@@ -20,11 +20,12 @@ import * as actions from '../../../config/redux/DashboardOpsLead/actions'
 import HeaderProject from '../HeaderProject'
 import TableListOrderRequestFinalConfirm from 'src/components/dashboardOpsLead/finalConfirm/TableListOrderRequestFinalConfirm'
 import TableListFinalConfirmCostTransportDelivery from 'src/components/dashboardOpsLead/finalConfirm/TableListFinalConfirmCostTransportDelivery'
-import { cilEqualizer, cilMoney } from '@coreui/icons'
+import { cilMoney } from '@coreui/icons'
 import CIcon from '@coreui/icons-react'
 import ModalCreateCost from 'src/components/dashboardOpsLead/finalConfirm/ModalCreateCost'
 import ButtonSubmit from 'src/components/custom/button/ButtonSubmit'
 import ButtonCancel from 'src/components/custom/button/ButtonCancel'
+import TableListFinalConfirmWhCost from 'src/components/dashboardOpsLead/finalConfirm/TableListFinalConfirmWhCost'
 
 function FinalConfirm() {
     const nav = useNavigate();
@@ -56,13 +57,21 @@ function FinalConfirm() {
                 const dtProjectFind = result.find(row => Number.parseInt(row.whId) === Number.parseInt(uri[3]))
                 setDetailProject(dtProjectFind)
 
-                dispatch(actions.getOrderRequestTransportArrangment(uri[5]))
-                dispatch(actions.getListFinalConfirmCostTransportDelivery(uri[5]))
+                if (activeKey === 1) {
+                    dispatch(actions.getOrderRequestTransportArrangment(uri[5]))
+                    dispatch(actions.getListFinalConfirmCostTransportDelivery(uri[5]))
+                }
 
+                if (activeKey === 2) {
+                    dispatch(actions.getListFinalConfirmWhCost(uri[5]))
+                }
 
             })
+
+
+
         }
-    }, [Global?.user?.userID]);
+    }, [Global?.user?.userID, activeKey]);
 
     const setInitValue = ({
         url,
@@ -78,12 +87,6 @@ function FinalConfirm() {
             transportArrangmentId: transportArrangmentId,
             costGroup: costGroup
         })
-    }
-
-    const setInitApi = ({ transportArrangementId }) => {
-        Promise.all([
-            dispatch(actions.getOrderRequestTransportArrangment(transportArrangementId)),
-        ])
     }
 
     const handleCreateCost = () => {
@@ -182,6 +185,10 @@ function FinalConfirm() {
                                         />
                                     </CTabPane>
                                     <CTabPane role="tablist" aria-labelledby="home-tab" visible={activeKey === 2}>
+                                        <TableListFinalConfirmWhCost
+                                            data={DashboardOpsLead?.listFinalConfirmWhCost}
+                                            transportArrangmentId={param?.transportArrangmentId}
+                                        />
                                     </CTabPane>
                                 </CTabContent>
                             </CCol>

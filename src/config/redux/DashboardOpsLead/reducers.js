@@ -35,7 +35,8 @@ let initialState = {
     listInventoryDetailItem: [],
     listInventoryDetailBox: [],
     listFinalConfirm: [],
-    listFinalConfirmCostTransportDelivery: []
+    listFinalConfirmCostTransportDelivery: [],
+    listFinalConfirmWhCost: []
 };
 
 const DashboardOpsLead = (state = initialState, { type, payload }) => {
@@ -248,6 +249,12 @@ const DashboardOpsLead = (state = initialState, { type, payload }) => {
             return {
                 ...state,
                 listFinalConfirmCostTransportDelivery: payload
+            }
+
+        case actionType.SET_LIST_FINAL_CONFIRM_WH_COST:
+            return {
+                ...state,
+                listFinalConfirmWhCost: payload
             }
 
         default:

@@ -117,6 +117,7 @@ import {
   API_ADD_FINAL_CONFIRM_COST_TRANSPORT,
   API_SUBMIT_FINAL_CONFIRM,
   API_UPLOAD_FINAL_CONFIRM_COST_TRANSPORT_FILE,
+  API_GET_FINAL_CONFIRM_WH_COST,
 } from '../../api/index'
 
 /**************************************** DASHBOARD OPS LEAD ****************************************/
@@ -3498,6 +3499,40 @@ export const transportArrangementFinalCostTransportAddAttachment = (formData, tr
         confirmButtonText: 'Yes',
       })
       return status
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Close',
+      })
+    }
+  }
+}
+
+
+export const getListFinalConfirmWhCost = (transportArrangmentId) => {
+  return async (dispatch) => {
+    try {
+      const fullParam = `${transportArrangmentId}`
+
+      let list = await actionCrud.actionParamRequest(
+        fullParam,
+        API_GET_FINAL_CONFIRM_WH_COST,
+        'GET'
+      )
+
+      let getListData = list?.map((item, idx) => {
+        return {
+          no: idx + 1,
+          ...item,
+        }
+      })
+
+      dispatch({
+        type: actionType.SET_LIST_FINAL_CONFIRM_WH_COST,
+        payload: getListData,
+      })
     } catch (error) {
       Swal.fire({
         title: 'Error!',
