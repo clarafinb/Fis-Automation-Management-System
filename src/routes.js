@@ -54,6 +54,9 @@ const PickupTransit = React.lazy(() => import('./views/dashboardOpsLead/pickupTr
 const PickupTransitDetail = React.lazy(() => import('./views/dashboardOpsLead/pickupTransit/PickupTransitDetail'))
 const HoComplete = React.lazy(() => import('./views/dashboardOpsLead/hoComplete/HoComplete'))
 const backToPool = React.lazy(() => import('./views/dashboardOpsLead/backToPool/BackToPool'))
+// FINAL CONFIRM
+const FinalConfirm = React.lazy(() => import('./views/dashboardOpsLead/finalConfirm/FinalConfirm'))
+const FinalConfirmDetail = React.lazy(() => import('./views/dashboardOpsLead/finalConfirm/FinalConfirmDetail'))
 // DASHBOARD WH TEAM
 const DashboardWhTeam = React.lazy(() => import('./views/dashboardWhTeam/Dashboard'))
 // TESTING
@@ -137,6 +140,9 @@ const routes = [
   // PICKUP TRANSIT
   { path: '/pickup-transit/:projectId/:whId', name: 'INTRANSIT PICKUP', element: PickupTransit },
   { path: '/pickup-transit/:projectId/:whId/detail/:orderReqId', name: 'INTRANSIT PICKUP PICKUP DETAIL', element: PickupTransitDetail },
+  // FINAL CONFIRM
+  { path: '/final-confirm/:projectId/:whId', name: 'FINAL COST TRANSPORT DELIVERY WAITING CONFIRMATION', element: FinalConfirm },
+  { path: '/final-confirm/:projectId/:whId/detail/:transportArrangementId/:costGroup', name: 'FINAL COST TRANSPORT DELIVERY WAITING CONFIRMATION', element: FinalConfirmDetail },
   // { path: '/theme', name: 'Theme', element: Colors, exact: true },
   // { path: '/theme/colors', name: 'Colors', element: Colors },
 ]

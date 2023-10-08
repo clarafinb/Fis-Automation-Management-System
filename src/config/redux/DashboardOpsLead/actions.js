@@ -109,6 +109,14 @@ import {
   API_GET_INVENTORY_BOX_DETAIL,
   API_EXPORT_EXCEL_INVENTORY_ITEM_DETAIL,
   API_EXPORT_EXCEL_INVENTORY_BOX_DETAIL,
+  API_GET_FINAL_CONFIRM,
+  API_GET_FINAL_CONFIRM_TRANSPORT_DELIVERY,
+  API_DELETE_FINAL_CONFIRM_COST_TRANSPORT,
+  API_DELETE_FINAL_CONFIRM_COST_TRANSPORT_FILE,
+  API_GET_PROJECT_SERVICE_CHARGE_ACTIVE,
+  API_ADD_FINAL_CONFIRM_COST_TRANSPORT,
+  API_SUBMIT_FINAL_CONFIRM,
+  API_UPLOAD_FINAL_CONFIRM_COST_TRANSPORT_FILE,
 } from '../../api/index'
 
 /**************************************** DASHBOARD OPS LEAD ****************************************/
@@ -3179,6 +3187,317 @@ export const getInventoryBoxWithDetailSummaryExportToExcel = (whId, whCode) => {
         'GET',
       )
       return Promise.resolve(data)
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Close',
+      })
+    }
+  }
+}
+
+export const getListFinalConfirm = (whId) => {
+  return async (dispatch) => {
+    try {
+      const fullParam = `${whId}`
+
+      let list = await actionCrud.actionParamRequest(
+        fullParam,
+        API_GET_FINAL_CONFIRM,
+        'GET'
+      )
+
+      let getListData = list?.map((item, idx) => {
+        return {
+          no: idx + 1,
+          ...item,
+        }
+      })
+
+      dispatch({
+        type: actionType.SET_LIST_FINAL_CONFIRM,
+        payload: getListData,
+      })
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Close',
+      })
+    }
+  }
+}
+
+export const getListFinalConfirmCostTransportDelivery = (transportArrangmentId) => {
+  return async (dispatch) => {
+    try {
+      const fullParam = `${transportArrangmentId}`
+
+      let list = await actionCrud.actionParamRequest(
+        fullParam,
+        API_GET_FINAL_CONFIRM_TRANSPORT_DELIVERY,
+        'GET'
+      )
+
+      let getListData = list?.map((item, idx) => {
+        return {
+          no: idx + 1,
+          ...item,
+        }
+      })
+
+      dispatch({
+        type: actionType.SET_LIST_FINAL_CONFIRM_COST_TRANSPORT_DELIVERY,
+        payload: getListData,
+      })
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Close',
+      })
+    }
+  }
+}
+
+export const transportArrangementDeleteFinalCostTransport = (transportArrangementCostId, userId) => {
+  return async (dispatch) => {
+    try {
+
+      const fullParam = `${transportArrangementCostId}/${userId}`
+
+      let response = await actionCrud.actionParamRequest(
+        fullParam,
+        API_DELETE_FINAL_CONFIRM_COST_TRANSPORT,
+        'PUT'
+      )
+
+      if (response.status === 'success') {
+        Swal.fire({
+          position: 'center',
+          icon: 'success',
+          title: response?.message,
+          showConfirmButton: true,
+        })
+      } else {
+        Swal.fire({
+          title: 'Error!',
+          text: response?.message,
+          icon: 'error',
+          confirmButtonText: 'Close',
+        })
+      }
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Close',
+      })
+    }
+  }
+}
+
+export const transportArrangementFinalCostTransportDeleteAttachment = (transportArrangementAddCostAttachmentId, userId) => {
+  return async (dispatch) => {
+    try {
+
+      const fullParam = `${transportArrangementAddCostAttachmentId}/${userId}`
+
+      let response = await actionCrud.actionParamRequest(
+        fullParam,
+        API_DELETE_FINAL_CONFIRM_COST_TRANSPORT_FILE,
+        'PUT'
+      )
+
+      if (response.status === 'success') {
+        Swal.fire({
+          position: 'center',
+          icon: 'success',
+          title: response?.message,
+          showConfirmButton: true,
+        })
+      } else {
+        Swal.fire({
+          title: 'Error!',
+          text: response?.message,
+          icon: 'error',
+          confirmButtonText: 'Close',
+        })
+      }
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Close',
+      })
+    }
+  }
+}
+
+export const getProjectServiceChargeGetAllActiveOnly = (projectId) => {
+  return async () => {
+    try {
+      const fullParam = `${projectId}`
+
+      let list = await actionCrud.actionParamRequest(fullParam,
+        API_GET_PROJECT_SERVICE_CHARGE_ACTIVE,
+        'GET')
+
+      let data = list?.map((item, idx) => {
+        return {
+          label: item.serviceCharge,
+          value: item.projectServiceChargeId,
+          extra: item
+        }
+      })
+
+      return Promise.resolve(data)
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Close',
+      })
+    }
+  }
+}
+
+export const getSelectOrderRequestTransportArrangment = (transportArrangementId) => {
+  return async (dispatch) => {
+    try {
+      const fullParam = `${transportArrangementId}`
+      let list = await actionCrud.actionParamRequest(
+        fullParam,
+        API_GET_ORDER_REQUEST_TRANSPORT_ARRAGMENET,
+        'GET',
+      )
+
+      let data = list?.map((item, idx) => {
+        return {
+          label: item.orderReqNo,
+          value: item.orderReqId,
+          extra: item
+        }
+      })
+
+      return Promise.resolve(data)
+
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Close',
+      })
+    }
+  }
+}
+
+export const transportArrangementAddFinalCostTransport = (
+  payload
+) => {
+  return async (dispatch) => {
+    try {
+      let response = await actionCrud.actionCommonCrud(
+        payload,
+        API_ADD_FINAL_CONFIRM_COST_TRANSPORT,
+        'POST'
+      )
+
+      if (response.status === 'success') {
+        Swal.fire({
+          position: 'center',
+          icon: 'success',
+          title: response?.message,
+          showConfirmButton: true,
+        })
+        return true
+      } else {
+        Swal.fire({
+          title: 'Error!',
+          text: response?.message,
+          icon: 'error',
+          confirmButtonText: 'Close',
+        })
+      }
+      return Promise.resolve(response)
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Close',
+      })
+    }
+  }
+}
+
+export const transportArrangementFinalCostConfirmed = (
+  transportArrangementId,
+  userId
+) => {
+  return async (dispatch) => {
+    try {
+      const fullParam = `${transportArrangementId}/${userId}`
+      let response = await actionCrud.actionCommonSliceParam(
+        fullParam,
+        API_SUBMIT_FINAL_CONFIRM,
+        'PUT'
+      )
+
+      if (response.status === 'success') {
+        Swal.fire({
+          position: 'center',
+          icon: 'success',
+          title: response?.message,
+          showConfirmButton: true,
+        })
+        return true
+      } else {
+        Swal.fire({
+          title: 'Error!',
+          text: response?.message,
+          icon: 'error',
+          confirmButtonText: 'Close',
+        })
+      }
+      return Promise.resolve(response)
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Close',
+      })
+    }
+  }
+}
+
+export const transportArrangementFinalCostTransportAddAttachment = (formData, transportArrangementCostId, userId) => {
+  return async (dispatch) => {
+    try {
+      const fullParam = `${transportArrangementCostId}/${userId}`
+      const { status, message } = await actionCrud.actionCommonSliceParam(
+        fullParam,
+        API_UPLOAD_FINAL_CONFIRM_COST_TRANSPORT_FILE,
+        'POST',
+        '',
+        formData,
+      )
+      Swal.fire({
+        title: status,
+        text: message,
+        icon: 'success',
+        confirmButtonText: 'Yes',
+      })
+      return status
     } catch (error) {
       Swal.fire({
         title: 'Error!',

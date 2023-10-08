@@ -7,6 +7,7 @@ import {
     CRow,
     CFormSelect,
     CCard,
+    CBadge,
 } from '@coreui/react'
 import { useCookies } from "react-cookie";
 import * as actions from '../../config/redux/DashboardOpsLead/actions'
@@ -230,6 +231,18 @@ function Dashboard() {
         }
     }, [Dashboard?.activeMenu]);
 
+    const handleCreateFinalCost = (type = 'confirm', detailWarehouse = {}) => {
+        setSelectedDetailWarehouse(detailWarehouse)
+        if (type === 'confirm') {
+            const url = (`/final-confirm/${detailWarehouse.projectId}/${detailWarehouse.whId}`)
+            nav(url, { replace: true })
+        }
+
+        if (type === 'complete') {
+            console.log('complete')
+        }
+    }
+
     return (
         <>
             <CRow>
@@ -314,17 +327,43 @@ function Dashboard() {
                                 </CCol>
                                 <CCol sm={3}>
                                     {Dashboard?.activeMenu === 'dashboardopsleaddelivery' && DashboardOpsLead?.project?.projectId
-                                        ? <CCard className='card-dashboard'>
+                                        ? <CCard className='card-dashboard mb-3'>
                                             <div className='m-3'>
                                                 <ChartDelivery data={detailWarehouses[index]} />
                                             </div>
                                         </CCard>
-                                        : <CCard className='card-dashboard'>
+                                        : <CCard className='card-dashboard mb-3'>
                                             <div className='m-3'>
                                                 <ChartPickUp data={detailWarehouses[index]} />
                                             </div>
                                         </CCard>
                                     }
+                                    <CCard className='card-dashboard'>
+                                        <div className='m-3'>
+                                            <CButton
+                                                width={100}
+                                                onClick={() => handleCreateFinalCost('confirm', listData)}
+                                                className="colorBtnIcon-maroon me-2 mb-2"
+                                                title='Final Cost Transport Waiting Confirmation'
+                                            >
+                                                Final Cost Transport Waiting Confirmation &nbsp;
+                                                <CBadge color="secondary" className="ms-auto">
+                                                    {detailWarehouses[index]?.totalFinalCostWaitingConfirmCount || 0}
+                                                </CBadge>
+                                            </CButton>
+                                            <CButton
+                                                width={100}
+                                                onClick={() => handleCreateFinalCost('complete', listData)}
+                                                className="colorBtnIcon-blue me-2 mb-2"
+                                                title='Final Cost Transport Completed'
+                                            >
+                                                Final Cost Transport Completed &nbsp;
+                                                <CBadge color="secondary" className="ms-auto">
+                                                    {detailWarehouses[index]?.totalFinalCostConfirmedCount || 0}
+                                                </CBadge>
+                                            </CButton>
+                                        </div>
+                                    </CCard>
                                 </CCol>
                             </CRow>
                             <br />

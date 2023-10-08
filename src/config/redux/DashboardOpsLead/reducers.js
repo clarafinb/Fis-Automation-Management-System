@@ -33,7 +33,9 @@ let initialState = {
     listBackToPool: [],
     listPickupTransit: [],
     listInventoryDetailItem: [],
-    listInventoryDetailBox: []
+    listInventoryDetailBox: [],
+    listFinalConfirm: [],
+    listFinalConfirmCostTransportDelivery: []
 };
 
 const DashboardOpsLead = (state = initialState, { type, payload }) => {
@@ -234,6 +236,18 @@ const DashboardOpsLead = (state = initialState, { type, payload }) => {
             return {
                 ...state,
                 listInventoryDetailBox: payload
+            }
+
+        case actionType.SET_LIST_FINAL_CONFIRM:
+            return {
+                ...state,
+                listFinalConfirm: payload
+            }
+
+        case actionType.SET_LIST_FINAL_CONFIRM_COST_TRANSPORT_DELIVERY:
+            return {
+                ...state,
+                listFinalConfirmCostTransportDelivery: payload
             }
 
         default:

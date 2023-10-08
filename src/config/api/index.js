@@ -285,3 +285,12 @@ export const API_EXPORT_EXCEL_BTP = BASE_URL + "logmanagement/getDeliveryBTPWHPr
 // PICKUP TRANSIT
 export const API_GET_PICKUP_TRANSIT = BASE_URL + "logmanagement/getOrderRequestInTransitPickupDispatcherConfirmedWHProject"
 export const API_EXPORT_EXCEL_PICKUP_TRANSIT = BASE_URL + "logmanagement/getOrderRequestInTransitPickupExportToExcel"
+// FINAL CONFIRM
+export const API_GET_FINAL_CONFIRM = BASE_URL + "transportArrangement/getFinalCostTransportDeliveryWaitingConfirmation"
+export const API_GET_FINAL_CONFIRM_TRANSPORT_DELIVERY = BASE_URL + "transportArrangement/getTransportFinalCostDetail"
+export const API_DELETE_FINAL_CONFIRM_COST_TRANSPORT = BASE_URL + "transportArrangement/transportArrangementDeleteFinalCostTransport";
+export const API_DELETE_FINAL_CONFIRM_COST_TRANSPORT_FILE = BASE_URL + "transportArrangement/transportArrangementFinalCostTransportDeleteAttachment";
+export const API_ADD_FINAL_CONFIRM_COST_TRANSPORT = BASE_URL + "transportArrangement/transportArrangementAddFinalCostTransport"
+export const API_SUBMIT_FINAL_CONFIRM = BASE_URL + "transportArrangement/transportArrangementFinalCostConfirmed"
+export const API_UPLOAD_FINAL_CONFIRM_COST_TRANSPORT_FILE = BASE_URL + "transportArrangement/transportArrangementFinalCostTransportAddAttachment"
+// FINAL COMPLETE
