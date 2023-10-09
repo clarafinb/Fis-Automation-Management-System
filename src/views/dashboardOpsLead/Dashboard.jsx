@@ -239,7 +239,8 @@ function Dashboard() {
         }
 
         if (type === 'complete') {
-            console.log('complete')
+            const url = (`/final-complete/${detailWarehouse.projectId}/${detailWarehouse.whId}`)
+            nav(url, { replace: true })
         }
     }
 
@@ -340,28 +341,45 @@ function Dashboard() {
                                     }
                                     <CCard className='card-dashboard'>
                                         <div className='m-3'>
-                                            <CButton
-                                                width={100}
-                                                onClick={() => handleCreateFinalCost('confirm', listData)}
-                                                className="colorBtnIcon-maroon me-2 mb-2"
-                                                title='Final Cost Transport Waiting Confirmation'
-                                            >
-                                                Final Cost Transport Waiting Confirmation &nbsp;
-                                                <CBadge color="secondary" className="ms-auto">
-                                                    {detailWarehouses[index]?.totalFinalCostWaitingConfirmCount || 0}
-                                                </CBadge>
-                                            </CButton>
-                                            <CButton
-                                                width={100}
-                                                onClick={() => handleCreateFinalCost('complete', listData)}
-                                                className="colorBtnIcon-blue me-2 mb-2"
-                                                title='Final Cost Transport Completed'
-                                            >
-                                                Final Cost Transport Completed &nbsp;
-                                                <CBadge color="secondary" className="ms-auto">
-                                                    {detailWarehouses[index]?.totalFinalCostConfirmedCount || 0}
-                                                </CBadge>
-                                            </CButton>
+                                            <div className="d-grid gap-2 col-12 mx-auto">
+                                                <CButton
+                                                    width={100}
+                                                    onClick={() => handleCreateFinalCost('confirm', listData)}
+                                                    className="colorBtnIcon-maroon me-2 mb-2 text-start"
+                                                    shape="rounded-0"
+                                                    title='Final Cost Transport Waiting Confirmation'
+                                                    style={{ textAlign: 'left' }}
+                                                >
+                                                    Final Cost Transport Waiting Confirmation &nbsp;
+                                                    <CBadge
+                                                        color="secondary"
+                                                        className="ms-auto"
+                                                        shape="rounded-1"
+                                                        style={{ textAlign: 'left' }}
+                                                    >
+                                                        {detailWarehouses[index]?.totalFinalCostWaitingConfirmCount || 0}
+                                                    </CBadge>
+                                                </CButton>
+                                            </div>
+
+                                            <div className="d-grid gap-2 col-12 mx-auto">
+                                                <CButton
+                                                    width={100}
+                                                    onClick={() => handleCreateFinalCost('complete', listData)}
+                                                    className="colorBtnIcon-blue me-2 mb-2 text-start"
+                                                    title='Final Cost Transport Completed'
+                                                    shape="rounded-0"
+                                                >
+                                                    Final Cost Transport Completed &nbsp;
+                                                    <CBadge
+                                                        color="secondary"
+                                                        className="ms-auto"
+                                                        shape="rounded-1"
+                                                    >
+                                                        {detailWarehouses[index]?.totalFinalCostConfirmedCount || 0}
+                                                    </CBadge>
+                                                </CButton>
+                                            </div>
                                         </div>
                                     </CCard>
                                 </CCol>

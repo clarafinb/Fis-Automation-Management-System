@@ -36,7 +36,11 @@ let initialState = {
     listInventoryDetailBox: [],
     listFinalConfirm: [],
     listFinalConfirmCostTransportDelivery: [],
-    listFinalConfirmWhCost: []
+    listFinalConfirmWhCost: [],
+    listFinalComplete: [],
+    listFinalCompleteOrderReq: [],
+    listFinalCompleteCostTransport: [],
+    listFinalCompleteWhCost: [],
 };
 
 const DashboardOpsLead = (state = initialState, { type, payload }) => {
@@ -255,6 +259,30 @@ const DashboardOpsLead = (state = initialState, { type, payload }) => {
             return {
                 ...state,
                 listFinalConfirmWhCost: payload
+            }
+
+        case actionType.SET_LIST_FINAL_COMPLETE:
+            return {
+                ...state,
+                listFinalComplete: payload
+            }
+
+        case actionType.SET_LIST_FINAL_COMPLETE_ORDER_REQ:
+            return {
+                ...state,
+                listFinalCompleteOrderReq: payload
+            }
+
+        case actionType.SET_LIST_FINAL_COMPLETE_COST_TRANSPORT:
+            return {
+                ...state,
+                listFinalCompleteCostTransport: payload
+            }
+
+        case actionType.SET_LIST_FINAL_COMPLETE_WH_COST:
+            return {
+                ...state,
+                listFinalCompleteWhCost: payload
             }
 
         default:

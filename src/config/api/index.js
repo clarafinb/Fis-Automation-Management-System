@@ -295,3 +295,7 @@ export const API_SUBMIT_FINAL_CONFIRM = BASE_URL + "transportArrangement/transpo
 export const API_UPLOAD_FINAL_CONFIRM_COST_TRANSPORT_FILE = BASE_URL + "transportArrangement/transportArrangementFinalCostTransportAddAttachment"
 export const API_GET_FINAL_CONFIRM_WH_COST = BASE_URL + "transportArrangement/transportArrangementGetWHCost"
 // FINAL COMPLETE
+export const API_GET_FINAL_COMPLETE = BASE_URL + "transportArrangement/getFinalCostTransportDeliveryConfirmed"
+export const API_GET_FINAL_COMPLETE_ORDER_REQUEST = BASE_URL + "transportArrangement/getOrderRequestBasedOnTransportArrangement"
+export const API_GET_FINAL_COMPLETE_COST_TRANSPORT = BASE_URL + "transportArrangement/getTransportFinalCostDetail"
+export const API_GET_FINAL_COMPLETE_WH_COST = BASE_URL + "transportArrangement/transportArrangementGetWHCost"

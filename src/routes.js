@@ -57,6 +57,9 @@ const backToPool = React.lazy(() => import('./views/dashboardOpsLead/backToPool/
 // FINAL CONFIRM
 const FinalConfirm = React.lazy(() => import('./views/dashboardOpsLead/finalConfirm/FinalConfirm'))
 const FinalConfirmDetail = React.lazy(() => import('./views/dashboardOpsLead/finalConfirm/FinalConfirmDetail'))
+// FINAL COMPLETE
+const FinalComplete = React.lazy(() => import('./views/dashboardOpsLead/finalComplete/FinalComplete'))
+const FinalCompleteDetail = React.lazy(() => import('./views/dashboardOpsLead/finalComplete/FinalCompleteDetail'))
 // DASHBOARD WH TEAM
 const DashboardWhTeam = React.lazy(() => import('./views/dashboardWhTeam/Dashboard'))
 // TESTING
@@ -143,6 +146,9 @@ const routes = [
   // FINAL CONFIRM
   { path: '/final-confirm/:projectId/:whId', name: 'FINAL COST TRANSPORT DELIVERY WAITING CONFIRMATION', element: FinalConfirm },
   { path: '/final-confirm/:projectId/:whId/detail/:transportArrangementId/:costGroup', name: 'FINAL COST TRANSPORT DELIVERY WAITING CONFIRMATION', element: FinalConfirmDetail },
+  // FINAL COMPLETE
+  { path: '/final-complete/:projectId/:whId', name: 'FINAL COST TRANSPORT DELIVERY WAITING COMPLETE', element: FinalComplete },
+  { path: '/final-complete/:projectId/:whId/detail/:transportArrangementId/:costGroup', name: 'FINAL COST TRANSPORT DELIVERY WAITING COMPLETE', element: FinalCompleteDetail },
   // { path: '/theme', name: 'Theme', element: Colors, exact: true },
   // { path: '/theme/colors', name: 'Colors', element: Colors },
 ]
