@@ -112,17 +112,6 @@ function TableListFinalCompleteCostTransportDelivery({
                         }
                     />
                 </CButton>
-                <CButton
-                    className='colorBtnIcon-red p-1 me-2'
-                >
-                    <CIcon
-                        icon={cilTrash}
-                        className=""
-                        onClick={() =>
-                            handleComponent("deleteFile", row)
-                        }
-                    />
-                </CButton>
             </>
         )
     }
@@ -186,16 +175,6 @@ function TableListFinalCompleteCostTransportDelivery({
                 backgroundColor: '#f8f8f8'
             }
 
-        },
-        {
-            dataField: 'transportArrangementCostId',
-            text: 'Action',
-            headerAlign: 'center',
-            headerStyle: {
-                backgroundColor: '#f8f8f8'
-            },
-            align: 'center',
-            formatter: actionFormatter
         }
     ];
 

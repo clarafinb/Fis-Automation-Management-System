@@ -12,8 +12,6 @@ import {
 } from '@coreui/react'
 
 import * as actions from '../../../config/redux/DashboardOpsLead/actions'
-import CIcon from '@coreui/icons-react'
-import { cilSpreadsheet } from '@coreui/icons'
 import TableListFinalComplete from 'src/components/dashboardOpsLead/finalComplete/TableListFinalComplete'
 import HeaderProject from '../HeaderProject'
 
@@ -57,10 +55,6 @@ function FinalComplete() {
         }
     )
 
-    const handleExportExcel = () => {
-        console.log('export excel')
-    }
-
     return (
         <>
             <CContainer fluid>
@@ -68,18 +62,10 @@ function FinalComplete() {
                     <CCol sm={12}>
                         <h4 className="card-title mb-0">
                             <span className='text-underline'>Final</span>
-                            &nbsp; Cost Transport Delivery Waiting Confirmation
+                            &nbsp;Cost Transport Delivery Complete
                         </h4>
                     </CCol>
                 </CRow>
-                {/* <CRow className='mb-4'>
-                    <CCol className="d-none d-md-block">
-                        <CButton className="colorBtn-white" onClick={handleExportExcel}>
-                            <CIcon icon={cilSpreadsheet} className="me-2 text-success" />
-                            EXPORT TO EXCEL
-                        </CButton>
-                    </CCol>
-                </CRow> */}
                 <CCard className="">
                     <CCardBody>
                         <CRow className='mt-3 mb-4'>

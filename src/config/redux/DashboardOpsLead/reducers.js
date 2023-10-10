@@ -39,7 +39,7 @@ let initialState = {
     listFinalConfirmWhCost: [],
     listFinalComplete: [],
     listFinalCompleteOrderReq: [],
-    listFinalCompleteCostTransport: [],
+    listFinalCompleteCostTransportDelivery: [],
     listFinalCompleteWhCost: [],
 };
 
@@ -276,7 +276,7 @@ const DashboardOpsLead = (state = initialState, { type, payload }) => {
         case actionType.SET_LIST_FINAL_COMPLETE_COST_TRANSPORT:
             return {
                 ...state,
-                listFinalCompleteCostTransport: payload
+                listFinalCompleteCostTransportDelivery: payload
             }
 
         case actionType.SET_LIST_FINAL_COMPLETE_WH_COST:

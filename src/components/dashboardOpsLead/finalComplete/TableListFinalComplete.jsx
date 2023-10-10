@@ -20,7 +20,7 @@ function TableListFinalComplete({
                 <CButton className='colorBtnIcon-black p-1 me-2'>
                     <CIcon
                         icon={cilPencil}
-                        title='Final Cost Transport Confirmed Detail'
+                        title='Final Cost Transport Complete Detail'
                         onClick={() =>
                             handleComponent("detail", data)
                         }

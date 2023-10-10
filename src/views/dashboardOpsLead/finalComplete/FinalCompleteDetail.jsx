@@ -20,10 +20,6 @@ import * as actions from '../../../config/redux/DashboardOpsLead/actions'
 import HeaderProject from '../HeaderProject'
 import TableListOrderRequestFinalComplete from 'src/components/dashboardOpsLead/finalComplete/TableListOrderRequestFinalComplete'
 import TableListFinalCompleteCostTransportDelivery from 'src/components/dashboardOpsLead/finalComplete/TableListFinalCompleteCostTransportDelivery'
-import { cilMoney } from '@coreui/icons'
-import CIcon from '@coreui/icons-react'
-// import ModalCreateCost from 'src/components/dashboardOpsLead/finalComplete/ModalCreateCost'
-import ButtonSubmit from 'src/components/custom/button/ButtonSubmit'
 import ButtonCancel from 'src/components/custom/button/ButtonCancel'
 import TableListFinalCompleteWhCost from 'src/components/dashboardOpsLead/finalComplete/TableListFinalCompleteWhCost'
 
@@ -36,8 +32,6 @@ function FinalComplete() {
     const { pathname } = useLocation();
 
     const [param, setParam] = useState({})
-
-    const [openModalCreateCost, setOpenModalCreateCost] = useState(false)
 
     useEffect(() => {
         const uri = pathname.split('/');
@@ -89,23 +83,8 @@ function FinalComplete() {
         })
     }
 
-    const handleCreateCost = () => {
-        setOpenModalCreateCost(true)
-    }
-
     const handleBack = () => {
         nav(param.url + param.projectId + "/" + param.whId);
-    }
-
-    const handleConfirm = () => {
-        dispatch(actions.transportArrangementFinalCostConfirmed(
-            param.transportArrangmentId,
-            Global?.user?.userID
-        )).then(resp => {
-            if (resp) {
-                handleBack()
-            }
-        })
     }
 
     return (
@@ -115,7 +94,7 @@ function FinalComplete() {
                     <CCol sm={12}>
                         <h4 className="card-title mb-0">
                             <span className='text-underline'></span>
-                            Final Cost Transport Delivery Waiting Confirmation Detail
+                            Final Cost Transport Delivery Complete Detail
                         </h4>
                     </CCol>
                 </CRow>
@@ -133,7 +112,7 @@ function FinalComplete() {
                                         active={activeKey === 1}
                                         onClick={() => setActiveKey(1)}
                                     >
-                                        <p className={activeKey === 1 ? 'text-underline-tab' : ''}>FINAL COST CONFIRMATION</p>
+                                        <p className={activeKey === 1 ? 'text-underline-tab' : ''}>FINAL COST COMPLETE</p>
                                     </CNavLink>
                                 </CNavItem>
                                 <CNavItem>
@@ -167,17 +146,6 @@ function FinalComplete() {
                                                     COST TRANSPORT DELIVERY
                                                 </h5>
                                             </CCol>
-                                            <CCol>
-                                                <CButton
-                                                    onClick={() => handleCreateCost()}
-                                                    className="float-end colorBtn-white me-2">
-                                                    <CIcon
-                                                        icon={cilMoney}
-                                                        className="me-2 text-warning"
-                                                    />
-                                                    ADD COST
-                                                </CButton>
-                                            </CCol>
                                         </CRow>
                                         <TableListFinalCompleteCostTransportDelivery
                                             data={DashboardOpsLead?.listFinalCompleteCostTransportDelivery}
@@ -195,12 +163,6 @@ function FinalComplete() {
                         </CRow>
                         <CRow className='py-2'>
                             <CCol className='text-end'>
-                                <ButtonSubmit
-                                    label='CONFIRM'
-                                    type='button'
-                                    handleButton={handleConfirm}
-                                    className='me-2'
-                                />
                                 <ButtonCancel
                                     label='CANCEL'
                                     handleButton={handleBack}
@@ -210,12 +172,6 @@ function FinalComplete() {
                     </CCardBody>
                 </CCard>
             </CContainer>
-
-            {/* <ModalCreateCost
-                open={openModalCreateCost}
-                setOpen={setOpenModalCreateCost}
-                data={param}
-            /> */}
         </>
     )
 }
