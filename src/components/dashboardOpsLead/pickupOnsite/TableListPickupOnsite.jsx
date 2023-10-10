@@ -59,6 +59,10 @@ function TableListPickupOnsite({
             headerName: 'WH NAME',
         },
         {
+            field: 'transportArrangementNo',
+            headerName: 'ARRANGEMENT NO',
+        },
+        {
             field: 'custOrderRequest',
             headerName: 'CUST ORDER REQUEST',
         },

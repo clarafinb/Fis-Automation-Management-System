@@ -70,6 +70,10 @@ function TableListDeliveryTransit({
             headerName: 'WH CODE',
         },
         {
+            field: 'transportArrangementNo',
+            headerName: 'ARRANGEMENT NO',
+        },
+        {
             field: 'custOrderRequest',
             headerName: 'CUSTOMER ORDER REQUEST',
         },
@@ -132,6 +136,10 @@ function TableListDeliveryTransit({
         {
             field: 'pickupBy',
             headerName: 'PICKUP BY',
+        },
+        {
+            field: 'currentDispatcherName',
+            headerName: 'CURRENT DISPATCHER NAME',
         },
         {
             field: 'orderReqId',

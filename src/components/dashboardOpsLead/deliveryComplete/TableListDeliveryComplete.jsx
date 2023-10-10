@@ -62,6 +62,10 @@ function TableListDeliveryComplete({
             headerName: 'WH CODE',
         },
         {
+            field: 'transportArrangementNo',
+            headerName: 'ARRANGEMENT NO',
+        },
+        {
             field: 'custOrderRequest',
             headerName: 'CUSTOMER ORDER REQUEST',
         },
