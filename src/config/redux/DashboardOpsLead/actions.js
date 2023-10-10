@@ -122,6 +122,10 @@ import {
   API_GET_FINAL_COMPLETE_ORDER_REQUEST,
   API_GET_FINAL_COMPLETE_COST_TRANSPORT,
   API_GET_FINAL_COMPLETE_WH_COST,
+  API_GET_ORDER_REQUEST_BULK,
+  API_GET_ORDER_REQUEST_BULK_TEMPLATE,
+  API_GET_DELIVERY_PROCESS_TYPE_PACKAGE_PROCESS,
+  API_GET_ROUTE_TYPE_PACKAGE_PROCESS,
 } from '../../api/index'
 
 /**************************************** DASHBOARD OPS LEAD ****************************************/
@@ -3671,6 +3675,117 @@ export const getListFinalCompleteWhCost = (transportArrangmentId) => {
         payload: getListData,
       })
 
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Close',
+      })
+    }
+  }
+}
+
+export const getListOrderRequestBulkDraft = (projectId, whId, userId) => {
+  return async (dispatch) => {
+    try {
+      const fullParam = `${projectId}/${whId}/${userId}`
+
+      let list = await actionCrud.actionParamRequest(
+        fullParam,
+        API_GET_ORDER_REQUEST_BULK,
+        'GET'
+      )
+
+      let getListData = list?.map((item, idx) => {
+        return {
+          no: idx + 1,
+          ...item,
+        }
+      })
+
+      dispatch({
+        type: actionType.SET_LIST_ORDER_REQUEST_BULK_DRAFT,
+        payload: getListData,
+      })
+
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Close',
+      })
+    }
+  }
+}
+
+export const getBulkOrderRequestDeliveryTemplate = () => {
+  return async () => {
+    try {
+      let url = API_GET_ORDER_REQUEST_BULK_TEMPLATE
+      let data = await actionCrud.actionCommonCrud(null, url, 'GET')
+      return Promise.resolve(data)
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Close',
+      })
+    }
+  }
+}
+
+export const getSelectDeliveryProcessPackageProcess = (packageProcessId) => {
+  return async () => {
+    try {
+      const fullParam = `${packageProcessId}`
+
+      let list = await actionCrud.actionParamRequest(
+        fullParam,
+        API_GET_DELIVERY_PROCESS_TYPE_PACKAGE_PROCESS,
+        'GET'
+      )
+
+      let data = list?.map((item, idx) => {
+        return {
+          label: item.point_code,
+          value: item.point_code_id,
+        }
+      })
+
+      return Promise.resolve(data)
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Close',
+      })
+    }
+  }
+}
+
+export const getSelecRouteTypePackageProcess = (packageProcessId) => {
+  return async () => {
+    try {
+      const fullParam = `${packageProcessId}`
+
+      let list = await actionCrud.actionParamRequest(
+        fullParam,
+        API_GET_ROUTE_TYPE_PACKAGE_PROCESS,
+        'GET'
+      )
+
+      let data = list?.map((item, idx) => {
+        return {
+          label: item.point_code,
+          value: item.point_code_id,
+        }
+      })
+
+      return Promise.resolve(data)
     } catch (error) {
       Swal.fire({
         title: 'Error!',

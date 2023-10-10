@@ -119,6 +119,11 @@ export const API_GET_DESTINATION_KEY_WH_PROJECT = BASE_URL + "masterdata/getDest
 export const API_ADD_ORDER_REQUEST = BASE_URL + "logmanagement/addOrderRequestWHProject"
 export const API_EXPORT_EXCEL_ORDER_REQUEST = BASE_URL + "logmanagement/getOrderRequestWHProjectExportToExcel"
 export const API_GET_DESTINATION_ORDER_REQUEST = BASE_URL + "logmanagement/getDestinationKeyWHProject"
+// ORDER REQUEST BULK
+export const API_GET_ORDER_REQUEST_BULK = BASE_URL + "logmanagement/getOrderRequestDraftWHProject"
+export const API_GET_ORDER_REQUEST_BULK_TEMPLATE = BASE_URL + "logmanagement/getBulkOrderRequestDeliveryTemplate"
+export const API_GET_DELIVERY_PROCESS_TYPE_PACKAGE_PROCESS = BASE_URL + "masterData/deliveryProcessTypeBasedOnPackageProcess"
+export const API_GET_ROUTE_TYPE_PACKAGE_PROCESS = BASE_URL + "masterData/routeTypeGetAll"
 //PICK AND PACK
 export const API_GET_PICK_AND_PACK_PENDING = BASE_URL + "logmanagement/getPickandPackPendingWHProject";
 export const API_START_PICK_AND_PACK = BASE_URL + "logmanagement/pickandPackStart";

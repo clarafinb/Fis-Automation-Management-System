@@ -218,6 +218,11 @@ function Dashboard() {
         setOpenModalOrderRequest(true)
     }
 
+    const handleCreateOrderRequestBulk = (detailWarehouses) => {
+        const url = `/order-request-bulk/${detailWarehouses.projectId}/${detailWarehouses.whId}/1`
+        nav(url, { replace: true })
+    }
+
     useEffect(() => {
         if (cookies?.dashboardOpsLead && Global?.user?.userID && cookies?.activeMenu) {
             let param = {
@@ -286,12 +291,21 @@ function Dashboard() {
                                     <CCard>
                                         <div className='m-3'>
                                             <CRow>
-                                                <CCol sm={6}>
+                                                <CCol sm={4}>
                                                     <HeaderProject data={listData} />
                                                 </CCol>
-                                                <CCol className="d-none d-md-block p-2" sm={6}>
+                                                <CCol className="d-none d-md-block p-2 text-end">
                                                     <CButton
-                                                        className="float-end colorBtnIcon-blue me-2"
+                                                        onClick={() => handleCreateOrderRequestBulk(listData)}
+                                                        className="colorBtnIcon-blue me-2 mb-1">
+                                                        <CIcon
+                                                            icon={cilNotes}
+                                                            className="me-2 textWhite"
+                                                        />
+                                                        ADD BULK ORDER REQUEST
+                                                    </CButton>
+                                                    <CButton
+                                                        className="colorBtnIcon-blue me-2 mb-1"
                                                         onClick={() => handleNavigator("manageInventory", listData)}>
                                                         <CIcon
                                                             icon={cilEqualizer}
@@ -301,7 +315,7 @@ function Dashboard() {
                                                     </CButton>
                                                     <CButton
                                                         onClick={() => handleCreateOrderRequest(listData)}
-                                                        className="float-end colorBtnIcon-blue me-2">
+                                                        className="colorBtnIcon-blue me-2 mb-1">
                                                         <CIcon
                                                             icon={cilEqualizer}
                                                             className="me-2 textWhite rotate-icon90"

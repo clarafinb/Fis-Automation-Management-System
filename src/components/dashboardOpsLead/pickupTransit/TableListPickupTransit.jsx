@@ -5,7 +5,7 @@ import {
     CRow,
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react';
-import { cilHome, cilUser } from '@coreui/icons';
+import { cilHome, cilPencil, cilUser } from '@coreui/icons';
 import DataGrid from 'src/components/custom/table/DataGrid';
 import { formatStandartDate } from 'src/helper/globalHelper';
 
@@ -17,6 +17,16 @@ function TableListPickupTransit({
     const handleAction = (data) => {
         return (
             <>
+                <CButton className='colorBtnIcon-black p-1 me-2'>
+                    <CIcon
+                        icon={cilPencil}
+                        className=""
+                        title='Pick-up in Transit Detail'
+                        onClick={() =>
+                            handleComponent("detail", data)
+                        }
+                    />
+                </CButton>
                 <CButton className='colorBtnIcon-black p-1 me-2'>
                     <CIcon
                         icon={cilUser}

@@ -4,7 +4,7 @@ import React from 'react'
 function HeaderProject({ data }) {
     return (
         <CRow>
-            <CCol sm={1}>
+            <CCol sm={1} className='me-1'>
                 <img src={'icon/icon_project_grey.png'} alt="icon_project" className='py-2' />
             </CCol>
             <CCol>

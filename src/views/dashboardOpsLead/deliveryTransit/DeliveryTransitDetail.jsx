@@ -11,8 +11,6 @@ import {
     CRow
 } from '@coreui/react'
 import * as actions from '../../../config/redux/DashboardOpsLead/actions'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faMap } from '@fortawesome/free-solid-svg-icons'
 import moment from 'moment/moment'
 import ModalOpenMap from 'src/components/dashboard/masterWarehouse/warehouse/ModalOpenMap'
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -30,11 +28,23 @@ function DeliveryTransitDetail() {
     const [modalMap, setModalMap] = useState(false)
     const [mapKey, setMapKey] = useState(Date.now())
     const { pathname } = useLocation();
+    const [headerData, setHeaderData] = useState({
+        url: 'delivery-transit',
+        label: 'Delivery Transit Detail',
+    })
 
     useEffect(() => {
+        const url = pathname.split('/')[1]
         const pId = pathname.split('/')[2]
         const wId = pathname.split('/')[3]
         const orderRequestId = pathname.split('/')[5]
+
+        if (url === 'pickup-transit') {
+            setHeaderData({
+                url: 'pickup-transit',
+                label: 'PICKUP In Transit Detail',
+            })
+        }
 
         setProjectId(pId)
         setWhId(wId)
@@ -58,7 +68,7 @@ function DeliveryTransitDetail() {
     }
 
     const handleBack = () => {
-        nav("/delivery-transit/" + projectId + "/" + whId, { replace: true })
+        nav("/" + headerData.url + "/" + projectId + "/" + whId, { replace: true })
     }
 
     const getLastLocation = (orderReqId) => {
@@ -82,7 +92,7 @@ function DeliveryTransitDetail() {
                             <CRow>
                                 <CCol>
                                     <h4 className="card-title mb-0">
-                                        Delivery Transit Detail
+                                        {headerData.label}
                                     </h4>
                                 </CCol>
                             </CRow>
@@ -212,7 +222,7 @@ function DeliveryTransitDetail() {
                                     </CRow>
 
                                     <CRow className="m-1 py-3">
-                                        <img src={'images/map.png'} alt="" onClick={handleOpenModal} style={{cursor: "pointer"}}/>
+                                        <img src={'images/map.png'} alt="" onClick={handleOpenModal} style={{ cursor: "pointer" }} />
                                     </CRow>
                                     < CRow >
                                         <CCol className="d-none d-md-block text-end py-3">

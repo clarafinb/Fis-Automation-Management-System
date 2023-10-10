@@ -64,6 +64,8 @@ function PickupTransit() {
                 setTransportTypeArrangementId(data.transportTypeArrangementId)
                 setOpenModalReAssignMover(true)
             }
+
+            if (name === 'detail') nav(`track/${data.orderReqId}`)
         }
     )
 

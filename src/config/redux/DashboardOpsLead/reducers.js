@@ -41,6 +41,7 @@ let initialState = {
     listFinalCompleteOrderReq: [],
     listFinalCompleteCostTransportDelivery: [],
     listFinalCompleteWhCost: [],
+    listOrdeRequestBulkDraft: []
 };
 
 const DashboardOpsLead = (state = initialState, { type, payload }) => {
@@ -283,6 +284,12 @@ const DashboardOpsLead = (state = initialState, { type, payload }) => {
             return {
                 ...state,
                 listFinalCompleteWhCost: payload
+            }
+
+        case actionType.SET_LIST_ORDER_REQUEST_BULK_DRAFT:
+            return {
+                ...state,
+                listOrderRequestBulkDraft: payload
             }
 
         default:

@@ -25,6 +25,7 @@ const AssetTruck = React.lazy(() => import('./views/dashboard/settingManagement/
 const Mrs = React.lazy(() => import('./views/dashboard/masterWarehouse/Mrs'))
 //Operation Lead
 const OrderRequest = React.lazy(() => import('./views/dashboardOpsLead/orderRequest/OrderRequest'))
+const OrderRequestBulk = React.lazy(() => import('./views/dashboardOpsLead/orderRequest/OrderRequestBulk'))
 const PickAndPack = React.lazy(() => import('./views/dashboardOpsLead/pickAndPackPending/PickAndPack'))
 const PickAndPackDetail = React.lazy(() => import('./views/dashboardOpsLead/pickAndPackPending/PickAndPackDetail'))
 const PickAndPackProgress = React.lazy(() => import('./views/dashboardOpsLead/pickAndPackProgress/PickAndPackProgress'))
@@ -91,6 +92,8 @@ const routes = [
   { path: '/mrs/:id', name: 'MASTER MRS', element: Mrs },
   // ORDER REQUEST
   { path: '/order-request/:projectId/:whId', name: 'ORDER REQUEST', element: OrderRequest },
+  // ORDER REQUEST
+  { path: '/order-request-bulk/:projectId/:whId/:packageProcessId', name: 'BULK ORDER REQUEST', element: OrderRequestBulk },
   // PICK AND PACK PENDING
   { path: '/pick-pack-pending/:projectId/:whId', name: 'PICK AND PACK PENDING', element: PickAndPack },
   { path: '/pick-pack-pending/:projectId/:whId/detail/:orderReqId', name: 'PICK AND PACK PENDING DETAIL', element: PickAndPackDetail },
@@ -143,6 +146,7 @@ const routes = [
   // PICKUP TRANSIT
   { path: '/pickup-transit/:projectId/:whId', name: 'INTRANSIT PICKUP', element: PickupTransit },
   { path: '/pickup-transit/:projectId/:whId/detail/:orderReqId', name: 'INTRANSIT PICKUP PICKUP DETAIL', element: PickupTransitDetail },
+  { path: '/pickup-transit/:projectId/:whId/track/:orderReqId', name: 'INTRANSIT PICKUP PICKUP DETAIL', element: DeliveryTransitDetail },
   // FINAL CONFIRM
   { path: '/final-confirm/:projectId/:whId', name: 'FINAL COST TRANSPORT DELIVERY WAITING CONFIRMATION', element: FinalConfirm },
   { path: '/final-confirm/:projectId/:whId/detail/:transportArrangementId/:costGroup', name: 'FINAL COST TRANSPORT DELIVERY WAITING CONFIRMATION', element: FinalConfirmDetail },
