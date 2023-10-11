@@ -3750,8 +3750,8 @@ export const getSelectDeliveryProcessPackageProcess = (packageProcessId) => {
 
       let data = list?.map((item, idx) => {
         return {
-          label: item.point_code,
-          value: item.point_code_id,
+          label: item.processName,
+          value: item.packageProcessId,
         }
       })
 
@@ -3780,8 +3780,8 @@ export const getSelecRouteTypePackageProcess = (packageProcessId) => {
 
       let data = list?.map((item, idx) => {
         return {
-          label: item.point_code,
-          value: item.point_code_id,
+          label: item.routeType,
+          value: item.routeTypeId,
         }
       })
 

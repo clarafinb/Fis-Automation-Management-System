@@ -24,6 +24,7 @@ import HeaderProject from '../HeaderProject'
 import TableListOrderRequestBulk from 'src/components/dashboardOpsLead/orderRequest/TableListOrderRequestBulk'
 import ModalUploadFile from 'src/components/custom/modal/ModalUploadFile'
 import Swal from 'sweetalert2'
+import ModalBulkUploadOrderRequest from 'src/components/dashboardOpsLead/orderRequest/ModalBulkUploadOrderRequest'
 
 function OrderRequestBulk() {
     const { dispatch, Global, DashboardOpsLead, Dashboard } = useRedux()
@@ -36,8 +37,8 @@ function OrderRequestBulk() {
     const [param, setParam] = useState({})
 
     const [openModalUpload, setOpenModalUpload] = useState(false)
-    const [templateUrl, setTemplateUrl] = useState("")
-    const [templateName, setTemplateName] = useState("")
+    // const [templateUrl, setTemplateUrl] = useState("")
+    // const [templateName, setTemplateName] = useState("")
 
     useEffect(() => {
         const pId = pathname.split('/')[2]
@@ -78,29 +79,29 @@ function OrderRequestBulk() {
         }
     )
 
-    const handleDownloadTemplate = () => {
-        window.open(templateUrl, '_blank')
-    }
+    // const handleDownloadTemplate = () => {
+    //     window.open(templateUrl, '_blank')
+    // }
 
-    const handleUploadFile = (formData) => {
-        if (formData) {
-            // dispatch(
-            //     actions.uploadOrderReqItemPickAndPackProgress(
-            //         formData,
-            //         orderReqId
-            //     )
-            // ).then(() => {
-            //     refreshData(orderReqId, whId)
-            // })
-        } else {
-            Swal.fire({
-                title: 'Error!',
-                text: 'File Empty !',
-                icon: 'error',
-                confirmButtonText: 'OK'
-            })
-        }
-    }
+    // const handleUploadFile = (formData) => {
+    //     if (formData) {
+    //         // dispatch(
+    //         //     actions.uploadOrderReqItemPickAndPackProgress(
+    //         //         formData,
+    //         //         orderReqId
+    //         //     )
+    //         // ).then(() => {
+    //         //     refreshData(orderReqId, whId)
+    //         // })
+    //     } else {
+    //         Swal.fire({
+    //             title: 'Error!',
+    //             text: 'File Empty !',
+    //             icon: 'error',
+    //             confirmButtonText: 'OK'
+    //         })
+    //     }
+    // }
 
     const handleCreateBulkOrderRequest = () => {
         setOpenModalUpload(true)
@@ -183,12 +184,13 @@ function OrderRequestBulk() {
                 </CCard>
             </CContainer>
 
-            <ModalUploadFile
+            <ModalBulkUploadOrderRequest
                 open={openModalUpload}
                 setOpen={setOpenModalUpload}
-                handleDownloadTemplate={handleDownloadTemplate}
-                templateName={templateName}
-                handleUpload={handleUploadFile}
+                // handleDownloadTemplate={handleDownloadTemplate}
+                // templateName={templateName}
+                // handleUpload={handleUploadFile}
+                data={param}
             />
         </>
     )
