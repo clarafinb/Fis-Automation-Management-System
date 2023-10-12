@@ -72,6 +72,16 @@ function TableListFinalComplete({
             }
         },
         {
+            field: 'orderReqCount',
+            headerName: 'ORDER REQ TOTAL',
+            minWidth: 200,
+        },
+        {
+            field: 'totalCost',
+            headerName: 'TOTAL COST',
+            minWidth: 200,
+        },
+        {
             field: 'orderReqId',
             headerName: 'ACTION',
             maxWidth: 150,

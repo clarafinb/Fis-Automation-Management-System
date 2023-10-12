@@ -180,6 +180,24 @@ function TableListFinalConfirmCostTransportDelivery({
         },
         {
             dataField: 'serviceCost',
+            text: 'Unit Price',
+            headerAlign: 'center',
+            headerStyle: {
+                backgroundColor: '#f8f8f8'
+            }
+
+        },
+        {
+            dataField: 'serviceQty',
+            text: 'QTY',
+            headerAlign: 'center',
+            headerStyle: {
+                backgroundColor: '#f8f8f8'
+            }
+
+        },
+        {
+            dataField: 'totalChargeFee',
             text: 'Total Cost',
             headerAlign: 'center',
             headerStyle: {
