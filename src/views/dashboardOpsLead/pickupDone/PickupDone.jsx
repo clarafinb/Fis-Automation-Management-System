@@ -8,9 +8,6 @@ import {
     CCardBody,
     CCol,
     CContainer,
-    CNav,
-    CNavItem,
-    CNavLink,
     CRow,
     CTabContent,
     CTabPane
@@ -19,7 +16,7 @@ import {
 import * as actions from '../../../config/redux/DashboardOpsLead/actions'
 import TableListPickupDone from 'src/components/dashboardOpsLead/pickupDone/TableListPickupDone'
 import CIcon from '@coreui/icons-react'
-import { cilDataTransferUp, cilSpreadsheet } from '@coreui/icons'
+import { cilSpreadsheet } from '@coreui/icons'
 import HeaderProject from '../HeaderProject'
 
 function PickupDone() {
@@ -46,7 +43,7 @@ function PickupDone() {
     const handleComponent = useCallback(
         (action, value, data) => {
             if (action === 'detail') {
-                nav(`detail/${value}`, { replace: true })
+                nav(`detail/${value?.orderReqId}`, { replace: true })
             }
         }
     )
