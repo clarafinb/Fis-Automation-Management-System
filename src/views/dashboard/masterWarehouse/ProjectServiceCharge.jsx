@@ -14,7 +14,6 @@ import {
 import CIcon from '@coreui/icons-react'
 import * as actions from '../../../config/redux/Dashboard/actions'
 import ModalCreateProjectServiceCharge from 'src/components/dashboard/masterWarehouse/projectServiceChargeList/ModalCreateProjectServiceCharge'
-import TableServiceChargeList from 'src/components/dashboard/settingManagement/serviceChargeList/TableServiceChargeList'
 import TableProjectServiceChargeList from 'src/components/dashboard/masterWarehouse/projectServiceChargeList/TableProjectServiceChargeList'
 
 function ProjectServiceCharge() {
@@ -43,7 +42,7 @@ function ProjectServiceCharge() {
 
     return (
         <>
-            <CRow>
+            <CRow className='mb-4'>
                 <CCol sm={5}>
                     <h4 className="card-title mb-0">
                         <span className='text-underline'>PR</span>
@@ -51,8 +50,7 @@ function ProjectServiceCharge() {
                     </h4>
                 </CCol>
             </CRow>
-            <br />
-            <CRow>
+            <CRow className='mb-4'>
                 <CCol sm={5}>
                     <CButton
                         className="colorBtn-white"
@@ -63,7 +61,6 @@ function ProjectServiceCharge() {
                     </CButton>
                 </CCol>
             </CRow>
-            <br />
             <CRow>
                 <CCard>
                     <CCardBody>
@@ -76,7 +73,7 @@ function ProjectServiceCharge() {
                     </CCardBody>
                 </CCard>
             </CRow>
-            <br />
+
             <ModalCreateProjectServiceCharge
                 open={modalCreate}
                 setOpen={setModalCreate}

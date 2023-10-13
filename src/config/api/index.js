@@ -304,3 +304,6 @@ export const API_GET_FINAL_COMPLETE = BASE_URL + "transportArrangement/getFinalC
 export const API_GET_FINAL_COMPLETE_ORDER_REQUEST = BASE_URL + "transportArrangement/getOrderRequestBasedOnTransportArrangement"
 export const API_GET_FINAL_COMPLETE_COST_TRANSPORT = BASE_URL + "transportArrangement/getTransportFinalCostDetail"
 export const API_GET_FINAL_COMPLETE_WH_COST = BASE_URL + "transportArrangement/transportArrangementGetWHCost"
+// PICKUP DONE
+export const API_GET_PICKUP_DONE = BASE_URL + "logmanagement/getOrderRequestPickupDoneDispatcherConfirmedWHProject"
+export const API_COMPLETE_PICKUP_DONE = BASE_URL + "logmanagement/hoCompleteforPickupRequest"

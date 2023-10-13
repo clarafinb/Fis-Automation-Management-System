@@ -61,6 +61,9 @@ const FinalConfirmDetail = React.lazy(() => import('./views/dashboardOpsLead/fin
 // FINAL COMPLETE
 const FinalComplete = React.lazy(() => import('./views/dashboardOpsLead/finalComplete/FinalComplete'))
 const FinalCompleteDetail = React.lazy(() => import('./views/dashboardOpsLead/finalComplete/FinalCompleteDetail'))
+// PICKUP DONE
+const PickupDone = React.lazy(() => import('./views/dashboardOpsLead/pickupDone/PickupDone'))
+const PickupDoneDetail = React.lazy(() => import('./views/dashboardOpsLead/pickupDone/PickupDoneDetail'))
 // DASHBOARD WH TEAM
 const DashboardWhTeam = React.lazy(() => import('./views/dashboardWhTeam/Dashboard'))
 // TESTING
@@ -155,6 +158,9 @@ const routes = [
   { path: '/final-complete/:projectId/:whId/detail/:transportArrangementId/:costGroup', name: 'FINAL COST TRANSPORT DELIVERY WAITING COMPLETE', element: FinalCompleteDetail },
   // { path: '/theme', name: 'Theme', element: Colors, exact: true },
   // { path: '/theme/colors', name: 'Colors', element: Colors },
+  // PICKUP DONE
+  { path: '/pickup-done/:projectId/:whId', name: 'PICKUP DONE AND WAITING HO COMPLETE', element: PickupDone },
+  { path: '/pickup-done/:projectId/:whId/detail/:orderReqId', name: 'PICKUP DONE AND WAITING HO COMPLETE DETAIL', element: PickupDoneDetail },
 ]
 
 export default routes

@@ -1,6 +1,7 @@
 import React from 'react'
 
 import {
+    CBadge,
     CCol,
     CRow,
 } from '@coreui/react'
@@ -28,12 +29,29 @@ function TableProjectServiceChargeList({
         )
     }
 
+    const badge = (value) => {
+        return (
+            <CBadge
+                className={value === "yes"
+                    ? "badge-info"
+                    : "badge-secondary"
+                }
+            >
+                {value === "yes"
+                    ? "YES"
+                    : "NO"
+                }
+            </CBadge>
+        )
+    }
+
     const columns = [
         {
             field: 'no',
             headerName: 'NO',
             cellStyle: { textAlign: 'center' },
             minWidth: 150,
+            filter: false
         },
         {
             field: 'serviceCharge',
@@ -43,14 +61,22 @@ function TableProjectServiceChargeList({
         {
             field: 'serviceChargeCode',
             headerName: 'SERVICE CHARGE CODE',
-            cellStyle: { textAlign: 'center' },  
+            cellStyle: { textAlign: 'center' },
+        },
+        {
+            field: 'hasFixedPrice',
+            headerName: 'IS FIXED PRICE',
+            cellStyle: { textAlign: 'center' },
+            cellRenderer: ({ value }) => {
+                return badge(value)
+            }
         },
         {
             field: 'chargeFee',
             headerName: 'CHARGE FEE',
             cellStyle: { textAlign: 'center' },
-            cellRenderer: ({ data }) => {
-                return (separateComma(data.chargeFee ? data.chargeFee.toString() : 0))
+            cellRenderer: ({ value }) => {
+                return (separateComma(value))
             }
         },
         {
@@ -80,7 +106,8 @@ function TableProjectServiceChargeList({
             pinned: 'right',
             cellRenderer: ({ data }) => {
                 return toogle(data.isActive, data)
-            }
+            },
+            filter: false
         },
     ];
 

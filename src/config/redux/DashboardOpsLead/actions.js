@@ -126,6 +126,8 @@ import {
   API_GET_ORDER_REQUEST_BULK_TEMPLATE,
   API_GET_DELIVERY_PROCESS_TYPE_PACKAGE_PROCESS,
   API_GET_ROUTE_TYPE_PACKAGE_PROCESS,
+  API_GET_PICKUP_DONE,
+  API_COMPLETE_PICKUP_DONE,
 } from '../../api/index'
 
 /**************************************** DASHBOARD OPS LEAD ****************************************/
@@ -3786,6 +3788,78 @@ export const getSelecRouteTypePackageProcess = (packageProcessId) => {
       })
 
       return Promise.resolve(data)
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Close',
+      })
+    }
+  }
+}
+
+export const getListPickupDone = (projectId, whId, userId) => {
+  return async (dispatch) => {
+    try {
+      const fullParam = `${projectId}/${whId}/${userId}`
+
+      let list = await actionCrud.actionParamRequest(
+        fullParam,
+        API_GET_PICKUP_DONE,
+        'GET'
+      )
+
+      let getListData = list?.map((item, idx) => {
+        return {
+          no: idx + 1,
+          ...item,
+        }
+      })
+
+      dispatch({
+        type: actionType.SET_LIST_PICKUP_DONE,
+        payload: getListData,
+      })
+
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Close',
+      })
+    }
+  }
+}
+
+export const completePickupDone = (
+  payload
+) => {
+  return async (dispatch) => {
+    try {
+      let response = await actionCrud.actionCommonCrud(
+        payload,
+        API_COMPLETE_PICKUP_DONE,
+        'PUT'
+      )
+
+      if (response.status === 'success') {
+        Swal.fire({
+          position: 'center',
+          icon: 'success',
+          title: response?.message,
+          showConfirmButton: true,
+        })
+      } else {
+        Swal.fire({
+          title: 'Error!',
+          text: response?.message,
+          icon: 'error',
+          confirmButtonText: 'Close',
+        })
+      }
+      return Promise.resolve(response.status)
     } catch (error) {
       Swal.fire({
         title: 'Error!',

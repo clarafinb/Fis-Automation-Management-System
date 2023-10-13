@@ -153,6 +153,16 @@ export const manipulateDataTableDashboard = (data) => {
                     projectName: item?.projectName
                 }, {
                     no: 7,
+                    transaction: "PICKUP DONE & WAITING HO IN WH",
+                    totalTransaction: item?.pickupOnsiteCount,
+                    color: "#BD9F3B",
+                    key: "pickupDone",
+                    whId: item?.whId,
+                    whName: item?.whName,
+                    projectId: item?.projectId,
+                    projectName: item?.projectName
+                }, {
+                    no: 8,
                     transaction: "HO COMPLETED",
                     totalTransaction: item?.hoCompleteCount,
                     color: "#F87272",

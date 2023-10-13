@@ -41,7 +41,8 @@ let initialState = {
     listFinalCompleteOrderReq: [],
     listFinalCompleteCostTransportDelivery: [],
     listFinalCompleteWhCost: [],
-    listOrdeRequestBulkDraft: []
+    listOrdeRequestBulkDraft: [],
+    listPickupDone: []
 };
 
 const DashboardOpsLead = (state = initialState, { type, payload }) => {
@@ -291,6 +292,13 @@ const DashboardOpsLead = (state = initialState, { type, payload }) => {
                 ...state,
                 listOrderRequestBulkDraft: payload
             }
+
+        case actionType.SET_LIST_PICKUP_DONE:
+            return {
+                ...state,
+                listPickupDone: payload
+            }
+
 
         default:
             return { ...state };

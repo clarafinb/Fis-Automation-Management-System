@@ -190,6 +190,10 @@ function Dashboard() {
             {
                 type: 'backToPool',
                 url: `/back-to-pool/${projectId}/${whId}`
+            },
+            {
+                type: 'pickupDone',
+                url: `/pickup-done/${projectId}/${whId}`
             }
         ]
 
