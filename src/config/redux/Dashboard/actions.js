@@ -117,7 +117,14 @@ import {
   API_SET_IN_USE_MRS,
   API_GET_MASTER_VEHICLES_CATEGORY,
   API_GET_MASTER_VEHICLES_BRAND,
-  API_GET_MASTER_VEHICLES_DETAIL
+  API_GET_MASTER_VEHICLES_DETAIL,
+  API_GET_MRS_DETAIL,
+  API_GET_BULK_UPLOAD_MRS_DETAIL,
+  API_GET_TRANSPORT_TYPE_ACTIVE_ONLY_ALL,
+  API_GET_TEMPLATE_MRS_DETAIL,
+  API_UPLOAD_MRS_DETAIL,
+  API_ADD_MRS_DETAIL,
+  API_DELETE_MRS_DETAIL
 } from "../../api/index"
 import Swal from "sweetalert2";
 
@@ -2650,6 +2657,193 @@ export const setInUseMrs = (mrsId, projectId, userId) => {
         dispatch(getListMrs(projectId));
       }
 
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Close'
+      })
+    }
+  }
+}
+
+export const getListMrsDetail = (mrsId) => {
+  return async (dispatch) => {
+    try {
+      let list = await actionCrud.actionCommonSlice(mrsId, API_GET_MRS_DETAIL, "GET");
+      let result = list?.map((item, idx) => {
+        return {
+          no: idx + 1,
+          ...item,
+        }
+      })
+      dispatch({
+        type: actionType.SET_LIST_MRS_DETAIL,
+        payload: result
+      });
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Close'
+      })
+    }
+  }
+}
+
+export const getListMrsDetailBulkUpload = (mrsId) => {
+  return async (dispatch) => {
+    try {
+      let list = await actionCrud.actionCommonSlice(mrsId, API_GET_BULK_UPLOAD_MRS_DETAIL, "GET");
+      let result = list?.map((item, idx) => {
+        return {
+          no: idx + 1,
+          ...item,
+        }
+      })
+      dispatch({
+        type: actionType.SET_LIST_MRS_DETAIL_BULK_UPLOAD,
+        payload: result
+      });
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Close'
+      })
+    }
+  }
+}
+
+export const getSelecTransportTypeAll = (payload) => {
+  return async () => {
+    try {
+      let list = await actionCrud.actionCommonCrud(payload, API_GET_TRANSPORT_TYPE_ACTIVE_ONLY_ALL, "GET");
+      let data = list?.map((item, idx) => {
+        return {
+          label: item.transportMode + '-' + item.transportName,
+          value: item.transportTypeId
+        }
+      })
+      return Promise.resolve(data)
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Close'
+      })
+    }
+  }
+}
+
+export const getBulkUploadMRSDetailTemplate = () => {
+  return async () => {
+    try {
+      let data = await actionCrud.actionParamRequest('', API_GET_TEMPLATE_MRS_DETAIL, "GET");
+      return Promise.resolve(data)
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Close'
+      })
+    }
+  }
+}
+
+export const mrsDetailBulkUpload = (formData, mrsId) => {
+  return async (dispatch) => {
+    try {
+      const { value, status, message } = await actionCrud.actionCommonSliceParam(
+        mrsId,
+        API_UPLOAD_MRS_DETAIL,
+        "POST",
+        '',
+        formData)
+      if (status !== 'error') {
+        Swal.fire({
+          title: value.status,
+          text: value.message,
+          icon: "success",
+          confirmButtonText: "Yes",
+        });
+      } else {
+        Swal.fire({
+          title: 'Error!',
+          text: message,
+          icon: 'error',
+          confirmButtonText: 'Close'
+        })
+      }
+      return Promise.resolve(value.status)
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Close'
+      })
+    }
+  };
+}
+
+export const createMrsDetail = (payload) => {
+  return async (dispatch) => {
+    try {
+      let response = await actionCrud.actionCommonCrud(payload, API_ADD_MRS_DETAIL, "POST");
+      if (response.status === "success") {
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: response?.message,
+          showConfirmButton: true
+        });
+      } else {
+        Swal.fire({
+          title: 'Error!',
+          text: response?.message,
+          icon: 'error',
+          confirmButtonText: 'Close'
+        })
+      }
+      return Promise.resolve(response.status)
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Close'
+      })
+    }
+  }
+}
+
+export const deleteMrsDetail = (mrsDetailId, userId) => {
+  return async (dispatch) => {
+    try {
+      const fullParam = `${mrsDetailId}/${userId}`
+      let create = await actionCrud.actionCommonSliceParam(fullParam, API_DELETE_MRS_DETAIL, "PUT");
+      if (create.status === "success") {
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: create?.message,
+          showConfirmButton: true
+        });
+      } else {
+        Swal.fire({
+          title: 'Error!',
+          text: create?.message,
+          icon: 'error',
+          confirmButtonText: 'Close'
+        })
+      }
+      return Promise.resolve(create.status)
     } catch (error) {
       Swal.fire({
         title: 'Error!',

@@ -25,7 +25,9 @@ let initialState = {
     listEvidenceChecklistProject: [],
     listMasterAssetTruck: [],
     listMasterPlateCode: [],
-    listMrs: []
+    listMrs: [],
+    listMrsDetail: [],
+    listMrsDetailBulkUpload: []
 };
 
 const Dashboard = (state = initialState, { type, payload }) => {
@@ -195,6 +197,18 @@ const Dashboard = (state = initialState, { type, payload }) => {
             return {
                 ...state,
                 activeMenu: ""
+            }
+
+        case actionType.SET_LIST_MRS_DETAIL:
+            return {
+                ...state,
+                listMrsDetail: payload
+            }
+
+        case actionType.SET_LIST_MRS_DETAIL_BULK_UPLOAD:
+            return {
+                ...state,
+                listMrsDetailBulkUpload: payload
             }
 
         default:

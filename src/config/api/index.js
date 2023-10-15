@@ -307,3 +307,11 @@ export const API_GET_FINAL_COMPLETE_WH_COST = BASE_URL + "transportArrangement/t
 // PICKUP DONE
 export const API_GET_PICKUP_DONE = BASE_URL + "logmanagement/getOrderRequestPickupDoneDispatcherConfirmedWHProject"
 export const API_COMPLETE_PICKUP_DONE = BASE_URL + "logmanagement/hoCompleteforPickupRequest"
+// MRS DETAIL
+export const API_GET_MRS_DETAIL = BASE_URL + "mrs/mrsDetailGetListBasedOnMRS"
+export const API_GET_TRANSPORT_TYPE_ACTIVE_ONLY_ALL = BASE_URL + "logmanagement/transportTypeGetAllActiveOnly"
+export const API_ADD_MRS_DETAIL = BASE_URL + "mrs/mrsDetailAdd"
+export const API_UPLOAD_MRS_DETAIL = BASE_URL + "mrs/mrsDetailBulkUpload"
+export const API_GET_TEMPLATE_MRS_DETAIL = BASE_URL + "masterData/getBulkUploadMRSDetailTemplate"
+export const API_GET_BULK_UPLOAD_MRS_DETAIL = BASE_URL + "mrs/mrsDetailBulkUploadGetListBasedOnMRS"
+export const API_DELETE_MRS_DETAIL = BASE_URL + "mrs/mrsDetailDelete"

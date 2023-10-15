@@ -97,13 +97,13 @@ function ModalCreateProject({ open, setOpen }) {
                     <CRow className="mb-3">
                         <CFormLabel >Project Name <code>*</code></CFormLabel>
                         <CCol>
-                            <CFormInput type="text" name="projectName" value={values?.projectName} onChange={handleOnchange} required/>
+                            <CFormInput type="text" name="projectName" value={values?.projectName} onChange={handleOnchange} required />
                         </CCol>
                     </CRow>
                     <CRow className="mb-3">
                         <CFormLabel >Project Code <code>*</code></CFormLabel>
                         <CCol>
-                            <CFormInput type="text" name="projectCode" value={values?.projectCode} onChange={handleOnchange} required/>
+                            <CFormInput type="text" name="projectCode" value={values?.projectCode} onChange={handleOnchange} required />
                         </CCol>
                     </CRow>
                     <CRow className="mb-3">
@@ -142,7 +142,7 @@ function ModalCreateProject({ open, setOpen }) {
                                 setVisible={setVisible}
                             />
                         </CCol>
-                        </CRow>
+                    </CRow>
                     <CRow className="mb-3">
                         <CCol className="d-grid gap-2">
                             <ButtonSubmit type="submit" />

@@ -9,7 +9,7 @@ import ToggleSwitch from 'src/components/custom/toggle/ToggleSwitch'
 import DataGrid from 'src/components/custom/table/DataGrid'
 import { formatStandartDate } from 'src/helper/globalHelper'
 import CIcon from '@coreui/icons-react'
-import { cilPencil } from '@coreui/icons'
+import { cilMoney, cilPencil } from '@coreui/icons'
 
 function TableListMrs({
     data,
@@ -20,9 +20,18 @@ function TableListMrs({
     const handleAction = (value, data) => {
         return (
             <>
-                <CButton className='colorBtnIcon-black p-1 me-2'>
+                <CButton className='colorBtnIcon-black p-1 me-2' disabled>
                     <CIcon
                         icon={cilPencil}
+                        className=""
+                        onClick={() =>
+                            handleComponent("edit", value, data)
+                        }
+                    />
+                </CButton>
+                <CButton className='colorBtn-yellow p-1 me-2'  title='View List of MRS'>
+                    <CIcon
+                        icon={cilMoney}
                         className=""
                         onClick={() =>
                             handleComponent("detail", value, data)
@@ -62,6 +71,13 @@ function TableListMrs({
             minWidth: 350
         },
         {
+            field: 'totalDetailCount',
+            headerName: 'TOTAL MRS',
+            cellStyle: { textAlign: 'left' },
+            headerStyle: { textAlign: 'center' },
+            maxWidth: 150
+        },
+        {
             field: 'createDate',
             headerName: 'CREATE DATE',
             cellStyle: { textAlign: 'center' },
@@ -88,7 +104,7 @@ function TableListMrs({
         {
             field: 'inUse',
             headerName: 'IS IN USE',
-            minWidth: 100,
+            maxWidth: 95,
             cellStyle: { textAlign: 'center' },
             pinned: 'right',
             filter: false,
@@ -99,7 +115,7 @@ function TableListMrs({
         {
             field: 'mrsId',
             headerName: 'ACTION',
-            minWidth: 100,
+            maxWidth: 150,
             cellStyle: { textAlign: 'center' },
             pinned: 'right',
             filter: false,

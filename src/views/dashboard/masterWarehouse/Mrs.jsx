@@ -47,9 +47,8 @@ function Mrs() {
 
     const handleComponent = useCallback(
         (action, value, data) => {
-            if (action === 'detail') {
-                nav(`detail/${value}`)
-            }
+            if (action === 'edit') nav(`edit/${value}`)
+            if (action === 'detail') nav(`detail/${value}`)
         }
     )
 
