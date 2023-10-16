@@ -4,13 +4,10 @@ import {
     CCol,
     CRow,
 } from '@coreui/react'
-import SmartTable from 'src/components/custom/table/SmartTable'
 import DataGrid from 'src/components/custom/table/DataGrid';
 
 function TableListItemInventory({
-    data,
-    handleComponent,
-    handleToogle
+    data
 }) {
 
 
@@ -56,19 +53,10 @@ function TableListItemInventory({
         },
         {
             field: 'itemQty',
-            headerName: 'REQ QTY',
+            headerName: 'RECV QTY',
             headerStyle: { textAlign: 'center' },
-            minWidth: 150,
-        },
-        {
-            field: 'balanceQTY',
-            headerName: 'BALANCE QTY',
-            cellStyle: { textAlign: 'center' },
-            maxWidth: 130,
-            pinned: 'right',
-            cellRenderer: ({ data }) => {
-                return handleBalanceQTY(Number.parseInt(data?.balanceQTY))
-            },
+            cellStyle: { textAlign: 'left' },
+            minWidth: 120,
         }
     ];
 

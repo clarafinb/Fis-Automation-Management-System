@@ -245,7 +245,7 @@ function PickupDoneDetail() {
             <CRow className='py-2'>
                 <CCol sm={5}>
                     <h4 className="card-title mb-0">
-                        <span className='text-underline'>PI</span>CK & PACK PROGRESS
+                        <span className='text-underline'>PI</span>CKUP DONE & WAITING FINAL HO
                     </h4>
                 </CCol>
             </CRow>
