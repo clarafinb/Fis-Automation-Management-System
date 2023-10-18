@@ -77,6 +77,7 @@ const routes = [
   { path: '/profile', name: 'PROFILE', element: Profile },
   { path: '/dashboard', name: 'DASHBOARD', element: Dashboard },
   { path: '/dashboard-ops-lead', name: 'DASHBOARD', element: DashboardOpsLead },
+  { path: '/dashboard-ops-lead/:menu', name: 'DASHBOARD', element: DashboardOpsLead },
   { path: '/dashboard/warehouse/:id', name: 'WAREHOUSE', element: Warehouse },
   { path: '/dashboard/setting-management/service-charge', name: 'SERVICE CHARGE LIST', element: ServiceChargeList },
   { path: '/setting-management/evidence-checklist', name: 'EVIDENCE CHECKLIST', element: EvidenceChecklist },
@@ -153,11 +154,11 @@ const routes = [
   { path: '/pickup-transit/:projectId/:whId/detail/:orderReqId', name: 'INTRANSIT PICKUP PICKUP DETAIL', element: PickupTransitDetail },
   { path: '/pickup-transit/:projectId/:whId/track/:orderReqId', name: 'INTRANSIT PICKUP PICKUP DETAIL', element: DeliveryTransitDetail },
   // FINAL CONFIRM
-  { path: '/final-confirm/:projectId/:whId', name: 'FINAL COST TRANSPORT DELIVERY WAITING CONFIRMATION', element: FinalConfirm },
-  { path: '/final-confirm/:projectId/:whId/detail/:transportArrangementId/:costGroup', name: 'FINAL COST TRANSPORT DELIVERY WAITING CONFIRMATION', element: FinalConfirmDetail },
+  { path: '/final-confirm/:projectId/:whId/:processType', name: 'FINAL COST TRANSPORT DELIVERY WAITING CONFIRMATION', element: FinalConfirm },
+  { path: '/final-confirm/:projectId/:whId/:processType/detail/:transportArrangementId/:costGroup', name: 'FINAL COST TRANSPORT DELIVERY WAITING CONFIRMATION', element: FinalConfirmDetail },
   // FINAL COMPLETE
-  { path: '/final-complete/:projectId/:whId', name: 'FINAL COST TRANSPORT DELIVERY WAITING COMPLETE', element: FinalComplete },
-  { path: '/final-complete/:projectId/:whId/detail/:transportArrangementId/:costGroup', name: 'FINAL COST TRANSPORT DELIVERY WAITING COMPLETE', element: FinalCompleteDetail },
+  { path: '/final-complete/:projectId/:whId/:processType', name: 'FINAL COST TRANSPORT DELIVERY WAITING COMPLETE', element: FinalComplete },
+  { path: '/final-complete/:projectId/:whId/:processType/detail/:transportArrangementId/:costGroup', name: 'FINAL COST TRANSPORT DELIVERY WAITING COMPLETE', element: FinalCompleteDetail },
   // { path: '/theme', name: 'Theme', element: Colors, exact: true },
   // { path: '/theme/colors', name: 'Colors', element: Colors },
   // PICKUP DONE

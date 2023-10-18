@@ -291,7 +291,8 @@ export const API_EXPORT_EXCEL_BTP = BASE_URL + "logmanagement/getDeliveryBTPWHPr
 export const API_GET_PICKUP_TRANSIT = BASE_URL + "logmanagement/getOrderRequestInTransitPickupDispatcherConfirmedWHProject"
 export const API_EXPORT_EXCEL_PICKUP_TRANSIT = BASE_URL + "logmanagement/getOrderRequestInTransitPickupExportToExcel"
 // FINAL CONFIRM
-export const API_GET_FINAL_CONFIRM = BASE_URL + "transportArrangement/getFinalCostTransportDeliveryWaitingConfirmation"
+export const API_GET_FINAL_CONFIRM_DELIVERY = BASE_URL + "transportArrangement/getFinalCostTransportDeliveryWaitingConfirmation"
+export const API_GET_FINAL_CONFIRM_PICKUP = BASE_URL + "transportArrangement/getFinalCostTransportPickupWaitingConfirmation"
 export const API_GET_FINAL_CONFIRM_TRANSPORT_DELIVERY = BASE_URL + "transportArrangement/getTransportFinalCostDetail"
 export const API_DELETE_FINAL_CONFIRM_COST_TRANSPORT = BASE_URL + "transportArrangement/transportArrangementDeleteFinalCostTransport";
 export const API_DELETE_FINAL_CONFIRM_COST_TRANSPORT_FILE = BASE_URL + "transportArrangement/transportArrangementFinalCostTransportDeleteAttachment";
@@ -300,7 +301,8 @@ export const API_SUBMIT_FINAL_CONFIRM = BASE_URL + "transportArrangement/transpo
 export const API_UPLOAD_FINAL_CONFIRM_COST_TRANSPORT_FILE = BASE_URL + "transportArrangement/transportArrangementFinalCostTransportAddAttachment"
 export const API_GET_FINAL_CONFIRM_WH_COST = BASE_URL + "transportArrangement/transportArrangementGetWHCost"
 // FINAL COMPLETE
-export const API_GET_FINAL_COMPLETE = BASE_URL + "transportArrangement/getFinalCostTransportDeliveryConfirmed"
+export const API_GET_FINAL_COMPLETE_DELIVERY = BASE_URL + "transportArrangement/getFinalCostTransportDeliveryConfirmed"
+export const API_GET_FINAL_COMPLETE_PICKUP = BASE_URL + "transportArrangement/getFinalCostTransportPickupConfirmed"
 export const API_GET_FINAL_COMPLETE_ORDER_REQUEST = BASE_URL + "transportArrangement/getOrderRequestBasedOnTransportArrangement"
 export const API_GET_FINAL_COMPLETE_COST_TRANSPORT = BASE_URL + "transportArrangement/getTransportFinalCostDetail"
 export const API_GET_FINAL_COMPLETE_WH_COST = BASE_URL + "transportArrangement/transportArrangementGetWHCost"
@@ -315,3 +317,5 @@ export const API_UPLOAD_MRS_DETAIL = BASE_URL + "mrs/mrsDetailBulkUpload"
 export const API_GET_TEMPLATE_MRS_DETAIL = BASE_URL + "masterData/getBulkUploadMRSDetailTemplate"
 export const API_GET_BULK_UPLOAD_MRS_DETAIL = BASE_URL + "mrs/mrsDetailBulkUploadGetListBasedOnMRS"
 export const API_DELETE_MRS_DETAIL = BASE_URL + "mrs/mrsDetailDelete"
+export const API_DOWNLOAD_TRANSPORT_TYPE = BASE_URL + "logmanagement/getTransportTypeActiveOnlyExportToExcel"
+export const API_DOWNLOAD_SUB_DISTRICT = BASE_URL + "masterdata/getSubDistrictExportToExcel"

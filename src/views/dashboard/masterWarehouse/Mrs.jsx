@@ -11,13 +11,14 @@ import {
     CTabContent,
 } from '@coreui/react'
 import {
-    cilPlus,
+    cilPlus, cilSpreadsheet,
 } from '@coreui/icons'
 import CIcon from '@coreui/icons-react'
 import * as actions from '../../../config/redux/Dashboard/actions'
 import ModalCreateMrs from 'src/components/dashboard/masterWarehouse/mrs/ModalCreateMrs'
 import TableListMrs from 'src/components/dashboard/masterWarehouse/mrs/TableListMrs'
 import { useLocation, useNavigate } from 'react-router-dom'
+import { downloadFileConfig } from 'src/helper/globalHelper'
 
 function Mrs() {
     const nav = useNavigate();
@@ -52,6 +53,24 @@ function Mrs() {
         }
     )
 
+    const handleDownloadTemplate = (type) => {
+        if (type === 'transportType') {
+            dispatch(
+                actions.getTransportTypeActiveOnlyExportToExcel()
+            ).then(resp => {
+                downloadFileConfig(resp, 'transport_type_' + Date.now())
+            })
+        }
+
+        if (type === 'subDistrict') {
+            dispatch(
+                actions.getSubDistrictExportToExcel()
+            ).then(resp => {
+                downloadFileConfig(resp, 'sub_district_' + Date.now())
+            })
+        }
+    }
+
 
     return (
         <>
@@ -75,6 +94,18 @@ function Mrs() {
                 <br />
                 <CCard className="">
                     <CCardBody>
+                        <CRow>
+                            <CCol className="d-none d-md-block p-2 text-end">
+                                <CButton className="colorBtnIcon-blue me-1" onClick={(e) => handleDownloadTemplate('subDistrict')}>
+                                    <CIcon icon={cilSpreadsheet} className="me-2 text-white" />
+                                    DOWNLOAD SUBDISTRICT
+                                </CButton>
+                                <CButton className="colorBtnIcon-green me-1" onClick={(e) => handleDownloadTemplate('transportType')}>
+                                    <CIcon icon={cilSpreadsheet} className="me-2 text-white" />
+                                    DOWNLOAD TRANSPORT TYPE
+                                </CButton>
+                            </CCol>
+                        </CRow>
                         <CRow>
                             <CCol className="d-none d-md-block text-end">
                                 <CTabContent>

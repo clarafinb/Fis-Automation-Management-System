@@ -25,13 +25,19 @@ function FinalConfirm() {
 
     const [projectId, setProjectId] = useState('');
     const [whId, setWhId] = useState('')
+    const [processType, setProcessType] = useState('')
+    const [title, setTitle] = useState('Delivery')
 
     useEffect(() => {
         const pId = pathname.split('/')[2]
         const wId = pathname.split('/')[3]
+        const pt = pathname.split('/')[4]
+
+        if (pt === 'pickup') setTitle('Pickup')
 
         setProjectId(pId);
         setWhId(wId);
+        setProcessType(pt);
 
         if (Global?.user?.userID) {
             dispatch(
@@ -39,7 +45,7 @@ function FinalConfirm() {
             ).then(result => {
                 const dtProjectFind = result.find(row => parseInt(row.whId) === parseInt(wId))
                 setDetailProject(dtProjectFind)
-                dispatch(actions.getListFinalConfirm(wId))
+                dispatch(actions.getListFinalConfirm(wId, pt))
             })
         }
     }, [Global?.user?.userID]);
@@ -68,7 +74,7 @@ function FinalConfirm() {
                     <CCol sm={12}>
                         <h4 className="card-title mb-0">
                             <span className='text-underline'>Final</span>
-                            &nbsp; Cost Transport Delivery Waiting Confirmation
+                            &nbsp; Cost Transport {title} Waiting Confirmation
                         </h4>
                     </CCol>
                 </CRow>

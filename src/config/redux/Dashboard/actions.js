@@ -124,7 +124,9 @@ import {
   API_GET_TEMPLATE_MRS_DETAIL,
   API_UPLOAD_MRS_DETAIL,
   API_ADD_MRS_DETAIL,
-  API_DELETE_MRS_DETAIL
+  API_DELETE_MRS_DETAIL,
+  API_DOWNLOAD_TRANSPORT_TYPE,
+  API_DOWNLOAD_SUB_DISTRICT
 } from "../../api/index"
 import Swal from "sweetalert2";
 
@@ -2844,6 +2846,38 @@ export const deleteMrsDetail = (mrsDetailId, userId) => {
         })
       }
       return Promise.resolve(create.status)
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Close'
+      })
+    }
+  }
+}
+
+export const getTransportTypeActiveOnlyExportToExcel = () => {
+  return async () => {
+    try {
+      let data = await actionCrud.actionCommonSliceParamBlob('', API_DOWNLOAD_TRANSPORT_TYPE, "GET");
+      return Promise.resolve(data)
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Close'
+      })
+    }
+  }
+}
+
+export const getSubDistrictExportToExcel = () => {
+  return async () => {
+    try {
+      let data = await actionCrud.actionCommonSliceParamBlob('', API_DOWNLOAD_SUB_DISTRICT, "GET");
+      return Promise.resolve(data)
     } catch (error) {
       Swal.fire({
         title: 'Error!',

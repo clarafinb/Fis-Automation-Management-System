@@ -37,6 +37,8 @@ function Dashboard() {
     const [listTableDashboard, setListTableDashboard] = useState([])
     const nav = useNavigate()
 
+    // console.log(Dashboard?.activeMenu)
+
     const getSummaryProject = (projectId) => {
 
         let type = cookies?.activeMenu || Dashboard?.activeMenu
@@ -223,7 +225,8 @@ function Dashboard() {
     }
 
     const handleCreateOrderRequestBulk = (detailWarehouses) => {
-        const url = `/order-request-bulk/${detailWarehouses.projectId}/${detailWarehouses.whId}/1`
+        const processTypeId = Dashboard?.activeMenu === 'dashboardopsleaddelivery' ? 1 : 2
+        const url = `/order-request-bulk/${detailWarehouses.projectId}/${detailWarehouses.whId}/${processTypeId}`
         nav(url, { replace: true })
     }
 
@@ -242,13 +245,16 @@ function Dashboard() {
 
     const handleCreateFinalCost = (type = 'confirm', detailWarehouse = {}) => {
         setSelectedDetailWarehouse(detailWarehouse)
+
+        const processType = Dashboard?.activeMenu === 'dashboardopsleaddelivery' ? 'delivery' : 'pickup'
+
         if (type === 'confirm') {
-            const url = (`/final-confirm/${detailWarehouse.projectId}/${detailWarehouse.whId}`)
+            const url = (`/final-confirm/${detailWarehouse.projectId}/${detailWarehouse.whId}/${processType}`)
             nav(url, { replace: true })
         }
 
         if (type === 'complete') {
-            const url = (`/final-complete/${detailWarehouse.projectId}/${detailWarehouse.whId}`)
+            const url = (`/final-complete/${detailWarehouse.projectId}/${detailWarehouse.whId}/${processType}`)
             nav(url, { replace: true })
         }
     }
@@ -419,6 +425,7 @@ function Dashboard() {
                 projectId={selectedDetailWarehouse.projectId}
                 detailProject={selectedDetailWarehouse}
                 getSummaryProject={getSummaryProject}
+                activeMenu={Dashboard?.activeMenu}
             />
         </>
     )

@@ -39,6 +39,8 @@ function FinalConfirm() {
 
     const [openModalCreateCost, setOpenModalCreateCost] = useState(false)
 
+    const [title, setTitle] = useState('Delivery')
+
     useEffect(() => {
         const uri = pathname.split('/');
 
@@ -46,9 +48,12 @@ function FinalConfirm() {
             url: `/${uri[1]}/`,
             projectId: uri[2],
             whId: uri[3],
-            transportArrangmentId: uri[5],
-            costGroup: uri[6],
+            transportArrangmentId: uri[6],
+            costGroup: uri[7],
+            processType: uri[5],
         })
+
+        if (uri[4] === 'pickup') setTitle('Pickup')
 
         if (Global?.user?.userID) {
             dispatch(
@@ -58,12 +63,12 @@ function FinalConfirm() {
                 setDetailProject(dtProjectFind)
 
                 if (activeKey === 1) {
-                    dispatch(actions.getOrderRequestTransportArrangment(uri[5]))
-                    dispatch(actions.getListFinalConfirmCostTransportDelivery(uri[5]))
+                    dispatch(actions.getOrderRequestTransportArrangment(uri[6]))
+                    dispatch(actions.getListFinalConfirmCostTransportDelivery(uri[6]))
                 }
 
                 if (activeKey === 2) {
-                    dispatch(actions.getListFinalConfirmWhCost(uri[5]))
+                    dispatch(actions.getListFinalConfirmWhCost(uri[6]))
                 }
 
             })
@@ -79,13 +84,15 @@ function FinalConfirm() {
         whId,
         transportArrangmentId,
         costGroup,
+        processType
     }) => {
         setParam({
             url: url,
             projectId: projectId,
             whId: whId,
             transportArrangmentId: transportArrangmentId,
-            costGroup: costGroup
+            costGroup: costGroup,
+            processType: processType
         })
     }
 
@@ -94,7 +101,7 @@ function FinalConfirm() {
     }
 
     const handleBack = () => {
-        nav(param.url + param.projectId + "/" + param.whId);
+        nav(param.url + param.projectId + "/" + param.whId + "/" + param.processType);
     }
 
     const handleConfirm = () => {
@@ -115,7 +122,7 @@ function FinalConfirm() {
                     <CCol sm={12}>
                         <h4 className="card-title mb-0">
                             <span className='text-underline'></span>
-                            Final Cost Transport Delivery Waiting Confirmation Detail
+                            Final Cost Transport {title} Waiting Confirmation Detail
                         </h4>
                     </CCol>
                 </CRow>

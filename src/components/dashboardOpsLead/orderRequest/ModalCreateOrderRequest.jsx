@@ -19,7 +19,7 @@ import Select from 'react-select'
 import ButtonSubmit from 'src/components/custom/button/ButtonSubmit'
 import Alert from 'src/components/custom/toast/Alert'
 
-function ModalCreateOrderRequest({ open, setOpen, projectId, detailProject, getSummaryProject }) {
+function ModalCreateOrderRequest({ open, setOpen, projectId, detailProject, getSummaryProject, activeMenu = 'dashboardopsleaddelivery' }) {
     const { dispatch, Global } = useRedux()
     const [values, setValues] = useState({})
     const [deliveryProcess, setDeliveryProcess] = useState([])
@@ -51,8 +51,16 @@ function ModalCreateOrderRequest({ open, setOpen, projectId, detailProject, getS
 
     useEffect(() => {
         if (Global?.user?.token && open) {
-            dispatch(actions.getSelectDeliveryProcess()).then(e => {
+
+            const packageProcessId = activeMenu === 'dashboardopsleaddelivery' ? 1 : 2;
+            // console.log('packageProcessId : ', packageProcessId)
+
+            dispatch(actions.getSelectDeliveryProcessPackageProcess(packageProcessId)).then(e => {
                 setDeliveryProcess(e)
+            })
+
+            dispatch(actions.getSelecRouteTypePackageProcess(packageProcessId)).then(e => {
+                setRouteType(e)
             })
 
             dispatch(actions.getSelecTransportType()).then(e => {
@@ -127,8 +135,8 @@ function ModalCreateOrderRequest({ open, setOpen, projectId, detailProject, getS
     const handleOnChangeDeliveryProcess = (selectedDeliveryProcess) => {
         setSelectedDeliveryProcess(selectedDeliveryProcess);
 
-        setRouteType([])
-        setSelectedRouteType({})
+        // setRouteType([])
+        // setSelectedRouteType({})
 
         setOriginPoint([])
         setSelectedOriginPoint({})
@@ -148,9 +156,9 @@ function ModalCreateOrderRequest({ open, setOpen, projectId, detailProject, getS
             destinationAddress: ''
         }))
 
-        dispatch(actions.getSelecRouteType(selectedDeliveryProcess.value)).then(e => {
-            setRouteType(e)
-        })
+        // dispatch(actions.getSelecRouteType(selectedDeliveryProcess.value)).then(e => {
+        //     setRouteType(e)
+        // })
     }
 
     const handleOnChangeRouteType = (selectedRouteType) => {

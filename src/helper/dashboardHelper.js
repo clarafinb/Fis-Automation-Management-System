@@ -154,7 +154,7 @@ export const manipulateDataTableDashboard = (data) => {
                 }, {
                     no: 7,
                     transaction: "PICKUP DONE & WAITING HO IN WH",
-                    totalTransaction: item?.pickupOnsiteCount,
+                    totalTransaction: item?.pickupDoneCount,
                     color: "#BD9F3B",
                     key: "pickupDone",
                     whId: item?.whId,

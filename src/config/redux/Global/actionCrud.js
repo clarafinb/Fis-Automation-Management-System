@@ -126,7 +126,7 @@ export async function actionParamRequest(fullParam, url, method = "GET", body) {
      try {
           let objAxios = {
                method: `${method}`,
-               url: `${url}/${fullParam}`,
+               url: fullParam ? `${url}/${fullParam}` : url,
                data: body
           }
           let { data } = await axios(objAxios);

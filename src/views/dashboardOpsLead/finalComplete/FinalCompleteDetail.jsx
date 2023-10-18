@@ -33,6 +33,8 @@ function FinalComplete() {
 
     const [param, setParam] = useState({})
 
+    const [title, setTitle] = useState('Delivery')
+
     useEffect(() => {
         const uri = pathname.split('/');
 
@@ -40,8 +42,9 @@ function FinalComplete() {
             url: `/${uri[1]}/`,
             projectId: uri[2],
             whId: uri[3],
-            transportArrangmentId: uri[5],
-            costGroup: uri[6],
+            transportArrangmentId: uri[6],
+            costGroup: uri[7],
+            processType: uri[5],
         })
 
         if (Global?.user?.userID) {
@@ -52,12 +55,12 @@ function FinalComplete() {
                 setDetailProject(dtProjectFind)
 
                 if (activeKey === 1) {
-                    dispatch(actions.getOrderRequestTransportArrangment(uri[5]))
-                    dispatch(actions.getListFinalCompleteCostTransportDelivery(uri[5]))
+                    dispatch(actions.getOrderRequestTransportArrangment(uri[6]))
+                    dispatch(actions.getListFinalCompleteCostTransportDelivery(uri[6]))
                 }
 
                 if (activeKey === 2) {
-                    dispatch(actions.getListFinalCompleteWhCost(uri[5]))
+                    dispatch(actions.getListFinalCompleteWhCost(uri[6]))
                 }
 
             })
@@ -73,18 +76,20 @@ function FinalComplete() {
         whId,
         transportArrangmentId,
         costGroup,
+        processType
     }) => {
         setParam({
             url: url,
             projectId: projectId,
             whId: whId,
             transportArrangmentId: transportArrangmentId,
-            costGroup: costGroup
+            costGroup: costGroup,
+            processType: processType
         })
     }
 
     const handleBack = () => {
-        nav(param.url + param.projectId + "/" + param.whId);
+        nav(param.url + param.projectId + "/" + param.whId + "/" + param.processType);
     }
 
     return (
@@ -94,7 +99,7 @@ function FinalComplete() {
                     <CCol sm={12}>
                         <h4 className="card-title mb-0">
                             <span className='text-underline'></span>
-                            Final Cost Transport Delivery Complete Detail
+                            Final Cost Transport {title} Complete Detail
                         </h4>
                     </CCol>
                 </CRow>

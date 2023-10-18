@@ -109,7 +109,8 @@ import {
   API_GET_INVENTORY_BOX_DETAIL,
   API_EXPORT_EXCEL_INVENTORY_ITEM_DETAIL,
   API_EXPORT_EXCEL_INVENTORY_BOX_DETAIL,
-  API_GET_FINAL_CONFIRM,
+  API_GET_FINAL_CONFIRM_DELIVERY,
+  API_GET_FINAL_CONFIRM_PICKUP,
   API_GET_FINAL_CONFIRM_TRANSPORT_DELIVERY,
   API_DELETE_FINAL_CONFIRM_COST_TRANSPORT,
   API_DELETE_FINAL_CONFIRM_COST_TRANSPORT_FILE,
@@ -118,7 +119,8 @@ import {
   API_SUBMIT_FINAL_CONFIRM,
   API_UPLOAD_FINAL_CONFIRM_COST_TRANSPORT_FILE,
   API_GET_FINAL_CONFIRM_WH_COST,
-  API_GET_FINAL_COMPLETE,
+  API_GET_FINAL_COMPLETE_DELIVERY,
+  API_GET_FINAL_COMPLETE_PICKUP,
   API_GET_FINAL_COMPLETE_ORDER_REQUEST,
   API_GET_FINAL_COMPLETE_COST_TRANSPORT,
   API_GET_FINAL_COMPLETE_WH_COST,
@@ -3209,14 +3211,18 @@ export const getInventoryBoxWithDetailSummaryExportToExcel = (whId, whCode) => {
   }
 }
 
-export const getListFinalConfirm = (whId) => {
+export const getListFinalConfirm = (whId, type = 'delivery') => {
   return async (dispatch) => {
     try {
       const fullParam = `${whId}`
 
+      const url = type === 'delivery' ?
+        API_GET_FINAL_CONFIRM_DELIVERY :
+        API_GET_FINAL_CONFIRM_PICKUP
+
       let list = await actionCrud.actionParamRequest(
         fullParam,
-        API_GET_FINAL_CONFIRM,
+        url,
         'GET'
       )
 
@@ -3554,14 +3560,18 @@ export const getListFinalConfirmWhCost = (transportArrangmentId) => {
   }
 }
 
-export const getListFinalComplete = (whId) => {
+export const getListFinalComplete = (whId, type = 'delivery') => {
   return async (dispatch) => {
     try {
       const fullParam = `${whId}`
 
+      const url = type === 'delivery' ?
+        API_GET_FINAL_CONFIRM_DELIVERY :
+        API_GET_FINAL_CONFIRM_PICKUP
+
       let list = await actionCrud.actionParamRequest(
         fullParam,
-        API_GET_FINAL_COMPLETE,
+        url,
         'GET'
       )
 
@@ -3784,6 +3794,7 @@ export const getSelecRouteTypePackageProcess = (packageProcessId) => {
         return {
           label: item.routeType,
           value: item.routeTypeId,
+          ...item,
         }
       })
 
