@@ -3566,8 +3566,8 @@ export const getListFinalComplete = (whId, type = 'delivery') => {
       const fullParam = `${whId}`
 
       const url = type === 'delivery' ?
-        API_GET_FINAL_CONFIRM_DELIVERY :
-        API_GET_FINAL_CONFIRM_PICKUP
+        API_GET_FINAL_COMPLETE_DELIVERY :
+        API_GET_FINAL_COMPLETE_PICKUP
 
       let list = await actionCrud.actionParamRequest(
         fullParam,
