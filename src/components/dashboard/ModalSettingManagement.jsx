@@ -19,11 +19,12 @@ function ModalSettingManagement({
 
     return (
         <CModal
-            // size="lg"
+            size="lg"
             visible={open}
             onClose={() => setOpen(false)}
             alignment='center'
-            style={{ minWidth: "600px" }}
+            backdrop="static"
+            keyboard={false}
         >
             <CModalHeader>
                 <CModalTitle>SETTINGS MANAGEMENT</CModalTitle>
