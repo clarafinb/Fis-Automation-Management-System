@@ -126,7 +126,9 @@ import {
   API_ADD_MRS_DETAIL,
   API_DELETE_MRS_DETAIL,
   API_DOWNLOAD_TRANSPORT_TYPE,
-  API_DOWNLOAD_SUB_DISTRICT
+  API_DOWNLOAD_SUB_DISTRICT,
+  API_UPLOAD_CUSTOMER_LOGO,
+  API_RESET_CUSTOMER_LOGO
 } from "../../api/index"
 import Swal from "sweetalert2";
 
@@ -2887,4 +2889,84 @@ export const getSubDistrictExportToExcel = () => {
       })
     }
   }
+}
+
+export const addCustomerLogo = (formData, customerId, userId) => {
+  return async (dispatch) => {
+    try {
+
+      const fullParam = `${customerId}/${userId}`
+
+      const { value, status, message } =
+        await actionCrud.actionCommonSliceParam(fullParam,
+          API_UPLOAD_CUSTOMER_LOGO,
+          'POST',
+          '',
+          formData
+        );
+
+      if (status !== 'error') {
+        Swal.fire({
+          title: value.status,
+          text: value.message,
+          icon: "success",
+          confirmButtonText: "Yes",
+        });
+      } else {
+        Swal.fire({
+          title: 'Error!',
+          text: message,
+          icon: 'error',
+          confirmButtonText: 'Close'
+        })
+      }
+      return Promise.resolve(value.status)
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Close'
+      })
+    }
+  };
+}
+
+export const resetCustomerLogo = (customerId, userId) => {
+  return async (dispatch) => {
+    try {
+
+      const fullParam = `${customerId}/${userId}`
+
+      const { status, message } =
+        await actionCrud.actionCommonSliceParam(fullParam,
+          API_RESET_CUSTOMER_LOGO,
+          'PUT',
+        );
+
+      if (status !== 'error') {
+        Swal.fire({
+          title: status,
+          text: message,
+          icon: "success",
+          confirmButtonText: "Yes",
+        });
+      } else {
+        Swal.fire({
+          title: 'Error!',
+          text: message,
+          icon: 'error',
+          confirmButtonText: 'Close'
+        })
+      }
+      return Promise.resolve(status)
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Close'
+      })
+    }
+  };
 }

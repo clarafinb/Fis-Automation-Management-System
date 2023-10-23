@@ -1,11 +1,14 @@
 import React from 'react'
 import {
+    CButton,
     CCol,
     CRow,
 } from '@coreui/react'
 import ToggleSwitch from 'src/components/custom/toggle/ToggleSwitch'
 import { formatStandartDate } from 'src/helper/globalHelper'
 import DataGrid from 'src/components/custom/table/DataGrid'
+import CIcon from '@coreui/icons-react'
+import { cilImage, cilPlus, cilReload } from '@coreui/icons'
 
 function TableListCustomer({
     data,
@@ -27,12 +30,66 @@ function TableListCustomer({
         )
     }
 
+    const handleAction = (data) => {
+        const hiddenAdd = data?.hasLogo === 'no' ? '' : 'hidden';
+        const hiddenView = data?.hasLogo === 'no' ? 'hidden' : '';
+        const hiddenReset = data?.hasLogo === 'no' ? 'hidden' : '';
+
+        return (
+            <>
+
+                <CButton
+                    className='colorBtnIcon-blue p-1 me-2'
+                    title='View Logo'
+                    hidden={hiddenView}
+                >
+                    <CIcon
+                        icon={cilImage}
+                        title='View Logo'
+                        onClick={() =>
+                            handleComponent("view", data)
+                        }
+                    />
+                </CButton>
+
+                <CButton
+                    className='colorBtnIcon-black p-1 me-2'
+                    title='Add Logo'
+                    hidden={hiddenAdd}
+                >
+                    <CIcon
+                        icon={cilPlus}
+                        title='Add Logo'
+                        onClick={() =>
+                            handleComponent("add", data)
+                        }
+                    />
+                </CButton>
+
+                <CButton
+                    className='colorBtnIcon-red p-1 me-2'
+                    title='Reset Logo'
+                    hidden={hiddenReset}
+                >
+                    <CIcon
+                        icon={cilReload}
+                        title='Reset Logo'
+                        onClick={() =>
+                            handleComponent("reset", data)
+                        }
+                    />
+                </CButton>
+            </>
+        )
+    }
+
     const columns = [
         {
             field: 'no',
             headerName: 'NO',
             cellStyle: { textAlign: 'center' },
-            minWidth: 150,
+            maxWidth: 100,
+            filter: false,
         },
         {
             field: 'customer_name',
@@ -60,11 +117,23 @@ function TableListCustomer({
         {
             field: 'isActive',
             headerName: 'ACTIVE STATUS',
-            minWidth: 100,
+            maxWidth: 150,
             cellStyle: { textAlign: 'center' },
+            filter: false,
             pinned: 'right',
             cellRenderer: ({ data }) => {
                 return toogle(data.isActive, data)
+            }
+        },
+        {
+            field: 'customerId',
+            headerName: 'ACTION',
+            maxWidth: 150,
+            cellStyle: { textAlign: 'center' },
+            pinned: 'right',
+            filter: false,
+            cellRenderer: ({ data }) => {
+                return handleAction(data)
             }
         },
     ];

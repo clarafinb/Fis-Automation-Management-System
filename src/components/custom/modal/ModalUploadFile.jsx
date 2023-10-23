@@ -21,7 +21,8 @@ function ModalUploadFile({
     handleDownloadTemplate,
     templateName,
     handleUpload,
-    useTemplate = true
+    useTemplate = true,
+    title = 'UPLOAD FILE'
 }) {
     const {
         acceptedFiles,
@@ -57,7 +58,7 @@ function ModalUploadFile({
                 alignment='center'
             >
                 <CModalHeader>
-                    <CModalTitle>UPLOAD FILE</CModalTitle>
+                    <CModalTitle>{title}</CModalTitle>
                 </CModalHeader>
                 <CModalBody>
                     <CRow className="mb-3">

@@ -84,6 +84,8 @@ export const API_ADD_CUSTOMER = BASE_URL + "customer";
 export const API_SET_CUSTOMER_INACTIVE = BASE_URL + "customer/setStatusInActivate";
 export const API_SET_CUSTOMER_ACTIVE = BASE_URL + "customer/setStatusIsActivate";
 export const API_SET_CUSTOMER_PUBLISH = BASE_URL + "customer/setActivate";
+export const API_UPLOAD_CUSTOMER_LOGO = BASE_URL + "customer/customerLogoAdd";
+export const API_RESET_CUSTOMER_LOGO = BASE_URL + "customer/customerLogoReset";
 //PROJECT MEMBER
 export const API_GET_PROJECT_MEMBER_BASE_ON_PROJECT = BASE_URL + "userrole/ProjectUserMembershipGetAllBaseOnProject"
 export const API_GET_USER_NOT_REGISTER_BASE_ON_ROLE_AND_PROJECT = BASE_URL + "userRole/getUserNotRegisteredYetBasedOnRoleAndProject";
