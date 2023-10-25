@@ -15,7 +15,7 @@ import {
     CFormCheck
 } from '@coreui/react'
 import * as actions from '../../../../config/redux/Dashboard/actions'
-import { separateComma } from 'src/utils/number'
+import { formatNumberFee } from 'src/utils/number'
 import ButtonSubmit from 'src/components/custom/button/ButtonSubmit'
 
 function ModalCreateProjectServiceCharge({ open, setOpen, projectId }) {
@@ -49,13 +49,15 @@ function ModalCreateProjectServiceCharge({ open, setOpen, projectId }) {
         event.preventDefault()
         event.stopPropagation()
 
+        const chargeFee = values.chargeFee.replaceAll(",", "");
+
         let payload = {
             projectId: projectId,
             serviceChargeId: values.serviceChargeId,
             currencyId: values.currencyId,
             hasFixedPrice: values.hasFixedPrice,
             chargeFee: values.hasFixedPrice ?
-                values.chargeFee : 0,
+                chargeFee : 0,
             LMBY: Global?.user?.userID
         }
         dispatch(actions.createProjectServiceCharge(payload))
@@ -67,7 +69,9 @@ function ModalCreateProjectServiceCharge({ open, setOpen, projectId }) {
     const handleOnchange = useCallback(
         (e) => {
             let { value, name } = e.target;
-            if (name === 'chargeFee') value = separateComma(value)
+            if (name === 'chargeFee') {
+                value = formatNumberFee(value)
+            }
             setValues((prev) => ({
                 ...prev,
                 [name]: value
