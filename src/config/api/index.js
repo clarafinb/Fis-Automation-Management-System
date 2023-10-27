@@ -11,6 +11,7 @@ export const API_GET_DATA_LOGIN = BASE_URL + "auth/me"
 export const API_GET_DASHBOARD = BASE_URL + "userrole/setDashboardBaseRole"
 export const API_GET_PROJECT = BASE_URL + "mproject/getall"
 export const API_ADD_PROJECT = BASE_URL + "mproject"
+export const API_UPDATE_PROJECT = BASE_URL + "mproject/mprojectupdate"
 export const API_SET_INACTIVE_PROJECT = BASE_URL + "mproject/setInActivate"
 export const API_SET_ACTIVE_PROJECT = BASE_URL + "mproject/setActivate"
 export const API_SET_PUBLISH_PROJECT = BASE_URL + "mproject/setPublished"
@@ -280,6 +281,13 @@ export const API_CHANGE_MOVER = BASE_URL + "transportarrangement/transportArrang
 export const API_GET_MRS_ALL = BASE_URL + "mrs/mrsGetAllBasedOnProject";
 export const API_ADD_MRS = BASE_URL + "mrs/mrsAdd";
 export const API_SET_IN_USE_MRS = BASE_URL + "mrs/mrsSetInUse";
+// TEMPLATE SETTING
+export const API_GET_TEMPLATE_SETTING = BASE_URL + "mproject/getDNTemplateBasedOnProject"
+export const API_ADD_TEMPLATE_SETTING = BASE_URL + "mproject/dnTemplateProjectConfigAdd"
+export const API_GET_DELIVERY_TEMPLATE_SETTING = BASE_URL + "mproject/getDeliveryTypeNotRegisteredYetInDNTemplateProjectConfig"
+export const API_GET_HTM_TEMPLATE_SETTING = BASE_URL + "mproject/getDNTemplateListActiveOnly"
+export const API_SET_ACTIVE_TEMPLATE_SETTING = BASE_URL + "mproject/dnTemplateProjectConfigSetStatusIsActive"
+export const API_SET_INACTIVE_TEMPLATE_SETTING = BASE_URL + "mproject/dnTemplateProjectConfigSetStatusIsInActive"
 // WAITING TRANSPORT CONFRIM
 export const API_GET_WAITING_TRANSPORT_COMPLETE = BASE_URL + "logmanagement/getOrderRequestPickupWaitingDispatcherConfirmWHProject";
 // ONSITE PICKUP LIST

@@ -27,7 +27,8 @@ let initialState = {
     listMasterPlateCode: [],
     listMrs: [],
     listMrsDetail: [],
-    listMrsDetailBulkUpload: []
+    listMrsDetailBulkUpload: [],
+    listTemplateSetting: []
 };
 
 const Dashboard = (state = initialState, { type, payload }) => {
@@ -209,6 +210,12 @@ const Dashboard = (state = initialState, { type, payload }) => {
             return {
                 ...state,
                 listMrsDetailBulkUpload: payload
+            }
+
+        case actionType.SET_LIST_TEMPLATE_SETTING:
+            return {
+                ...state,
+                listTemplateSetting: payload
             }
 
         default:

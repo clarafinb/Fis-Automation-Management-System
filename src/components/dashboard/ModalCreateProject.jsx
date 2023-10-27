@@ -11,46 +11,69 @@ import {
     CModalTitle,
     CModalBody,
     CFormTextarea,
-    CFormSelect,
     CForm
 } from '@coreui/react'
 import * as actions from '../../config/redux/Dashboard/actions'
 import ButtonSubmit from '../custom/button/ButtonSubmit'
 import Alert from 'src/components/custom/toast/Alert'
+import Select from 'react-select'
 
-function ModalCreateProject({ open, setOpen }) {
+function ModalCreateProject({ open, setOpen, dataEdit = {}, isEdit = false }) {
     const { dispatch, Global } = useRedux()
+
     const [values, setValues] = useState({})
-    const [customerList, setCustomerList] = useState([])
-    const [logisticProcess, setLogisticProcess] = useState([])
+    const [data, setData] = useState({})
+
     const [visible, setVisible] = useState(false)
     const [errMessage, setErrMessage] = useState(null)
 
+    const [customerList, setCustomerList] = useState([])
+    const [selectedCustomer, setSelectedCustomer] = useState({})
+
+    const [logisticProcess, setLogisticProcess] = useState([])
+    const [selectedProcessGroup, setSelectedProcessGroup] = useState({})
 
     useEffect(() => {
         setValues({})
         if (Global?.user?.token && open) {
-            dispatch(actions.getSelectActiveCustomer()).then(e => {
-                setCustomerList(e)
-            })
 
-            dispatch(actions.getMasterLogisticProcessActiveOnly()).then(e => {
-                setLogisticProcess(e)
-            })
+            resetForm()
+            initApi()
+
+            if (isEdit) {
+                autoFillEditForm(dataEdit)
+            }
         }
     }, [Global?.user, open]);
+
+    const resetForm = () => {
+        setData({})
+        setValues({})
+        setSelectedCustomer({})
+        setSelectedProcessGroup({})
+        setErrMessage(null)
+        setVisible(false)
+    }
 
     const handleCreateProject = (event) => {
 
         event.preventDefault()
         event.stopPropagation()
 
+        if (!isEdit) {
+            createProject()
+        } else {
+            editProject()
+        }
+    }
+
+    const createProject = () => {
         let payload = {
             mProjectName: values.projectName,
             mProjectDesc: values.description || '',
             mProjectCode: values?.projectCode,
-            mCustomerId: values.customerId,
-            logisticProcessId: values.logisticProcessId,
+            mCustomerId: selectedCustomer.value,
+            logisticProcessId: selectedProcessGroup.value,
             LMBY: Global?.user?.userID
         }
 
@@ -63,22 +86,75 @@ function ModalCreateProject({ open, setOpen }) {
             setVisible(true)
         } else {
             dispatch(actions.createProject(payload))
-            setOpen(false)
+                .then(resp => {
+                    if (resp === 'success') {
+                        dispatch(actions.getListProject())
+                        setOpen(false)
+                    }
+                })
+        }
+    }
+
+    const editProject = () => {
+        let payload = {
+            mProjectId: data?.projectId,
+            projectName: values?.projectName || data?.projectName,
+            projectDesc: values?.description || data?.projectDesc,
+            mCustomerId: selectedCustomer?.value,
+            LMBY: Global?.user?.userID
+        }
+
+        const err = []
+        if (payload.mCustomerId === undefined) err.push('Customer')
+
+        if (err.length > 0) {
+            setErrMessage(err.join(' , '))
+            setVisible(true)
+        } else {
+            dispatch(actions.updateProject(payload))
+                .then(resp => {
+                    if (resp === 'success') {
+                        dispatch(actions.getListProject())
+                        setOpen(false)
+                    }
+                })
         }
     }
 
     const handleOnchange = useCallback(
         (e) => {
-
             const { value, name } = e.target;
-
             setValues((prev) => ({
                 ...prev,
                 [name]: value
             }));
-
         }, [setValues]
     )
+
+    const handleOnchangeCustomer = (selectedCustomer) => {
+        setSelectedCustomer(selectedCustomer)
+    }
+
+    const handleOnchangeProcessGroup = (selectedProcessGroup) => {
+        setSelectedProcessGroup(selectedProcessGroup)
+    }
+
+    const autoFillEditForm = (data) => {
+        setData(data)
+        setSelectedCustomer({
+            label: data?.customerName,
+            value: data?.customerId
+        })
+    }
+
+    const initApi = () => {
+        dispatch(actions.getSelectActiveCustomer()).then(e => {
+            setCustomerList(e)
+        })
+        dispatch(actions.getMasterLogisticProcessActiveOnly()).then(e => {
+            setLogisticProcess(e)
+        })
+    }
 
     return (
         <CModal
@@ -91,47 +167,80 @@ function ModalCreateProject({ open, setOpen }) {
         >
             <CForm onSubmit={handleCreateProject}>
                 <CModalHeader>
-                    <CModalTitle>ADD PROJECT</CModalTitle>
+                    <CModalTitle>{!isEdit ? 'ADD' : 'EDIT'} PROJECT</CModalTitle>
                 </CModalHeader>
                 <CModalBody>
-                    <CRow className="mb-3">
-                        <CFormLabel >Project Name <code>*</code></CFormLabel>
-                        <CCol>
-                            <CFormInput type="text" name="projectName" value={values?.projectName} onChange={handleOnchange} required />
-                        </CCol>
-                    </CRow>
-                    <CRow className="mb-3">
-                        <CFormLabel >Project Code <code>*</code></CFormLabel>
-                        <CCol>
-                            <CFormInput type="text" name="projectCode" value={values?.projectCode} onChange={handleOnchange} required />
-                        </CCol>
-                    </CRow>
+                    {
+                        !isEdit ?
+                            <>
+                                <CRow className="mb-3">
+                                    <CFormLabel >Project Code <code>*</code></CFormLabel>
+                                    <CCol>
+                                        <CFormInput
+                                            type="text"
+                                            name="projectCode"
+                                            value={values?.projectCode}
+                                            onChange={handleOnchange}
+                                            required
+                                        />
+                                    </CCol>
+                                </CRow>
+                            </>
+                            : ''
+                    }
                     <CRow className="mb-3">
                         <CFormLabel >Customer <code>*</code></CFormLabel>
                         <CCol>
-                            <CFormSelect
-                                name="customerId"
+                            <Select
+                                className="input-select"
                                 options={customerList}
-                                onChange={handleOnchange}
+                                isSearchable={true}
+                                value={selectedCustomer}
+                                onChange={handleOnchangeCustomer}
                                 required
                             />
                         </CCol>
                     </CRow>
                     <CRow className="mb-3">
-                        <CFormLabel >Process Group <code>*</code></CFormLabel>
+                        <CFormLabel >Project Name <code>*</code></CFormLabel>
                         <CCol>
-                            <CFormSelect
-                                name="logisticProcessId"
-                                options={logisticProcess}
+                            <CFormInput
+                                type="text"
+                                name="projectName"
+                                value={values?.projectName || data?.projectName}
                                 onChange={handleOnchange}
                                 required
                             />
                         </CCol>
                     </CRow>
+                    {
+                        !isEdit ?
+                            <>
+                                <CRow className="mb-3">
+                                    <CFormLabel >Process Group <code>*</code></CFormLabel>
+                                    <CCol>
+                                        <Select
+                                            className="input-select"
+                                            options={logisticProcess}
+                                            isSearchable={true}
+                                            value={selectedProcessGroup}
+                                            onChange={handleOnchangeProcessGroup}
+                                            required
+                                        />
+                                    </CCol>
+                                </CRow>
+                            </>
+                            : ''
+                    }
                     <CRow className="mb-3">
                         <CFormLabel >Description</CFormLabel>
                         <CCol>
-                            <CFormTextarea rows={3} name="description" value={values?.description} onChange={handleOnchange}></CFormTextarea>
+                            <CFormTextarea
+                                rows={3}
+                                name="description"
+                                value={values?.description || data?.projectDesc}
+                                onChange={handleOnchange}
+                            />
                         </CCol>
                     </CRow>
                     <CRow>
@@ -145,7 +254,10 @@ function ModalCreateProject({ open, setOpen }) {
                     </CRow>
                     <CRow className="mb-3">
                         <CCol className="d-grid gap-2">
-                            <ButtonSubmit type="submit" />
+                            <ButtonSubmit
+                                type="submit"
+                                label={!isEdit ? 'SAVE' : 'UPDATE'}
+                            />
                         </CCol>
                     </CRow>
                 </CModalBody>

@@ -128,7 +128,14 @@ import {
   API_DOWNLOAD_TRANSPORT_TYPE,
   API_DOWNLOAD_SUB_DISTRICT,
   API_UPLOAD_CUSTOMER_LOGO,
-  API_RESET_CUSTOMER_LOGO
+  API_RESET_CUSTOMER_LOGO,
+  API_UPDATE_PROJECT,
+  API_ADD_TEMPLATE_SETTING,
+  API_GET_TEMPLATE_SETTING,
+  API_SET_INACTIVE_TEMPLATE_SETTING,
+  API_SET_ACTIVE_TEMPLATE_SETTING,
+  API_GET_DELIVERY_TEMPLATE_SETTING,
+  API_GET_HTM_TEMPLATE_SETTING
 } from "../../api/index"
 import Swal from "sweetalert2";
 
@@ -313,12 +320,8 @@ export const getListProjectByUser = (userId) => {
 export const setPublishedProject = (projectId) => {
   return async (dispatch) => {
     try {
-
       let response = await actionCrud.actionCommonSlice(projectId, API_SET_PUBLISH_PROJECT, "PUT");
-      if (response.status === "success") {
-        dispatch(getListProject());
-      }
-
+      return Promise.resolve(response.status)
     } catch (error) {
       Swal.fire({
         title: 'Error!',
@@ -341,8 +344,6 @@ export const createProject = (payload) => {
           title: createProject?.message,
           showConfirmButton: true
         });
-
-        dispatch(getListProject());
       } else {
         Swal.fire({
           title: 'Error!',
@@ -351,6 +352,39 @@ export const createProject = (payload) => {
           confirmButtonText: 'Close'
         })
       }
+      return Promise.resolve(createProject.status)
+
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Close'
+      })
+    }
+  }
+}
+
+export const updateProject = (payload) => {
+  return async (dispatch) => {
+    try {
+      let result = await actionCrud.actionCommonCrud(payload, API_UPDATE_PROJECT, "PUT");
+      if (result.status === "success") {
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: result?.message,
+          showConfirmButton: true
+        });
+      } else {
+        Swal.fire({
+          title: 'Error!',
+          text: result?.message,
+          icon: 'error',
+          confirmButtonText: 'Close'
+        })
+      }
+      return Promise.resolve(result.status)
 
     } catch (error) {
       Swal.fire({
@@ -1245,7 +1279,7 @@ export const getSelectActiveCustomer = (payload) => {
           value: item.customerId
         }
       })
-      return Promise.resolve(['Please Select..', ...listCustomer])
+      return Promise.resolve(listCustomer)
     } catch (error) {
       Swal.fire({
         title: 'Error!',
@@ -1267,7 +1301,7 @@ export const getMasterLogisticProcessActiveOnly = (payload) => {
           value: item.processId
         }
       })
-      return Promise.resolve(['Please Select..', ...data])
+      return Promise.resolve(data)
     } catch (error) {
       Swal.fire({
         title: 'Error!',
@@ -2969,4 +3003,125 @@ export const resetCustomerLogo = (customerId, userId) => {
       })
     }
   };
+}
+
+export const createTemplateSetting = (payload) => {
+  return async (dispatch) => {
+    try {
+      let create = await actionCrud.actionCommonCrud(payload, API_ADD_TEMPLATE_SETTING, "POST");
+      if (create.status === "success") {
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: create?.message,
+          showConfirmButton: true
+        });
+      } else {
+        Swal.fire({
+          title: 'Error!',
+          text: create?.message,
+          icon: 'error',
+          confirmButtonText: 'Close'
+        })
+      }
+      return Promise.resolve(create.status)
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Close'
+      })
+    }
+  }
+}
+
+export const getListTemplateSetting = (projectId) => {
+  return async (dispatch) => {
+    try {
+      let list = await actionCrud.actionCommonSlice(projectId, API_GET_TEMPLATE_SETTING, "GET");
+      let result = list?.map((item, idx) => {
+        return {
+          no: idx + 1,
+          ...item,
+        }
+      })
+      dispatch({
+        type: actionType.SET_LIST_TEMPLATE_SETTING,
+        payload: result
+      });
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Close'
+      })
+    }
+  }
+}
+
+export const setStatusActiveTemplateSetting = (val, dnSetupId, projectId) => {
+  return async (dispatch) => {
+    try {
+      let url = API_SET_INACTIVE_TEMPLATE_SETTING
+      if (val) {
+        url = API_SET_ACTIVE_TEMPLATE_SETTING
+      }
+      const fullParam = `${dnSetupId}/${projectId}`
+      let response = await actionCrud.actionCommonSlice(fullParam, url, "PUT");
+      return Promise.resolve(response.status)
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Close'
+      })
+    }
+  }
+}
+
+export const getSelectDeliveryTypeTemplateSetting = (payload) => {
+  return async () => {
+    try {
+      let list = await actionCrud.actionCommonSlice(payload, API_GET_DELIVERY_TEMPLATE_SETTING, "GET");
+      let data = list?.map((item, idx) => {
+        return {
+          label: item.processName,
+          value: item.packageProcessId
+        }
+      })
+      return Promise.resolve(data)
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Close'
+      })
+    }
+  }
+}
+
+export const getSelectHtmTemplateSetting = (payload) => {
+  return async () => {
+    try {
+      let list = await actionCrud.actionCommonCrud(payload, API_GET_HTM_TEMPLATE_SETTING, "GET");
+      let data = list?.map((item, idx) => {
+        return {
+          label: item.templateName,
+          value: item.dnTemplateId
+        }
+      })
+      return Promise.resolve(data)
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Close'
+      })
+    }
+  }
 }

@@ -23,6 +23,8 @@ function ModalMasterWerehouse({
             visible={open}
             onClose={() => setOpen(false)}
             alignment='center'
+            backdrop="static"
+            keyboard={false}
         >
             <CModalHeader>
                 <CModalTitle>PROJECT CONFIGURATION</CModalTitle>
@@ -74,6 +76,14 @@ function ModalMasterWerehouse({
                             <CCardBody>
                                 <img src={'icon/MASTER-MRS.svg'} />
                                 <p>Master MRS</p>
+                            </CCardBody>
+                        </CCard>
+                    </CCol>
+                    <CCol sm={3}>
+                        <CCard className='text-center no-background' onClick={() => { handleViewModal("templateSetting", data.projectId) }}>
+                            <CCardBody>
+                                <img alt='DN Template Setting' src={'icon/UOM-ICON.png'} />
+                                <p>DN Template Setting</p>
                             </CCardBody>
                         </CCard>
                     </CCol>

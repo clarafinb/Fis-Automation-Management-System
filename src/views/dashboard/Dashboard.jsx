@@ -21,6 +21,7 @@ import {
   cilSettings,
   cilSend,
   cilList,
+  cilPencil,
 } from '@coreui/icons'
 import ToggleSwitch from 'src/components/custom/toggle/ToggleSwitch'
 import ModalCreateProject from 'src/components/dashboard/ModalCreateProject'
@@ -30,6 +31,7 @@ import * as actions from '../../config/redux/Dashboard/actions'
 import debounce from "lodash.debounce"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
+import Swal from "sweetalert2";
 
 const Dashboard = () => {
   const { dispatch, Global, Dashboard } = useRedux()
@@ -42,14 +44,17 @@ const Dashboard = () => {
   const [modalSetManagement, setModalSetManagement] = useState(false)
   const [searchProject, setSearchProject] = useState("")
   const [filteredListProject, setFilteredProject] = useState([])
-
-  // useEffect(() => {
-  //   if (Global?.user?.token) {
-  //     dispatch(actions.getListProject())
-  //   }
-  // }, [Global?.user]);
+  const [isEdit, setIsEdit] = useState(false)
+  const [selectedProject, setSelectedProject] = useState({})
 
   const handleModalCreate = () => {
+    setIsEdit(false)
+    setModalCreate(true)
+  }
+
+  const handleEditProject = (data) => {
+    setSelectedProject(data)
+    setIsEdit(true)
     setModalCreate(true)
   }
 
@@ -64,12 +69,26 @@ const Dashboard = () => {
   }
 
   const handleSend = (val) => {
-    dispatch(actions.setPublishedProject(val))
+    Swal.fire({
+      title: 'Are you sure you want to publish this project ?',
+      showDenyButton: false,
+      showCancelButton: true,
+      confirmButtonText: 'Yes',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        dispatch(actions.setPublishedProject(val))
+          .then(resp => {
+            if (resp === "success") {
+              Swal.fire('Project Published', '', 'success')
+              dispatch(actions.getListProject());
+            }
+          })
+      }
+    })
   }
 
   const handleChecked = useCallback(
     (val, projectId) => {
-      console.log('projectId : ', projectId)
       dispatch(actions.setStatusActiveProject(val, projectId))
     }, [dispatch]
   )
@@ -157,6 +176,10 @@ const Dashboard = () => {
         type: 'masterMrs',
         url: '/mrs/' + id
       },
+      {
+        type: 'templateSetting',
+        url: '/template-setting/' + id
+      }
     ]
 
     let url = navigate.find(e => e.type === type)
@@ -272,14 +295,34 @@ const Dashboard = () => {
                     </CCol>
                     <CCol sm={7} className="d-none d-md-block">
                       <div className='text-end'>
+                        <CIcon
+                          icon={cilPencil}
+                          className="me-2"
+                          size="xl"
+                          title='Edit Project'
+                          onClick={() => handleEditProject(val)}
+                        />
                         {
                           val.activeStatus === 'active' ?
-                            <CIcon icon={cilSettings} className="me-2" size="xl" onClick={() => handleModalMasterWerehouse(val.projectId)} />
+                            <CIcon
+                              icon={cilSettings}
+                              className="me-2"
+                              size="xl"
+                              title='Setting Project'
+                              onClick={() => handleModalMasterWerehouse(val.projectId)}
+                            />
                             : ''
                         }
-                        {val.publishStatus !== 'published' && val.activeStatus === 'active' ?
-                          <CIcon icon={cilSend} className="me-2 rotate-icon" size="xl" onClick={() => handleSend(val.projectId)} />
-                          : ''
+                        {
+                          val.publishStatus !== 'published' && val.activeStatus === 'active' ?
+                            <CIcon
+                              icon={cilSend}
+                              className="me-2 rotate-icon"
+                              size="xl"
+                              title='Publish Project'
+                              onClick={() => handleSend(val.projectId)}
+                            />
+                            : ''
                         }
                       </div>
                     </CCol>
@@ -294,6 +337,8 @@ const Dashboard = () => {
       <ModalCreateProject
         open={modalCreate}
         setOpen={setModalCreate}
+        isEdit={isEdit}
+        dataEdit={selectedProject}
       />
 
       <ModalMasterWerehouse

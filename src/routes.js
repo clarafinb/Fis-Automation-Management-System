@@ -24,6 +24,7 @@ const EvidenceChecklistProject = React.lazy(() => import('./views/dashboard/mast
 const AssetTruck = React.lazy(() => import('./views/dashboard/settingManagement/AssetTruck'))
 const Mrs = React.lazy(() => import('./views/dashboard/masterWarehouse/Mrs'))
 const MrsDetail = React.lazy(() => import('./views/dashboard/masterWarehouse/MrsDetail'))
+const TemplateSetting = React.lazy(() => import('./views/dashboard/masterWarehouse/TemplateSetting'))
 //Operation Lead
 const OrderRequest = React.lazy(() => import('./views/dashboardOpsLead/orderRequest/OrderRequest'))
 const OrderRequestBulk = React.lazy(() => import('./views/dashboardOpsLead/orderRequest/OrderRequestBulk'))
@@ -96,6 +97,7 @@ const routes = [
   { path: '/dashboard/sku/:id/:projectName', name: 'PROJECT MASTER SKU', element: Sku },
   { path: '/mrs/:id', name: 'MASTER MRS', element: Mrs },
   { path: '/mrs/:id/detail/:mrsId', name: 'MRS Detail', element: MrsDetail },
+  { path: '/template-setting/:id', name: 'TEMPLATE SETTING', element: TemplateSetting },
   // ORDER REQUEST
   { path: '/order-request/:projectId/:whId', name: 'ORDER REQUEST', element: OrderRequest },
   // ORDER REQUEST
