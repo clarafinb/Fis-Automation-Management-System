@@ -98,8 +98,8 @@ function ModalCreateProject({ open, setOpen, dataEdit = {}, isEdit = false }) {
     const editProject = () => {
         let payload = {
             mProjectId: data?.projectId,
-            projectName: values?.projectName || data?.projectName,
-            projectDesc: values?.description || data?.projectDesc,
+            mProjectName: values?.projectName || data?.projectName,
+            mProjectDesc: values?.description || data?.projectDesc,
             mCustomerId: selectedCustomer?.value,
             LMBY: Global?.user?.userID
         }
