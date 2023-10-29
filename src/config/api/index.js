@@ -329,3 +329,5 @@ export const API_GET_BULK_UPLOAD_MRS_DETAIL = BASE_URL + "mrs/mrsDetailBulkUploa
 export const API_DELETE_MRS_DETAIL = BASE_URL + "mrs/mrsDetailDelete"
 export const API_DOWNLOAD_TRANSPORT_TYPE = BASE_URL + "logmanagement/getTransportTypeActiveOnlyExportToExcel"
 export const API_DOWNLOAD_SUB_DISTRICT = BASE_URL + "masterdata/getSubDistrictExportToExcel"
+export const API_EXPORT_EXCEL_MRS_DETAIL = BASE_URL + "mrs/mrsDetailGetListBasedOnMRSExportToExcel"
+export const API_EXPORT_EXCEL_MRS_DETAIL_ERR_LOG = BASE_URL + "mrs/mrsDetailBulkUploadGetResultListExportToExcel"

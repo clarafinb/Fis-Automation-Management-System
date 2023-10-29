@@ -135,7 +135,9 @@ import {
   API_SET_INACTIVE_TEMPLATE_SETTING,
   API_SET_ACTIVE_TEMPLATE_SETTING,
   API_GET_DELIVERY_TEMPLATE_SETTING,
-  API_GET_HTM_TEMPLATE_SETTING
+  API_GET_HTM_TEMPLATE_SETTING,
+  API_EXPORT_EXCEL_MRS_DETAIL,
+  API_EXPORT_EXCEL_MRS_DETAIL_ERR_LOG
 } from "../../api/index"
 import Swal from "sweetalert2";
 
@@ -2913,6 +2915,41 @@ export const getSubDistrictExportToExcel = () => {
   return async () => {
     try {
       let data = await actionCrud.actionCommonSliceParamBlob('', API_DOWNLOAD_SUB_DISTRICT, "GET");
+      return Promise.resolve(data)
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Close'
+      })
+    }
+  }
+}
+
+export const exportExcelMrsDetail = (param) => {
+  return async () => {
+    try {
+      const fullParam = `${param.mrsId}/${param.mrsName}`
+      let data = await actionCrud.actionCommonSliceParamBlob(fullParam, API_EXPORT_EXCEL_MRS_DETAIL, "GET");
+      return Promise.resolve(data)
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Close'
+      })
+    }
+  }
+}
+
+// 
+export const exportExcelMrsDetailErrLog = (mrsDetailFileUploadId) => {
+  return async () => {
+    try {
+      const fullParam = `${mrsDetailFileUploadId}`
+      let data = await actionCrud.actionCommonSliceParamBlob(fullParam, API_EXPORT_EXCEL_MRS_DETAIL_ERR_LOG, "GET");
       return Promise.resolve(data)
     } catch (error) {
       Swal.fire({

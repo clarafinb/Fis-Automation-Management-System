@@ -29,7 +29,7 @@ function TableListMrsDetailBulkUpload({
                                 className=""
                                 title='View Error Log'
                                 onClick={() =>
-                                    handleComponent("download", data)
+                                    handleComponent("log", data)
                                 }
                             />
                         </CButton>

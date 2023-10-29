@@ -25,6 +25,7 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import ModalCreateMrsDetail from 'src/components/dashboard/masterWarehouse/mrs/ModalCreateMrsDetail'
 import ModalUploadFile from 'src/components/custom/modal/ModalUploadFile'
 import TableListMrsDetailBulkUpload from 'src/components/dashboard/masterWarehouse/mrs/TableListMrsDetailBulkUpload'
+import { downloadFileConfig } from 'src/helper/globalHelper'
 
 function MrsDetail() {
     const nav = useNavigate();
@@ -65,6 +66,7 @@ function MrsDetail() {
         (action, data) => {
             if (action === 'delete') deleteMrsDetail(data.mrsDetailId)
             if (action === 'download') handleDownloadFile(data.vFilePath)
+            if (action === 'log') handleDownloadLog(data.mrsDetailFileUploadId)
         }
     )
 
@@ -98,6 +100,14 @@ function MrsDetail() {
         window.open(url, '_blank')
     }
 
+    const handleDownloadLog = (id) => {
+        dispatch(
+            actions.exportExcelMrsDetailErrLog(id)
+        ).then(resp => {
+            downloadFileConfig(resp, 'msr_detail_error_log_' + Date.now())
+        })
+    }
+
     const handleUploadFile = (formData) => {
         if (formData) {
             dispatch(actions.mrsDetailBulkUpload(
@@ -114,6 +124,19 @@ function MrsDetail() {
         }
     }
 
+    const handleExportExcel = () => {
+        const param = {
+            mrsId: mrsId,
+            mrsName: Dashboard?.listMrsDetail[0]?.mrsName,
+        }
+
+        dispatch(
+            actions.exportExcelMrsDetail(param)
+        ).then(resp => {
+            downloadFileConfig(resp, 'msr_detail_' + Date.now())
+        })
+    }
+
 
     return (
         <>
@@ -123,7 +146,8 @@ function MrsDetail() {
                         <CRow className='mb-2'>
                             <CCol sm={5}>
                                 <h4 className="card-title mb-0">
-                                    <span className='text-underline'>MRS</span> DETAIL
+                                    <span className='text-underline'>MRS</span> DETAIL : &nbsp;
+                                    {Dashboard?.listMrsDetail[0]?.mrsName}
                                 </h4>
                             </CCol>
                         </CRow>
@@ -149,6 +173,14 @@ function MrsDetail() {
                         </CRow>
                         <CTabContent>
                             <CTabPane role="tablist" aria-labelledby="home-tab" visible={activeKey === 1}>
+                                <CRow>
+                                    <CCol className="d-none d-md-block">
+                                        <CButton className="colorBtn-white" onClick={handleExportExcel}>
+                                            <CIcon icon={cilSpreadsheet} className="me-2 text-success" />
+                                            EXPORT TO EXCEL
+                                        </CButton>
+                                    </CCol>
+                                </CRow>
                                 {/* MRS LIST */}
                                 <CRow>
                                     <CCol className="d-none d-md-block p-2 text-end">
