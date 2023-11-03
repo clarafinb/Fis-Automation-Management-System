@@ -12,6 +12,7 @@ import * as actions from '../../../config/redux/DashboardOpsLead/actions'
 import ExpandTable from 'src/components/custom/table/ExpandTable';
 import Swal from 'sweetalert2'
 import ModalUploadFile from 'src/components/custom/modal/ModalUploadFile';
+import { separateComma } from 'src/utils/number';
 
 function TableListFinalConfirmCostTransportDelivery({
     data,
@@ -184,6 +185,9 @@ function TableListFinalConfirmCostTransportDelivery({
             headerAlign: 'center',
             headerStyle: {
                 backgroundColor: '#f8f8f8'
+            },
+            formatter: (row) => {
+                return separateComma(row)
             }
 
         },
@@ -202,6 +206,9 @@ function TableListFinalConfirmCostTransportDelivery({
             headerAlign: 'center',
             headerStyle: {
                 backgroundColor: '#f8f8f8'
+            },
+            formatter: (row) => {
+                return separateComma(row)
             }
 
         },

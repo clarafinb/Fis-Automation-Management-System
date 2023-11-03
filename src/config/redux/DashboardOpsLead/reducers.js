@@ -299,6 +299,12 @@ const DashboardOpsLead = (state = initialState, { type, payload }) => {
                 listPickupDone: payload
             }
 
+        case actionType.SET_LIST_OUTBOUND:
+            return {
+                ...state,
+                listOutboundLog: payload
+            }
+
 
         default:
             return { ...state };
