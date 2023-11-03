@@ -16,17 +16,15 @@ function TableListAccountManagement({
 }) {
     const handleAction = (value, data) => {
         return (
-            <>
-                <CButton className='colorBtnIcon-black p-1 me-2'>
-                    <CIcon
-                        icon={cilPencil}
-                        className=""
-                        onClick={() =>
-                            handleComponent("edit", value, data)
-                        }
-                    />
-                </CButton>
-            </>
+            <CButton className='colorBtnIcon-black p-1 me-2'>
+                <CIcon
+                    icon={cilPencil}
+                    className=""
+                    onClick={() =>
+                        handleComponent("edit", value, data)
+                    }
+                />
+            </CButton>
         )
     }
 
@@ -35,7 +33,8 @@ function TableListAccountManagement({
             field: 'no',
             headerName: 'NO',
             cellStyle: { textAlign: 'center' },
-            minWidth: 150,
+            maxWidth: 80,
+            filter:false
         },
         {
             field: 'fullname',
@@ -73,7 +72,7 @@ function TableListAccountManagement({
             headerName: 'CREATE DATE',
             cellStyle: { textAlign: 'center' },
             cellRenderer: ({ data }) => {
-                return formatStandartDate(data.createDate)
+                return formatStandartDate(data?.createDate)
             }
         },
         {
@@ -81,7 +80,7 @@ function TableListAccountManagement({
             headerName: 'DESTINATION',
             cellStyle: { textAlign: 'center' },
             cellRenderer: ({ data }) => {
-                return formatStandartDate(data.modifiedDate)
+                return formatStandartDate(data?.modifiedDate)
             }
         },
         {
@@ -91,12 +90,13 @@ function TableListAccountManagement({
         {
             field: 'userId',
             headerName: 'ACTION',
-            minWidth: 100,
+            maxWidth: 120,
             cellStyle: { textAlign: 'center' },
             pinned: 'right',
             cellRenderer: ({ data }) => {
                 return handleAction(data.userId, data)
-            }
+            },
+            filter:false
         },
     ];
 

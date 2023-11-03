@@ -33,26 +33,42 @@ function ModalCreateAccountManagement({ open, setOpen, isEdit, dataEdit }) {
     }
 
     useEffect(() => {
-        if (Global?.user?.token) {
+        if (Global?.user?.token && open) {
+
+            resetForm()
+            initFormSelect()
+
+            if (isEdit) autoFillEditForm(dataEdit)
+        }
+    }, [Global?.user?.token, open]);
+
+    const initFormSelect = () => {
+        Promise.all([
             dispatch(actions.getSelectRolesByRoleId(Global?.user?.roleInf?.roleId)).then(e => {
                 setRole(e)
             })
-            setData({})
-        }
-    }, [Global?.user?.token]);
+        ])
+    }
 
-    useEffect(() => {
+    const autoFillEditForm = (dataEdit) => {
+        setData(dataEdit)
+        setSelectedRole({
+            label: dataEdit?.roleName,
+            value: dataEdit?.roleId
+        })
+    }
+
+    const resetForm = () => {
         setData({})
-        if (isEdit) {
-            setSelectedRole({
-                label: dataEdit?.roleName,
-                value: dataEdit?.roleId
-            })
-            setData(dataEdit)
-        }
-    }, [isEdit, open]);
+        setValues({})
+        setSelectedRole({})
+    }
 
     const handleCreateAccountManagement = (event) => {
+
+        event.preventDefault()
+        event.stopPropagation()
+
         let payload = {
             Fullname: values.Fullname ? values.Fullname : data.fullname,
             userTitle: values.userTitle ? values.userTitle : data.userTitle,
@@ -76,9 +92,6 @@ function ModalCreateAccountManagement({ open, setOpen, isEdit, dataEdit }) {
 
         setData({})
         setOpen(false)
-
-        event.preventDefault()
-        event.stopPropagation()
     }
 
     const handleOnchange = useCallback(
