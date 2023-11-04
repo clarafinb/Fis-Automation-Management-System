@@ -57,6 +57,12 @@ export const API_ADD_WAREHOUSE = BASE_URL + "warehouse"
 export const API_SET_INACTIVE_WAREHOUSE = BASE_URL + "warehouse/setStatusIsInActive"
 export const API_SET_ACTIVE_WAREHOUSE = BASE_URL + "warehouse/setStatusIsActive"
 export const API_SET_PUBLISH_WAREHOUSE = BASE_URL + "warehouse/setActivate"
+export const API_SET_ACTIVE_WAREHOUSE_NOTIF = BASE_URL + "warehouse/warehouseInvAutoNotifSetStatusIsActive"
+export const API_SET_INACTIVE_WAREHOUSE_NOTIF = BASE_URL + "warehouse/warehouseInvAutoNotifSetStatusIsInActive"
+// MAIL
+export const API_GET_INV_MAIL_NOTIF = BASE_URL + "inventory/invMailNotifGetRecipientBasedOnWH"
+export const API_ADD_INV_MAIL_NOTIF = BASE_URL + "inventory/invMailNotifAddRecipient"
+export const API_DELETE_INV_MAIL_NOTIF = BASE_URL + "inventory/invMailNotifDeleteRecipient"
 //PROJECT SERVICE CHARGE
 export const API_GET_PROJECT_SERVICE_CHARGE_ADMIN = BASE_URL + "serviceCharge/projectServiceChargeGetAllAdminOnly"
 export const API_GET_PROJECT_SERVICE_CHARGE_ACTIVE = BASE_URL + "servicecharge/projectServiceChargeGetAllActiveOnly"

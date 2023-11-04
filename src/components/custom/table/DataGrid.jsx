@@ -18,6 +18,7 @@ function DataGrid({
         sortable: true,
         floatingFilter: true,
         wrapText: true,
+        wrapHeaderText: true,
         autoHeight: true,
         cellStyle: { textAlign: 'left' },
     }

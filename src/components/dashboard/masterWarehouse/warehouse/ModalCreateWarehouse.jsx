@@ -11,12 +11,14 @@ import {
     CModalTitle,
     CModalBody,
     CFormTextarea,
-    CForm
+    CForm,
+    CFormSwitch
 } from '@coreui/react'
 import * as actions from '../../../../config/redux/Dashboard/actions'
 import Select from 'react-select'
 import GeocodingForm from '../../../custom/map/OpenStreetMap'
 import ButtonSubmit from 'src/components/custom/button/ButtonSubmit'
+import Alert from 'src/components/custom/toast/Alert'
 
 function ModalCreateWarehouse({ open, setOpen, projectId, isEdit, dataEdit }) {
     const { dispatch, Global } = useRedux()
@@ -29,6 +31,9 @@ function ModalCreateWarehouse({ open, setOpen, projectId, isEdit, dataEdit }) {
     const [selectedProvince, setSelectedProvince] = useState({});
     const [selectedSubDistrict, setSelectedSubDistrict] = useState({});
     const [selectedWhType, setSelectedWhType] = useState({});
+    const [isChecked, setIsChecked] = useState(false);
+    const [visible, setVisible] = useState(false)
+    const [errMessage, setErrMessage] = useState(null)
 
     useEffect(() => {
         if (Global?.user?.token && open) {
@@ -42,6 +47,9 @@ function ModalCreateWarehouse({ open, setOpen, projectId, isEdit, dataEdit }) {
     }, [Global?.user, open]);
 
     const resetForm = () => {
+        setIsChecked(false)
+        setVisible(false)
+        setErrMessage(null)
         setData({})
         setValues({})
         setSelectedWhType({})
@@ -72,6 +80,7 @@ function ModalCreateWarehouse({ open, setOpen, projectId, isEdit, dataEdit }) {
 
     const autoFillEditForm = (dataEdit) => {
         setData(dataEdit)
+        setIsChecked(dataEdit?.autoNotif)
         setSelectedProvince({
             label: dataEdit?.provinceName,
             value: dataEdit?.provinceId
@@ -96,6 +105,10 @@ function ModalCreateWarehouse({ open, setOpen, projectId, isEdit, dataEdit }) {
     }
 
     const handleCreate = (event) => {
+
+        event.preventDefault()
+        event.stopPropagation()
+
         let payload = {
             mProjectId: projectId,
             whName: values?.warehouseName || data?.whName,
@@ -106,10 +119,16 @@ function ModalCreateWarehouse({ open, setOpen, projectId, isEdit, dataEdit }) {
             subDistrictId: selectedSubDistrict?.value,
             whAddress: values?.address || data?.whAddress,
             whSpace: values?.warehouseSpace || data?.whSpace,
-            whLongitude: values?.longitude ? values?.longitude.toString() : data?.longitude.toString(),
-            whLatitude: values?.latitude ? values?.latitude.toString() : data?.latitude.toString(),
-            LMBY: Global?.user?.userID
+            whLongitude: values?.longitude ? values?.longitude.toString() : null,
+            whLatitude: values?.latitude ? values?.latitude.toString() : null,
+            LMBY: Global?.user?.userID,
+            autoNotif: isChecked
         }
+
+        const err = []
+        if (payload.provinceId === undefined) err.push('Province')
+        if (payload.subDistrictId === undefined) err.push('Sub District')
+        if (payload.whTypeId === undefined) err.push('WH Type')
 
         let methode = "POST"
 
@@ -118,13 +137,15 @@ function ModalCreateWarehouse({ open, setOpen, projectId, isEdit, dataEdit }) {
             payload.whId = data?.whId
         }
 
-        dispatch(actions.createWarehouse(payload, methode))
-        setData({})
-        setValues({})
-        setOpen(false)
-
-        event.preventDefault()
-        event.stopPropagation()
+        if (err.length > 0) {
+            setErrMessage(err.join(' , '))
+            setVisible(true)
+        } else {
+            dispatch(actions.createWarehouse(payload, methode))
+            setData({})
+            setValues({})
+            setOpen(false)
+        }
     }
 
     const handleOnchange = useCallback(
@@ -145,6 +166,10 @@ function ModalCreateWarehouse({ open, setOpen, projectId, isEdit, dataEdit }) {
             longitude: long
         }));
     }
+
+    const handleToggle = () => {
+        setIsChecked(!isChecked)
+    };
 
     return (
         <CModal
@@ -284,6 +309,26 @@ function ModalCreateWarehouse({ open, setOpen, projectId, isEdit, dataEdit }) {
                                     />
                                 </CCol>
                             </CRow>
+                            <CRow className="mb-3">
+                                <CFormLabel className="col-form-label">Auto Notification Inventory</CFormLabel>
+                                <CCol>
+                                    <CFormSwitch
+                                        size="lg"
+                                        id="toggle-switch"
+                                        checked={isChecked}
+                                        onChange={handleToggle}
+                                    />
+                                </CCol>
+                            </CRow>
+                        </CCol>
+                    </CRow>
+                    <CRow>
+                        <CCol>
+                            <Alert
+                                message={errMessage}
+                                visible={visible}
+                                setVisible={setVisible}
+                            />
                         </CCol>
                     </CRow>
                     <CRow className="mb-3">

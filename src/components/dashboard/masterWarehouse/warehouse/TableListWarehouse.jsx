@@ -6,44 +6,70 @@ import {
     CRow,
 } from '@coreui/react'
 import ToggleSwitch from 'src/components/custom/toggle/ToggleSwitch'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import DataGrid from 'src/components/custom/table/DataGrid'
 import CIcon from '@coreui/icons-react'
-import { cilLocationPin, cilPencil } from '@coreui/icons'
-import { faLocationDot } from '@fortawesome/free-solid-svg-icons'
+import { cilLocationPin, cilPencil, cilSend } from '@coreui/icons'
 
 function TableListWarehouse({
     data,
     handleComponent,
-    handleToogle
+    handleToogle,
+    handleToogleInv
 }) {
 
     const handleAction = (type, value, data) => {
         return (
-            <>
-                <CButton className='colorBtnIcon-black p-1 me-2'>
-                    <CIcon
-                        icon={type === "map" ? cilLocationPin : cilPencil}
-                        className=""
-                        onClick={() =>
-                            handleComponent(type, value, data)
-                        }
-                    />
-                </CButton>
-            </>
+            <CButton className='colorBtnIcon-black p-1 me-2'>
+                <CIcon
+                    icon={type === "map" ? cilLocationPin : cilPencil}
+                    className=""
+                    onClick={() =>
+                        handleComponent(type, value, data)
+                    }
+                />
+            </CButton>
         )
     }
 
     const toogle = (value, data) => {
         return (
+            <ToggleSwitch
+                checked={value}
+                size="lg"
+                handleChecked={handleToogle}
+                data={data}
+                className="d-flex justify-content-center"
+            />
+        )
+    }
+
+    const toogleInv = (value, data) => {
+        return (
+            <ToggleSwitch
+                checked={value}
+                size="lg"
+                handleChecked={handleToogleInv}
+                data={data}
+                className="d-flex justify-content-center"
+            />
+        )
+    }
+
+    const invNotif = (value, data) => {
+        return (
             <>
-                <ToggleSwitch
-                    checked={value}
-                    size="lg"
-                    handleChecked={handleToogle}
-                    data={data}
-                    className="d-flex justify-content-center"
-                />
+                {value ?
+                    <CButton className='colorBtnIcon-black p-1 me-2' title='Register Recipient Mail Inv Notification'>
+                        <CIcon
+                            icon={cilSend}
+                            className="me-1"
+                            title='Register Recipient Mail Inv Notification'
+                            onClick={() =>
+                                handleComponent('mail', data.whId, data)
+                            }
+                        />
+                    </CButton>
+                    : ''}
             </>
         )
     }
@@ -103,6 +129,29 @@ function TableListWarehouse({
             filter: false,
             cellRenderer: ({ data }) => {
                 return toogle(data.isActive, data)
+            }
+        },
+        {
+            field: 'autoNotif',
+            headerName: 'INV NOTIF STATUS',
+            maxWidth: 150,
+            cellStyle: { textAlign: 'center' },
+            pinned: 'right',
+            filter: false,
+            cellRenderer: ({ data }) => {
+                return toogleInv(data.autoNotif, data)
+            }
+        },
+        {
+            field: 'autoNotif',
+            headerName: 'MAIL REGISTERED INV NOTIF',
+            maxWidth: 150,
+            cellStyle: { textAlign: 'center' },
+            pinned: 'right',
+            filter: false,
+            wrapText: true,
+            cellRenderer: ({ data }) => {
+                return invNotif(data.autoNotif, data)
             }
         },
         {

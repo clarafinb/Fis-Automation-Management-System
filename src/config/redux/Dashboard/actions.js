@@ -137,7 +137,12 @@ import {
   API_GET_DELIVERY_TEMPLATE_SETTING,
   API_GET_HTM_TEMPLATE_SETTING,
   API_EXPORT_EXCEL_MRS_DETAIL,
-  API_EXPORT_EXCEL_MRS_DETAIL_ERR_LOG
+  API_EXPORT_EXCEL_MRS_DETAIL_ERR_LOG,
+  API_SET_ACTIVE_WAREHOUSE_NOTIF,
+  API_SET_INACTIVE_WAREHOUSE_NOTIF,
+  API_GET_INV_MAIL_NOTIF,
+  API_ADD_INV_MAIL_NOTIF,
+  API_DELETE_INV_MAIL_NOTIF
 } from "../../api/index"
 import Swal from "sweetalert2";
 
@@ -912,6 +917,31 @@ export const setStatusActiveWarehouse = (val, whId, projectId) => {
       let url = API_SET_INACTIVE_WAREHOUSE
       if (val) {
         url = API_SET_ACTIVE_WAREHOUSE
+      }
+
+      let response = await actionCrud.actionCommonSlice(whId, url, "PUT");
+      if (response.status === "success") {
+        dispatch(getListWarehouse(projectId));
+      }
+
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Close'
+      })
+    }
+  }
+}
+
+export const setStatusActiveWarehouseNotif = (val, whId, projectId) => {
+  return async (dispatch) => {
+    try {
+
+      let url = API_SET_INACTIVE_WAREHOUSE_NOTIF
+      if (val) {
+        url = API_SET_ACTIVE_WAREHOUSE_NOTIF
       }
 
       let response = await actionCrud.actionCommonSlice(whId, url, "PUT");
@@ -3152,6 +3182,95 @@ export const getSelectHtmTemplateSetting = (payload) => {
         }
       })
       return Promise.resolve(data)
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Close'
+      })
+    }
+  }
+}
+
+export const getListInvMailNotif = (payload) => {
+  return async (dispatch) => {
+    try {
+      let list = await actionCrud.actionCommonSlice(payload, API_GET_INV_MAIL_NOTIF, "GET");
+      let result = list?.map((item, idx) => {
+        return {
+          no: idx + 1,
+          projectId: payload,
+          ...item
+        }
+      })
+      dispatch({
+        type: actionType.SET_LIST_INV_MAIL_NOTIF,
+        payload: result
+      });
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Close'
+      })
+    }
+  }
+}
+
+export const createInvMailNotif = (payload) => {
+  return async (dispatch) => {
+    try {
+      let create = await actionCrud.actionCommonCrud(payload, API_ADD_INV_MAIL_NOTIF, "POST");
+      if (create.status === "success") {
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: create?.message,
+          showConfirmButton: true
+        });
+      } else {
+        Swal.fire({
+          title: 'Error!',
+          text: create?.message,
+          icon: 'error',
+          confirmButtonText: 'Close'
+        })
+      }
+      return Promise.resolve(create.status)
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Close'
+      })
+    }
+  }
+}
+
+export const deleteInvMailNotif = (invMailNotifId) => {
+  return async (dispatch) => {
+    try {
+      const fullParam = `${invMailNotifId}`
+      let create = await actionCrud.actionCommonSliceParam(fullParam, API_DELETE_INV_MAIL_NOTIF, "DELETE");
+      if (create.status === "success") {
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: create?.message,
+          showConfirmButton: true
+        });
+      } else {
+        Swal.fire({
+          title: 'Error!',
+          text: create?.message,
+          icon: 'error',
+          confirmButtonText: 'Close'
+        })
+      }
+      return Promise.resolve(create.status)
     } catch (error) {
       Swal.fire({
         title: 'Error!',

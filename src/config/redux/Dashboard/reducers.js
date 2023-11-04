@@ -28,7 +28,8 @@ let initialState = {
     listMrs: [],
     listMrsDetail: [],
     listMrsDetailBulkUpload: [],
-    listTemplateSetting: []
+    listTemplateSetting: [],
+    listInvMailNotif: []
 };
 
 const Dashboard = (state = initialState, { type, payload }) => {
@@ -217,6 +218,14 @@ const Dashboard = (state = initialState, { type, payload }) => {
                 ...state,
                 listTemplateSetting: payload
             }
+
+        case actionType.SET_LIST_INV_MAIL_NOTIF:
+            return {
+                ...state,
+                listInvMailNotif: payload
+            }
+
+
 
         default:
             return { ...state };
