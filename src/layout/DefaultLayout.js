@@ -13,7 +13,7 @@ import IdleTimer from 'src/components/custom/idle/IdleTimer'
 import * as actions_dashboard from '../config/redux/Dashboard/actions'
 
 const DefaultLayout = () => {
-  const [cookies, setCookie, removeCookie] = useCookies(["user"]);
+  const [cookies, setCookie, removeCookie] = useCookies(["user", "menu"]);
   const { dispatch } = useRedux();
   const nav = useNavigate();
 
@@ -24,6 +24,8 @@ const DefaultLayout = () => {
     removeCookie('dashboardOpsLead');
     removeCookie('menu')
     removeCookie('activeMenu')
+
+    nav("/login")
   }
 
   const { idleTimer } = IdleTimer({ onIdle: handleIdle, idleTime: 10 })

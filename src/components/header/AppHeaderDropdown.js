@@ -23,7 +23,7 @@ import * as actions_dashboard from '../../config/redux/Dashboard/actions'
 
 const AppHeaderDropdown = () => {
   const { dispatch, Global } = useRedux();
-  const [cookies, setCookie, removeCookie] = useCookies(["user"]);
+  const [cookies, setCookie, removeCookie] = useCookies(["user", "menu"]);
   const nav = useNavigate();
 
   const handleLogOut = (event) => {
@@ -31,20 +31,23 @@ const AppHeaderDropdown = () => {
     dispatch(actions.actionResetUser());
     dispatch(actions_dashboard.resetDetailDashboard())
     dispatch(actions_dashboard.resetaActiveMenu())
-    removeCookie('user');
     removeCookie('dashboardOpsLead');
     removeCookie('menu')
     removeCookie('activeMenu')
+    removeCookie('user');
+
+    nav("/login")
 
     event.preventDefault()
 
   }
 
-  useEffect(() => {
+  /*useEffect(() => {
     if(!cookies?.user){
       nav("/login")
     }
 }, [cookies?.user]);
+*/
 
   const handleDetailProfile = () => {
     nav("/profile");
